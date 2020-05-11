@@ -1,0 +1,116 @@
+<header class="py-6 py-md-9 bg-light border-bottom">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md">
+        <!-- page title -->
+        <h1 class="mb-2">
+          Registrar Acompañamiento
+        </h1>
+
+        <!-- page lead -->
+        <p class="mb-0 text-muted">
+          <b>Periodo: </b> {{period.name |titlecase}}
+          <br />
+          <b>Mentor compañero: </b> {{mentor.displayName|titlecase}}
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- accompaniment content -->
+<section class="py-6 py-md-9">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-7 mb-6">
+        <sgm-accompaniment-form [students]="students" [mentorId]="mentor.id" [selectedStudentId]="selectedStudentId"
+          (submitAccompaniment)="save($event)">
+        </sgm-accompaniment-form>
+      </div>
+
+      <div class="col-12 col-md-5 mb-6">
+        <div class="mb-5">
+          <ng-container *ngTemplateOutlet="faqs"> </ng-container>
+        </div>
+        <sgm-info-mentor [mentor]="mentor"> </sgm-info-mentor>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ's -->
+<ng-template #faqs>
+  <div class="card shadow">
+    <div class="card-body">
+      <!-- heading -->
+      <h4 class="mb-3">
+        Preguntas?
+      </h4>
+
+      <!-- text -->
+      <p class="text-muted mb-5">
+        Registra un nuevo acompañamiento a traves del siguiente formulario
+      </p>
+
+      <!-- Heading -->
+      <h6 class="font-weight-bold text-uppercase mb-1">
+        Selecciona un estudiante.
+      </h6>
+
+      <!-- text -->
+      <p class="text-muted mb-5 small">
+        Seleccione un estudiante de la lista.
+        <br />
+        Si no encuentras a un estudiante, contacta al administrador del sistema.
+      </p>
+
+      <!-- Heading -->
+      <h6 class="font-weight-bold text-uppercase mb-1">
+        Seguimiento.
+      </h6>
+
+      <!-- text -->
+      <p class="text-muted mb-5 small">
+        Marcar el tipo de seguimiento que se mantuvo con el estudiante de nuevo
+        ingreso.
+      </p>
+
+      <!-- Heading -->
+      <h6 class="font-weight-bold text-uppercase mb-1">
+        Problemáticas.
+      </h6>
+
+      <!-- text -->
+      <p class="text-muted mb-5 small">
+        Selecciona una o varias problemáticas dependiendo del acompañamiento
+        realizado.
+        <br />
+        También puedes impartir una temática libre.
+      </p>
+
+      <!-- Heading -->
+      <h6 class="font-weight-bold text-uppercase mb-1">
+        Subir archivos.
+      </h6>
+
+      <!-- text -->
+      <p class="text-muted mb-5 small">
+        Puedes seleccionar uno o varios archivos a la vez.
+      </p>
+
+      <!-- Heading -->
+      <h6 class="font-weight-bold text-uppercase mb-1">
+        Envianos un correo
+      </h6>
+
+      <!-- text -->
+      <p class="text-muted mb-0">
+        <small>
+          <a href="mailto:proyectomentores@utpl.edu.ec" class="text-reset">
+            proyectomentores@utpl.edu.ec
+          </a>
+        </small>
+      </p>
+    </div>
+  </div>
+</ng-template>

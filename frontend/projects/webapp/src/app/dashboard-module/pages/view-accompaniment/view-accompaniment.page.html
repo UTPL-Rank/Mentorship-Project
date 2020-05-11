@@ -1,0 +1,72 @@
+<header class="py-6 py-md-9 bg-light border-bottom">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md">
+        <!-- return link -->
+        <small>
+          <a class="font-weight-bold text-decoration-none mb-3" [routerLink]="[
+            '/panel-control',
+            accompaniment.period.reference.id,
+            'historial-acompañamientos',
+             accompaniment.mentor.reference.id,
+              accompaniment.student.reference.id
+              ]">
+            Ver más acompañamientos
+          </a>
+        </small>
+
+        <!-- page title -->
+        <h1 class="mb-2">
+          Acompañamiento Mentorial
+        </h1>
+
+        <!-- page lead -->
+        <p class="text-muted mb-2">
+          <b>Periodo:</b> {{accompaniment.period.name | titlecase}}
+          <br />
+          <b>Fecha:</b> {{accompaniment.timeCreated.toDate() | date:'medium'}}
+          <br />
+          <span *ngIf="!accompaniment.reviewKey">
+            <b>Validado:</b> {{accompaniment.timeConfirmed.toDate() |
+            date:'medium'}}
+          </span>
+        </p>
+
+        <!-- page state -->
+        <p class="mb-0">
+          <span class="badge badge-secondary mr-1">
+            {{accompaniment.semesterKind | semesterName}}
+          </span>
+          <span class="badge badge-info mr-1">
+            Seguimiento {{accompaniment.followingKind | followingName}}
+          </span>
+          <span class="badge badge-success" *ngIf="!accompaniment.reviewKey">
+            Validado
+          </span>
+          <span class="badge badge-warning" *ngIf="!!accompaniment.reviewKey">
+            Sin Validar
+          </span>
+        </p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!--  -->
+<section class="py-6 py-md-9">
+  <div class="container">
+    <div class="row">
+      <div class="col-12 col-md-7 col-lg-8 ">
+        <sgm-info-accompaniment [accompaniment]="accompaniment">
+        </sgm-info-accompaniment>
+      </div>
+
+      <div class="col-12 col-md-5 col-lg-4">
+        <div class="mb-6">
+          <sgm-info-mentor [mentor]="accompaniment.mentor"></sgm-info-mentor>
+        </div>
+        <sgm-info-student [student]="accompaniment.student"> </sgm-info-student>
+      </div>
+    </div>
+  </div>
+</section>

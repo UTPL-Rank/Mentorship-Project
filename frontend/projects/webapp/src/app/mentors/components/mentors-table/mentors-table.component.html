@@ -1,0 +1,106 @@
+<div class="card">
+  <div class="table-responsive">
+    <table class="table text-nowrap card-table mb-0">
+      <!-- head of table -->
+      <thead>
+        <tr>
+          <!-- Index header -->
+          <th class="font-weight-bold text-muted small">
+            #
+          </th>
+
+          <!-- name header -->
+          <th class="font-weight-bold text-muted small">
+            Nombre
+          </th>
+
+          <!-- degree header -->
+          <th class="font-weight-bold text-muted small">
+            Carrera
+          </th>
+
+          <!-- area header -->
+          <th class="font-weight-bold text-muted small" *ngIf="showArea">
+            Área
+          </th>
+
+          <!-- assigned student header -->
+          <th class="font-weight-bold text-muted small">
+            Estudiantes
+          </th>
+
+          <!-- options header -->
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let mentor of mentors; let i = index">
+          <!-- index cell -->
+          <th class="font-weight-bold text-muted small" scope="row">
+            {{ i + 1 }}
+          </th>
+
+          <!-- name cell -->
+          <td class="font-weight-bold text-muted small">
+            {{ mentor.displayName | titlecase }}
+          </td>
+
+          <!-- degree cell -->
+          <td class="font-weight-bold text-muted small">
+            {{ mentor.degree.name | titlecase }}
+          </td>
+
+          <!-- area cell -->
+          <td class="font-weight-bold text-muted small" *ngIf="showArea">
+            {{ mentor.area.name | titlecase }}
+          </td>
+
+          <!-- accompaniment count cell -->
+          <td class="font-weight-bold text-muted small">
+            <a class="btn btn-primary btn-sm lift" [routerLink]="[
+                '/panel-control',
+                mentor.period.reference.id,
+                'mentores',
+                mentor.id
+              ]">
+              Estudiantes
+              <div class="badge badge-light">
+                {{ mentor.stats.assignedStudentCount }}
+              </div>
+            </a>
+          </td>
+
+          <!-- options cell -->
+          <td>
+            <div class="dropdown">
+              <button class="btn btn-sm dropdown-toggle font-weight-bold text-muted small" type="button"
+                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <!-- dropdown header -->
+                <h6 class="dropdown-header font-weight-bold">
+                  Opciones
+                </h6>
+
+                <!-- email student -->
+                <a class="dropdown-item small" [href]="'mailto:' + mentor.email" target="_blank">
+                  {{ mentor.email }}
+                </a>
+
+                <!-- see students -->
+                <a class="dropdown-item small" [routerLink]="[
+                    '/panel-control',
+                    mentor.period.reference.id,
+                    'mentores',
+                    mentor.id
+                  ]">
+                  Ver estudiantes
+                </a>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

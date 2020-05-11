@@ -1,0 +1,311 @@
+<!--  -->
+<!-- HERO SECTION -->
+<!--  -->
+
+<header class="pt-5 pt-md-8">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-5 col-lg-6 order-md-2">
+        <!-- Mentor Project illustration -->
+        <img class="img-fluid mb-6 mb-md-0" src="/assets/illustrations/mentors-group.png"
+          alt="Ilustración de Mentores" />
+      </div>
+      <div class="col-12 col-md-7 col-lg-6 order-md-1">
+        <!-- Title of Page -->
+        <h1 class="display-3 text-center text-md-left">
+          Proyecto <span class="text-primary">Mentores</span>
+        </h1>
+
+        <!-- Leading paragraph -->
+        <p class="lead text-center text-md-left text-muted mb-5 mb-lg-8">
+          Nada mejor que un estudiante que ya vivió esta etapa, para que con su
+          experiencia te enseñe, <span class="text-warning">¿verdad?</span>.
+        </p>
+
+        <!-- main actions -->
+        <div class="text-center text-md-left">
+          <a class="btn btn-lg btn-primary shadow lift mr-5" rel="noopener"
+            href="https://innovaciondocente.utpl.edu.ec/articulo/proyecto-mentores" target="_blank">
+            Ver Proyecto
+          </a>
+          <a class="btn btn-lg btn-light shadow lift" routerLink="/panel-control">
+            Ir al panel
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!--  -->
+<!-- FEATURES SECTION -->
+<!--  -->
+
+<section class="py-6 py-md-11 border-bottom">
+  <div class="container">
+    <div class="row">
+      <div class="col-an12 col-md-4">
+        <div class="my-4 d-flex align-items-end" style="width: 3.5rem; height: 3.5rem;">
+          <img src="/assets/icons/user-graduate-solid.svg" alt="Estudiante Graduado" class="img-fluid" />
+        </div>
+        <h3 class="mb-3">
+          Mentor Compañero
+        </h3>
+        <p class="text-muted mb-5 mb-md-0 text-justify">
+          Se trata de un estudiante de ciclos superiores que por sus méritos
+          académicos y personales será seleccionado para cumplir acciones de
+          acompañamiento, direccionamiento y apoyo en las dudas cotidianas de
+          los estudiantes de nuevo ingreso.
+        </p>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="my-4 d-flex align-items-end" style="width: 3.5rem; height: 3.5rem;">
+          <img src="/assets/icons/chalkboard-teacher-solid.svg" alt="Estudiante y pizarrón" class="img-fluid" />
+        </div>
+        <h3 class="mb-3">
+          Estudiante de nuevo ingreso
+        </h3>
+        <p class="text-muted mb-5 mb-md-0 text-justify">
+          Se trata de un estudiante de nuevo ingreso que recibirá la ayuda del
+          estudiante mentor a través de mecanismos de orientación y motivación,
+          con el fin de facilitar su adaptación e integración académica y social
+          a la universidad.
+        </p>
+      </div>
+      <div class="col-12 col-md-4">
+        <div class="my-4 d-flex align-items-end" style="width: 3.5rem; height: 3.5rem;">
+          <img src="/assets/icons/user-friends-solid.svg" alt="Acompañamientos" class="img-fluid" />
+        </div>
+        <h3 class="mb-3">
+          Acompañamiento Mentorial
+        </h3>
+        <p class="text-muted mb-5 mb-md-0 text-justify">
+          El ingreso a la vida universitaria trae consigo nuevos retos, pues
+          supone la adaptación a nuevos entornos, conocer nuevas personas y
+          adecuarse a nuevos ritmos de trabajo.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  -->
+<!-- BRANDS SECTIONS -->
+<!--  -->
+
+<section class="py-6 py-md-8 border-bottom">
+  <div class="container">
+    <div class="row align-items-center justify-content-center">
+      <div class="col-6 col-sm-4 col-md-2 mb-4 mb-md-0">
+        <!-- UTPL Brand -->
+        <div class="img-fluid text-gray-600 mb-2 mb-md-0 svg-shim">
+          <img src="/assets/UTPL_logo.svg" alt="Ascendere Logo" class="img-fluid" />
+        </div>
+      </div>
+      <div class="col-6 col-sm-4 col-md-2 mb-4 mb-md-0">
+        <!-- Ascendere Brand -->
+        <div class="img-fluid text-gray-600 mb-2 mb-md-0 svg-shim">
+          <img src="/assets/Ascendere_logo.svg" alt="Ascendere Logo" class="img-fluid" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  -->
+<!-- OBJECTIVE -->
+<!--  -->
+
+<section class="py-8 py-md-12 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-5 col-lg-6 order-md-2">
+        <!-- Objetive illustration  -->
+        <img class="img-fluid mb-6 mb-md-0" src="/assets/illustrations/mentor-solo.png" alt="Mentor Ilustración" />
+      </div>
+      <div class="col-12 col-md-7 col-lg-6 order-md-1">
+        <!-- Objetive title -->
+        <h2 class="mb-5">
+          ¿Cuál es el <span class="text-primary">objetivo fundamental</span> del
+          Proyecto Mentor Compañero?
+        </h2>
+
+        <!-- Objective paragraph -->
+        <p class="font-size-lg text-muted mb-6">
+          El objetivo del proyecto es brindar a los estudiantes nuevos un
+          ambiente de amistad y estímulo, brindándole orientación en los planos
+          académico, social, personal y administrativo, identificando las
+          dificultades que se les presenta y encontrando posibles soluciones.
+        </p>
+
+        <!-- Project Stats -->
+        <ng-container *ngIf="homeData">
+          <div class="d-flex flex-nowrap" style="overflow: auto hidden;">
+            <div class="pr-5">
+              <h3 class="mb-0">
+                {{homeData.statistics.accompaniments}}
+              </h3>
+              <small class="text-muted mb-0">
+                Acompañamientos <br />
+                Realizados
+              </small>
+            </div>
+            <div class="border-left border-gray-300"></div>
+            <div class="px-5">
+              <h3 class="mb-0">
+                {{homeData.statistics.mentors}}
+              </h3>
+              <small class="text-muted mb-0">
+                Mentores <br />
+                Compañeros
+              </small>
+            </div>
+            <div class="border-left border-gray-300"></div>
+            <div class="pl-5">
+              <h3 class="mb-0">
+                {{homeData.statistics.students}}
+              </h3>
+              <small class="text-muted mb-0">
+                Estudiantes <br />
+                Nuevos
+              </small>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--  -->
+<!-- SGMentores -->
+<!--  -->
+
+<section class="py-8 py-md-11 bg-dark" style="background-image: url(/assets/background-pattern.svg);">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8 text-center">
+        <!-- SGM Badge -->
+        <span class="badge badge-pill badge-light mb-4">
+          <span class="h6 font-weight-bold ">
+            #SGMentores
+          </span>
+        </span>
+
+        <!-- SGM Title -->
+        <h1 class="display-4 text-white">
+          Sistema de Gestión de Mentores
+        </h1>
+
+        <!-- SGM Paragraph -->
+        <p class="font-size-lg text-muted mb-4 mb-md-6">
+          El Sistema de Gestión de Mentores, es la digitalización del Proyecto
+          Mentores en un sistema de gestión para llevar el registro de los
+          acompañamientos que realices con los estudiantes de nuevo ingreso,
+          generar las fichas de los estudiantes y desarrollar la evaluación
+          final de una forma digital, automática, y más confiable.
+        </p>
+
+        <!-- SGM main action -->
+        <a class="btn btn-success lift mb-7 btn-lg" routerLink="/panel-control">
+          Ir al panel
+        </a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 col-md-6">
+        <!-- Item -->
+        <div class="d-flex align-items-start">
+          <!-- Badge -->
+          <div class="badge badge-lg badge-success">
+            <span>?</span>
+          </div>
+
+          <div class="ml-5">
+            <!-- Heading -->
+            <h4 class="text-white">
+              Quien puede acceder?
+            </h4>
+
+            <!-- Text -->
+            <p class="text-muted mb-6 mb-md-8">
+              El panel esta disponible para el uso de estudiantes mentores y
+              estudiantes de nuevo ingreso que se encuentren registrados dentro
+              del periodo académico actual.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item -->
+        <div class="d-flex align-items-start">
+          <!-- Badge -->
+          <div class="badge badge-lg badge-success">
+            <span>?</span>
+          </div>
+
+          <div class="ml-5">
+            <!-- Heading -->
+            <h4 class="text-white">
+              Como ingresar al panel?
+            </h4>
+
+            <!-- Text -->
+            <p class="text-muted mb-6 mb-md-0">
+              Para ingresar debes constar como mentor, y con tus credenciales
+              UTPL debes iniciar sesión, posteriormente te aparecerán tus
+              opciones de mentor.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-6">
+        <!-- Item -->
+        <div class="d-flex align-items-start">
+          <!-- Badge -->
+          <div class="badge badge-lg badge-success">
+            <span>?</span>
+          </div>
+
+          <div class="ml-5">
+            <!-- Heading -->
+            <h4 class="text-white">
+              Estudiante mentor?
+            </h4>
+
+            <!-- Text -->
+            <p class="text-muted mb-6 mb-md-8">
+              Si eres un estudiante mentor puedes registrar los acompañamientos
+              que realices y puedes exportar las fichas de seguimiento mentorial
+              con tu firma.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item -->
+        <div class="d-flex align-items-start">
+          <!-- Badge -->
+          <div class="badge badge-lg badge-success">
+            <span>?</span>
+          </div>
+
+          <div class="ml-5">
+            <!-- Heading -->
+            <h4 class="text-white">
+              Estudiante de nuevo ingreso?
+            </h4>
+
+            <!-- Text -->
+            <p class="text-muted mb-6 mb-md-0">
+              Si eres estudiante de nuevo ingreso puedes calificar, firmar y
+              validar el acompañamiento que se realizó. Te llegará un correo
+              cada vez que tengas calificar un acompañamiento.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- / .row -->
+  </div>
+  <!-- / .container -->
+</section>
