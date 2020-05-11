@@ -1,0 +1,103 @@
+<div
+  class="card border-primary shadow border-right-0 border-left-0 border-bottom-0"
+>
+  <div class="card-body">
+    <form
+      [formGroup]="confirmationForm"
+      (ngSubmit)="save()"
+      [ngClass]="{ 'was-validated': confirmationForm.valid }"
+    >
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group mb-5">
+            <!-- leading -->
+            <label for="qualificationSelect">
+              ¿Qué valoración le daría?
+            </label>
+
+            <!-- select -->
+            <select
+              id="qualificationSelect"
+              class="custom-select"
+              formControlName="qualification"
+              [ngClass]="{ 'is-invalid': isQualificationInvalid }"
+            >
+              <option
+                *ngFor="
+                  let val of ['sgm#1', 'sgm#2', 'sgm#3', 'sgm#4', 'sgm#5']
+                "
+                [value]="val"
+              >
+                {{ val | qualificationValue }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group mb-5">
+            <!-- leading -->
+            <label for="commentTextarea">
+              ¿Sugerencias u opiniones?
+            </label>
+
+            <!-- textarea -->
+            <textarea
+              id="commentTextarea"
+              placeholder="Comentanos si tienes una sugerencia!"
+              formControlName="comment"
+              class="form-control"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group mb-5">
+            <!-- leading -->
+            <label for="signature">
+              Firma Digital
+            </label>
+
+            <!-- signature -->
+            <div id="signature">
+              <sgm-sig-canvas></sgm-sig-canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row align-items-center">
+        <div class="col-12 col-md">
+          <!-- Submit button -->
+          <button
+            type="submit"
+            class="btn btn-primary mb-3 mb-md-0 lift shadow mr-3"
+          >
+            Guardar
+          </button>
+
+          <!-- Submit button -->
+          <button
+            type="button"
+            class="btn btn-lg btn-light lift mb-3 mb-md-0"
+            (click)="resetSignature()"
+          >
+            Limpiar firma
+          </button>
+        </div>
+
+        <!-- alert -->
+        <div class="col-12 col-md-auto">
+          <small class="text-muted mb-0">
+            No se podrá modificar una vez guardada.
+          </small>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

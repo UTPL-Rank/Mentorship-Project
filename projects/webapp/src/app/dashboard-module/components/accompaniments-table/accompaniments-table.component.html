@@ -1,0 +1,69 @@
+<div class="card">
+  <div class="table-responsive">
+    <table class="table text-nowrap card-table mb-0">
+      <!-- head of table -->
+      <thead>
+        <tr>
+          <th class="font-weight-bold text-muted small">
+            #
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Fecha
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Seguimiento
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Problemas
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Validación
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let accompaniment of accompaniments; let i = index">
+          <th class="font-weight-bold text-muted small" scope="row">
+            {{ i + 1 }}
+          </th>
+          <td class="font-weight-bold text-muted small">
+            {{ accompaniment.timeCreated.toMillis() | date }}
+          </td>
+          <td class="font-weight-bold text-muted small">
+            {{ accompaniment.followingKind | followingName }}
+          </td>
+          <td class="font-weight-bold text-muted small">
+            {{ accompaniment.problems.problemCount }}
+            <span *ngIf="accompaniment.problems.problemCount === 1">
+              problema
+            </span>
+            <span *ngIf="accompaniment.problems.problemCount !== 1">
+              problemas
+            </span>
+          </td>
+          <td>
+            <span *ngIf="!accompaniment.reviewKey" class="badge badge-success">
+              Validado
+            </span>
+            <span *ngIf="!!accompaniment.reviewKey" class="badge badge-warning">
+              Sin Validar
+            </span>
+          </td>
+          <td>
+            <a class="btn btn-primary btn-sm small lift" [routerLink]="[
+                '/panel-control',
+                accompaniment.period.reference.id,
+                'ver-acompañamiento',
+                accompaniment.mentor.reference.id,
+                accompaniment.id
+              ]">
+              Visualizar
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

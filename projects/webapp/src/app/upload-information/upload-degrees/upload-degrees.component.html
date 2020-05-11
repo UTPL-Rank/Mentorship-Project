@@ -1,0 +1,35 @@
+<h2 class="mt-5">Subir Carreras Universitarias</h2>
+
+<div class="my-3">
+  <sgm-read-file (upload)="readFile($event)"></sgm-read-file>
+</div>
+
+<p>Las carreras deben tener el siguiente formato. <code>Id del área</code>, <code>Id de la Carrera</code>,
+  <code>Nombre de la carrera</code></p>
+
+<div class="card mb-5">
+  <div class="table-responsive">
+    <table class="table text-nowrap mb-0">
+      <thead>
+        <tr>
+          <th class="font-weight-bold text-muted small">#</th>
+          <th class="font-weight-bold text-muted small">Nombre del Área</th>
+          <th class="font-weight-bold text-muted small">Nombre de la Carrera</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!!data">
+        <tr *ngFor="let degree of data; let idx = index">
+          <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
+          <td class="font-weight-bold text-muted small">{{ degree.area.name | titlecase  }}</td>
+          <td class="font-weight-bold text-muted small">{{ degree.name | titlecase }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="d-flex justify-content-md-end">
+  <button class="btn btn-primary ml-2" (click)="save()">
+    Guardar Carreras
+  </button>
+</div>
