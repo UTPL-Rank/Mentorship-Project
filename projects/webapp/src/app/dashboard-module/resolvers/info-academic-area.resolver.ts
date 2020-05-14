@@ -4,15 +4,15 @@ import { AngularFirePerformance } from "@angular/fire/performance";
 import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
+import { AcademicPeriodsService } from "../../core/services/academic-period.service";
 import { FirestoreAcademicArea } from "../../models/academic-area.model";
-import { AcademicPeriodService } from "../services/academic-period.service";
 
 @Injectable({ providedIn: "root" })
 export class InfoAcademicAreaResolver implements Resolve<FirestoreAcademicArea> {
   constructor(
     private db: AngularFirestore,
     private perf: AngularFirePerformance,
-    private period: AcademicPeriodService
+    private period: AcademicPeriodsService
   ) { }
 
   resolve({

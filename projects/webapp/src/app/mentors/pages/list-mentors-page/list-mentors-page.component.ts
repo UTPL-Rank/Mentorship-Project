@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFirePerformance } from '@angular/fire/performance';
-import { Title } from '@angular/platform-browser';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Observable, Subscription } from 'rxjs';
+import { finalize, map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { AcademicPeriodsService } from '../../../core/services/academic-period.service';
+import { TitleService } from '../../../core/services/title.service';
 import { AreasIds, Mentor, Mentors } from '../../../models/models';
+import { MentorsService } from '../../services/mentors.service';
 
 interface AreaStat {
   id: AreasIds;
@@ -19,37 +19,50 @@ interface AreaStat {
   selector: 'sgm-list-mentors-page',
   templateUrl: './list-mentors-page.component.html'
 })
-export class ListMentorsPageComponent implements OnInit {
+export class ListMentorsPageComponent implements OnInit, OnDestroy {
   constructor(
-    private title: Title,
+    private title: TitleService,
     private route: ActivatedRoute,
-    private db: AngularFirestore,
-    private perf: AngularFirePerformance
+    private readonly periodsService: AcademicPeriodsService,
+    private readonly mentorsService: MentorsService,
+    private readonly router: Router
   ) { }
 
   public allMentors: Observable<Mentors>;
   public bestMentors: Observable<Mentors>;
   public areaStats: Observable<Array<AreaStat>>;
 
+  public mentors: Mentors;
+  private sub: Subscription;
+
   private mentorsCollection = this.route.params
     .pipe(
-      this.perf.trace('list mentors'),
-      map(params => this.db.collection('academic-periods').doc(params.periodId).ref),
-      map(periodRef => this.db.collection<Mentor>('mentors', r => r
-        .where('period.reference', '==', periodRef)
-        .orderBy('displayName')
-      )),
-      switchMap(collection => collection.valueChanges()),
+      map(params => this.periodsService.periodDocumentReference(params.periodId)),
+      mergeMap(periodReference => this.mentorsService.mentorsCollection({
+        periodReference, startAt: 4, orderBy: 'displayName',
+      })),
+      tap(mentors => {
+        console.table(mentors.map(m => m.displayName));
+        this.mentors = mentors;
+      }),
       shareReplay(1),
-      map(mentors => [...mentors])
+      map(mentors => [...mentors]),
+      finalize(() => console.log('endeed')
+      )
     );
 
   ngOnInit() {
     this.title.setTitle('Estudiantes Mentores');
 
-    this.getAllMentors();
-    this.getBestMentors();
-    this.groupMentorsByArea();
+    // this.getAllMentors();
+    // this.getBestMentors();
+    // this.groupMentorsByArea();
+
+    this.sub = this.mentorsCollection.subscribe();
+  }
+
+  ngOnDestroy() {
+    this.sub.unsubscribe();
   }
 
   private getAllMentors() {
@@ -106,5 +119,29 @@ export class ListMentorsPageComponent implements OnInit {
         }),
         map(areasMap => Array.from(areasMap.values()))
       );
+  }
+
+  prevPage() {
+  }
+
+  async nextPage() {
+    await this.router.navigate([this.router.url], { queryParams: { data: Date.now() } });
+    this.sub.unsubscribe();
+    this.sub.unsubscribe();
+    this.sub = this.route.params
+      .pipe(
+        map(params => this.periodsService.periodDocumentReference(params.periodId)),
+        mergeMap(periodReference => this.mentorsService.mentorsCollection({
+          periodReference, startAt: 4, orderBy: 'displayName', last: this.mentors.pop()
+        })),
+        tap(mentors => {
+          console.table(mentors.map(m => m.displayName));
+          this.mentors = mentors;
+        }),
+        shareReplay(1),
+        map(mentors => [...mentors]),
+        finalize(() => console.log('endeed2'))
+      ).subscribe();
+
   }
 }

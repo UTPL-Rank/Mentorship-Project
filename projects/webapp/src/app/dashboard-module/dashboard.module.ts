@@ -49,7 +49,6 @@ import { InfoAccompanimentResolver } from './resolvers/info-accompaniment.resolv
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
 import { InfoStudentResolver } from './resolvers/info-student.resolver';
 import { ListStudentsResolver } from './resolvers/list-students.resolver';
-import { AcademicPeriodService } from './services/academic-period.service';
 
 // Components
 const COMPONENTS = [
@@ -95,9 +94,6 @@ const PAGES = [
   ]
 ];
 
-// Services
-const SERVICES = [AcademicPeriodService];
-
 // Resolvers
 const RESOLVERS = [
   AcademicPeriodResolver,
@@ -134,6 +130,6 @@ const GUARDS = [
     SharedModule
   ],
   declarations: [PAGES, COMPONENTS, PIPES],
-  providers: [SERVICES, RESOLVERS, GUARDS]
+  providers: [RESOLVERS, GUARDS]
 })
 export class DashboardModuleModule { }
