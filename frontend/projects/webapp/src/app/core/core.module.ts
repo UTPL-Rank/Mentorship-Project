@@ -4,6 +4,8 @@ import { IsMentorGuard } from './guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from './guards/valid-period-of-mentor.guard';
 import { FirebaseModule } from './modules/firebase.module';
 import { LocateModule } from './modules/locate.module';
+import { AcademicPeriodsService } from './services/academic-period.service';
+import { TitleService } from './services/title.service';
 
 
 @NgModule({
@@ -12,7 +14,10 @@ import { LocateModule } from './modules/locate.module';
   declarations: [],
   providers: [
     // Guards
-    [IsAdminGuard, IsMentorGuard, ValidPeriodOfMentorGuard]
+    [IsAdminGuard, IsMentorGuard, ValidPeriodOfMentorGuard],
+
+    AcademicPeriodsService,
+    TitleService
   ],
 })
 export class CoreModule {

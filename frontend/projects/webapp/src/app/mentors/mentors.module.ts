@@ -6,6 +6,7 @@ import { MentorStatsComponent } from './components/mentor-stats/mentor-stats.com
 import { MentorsTableComponent } from './components/mentors-table/mentors-table.component';
 import { StudentsTableComponent } from './components/students-table/students-table.component';
 import { MentorsRoutingModule } from './mentors-routing.module';
+import { MentorsService } from './services/mentors.service';
 
 @NgModule({
   imports: [CommonModule, MentorsRoutingModule, SharedModule],
@@ -16,6 +17,8 @@ import { MentorsRoutingModule } from './mentors-routing.module';
     StudentsTableComponent,
     MentorStatsComponent
   ],
-  providers: [],
+  providers: [
+    MentorsService
+  ],
 })
 export class MentorsModule { }

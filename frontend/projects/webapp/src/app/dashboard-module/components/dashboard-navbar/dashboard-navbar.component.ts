@@ -3,8 +3,8 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'firebase/app';
 import { Subscription } from 'rxjs';
+import { AcademicPeriodsService } from '../../../core/services/academic-period.service';
 import { AcademicPeriod, AcademicPeriods, UserClaims } from '../../../models/models';
-import { AcademicPeriodService } from '../../services/academic-period.service';
 
 @Component({
   selector: 'sgm-dashboard-navbar',
@@ -14,7 +14,7 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   constructor(
     private afAuth: AngularFireAuth,
     private router: Router,
-    private periodService: AcademicPeriodService,
+    private periodService: AcademicPeriodsService,
     private route: ActivatedRoute
   ) { }
 
@@ -27,7 +27,7 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   public claims: UserClaims;
 
   ngOnInit(): void {
-    this.periods = this.periodService.academicPeriods;
+    this.periods = this.periodService.loadedPeriods;
 
     this.sub = this.afAuth.authState.subscribe(async user => {
       try {
