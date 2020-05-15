@@ -12,6 +12,19 @@ The UTPL Mentorship Project is about accompanying students in their early years 
 
 👨‍💻 See the development process for [version 3](https://github.com/UTPL-Rank/Mentorship-Project/tree/develop).
 
+
+### Switch between environments
+
+**Firebase Environment**
+
+```sh
+# default env
+firebase use default    
+
+# develop env
+firebase use develop    
+```
+
 ## License
 
 MIT License - see LICENSE

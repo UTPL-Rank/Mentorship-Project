@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+  
+    match /pages/{pageId} {
+      allow read: if true;
+      allow write: if false;
+    }
+  
+    match /claims/{userId}{
+      allow read, write : if isAdmin();
+    }
+
+    match /users/{userId} {
+			allow create: if isAdmin();
+			allow read, update: if isAdmin() || isMentorOfUser() || isOwnDocument(userId);
+    }
+
+		match /accompaniments/{accompanimentId} {
+			allow create: if isAdmin() || isMentor();
+    }
+
+    match /{document=**}{
+      allow	read, write: if request.auth != null;
+    }
+    
+   
+    //// FUNCTIONS ////
+
+    function isAdmin() {
+      return request.auth.token.isAdmin;
+    }
+
+    function isMentor() {
+      return request.auth.token.isMentor;
+    }
+    
+    function isMentorOfUser() {
+      return request.auth.token.isMentor && 
+        request.auth.token.email == get(existingData().mentorReference).data.email;
+    }
+    
+    function isOwnDocument(userId) {
+      return request.auth.token.email == get(/databases/$(database)/documents/users/$(userId)).data.email;
+    }
+
+    function existingData() {
+      return resource.data;
+    }
+
+    function incomingData() {
+      return request.resource.data;
+    }
+  }
+}

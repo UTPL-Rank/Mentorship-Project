@@ -1,0 +1,113 @@
+{
+  "indexes": [
+    {
+      "collectionGroup": "accompaniments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "mentor.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "period.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "student.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timeCreated",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "accompaniments",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "mentor.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "semesterKind",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "student.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "timeCreated",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "mentors",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "period.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "displayName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "mentors",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "period.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "stats.lastAccompaniment",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "displayName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "students",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "mentor.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "displayName",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "students",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "mentor.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "period.reference",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "displayName",
+          "order": "ASCENDING"
+        }
+      ]
+    }
+  ],
+  "fieldOverrides": []
+}

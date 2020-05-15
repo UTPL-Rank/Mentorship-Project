@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { environment } from 'projects/webapp/src/environments/environment';
 
 /**
@@ -16,13 +15,15 @@ export class TitleService {
    */
   private baseTitle: string;
 
-  constructor(private readonly title: Title, private readonly router: Router) {
+  constructor(private readonly title: Title, /** private readonly router: Router */) {
     this.baseTitle = title.getTitle();
 
     // add a developer build title notice
-    if (!environment.production)
+    if (!environment.production) {
       this.baseTitle = this.baseTitle.concat(' | 👨‍💻 Developer Build');
-
+      // set title with te developer build tag
+      this.title.setTitle(this.baseTitle);
+    }
 
     // TODO: enable route title update
     // this.enableResetTitleNavigate();
