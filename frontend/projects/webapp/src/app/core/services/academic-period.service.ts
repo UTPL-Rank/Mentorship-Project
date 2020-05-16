@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 // tslint:disable-next-line: max-line-length
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, CollectionReference, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, CollectionReference } from '@angular/fire/firestore';
 import { AcademicPeriod, AcademicPeriods } from '../../models/academic-period.model';
 
 /**
@@ -73,13 +73,5 @@ export class AcademicPeriodsService {
    */
   public periodDocument(periodId: string): AngularFirestoreDocument<AcademicPeriod> {
     return this.periodsCollection().doc<AcademicPeriod>(periodId);
-  }
-
-  /**
-   * Get firestore document reference to an academic period
-   * @param periodId id of the document required
-   */
-  public periodDocumentReference(periodId: string): DocumentReference {
-    return this.periodDocument(periodId).ref;
   }
 }

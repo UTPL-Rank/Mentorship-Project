@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
+import { NavigationEnd, Router } from '@angular/router';
 import { environment } from 'projects/webapp/src/environments/environment';
+import { filter } from 'rxjs/operators';
 
 /**
  * Update the title of the page with the base title defined in de `index.html`.
@@ -10,65 +12,45 @@ import { environment } from 'projects/webapp/src/environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TitleService {
 
-  /**
-   * base title page, title defined in the `index.html`
-   */
-  private baseTitle: string;
 
-  constructor(private readonly title: Title, /** private readonly router: Router */) {
+  constructor(private readonly title: Title, private readonly router: Router) {
     this.baseTitle = title.getTitle();
 
     // add a developer build title notice
     if (!environment.production) {
       this.baseTitle = this.baseTitle.concat(' | 👨‍💻 Developer Build');
-      // set title with te developer build tag
       this.title.setTitle(this.baseTitle);
     }
 
-    // TODO: enable route title update
-    // this.enableResetTitleNavigate();
+    this.enableResetTitleOnNavigate();
   }
+
+  /**
+   * base title page, title defined in the `index.html`
+   */
+  private baseTitle: string;
 
   /**
    * Update the title of the page
    * @param title new title of the page
    */
-  public setTitle(title: string) {
+  public setTitle(title: string): void {
     this.title.setTitle(title + ' | ' + this.baseTitle);
   }
 
   /**
    * Get current title
    */
-  public getTitle() {
+  public getTitle(): string {
     return this.title.getTitle();
   }
 
-  // /**
-  //  * TODO: needs fix, update when routes changes
-  //  * reset the page title every time a user enters another page
-  //  */
-  // private enableResetTitleNavigate() {
-  //   let startURl: string;
-
-  //   this.router.events
-  //     .pipe(
-  //       filter(event => event instanceof NavigationEnd || event instanceof NavigationStart),
-  //     )
-  //     .subscribe(event => {
-
-  //       if (event instanceof NavigationStart)
-  //         startURl = this.router.url;
-
-  //       else if (startURl && event instanceof NavigationEnd) {
-  //         const [initialURL] = (startURl).split('?');
-  //         // tslint:disable-next-line: no-string-literal
-  //         const [finalURL] = (event['url'] as string).split('?');
-  //         console.log({ initialURL, finalURL });
-
-  //         if (initialURL !== finalURL)
-  //           this.title.setTitle(this.baseTitle);
-  //       }
-  //     });
-  // }
+  /**
+   * enable reset title every time the user navigates to a new page.
+   */
+  private enableResetTitleOnNavigate(): void {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(_ => this.title.setTitle(this.baseTitle));
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { AcademicPeriod, AcademicPeriodReference, FirestoreAcademicAreaReference, FirestoreAcademicDegreeReference, Mentor, MentorClaims, UploadData } from 'projects/webapp/src/app/models/models';
+import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, Mentor, MentorClaims, UploadData } from 'projects/webapp/src/app/models/models';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -80,7 +80,7 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
     const [displayName, email, ci, areaId, degreeId] = data;
 
     // get the data for the academic area if exists, otherwise throw an error
-    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as FirestoreAcademicAreaReference;
+    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as AcademicAreaReference;
     const areaSnap = await areaReference.get();
     if (!areaSnap.exists) throw new Error(`El área ${areaReference.id} no existe.`);
     const areaData = areaSnap.data();

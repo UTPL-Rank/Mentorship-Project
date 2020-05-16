@@ -18,9 +18,9 @@
         </div>
 
         <!-- actions column -->
-        <div class="col-auto" *ngIf="period.current">
+        <div class="col-auto" *ngIf="(period|async).current">
           <!-- new accompaniment action -->
-          <a [routerLink]="['/panel-control',period.id,'registrar-acompañamiento', m.id]"
+          <a [routerLink]="['/panel-control',(period|async).id,'registrar-acompañamiento', m.id]"
             class="btn btn-primary shadow lift mt-4 mt-md-0">
             Nuevo acompañamiento
           </a>

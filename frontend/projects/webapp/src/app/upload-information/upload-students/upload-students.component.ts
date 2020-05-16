@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase/app';
 import { Subscription } from 'rxjs';
-import { AcademicPeriod, AcademicPeriodReference, FirestoreAcademicAreaReference, FirestoreAcademicDegreeReference, MentorQuery, Student, StudentClaims, UploadData } from '../../models/models';
+import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, MentorQuery, Student, StudentClaims, UploadData } from '../../models/models';
 
 @Component({
   selector: 'sgm-upload-students',
@@ -79,7 +79,7 @@ export class UploadStudentsComponent
     const cycle = rawCiclo.includes('primero') ? 'sgm#first' : rawCiclo.includes('segundo') ? 'sgm#second' : 'sgm#third';
 
     // references
-    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as FirestoreAcademicAreaReference;
+    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as AcademicAreaReference;
     const degreeReference = this.db.collection('academic-degrees').doc(degreeId).ref as FirestoreAcademicDegreeReference;
     const periodReference = this.db.collection('academic-periods').doc(this.period.id).ref as AcademicPeriodReference;
     const mentorsReference = this.db.collection('mentors').ref.where('email', '==', mentorEmail)

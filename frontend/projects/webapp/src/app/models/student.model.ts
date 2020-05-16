@@ -1,5 +1,5 @@
 import { firestore } from 'firebase/app';
-import { FirestoreAcademicAreaReference } from './academic-area.model';
+import { AcademicAreaReference } from './academic-area.model';
 import { FirestoreAcademicDegreeReference } from './academic-degree.model';
 import { AcademicPeriodReference } from './academic-period.model';
 import { MentorReference } from './mentor.model';
@@ -17,7 +17,7 @@ export interface Student {
   cycle: AcademicCycleKind;
 
   area: {
-    reference: FirestoreAcademicAreaReference;
+    reference: AcademicAreaReference;
     name: string;
   };
 
