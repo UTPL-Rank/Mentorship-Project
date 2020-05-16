@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', loadChildren: () => import('./landing/landing.module').then(m => m.LandingModule) },
-  { path: 'panel-control', loadChildren: () => import('./dashboard-module/dashboard.module').then(m => m.DashboardModuleModule) },
+  { path: 'panel-control', loadChildren: () => import('./dashboard/dashboard.module').then(m => m.DashboardModuleModule) },
   { path: '**', redirectTo: '/', pathMatch: 'full' }
 ];
 
