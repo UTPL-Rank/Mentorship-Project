@@ -69,7 +69,7 @@ async function saveMentors(mentorsPerArea) {
     const batch = db.batch();
 
     mentorsPerArea.forEach(area => {
-        const ref = db.collection('mentors/_stats_/test').doc(area.id);
+        const ref = db.collection('academic-periods/abr20-ago20/academic-areas-stats').doc(area.id);
         batch.set(ref, area)
     })
 
