@@ -2,11 +2,11 @@ import { firestore } from 'firebase/app';
 
 export type AreasIds = 'administrativa' | 'biologica' | 'sociohumanistica' | 'tecnica';
 
-export type FirestoreAcademicAreaReference = firestore.DocumentReference<FirestoreAcademicArea>;
+export type AcademicAreaReference = firestore.DocumentReference<AcademicArea>;
 
-export type FirestoreAcademicAreas = Array<FirestoreAcademicArea>;
+export type AcademicAreas = Array<AcademicArea>;
 
-export interface FirestoreAcademicArea {
+export interface AcademicArea {
   id: AreasIds;
   name: string;
 }

@@ -1,51 +1,54 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
-import { Mentor } from '../../models/models';
+import { Observable } from 'rxjs';
+import { map, shareReplay } from 'rxjs/operators';
+import { AcademicPeriodsService } from '../../core/services/academic-period.service';
+import { Mentor, Mentors } from '../../models/models';
 
-interface QueryMentors {
-  periodReference: DocumentReference;
-  orderBy: 'displayName' | 'stats.accompanimentsCount' | 'stats.assignedStudentCount';
-  startAt?: number;
-  noAccompaniments?: boolean;
-  area?: 'tecnica';
-  last?: Mentor;
-}
-
+const MENTORS_COLLECTION_NAME = 'mentors';
 
 @Injectable({ providedIn: 'root' })
 export class MentorsService {
   constructor(
-    private readonly db: AngularFirestore,
-    private perf: AngularFirePerformance
+    private readonly angularFirestore: AngularFirestore,
+    private readonly perf: AngularFirePerformance,
+    private readonly periodsService: AcademicPeriodsService
   ) { }
 
-  private readonly mentorsCollectionName = 'mentors';
-  public readonly maxMentorsQuerySize = 5;
+  public getMentorsCollection(periodId?: string): AngularFirestoreCollection<Mentor> {
+    if (periodId) {
+      const { ref } = this.periodsService.periodDocument(periodId);
 
-  public mentorsCollection({ periodReference, orderBy, last, noAccompaniments }: QueryMentors) {
-    return this.db.collection<Mentor>(
-      this.mentorsCollectionName,
-      query => {
-        let q = query
-          .where('period.reference', '==', periodReference)
-          .orderBy(orderBy)
-          .limit(this.maxMentorsQuerySize);
+      return this.angularFirestore.collection<Mentor>(MENTORS_COLLECTION_NAME, q => q
+        .where('period.reference', '==', ref)
+        .orderBy('displayName')
+      );
+    }
 
-        if (last)
-          q = q.startAt(last[orderBy]);
+    return this.angularFirestore.collection<Mentor>(MENTORS_COLLECTION_NAME);
+  }
 
-
-        if (noAccompaniments)
-          q = q.where('stats.lastAccompaniment', '==', null);
-
-        return q;
-      }
-    ).valueChanges()
+  public getAllMentors(periodId: string): Observable<Mentors> {
+    return this.getMentorsCollection(periodId)
+      .valueChanges()
       .pipe(
         this.perf.trace('list mentors'),
+        shareReplay(1),
+        map(mentors => [...mentors]),
       );
   }
 
+  public getMentorDocument(mentorId: string): AngularFirestoreDocument<Mentor> {
+    return this.getMentorsCollection().doc<Mentor>(mentorId);
+  }
 
+  public getMentor(mentorId: string): Observable<Mentor> {
+    return this.getMentorDocument(mentorId)
+      .valueChanges()
+      .pipe(
+        this.perf.trace('load mentor information'),
+        shareReplay(1)
+      );
+  }
 }

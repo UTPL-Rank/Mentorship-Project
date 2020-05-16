@@ -1,55 +1,37 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFirePerformance } from '@angular/fire/performance';
-import { Title } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { AcademicPeriod, Mentor, Student, Students } from '../../../models/models';
+import { Observable } from 'rxjs';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { TitleService } from '../../../core/services/title.service';
+import { AcademicPeriod, Mentor, Students } from '../../../models/models';
+import { MentorsService } from '../../services/mentors.service';
+import { StudentsService } from '../../services/students.service';
 
 @Component({
   selector: 'sgm-mentor-profile-page',
   templateUrl: './mentor-profile-page.component.html'
 })
-export class MentorProfilePageComponent implements OnInit, OnDestroy {
+export class MentorProfilePageComponent implements OnInit {
   constructor(
-    private title: Title,
-    private route: ActivatedRoute,
-    private db: AngularFirestore,
-    private perf: AngularFirePerformance
+    private readonly title: TitleService,
+    private readonly route: ActivatedRoute,
+    private readonly mentorsService: MentorsService,
+    private readonly studentsService: StudentsService
   ) { }
 
-  public students: Observable<Students>;
-  public mentor: Observable<Mentor>;
-  public period: AcademicPeriod;
-  private sub: Subscription;
+  public students: Observable<Students> = this.route.params.pipe(
+    switchMap(params => this.studentsService.allStudents(params))
+  );
 
-  ngOnInit() {
-    this.sub = this.route.data
-      .subscribe(({ activePeriod }) => this.period = activePeriod);
+  public mentor: Observable<Mentor> = this.route.params.pipe(
+    switchMap(params => this.mentorsService.getMentor(params.mentorId)),
+    tap(mentor => this.title.setTitle(mentor.displayName.toUpperCase())),
+  );
 
-    this.mentor = this.route.params
-      .pipe(
-        this.perf.trace('Load mentor information'),
-        map(params => params.mentorId as string),
-        map(mentorId => this.db.collection('mentors').doc<Mentor>(mentorId)),
-        switchMap(document => document.valueChanges()),
-        tap(mentor => this.title.setTitle(`Estudiantes de ${mentor.displayName.toUpperCase()}`)),
-        shareReplay(1)
-      );
+  public period: Observable<AcademicPeriod> = this.route.data.pipe(
+    map(d => d.activePeriod)
+  );
 
-    this.students = this.route.params
-      .pipe(
-        this.perf.trace('List mentor assigned students'),
-        map(params => params.mentorId as string),
-        map(mentorId => this.db.collection('mentors').doc(mentorId).ref),
-        map(mentorRef => this.db.collection<Student>('students', q => q.where('mentor.reference', '==', mentorRef).orderBy('displayName'))),
-        switchMap(document => document.valueChanges()),
-        shareReplay(1)
-      );
-  }
+  ngOnInit() { }
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
 }

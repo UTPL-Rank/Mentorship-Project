@@ -27,26 +27,18 @@
     <div class="container-fluid">
       <!-- table of students -->
       <div class="row">
-        <div class="col-md-4">
-          <div class="mb-6">
-            <sgm-best-mentors [mentors]="bestMentors|async"></sgm-best-mentors>
-          </div>
+        <div class="col-md-4 mb-6">
+          <!-- Table of best mentors -->
+          <sgm-best-mentors [mentors]="bestMentors|async"></sgm-best-mentors>
         </div>
-        <div class="col-md-8 mb-md-6">
+        <div class="col-md-8">
+          <!-- main content of the page -->
           <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
         </div>
       </div>
-
-      <!-- pagination section -->
     </div>
   </section>
 </ng-container>
-<div class="d-flex justify-content-center">
-  <div class="btn-group" role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-outline-primary" (click)="prevPage()">Anterior</button>
-    <button type="button" class="btn btn-outline-primary" (click)="nextPage()">Siguiente</button>
-  </div>
-</div>
 
 <ng-template #areasCards>
   <div class="row mb-6">
@@ -65,7 +57,7 @@
 
             <!-- mentors count -->
             <p class="small mb-0">
-              <b>{{area.mentors.length}}</b> Estudiantes Mentores
+              <b>{{area.mentors.length}}</b> Mentores
               <br />
               <b>{{area.studentsCount}}</b> Estudiantes nuevos
               <br />
@@ -87,7 +79,7 @@
         aria-selected="true">
         Todos
         <span class="badge badge-primary">
-          {{(allMentors | async).length}}
+          {{(allMentors | async)?.length}}
         </span>
       </a>
     </li>
@@ -113,7 +105,7 @@
   <!-- main table history -->
   <div class="tab-content" id="myTabContent">
     <div aria-labelledby="all-tab" class="tab-pane fade show active" id="all" role="tabpanel">
-      <sgm-mentors-table [mentors]="allMentors |async"></sgm-mentors-table>
+      <sgm-mentors-table [mentors]="allMentors | async"></sgm-mentors-table>
     </div>
 
     <ng-container *ngFor="let area of areaStats | async ">

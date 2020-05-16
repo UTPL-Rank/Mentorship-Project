@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { FirestoreAcademicAreaReference, FirestoreAcademicDegree, FirestoreAcademicDegrees, UploadData } from 'projects/webapp/src/app/models/models';
+import { AcademicAreaReference, FirestoreAcademicDegree, FirestoreAcademicDegrees, UploadData } from 'projects/webapp/src/app/models/models';
 
 @Component({
   selector: 'sgm-upload-degrees',
@@ -46,7 +46,7 @@ export class UploadDegreesComponent implements UploadData<FirestoreAcademicDegre
     const [areaId, id, name] = data;
 
     // Obtain area data
-    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as FirestoreAcademicAreaReference;
+    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as AcademicAreaReference;
     const areaSnap = await areaReference.get();
     if (!areaSnap.exists) throw new Error(`El área ${areaSnap.id} no existe.`);
     const areaData = areaSnap.data();

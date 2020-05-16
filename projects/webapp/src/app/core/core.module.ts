@@ -4,6 +4,7 @@ import { IsMentorGuard } from './guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from './guards/valid-period-of-mentor.guard';
 import { FirebaseModule } from './modules/firebase.module';
 import { LocateModule } from './modules/locate.module';
+import { AcademicAreasService } from './services/academic-areas.service';
 import { AcademicPeriodsService } from './services/academic-period.service';
 import { TitleService } from './services/title.service';
 
@@ -17,6 +18,7 @@ import { TitleService } from './services/title.service';
     [IsAdminGuard, IsMentorGuard, ValidPeriodOfMentorGuard],
 
     AcademicPeriodsService,
+    AcademicAreasService,
     TitleService
   ],
 })
