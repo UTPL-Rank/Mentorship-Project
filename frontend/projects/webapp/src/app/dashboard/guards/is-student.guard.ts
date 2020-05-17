@@ -1,37 +1,28 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { UserClaims } from '../../models/models';
+import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class IsStudentGuard implements CanActivate {
   constructor(private afAuth: AngularFireAuth, private router: Router) { }
 
-  async canActivate(
-    { params }: ActivatedRouteSnapshot,
-    { url }: RouterStateSnapshot
-  ) {
-    const { currentUser } = this.afAuth.auth;
-    const { studentId } = params;
+  canActivate({ params }: ActivatedRouteSnapshot, { url }: RouterStateSnapshot) {
+    return this.afAuth.idTokenResult.pipe(
+      map(token => {
+        // User hasn't sign in
+        if (!token)
+          return this.router.createUrlTree(['/ingresar'], { queryParams: { redirect: url } });
 
-    // Navigate to redirect page, if user isn't signed in yet
-    if (!currentUser) {
-      return this.router.navigate(['/redirigir'], {
-        queryParams: { redirect: url }
-      });
-    }
+        // User is admin, and can enter the route
+        // User is a student and is the correct student one
+        if (token.claims.isAdmin || token.claims.isMentor && token.claims.studentId === params.studentId)
+          return true;
 
-    // get custom claims and validate if user has admin role
-    const claims = (await currentUser.getIdTokenResult()).claims as UserClaims;
-    if (claims.isAdmin) {
-      return true;
-    }
-
-    if (claims.isStudent && claims.studentId === studentId) {
-      return true;
-    }
-
-    alert('No tienes permisos para ingresar a esta ruta');
-    return false;
+        // Nop, user is not allowed to enter the route
+        alert('No tienes permisos para ingresar a esta ruta');
+        return false;
+      })
+    );
   }
 }

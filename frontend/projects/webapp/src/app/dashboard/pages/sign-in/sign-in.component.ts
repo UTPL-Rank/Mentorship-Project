@@ -6,10 +6,10 @@ import { auth } from 'firebase/app';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'sgm-redirect',
-  templateUrl: './redirect.page.html'
+  selector: 'sgm-sign-in',
+  templateUrl: './sign-in.component.html'
 })
-export class RedirectPage implements OnInit, OnDestroy {
+export class SignInPage implements OnInit, OnDestroy {
   constructor(
     private afAuth: AngularFireAuth,
     private router: ActivatedRoute,
