@@ -35,9 +35,9 @@ import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShell } from './pages/dashboard.page';
-import { RedirectPage } from './pages/redirect/redirect.page';
 import { RegisterAccompanimentPage } from './pages/register-accompaniment/register-accompaniment.page';
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
+import { SignInPage } from './pages/sign-in/sign-in.component';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
 import { FollowingNamePipe } from './pipes/following-name.pipe';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
@@ -81,7 +81,7 @@ const PIPES = [
 
 // Pages
 const PAGES = [
-  RedirectPage,
+  SignInPage,
   [
     DashboardShell,
     DashboardHomePage,

@@ -18,9 +18,9 @@ import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShell } from './pages/dashboard.page';
-import { RedirectPage } from './pages/redirect/redirect.page';
 import { RegisterAccompanimentPage } from './pages/register-accompaniment/register-accompaniment.page';
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
+import { SignInPage } from './pages/sign-in/sign-in.component';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
 import { AcademicPeriodResolver } from './resolvers/academic-period.resolver';
 import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
@@ -32,7 +32,7 @@ import { ListStudentsResolver } from './resolvers/list-students.resolver';
 
 const routes: Routes = [
   // redirect page, where users will wait to sign in
-  { path: 'redirigir', component: RedirectPage },
+  { path: 'ingresar', component: SignInPage },
 
   // landing route, that redirect to actual home with periodID
   { path: '', canActivate: [IsSignInGuard, RedirectToLastPeriodGuard] },
