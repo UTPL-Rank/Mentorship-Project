@@ -21,7 +21,7 @@ export class IsAdminGuard implements CanActivate {
           return true;
 
         // user is not allowed to enter the route
-        alert('No tienes permisos para ingresar a esta ruta');
+        alert('No tienes permisos para ingresar a esta ruta, por favor vuelve a recargar la pagina.');
         return false;
       })
     );

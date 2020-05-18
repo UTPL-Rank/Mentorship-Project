@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +15,8 @@ export class SignInPage implements OnInit, OnDestroy {
     private afAuth: AngularFireAuth,
     private router: ActivatedRoute,
     private route: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private eventLog: AngularFireAnalytics
   ) { }
 
   private authSub: Subscription;
@@ -27,16 +29,24 @@ export class SignInPage implements OnInit, OnDestroy {
     this.authSub = this.afAuth.authState.subscribe(user => {
       const { redirect } = this.router.snapshot.queryParams;
 
-      if (!!user && !!redirect) {
-        return this.route.navigateByUrl(redirect);
-      }
-
-      if (!user && !!redirect) {
+      if (!user) {
         this.showSignInAlert = true;
         return;
       }
 
-      this.route.navigateByUrl('/');
+      setTimeout(() => {
+        try {
+          user.getIdToken(true);
+
+          if (!!redirect)
+            return this.route.navigateByUrl(redirect);
+
+        } catch  {
+          alert('Ocurrió un error, a continuación vas a ser redirigido');
+          this.route.navigateByUrl('/panel-control');
+        }
+      }, 5000);
+
     });
   }
 
@@ -60,6 +70,7 @@ export class SignInPage implements OnInit, OnDestroy {
     });
 
     // redirect user to sign in page
+    this.eventLog.logEvent('Sign In Action', { username: value })
     this.afAuth.auth.signInWithRedirect(microsoftProvider);
   }
 }

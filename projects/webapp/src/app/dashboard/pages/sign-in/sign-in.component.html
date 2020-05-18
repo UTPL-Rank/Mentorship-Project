@@ -18,12 +18,12 @@
 
             <!-- header -->
             <h1 class="display-4 mb-4">
-              Espera un segundo.
+              Espera uno momento para continuar.
             </h1>
 
             <!-- text -->
             <p class="text-muted mb-4">
-              Si no eres redirigido, puedes ir a la página de inicio con el el
+              Si no eres redirigido, puedes recargar la pagina o ir a la página de inicio con el el
               siguiente botón.
             </p>
 
@@ -51,7 +51,7 @@
                 <input [formControl]="usernameControl"
                   [ngClass]="{'is-valid': usernameControl.valid, 'is-invalid': usernameControl.invalid && usernameControl.touched}"
                   type="text" class="form-control" placeholder="Usuario UTPL" aria-label="Usuario UTPL"
-                  aria-describedby="utpl-user">
+                  aria-describedby="utpl-user" name="usernameControl">
 
                 <!-- leading -->
                 <div class="input-group-append">
@@ -60,9 +60,16 @@
               </div>
 
               <!-- sign-in button -->
-              <button class="btn btn-primary lift btn-sm" type="submit">
+              <button class="btn btn-primary lift btn-sm my-4" type="submit">
                 Iniciar Sesión
               </button>
+
+              <!-- disclaimer -->
+              <p class="text-muted small mb-4">
+                Si no puedes ingresar ponte en contacto con <a target="_blank"
+                  href="mailto:proyectomentores@utpl.edu.ec">
+                  proyectomentores@utpl.edu.ec </a>
+              </p>
             </form>
           </ng-container>
         </div>
