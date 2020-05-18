@@ -54,7 +54,7 @@ export class SignInPage implements OnInit, OnDestroy {
     this.authSub.unsubscribe();
   }
 
-  login() {
+  async login() {
     const { invalid, value } = this.usernameControl;
     this.usernameControl.markAsTouched();
 
@@ -70,7 +70,7 @@ export class SignInPage implements OnInit, OnDestroy {
     });
 
     // redirect user to sign in page
-    this.eventLog.logEvent('Sign In Action', { username: value })
-    this.afAuth.auth.signInWithRedirect(microsoftProvider);
+    await this.eventLog.logEvent('sign_an_action', { username: value })
+    await this.afAuth.auth.signInWithRedirect(microsoftProvider);
   }
 }
