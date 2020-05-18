@@ -18,7 +18,8 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) { }
 
-  private sub: Subscription;
+  private userSub: Subscription;
+  private tokenSub: Subscription;
   private dataSub: Subscription;
 
   public activePeriod: AcademicPeriod;
@@ -29,16 +30,12 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.periods = this.periodService.loadedPeriods;
 
-    this.sub = this.afAuth.authState.subscribe(async user => {
-      try {
-        this.user = user;
+    this.userSub = this.afAuth.authState.subscribe(user => {
+      this.user = user;
+    });
 
-        const { claims } = await user.getIdTokenResult();
-
-        this.claims = claims as UserClaims;
-      } catch {
-        this.claims = null;
-      }
+    this.tokenSub = this.afAuth.idTokenResult.subscribe(token => {
+      this.claims = token.claims as UserClaims;
     });
 
     this.dataSub = this.route.data.subscribe(data => {
@@ -47,8 +44,9 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.userSub.unsubscribe();
     this.dataSub.unsubscribe();
+    this.tokenSub.unsubscribe();
   }
 
   logout() {

@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AngularFireAuth } from "@angular/fire/auth";
-import { ActivatedRoute } from "@angular/router";
 import { User } from "firebase/app";
 import { Subscription } from "rxjs";
 
@@ -9,7 +8,7 @@ import { Subscription } from "rxjs";
   templateUrl: "./dashboard-home.page.html"
 })
 export class DashboardHomePage implements OnInit, OnDestroy {
-  constructor(private afAuth: AngularFireAuth, private route: ActivatedRoute) {}
+  constructor(private afAuth: AngularFireAuth) { }
 
   private authSub: Subscription;
   user: User;
@@ -17,6 +16,7 @@ export class DashboardHomePage implements OnInit, OnDestroy {
   async ngOnInit() {
     this.authSub = this.afAuth.authState.subscribe(user => {
       this.user = user;
+      user.getIdToken(true);
     });
   }
 

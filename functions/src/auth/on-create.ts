@@ -34,7 +34,7 @@ async function assignCustomClaimsIfExist({ email, uid }: UserRecord) {
   if (claimsSnap.exists) {
     const claims = claimsSnap.data() as object;
     await auth.setCustomUserClaims(uid, claims);
-    await auth.revokeRefreshTokens(uid);
+    // await auth.revokeRefreshTokens(uid);
   }
 }
 

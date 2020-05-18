@@ -71,7 +71,8 @@ const routes: Routes = [
 
       // view all information related with the mentor , students and coordinators
       { path: 'mentores', loadChildren: () => import('./../mentors/mentors.module').then(m => m.MentorsModule), },
-
+      { path: 'ver-mentores', redirectTo: 'mentores' },
+      { path: 'ver-estudiantes/:mentorId', redirectTo: 'mentores/:mentorId' },
 
 
       // List all accompaniments you registered with an student
