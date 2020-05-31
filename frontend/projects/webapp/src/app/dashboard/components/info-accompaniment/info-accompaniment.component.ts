@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { AngularFireAuth } from "@angular/fire/auth";
 import { Subscription } from "rxjs";
+import { AuthenticationService } from '../../../core/services/authentication.service';
 import { FirestoreAccompaniment } from "../../../models/models";
 
 @Component({
@@ -8,7 +8,7 @@ import { FirestoreAccompaniment } from "../../../models/models";
   templateUrl: "./info-accompaniment.component.html"
 })
 export class InfoAccompanimentComponent implements OnInit, OnDestroy {
-  constructor(private afAuth: AngularFireAuth) { }
+  constructor(private auth: AuthenticationService) { }
 
   @Input()
   public accompaniment: FirestoreAccompaniment;
@@ -16,10 +16,8 @@ export class InfoAccompanimentComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   ngOnInit(): void {
-    this.sub = this.afAuth.user.subscribe(async user => {
-      const { claims } = await user.getIdTokenResult();
-      this.isAdmin = claims.isAdmin;
-    });
+    this.sub = this.auth.claims
+      .subscribe(claims => this.isAdmin = claims.isAdmin);
   }
 
   ngOnDestroy(): void {

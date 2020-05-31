@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class IsStudentGuard implements CanActivate {
-  constructor(private afAuth: AngularFireAuth, private router: Router) { }
+  constructor(private auth: AuthenticationService, private router: Router) { }
 
   canActivate({ params }: ActivatedRouteSnapshot, { url }: RouterStateSnapshot) {
-    return this.afAuth.idTokenResult.pipe(
-      map(token => {
+    return this.auth.claims.pipe(
+      map(claims => {
         // User hasn't sign in
-        if (!token)
+        if (!claims)
           return this.router.createUrlTree(['/ingresar'], { queryParams: { redirect: url } });
 
         // User is admin, and can enter the route
         // User is a student and is the correct student one
-        if (token.claims.isAdmin || token.claims.isMentor && token.claims.studentId === params.studentId)
+        if (claims.isAdmin || claims.isMentor && claims.studentId === params.studentId)
           return true;
 
         // Nop, user is not allowed to enter the route

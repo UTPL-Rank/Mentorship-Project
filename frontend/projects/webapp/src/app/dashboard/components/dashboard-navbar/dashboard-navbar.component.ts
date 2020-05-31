@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { User } from 'firebase/app';
 import { Subscription } from 'rxjs';
 import { AcademicPeriodsService } from '../../../core/services/academic-period.service';
+import { AuthenticationService } from '../../../core/services/authentication.service';
 import { AcademicPeriod, AcademicPeriods, UserClaims } from '../../../models/models';
 
 @Component({
@@ -12,14 +12,13 @@ import { AcademicPeriod, AcademicPeriods, UserClaims } from '../../../models/mod
 })
 export class DashboardNavbarComponent implements OnInit, OnDestroy {
   constructor(
-    private afAuth: AngularFireAuth,
-    private router: Router,
+    private auth: AuthenticationService,
     private periodService: AcademicPeriodsService,
     private route: ActivatedRoute
   ) { }
 
   private userSub: Subscription;
-  private tokenSub: Subscription;
+  private claimsSub: Subscription;
   private dataSub: Subscription;
 
   public activePeriod: AcademicPeriod;
@@ -30,28 +29,24 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.periods = this.periodService.loadedPeriods;
 
-    this.userSub = this.afAuth.authState.subscribe(user => {
-      this.user = user;
-    });
+    this.userSub = this.auth.currentUser
+      .subscribe(user => this.user = user);
 
-    this.tokenSub = this.afAuth.idTokenResult.subscribe(token => {
-      this.claims = token.claims as UserClaims;
-    });
+    this.claimsSub = this.auth.claims
+      .subscribe(claims => this.claims = claims);
 
-    this.dataSub = this.route.data.subscribe(data => {
-      this.activePeriod = data.activePeriod;
-    });
+    this.dataSub = this.route.data
+      .subscribe(data => this.activePeriod = data.activePeriod);
   }
 
   ngOnDestroy(): void {
     this.userSub.unsubscribe();
     this.dataSub.unsubscribe();
-    this.tokenSub.unsubscribe();
+    this.claimsSub.unsubscribe();
   }
 
-  logout() {
-    this.afAuth.auth.signOut();
-    this.router.navigateByUrl('/');
+  async logout() {
+    await this.auth.signOut(['/']);
     alert('Se cerro sesión correctamente.');
   }
 }
