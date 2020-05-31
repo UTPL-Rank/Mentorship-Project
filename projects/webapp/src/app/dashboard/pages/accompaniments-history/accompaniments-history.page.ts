@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthenticationService } from '../../../core/services/authentication.service';
 import { FirestoreAccompaniment } from '../../../models/accompaniment.model';
 import { Mentor } from '../../../models/mentor.model';
 import { AcademicPeriod } from '../../../models/models';
@@ -12,7 +12,7 @@ import { Student } from '../../../models/student.model';
   templateUrl: './accompaniments-history.page.html'
 })
 export class AccompanimentsHistoryPage implements OnInit, OnDestroy {
-  constructor(private route: ActivatedRoute, private afAuth: AngularFireAuth) { }
+  constructor(private route: ActivatedRoute, private auth: AuthenticationService) { }
 
   private sub: Subscription;
   private authSub: Subscription;
@@ -43,8 +43,8 @@ export class AccompanimentsHistoryPage implements OnInit, OnDestroy {
         );
       }
     );
-    this.authSub = this.afAuth.user.subscribe(async user => {
-      const { claims } = await user.getIdTokenResult();
+
+    this.authSub = this.auth.claims.subscribe(claims => {
       this.isAdmin = claims.isAdmin;
     });
   }

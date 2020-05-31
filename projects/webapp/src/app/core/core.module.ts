@@ -6,6 +6,7 @@ import { FirebaseModule } from './modules/firebase.module';
 import { LocateModule } from './modules/locate.module';
 import { AcademicAreasService } from './services/academic-areas.service';
 import { AcademicPeriodsService } from './services/academic-period.service';
+import { AuthenticationService } from './services/authentication.service';
 import { TitleService } from './services/title.service';
 
 
@@ -17,6 +18,7 @@ import { TitleService } from './services/title.service';
     // Guards
     [IsAdminGuard, IsMentorGuard, ValidPeriodOfMentorGuard],
 
+    AuthenticationService,
     AcademicPeriodsService,
     AcademicAreasService,
     TitleService
