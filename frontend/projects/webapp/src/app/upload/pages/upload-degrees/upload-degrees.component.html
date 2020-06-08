@@ -17,7 +17,7 @@
           <th class="font-weight-bold text-muted small">Nombre de la Carrera</th>
         </tr>
       </thead>
-      <tbody *ngIf="!!data">
+      <tbody>
         <tr *ngFor="let degree of data; let idx = index">
           <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
           <td class="font-weight-bold text-muted small">{{ degree.area.name | titlecase  }}</td>

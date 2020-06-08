@@ -21,7 +21,7 @@
           <th class="font-weight-bold text-muted small">Titulación</th>
         </tr>
       </thead>
-      <tbody *ngIf="!!data">
+      <tbody>
         <tr *ngFor="let mentor of data; let idx = index">
           <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.displayName | titlecase }}</td>

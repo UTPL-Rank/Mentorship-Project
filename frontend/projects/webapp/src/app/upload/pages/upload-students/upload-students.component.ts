@@ -3,17 +3,17 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase/app';
 import { Subscription } from 'rxjs';
-import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, MentorQuery, Student, StudentClaims, UploadData } from '../../models/models';
+import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, MentorQuery, Student, StudentClaims, UploadData } from '../../../models/models';
 
 @Component({
   selector: 'sgm-upload-students',
   templateUrl: './upload-students.component.html'
 })
-export class UploadStudentsComponent
-  implements UploadData<Student>, OnInit, OnDestroy {
+export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnDestroy {
+
   constructor(
-    private db: AngularFirestore,
-    private route: ActivatedRoute
+    private readonly db: AngularFirestore,
+    private readonly route: ActivatedRoute
   ) { }
 
   private sub: Subscription;
