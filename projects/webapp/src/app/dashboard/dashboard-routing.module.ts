@@ -67,7 +67,7 @@ const routes: Routes = [
       // and the the activePeriod should have the current attribute true
       {
         path: 'subir-informacion',
-        loadChildren: () => import('./../upload-information/upload-information.module').then(m => m.UploadInformationModule),
+        loadChildren: () => import('./../upload/upload.module').then(m => m.UploadModule),
         canActivate: [IsAdminGuard, IsCurrentPeriodActiveGuard],
       },
 
