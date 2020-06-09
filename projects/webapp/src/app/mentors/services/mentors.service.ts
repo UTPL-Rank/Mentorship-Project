@@ -29,7 +29,11 @@ export class MentorsService {
     return this.angularFirestore.collection<Mentor>(MENTORS_COLLECTION_NAME);
   }
 
-  public getAllMentors(periodId: string): Observable<Mentors> {
+  /**
+   * Get mentors of an specific academic period
+   * @param periodId period to get the mentors from
+   */
+  public getAllMentorsAndShare(periodId: string): Observable<Mentors> {
     return this.getMentorsCollection(periodId)
       .valueChanges()
       .pipe(
@@ -43,7 +47,11 @@ export class MentorsService {
     return this.getMentorsCollection().doc<Mentor>(mentorId);
   }
 
-  public getMentor(mentorId: string): Observable<Mentor> {
+  /**
+   * get information about an specific mentor
+   * @param mentorId identifier of requested mentor
+   */
+  public getMentorAndShare(mentorId: string): Observable<Mentor> {
     return this.getMentorDocument(mentorId)
       .valueChanges()
       .pipe(

@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AcademicPeriod, Students } from '../../../models/models';
+import { AcademicPeriod, Students } from '../../../../models/models';
 
 @Component({
   selector: 'sgm-students-table',

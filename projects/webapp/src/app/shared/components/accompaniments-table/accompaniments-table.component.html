@@ -10,6 +10,11 @@
           <th class="font-weight-bold text-muted small">
             Fecha
           </th>
+          <ng-container *ngIf="showStudentName">
+            <th class="font-weight-bold text-muted small">
+              Estudiante
+            </th>
+          </ng-container>
           <th class="font-weight-bold text-muted small">
             Seguimiento
           </th>
@@ -31,6 +36,11 @@
           <td class="font-weight-bold text-muted small">
             {{ accompaniment.timeCreated.toMillis() | date }}
           </td>
+          <ng-container *ngIf="showStudentName">
+            <td class="font-weight-bold text-muted small">
+              {{accompaniment.student.displayName | titlecase}}
+            </td>
+          </ng-container>
           <td class="font-weight-bold text-muted small">
             {{ accompaniment.followingKind | followingName }}
           </td>

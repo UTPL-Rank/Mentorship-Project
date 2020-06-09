@@ -1,0 +1,36 @@
+<ng-container *ngIf="mentorObs | async as mentor">
+  <header class="py-6 py-md-9 bg-light border-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-md">
+          <a class="small text-nowrap font-weight-bold text-decoration-none mb-3"
+            [routerLink]="['/panel-control',mentor.period.reference.id,'mentores',mentor.id]">
+            Regresar
+          </a>
+
+          <!-- page title -->
+          <h1 class="mb-2">
+            <span class="small">Acompañamientos recientes</span>
+            <br>
+            <span class="text-primary">{{mentor.displayName|titlecase}}</span>
+          </h1>
+
+          <!-- page lead -->
+          <p class="text-muted mb-0 mt-3">
+            <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="container py-6 py-md-9">
+    <sgm-mentor-stats [mentor]="mentor"></sgm-mentor-stats>
+
+    <sgm-accompaniments-table [accompaniments]="accompanimentsObs | async" [showStudentName]="true">
+    </sgm-accompaniments-table>
+
+    <small class="small text-muted">Mostrando últimos acompañamientos</small>
+  </section>
+
+</ng-container>
