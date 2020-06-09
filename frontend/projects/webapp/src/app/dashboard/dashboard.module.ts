@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from '../shared/shared.module';
 import { AccompanimentFormComponent } from './components/accompaniment-form/accompaniment-form.component';
-import { AccompanimentsTableComponent } from './components/accompaniments-table/accompaniments-table.component';
 import { AreasChartComponent } from './components/charts/areas-chart.component';
 import { DegreesChartComponent } from './components/charts/degrees-chart.component';
 import { FollowingChartComponent } from './components/charts/following-chart.component';
@@ -38,7 +37,6 @@ import { DashboardShell } from './pages/dashboard.page';
 import { RegisterAccompanimentPage } from './pages/register-accompaniment/register-accompaniment.page';
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
-import { FollowingNamePipe } from './pipes/following-name.pipe';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
 import { AcademicPeriodResolver } from './resolvers/academic-period.resolver';
@@ -57,7 +55,6 @@ const COMPONENTS = [
   DashboardNavbarComponent,
   AccompanimentFormComponent,
   LoadingBarComponent,
-  AccompanimentsTableComponent,
   ReviewFormCardComponent,
   ViewRegistryFormComponent,
   ...[
@@ -73,23 +70,20 @@ const COMPONENTS = [
 
 // Pipes
 const PIPES = [
-  FollowingNamePipe,
   QualificationValuePipe,
   SemesterNamePipe
 ];
 
 // Pages
 const PAGES = [
-  [
-    DashboardShell,
-    DashboardHomePage,
-    [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
-    AccompanimentsHistoryPage,
-    ViewAccompanimentPage,
-    ReviewAccompanimentPage,
-    RegisterAccompanimentPage,
-    AccompanimentsRegistryPage
-  ]
+  AccompanimentsHistoryPage,
+  DashboardShell,
+  DashboardHomePage,
+  [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
+  ViewAccompanimentPage,
+  ReviewAccompanimentPage,
+  RegisterAccompanimentPage,
+  AccompanimentsRegistryPage
 ];
 
 // Resolvers

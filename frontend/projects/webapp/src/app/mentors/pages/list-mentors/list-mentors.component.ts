@@ -15,10 +15,10 @@ interface AreaStat {
 }
 
 @Component({
-  selector: 'sgm-list-mentors-page',
-  templateUrl: './list-mentors-page.component.html'
+  selector: 'sgm-list-mentors',
+  templateUrl: './list-mentors.component.html'
 })
-export class ListMentorsPageComponent implements OnInit {
+export class ListMentorsComponent implements OnInit {
   constructor(
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
@@ -26,7 +26,7 @@ export class ListMentorsPageComponent implements OnInit {
   ) { }
 
   public allMentors: Observable<Mentors> = this.route.params.pipe(
-    mergeMap(params => this.mentorsService.getAllMentors(params.periodId))
+    mergeMap(params => this.mentorsService.getAllMentorsAndShare(params.periodId))
   );
 
   public bestMentors: Observable<Mentors> = this.allMentors
@@ -80,7 +80,5 @@ export class ListMentorsPageComponent implements OnInit {
   ngOnInit() {
     this.title.setTitle('Estudiantes Mentores');
   }
-
-
 
 }

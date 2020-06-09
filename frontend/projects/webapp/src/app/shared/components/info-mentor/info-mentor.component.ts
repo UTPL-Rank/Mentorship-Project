@@ -37,10 +37,20 @@ import { Mentor } from '../../../models/models';
         </h6>
 
         <!-- Text -->
-        <p class="text-muted mb-0">
+        <p class="text-muted mb-4">
           <small>
             <a [href]="'mailto:' + mentor.email" class="text-reset">
               {{ mentor.email }}
+            </a>
+          </small>
+        </p>
+
+
+        <p class="text-muted mb-0">
+          <small>
+            <a class="text-nowrap"
+            [routerLink]="['/panel-control',mentor.period.reference.id,'mentores',mentor.id,'historial']">
+              Historial acompañamientos
             </a>
           </small>
         </p>
@@ -49,8 +59,6 @@ import { Mentor } from '../../../models/models';
   `
 })
 export class InfoMentorComponent {
-  constructor() { }
-
   @Input()
   mentor: Mentor;
 }

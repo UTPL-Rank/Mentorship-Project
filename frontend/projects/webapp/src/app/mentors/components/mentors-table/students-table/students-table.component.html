@@ -86,7 +86,6 @@
 
                 <!-- new accompaniment -->
                 <ng-container *ngIf="academicPeriod | async as period">
-                  {{period|json}}
                   <a *ngIf="period.current" class="dropdown-item small"
                     [routerLink]="['/panel-control',period.id,'registrar-acompañamiento', student.mentor.reference.id]"
                     [queryParams]="{selectedStudentId: student.id}">
