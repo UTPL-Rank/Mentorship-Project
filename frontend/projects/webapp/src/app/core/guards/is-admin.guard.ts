@@ -3,13 +3,18 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 
+/**
+ * Validate the current user has the admin claims
+ */
 @Injectable({ providedIn: 'root' })
 export class IsAdminGuard implements CanActivate {
 
-  constructor(private readonly auth: AuthenticationService, private readonly router: Router) { }
+  constructor(
+    private readonly auth: AuthenticationService,
+    private readonly router: Router
+  ) { }
 
   canActivate(_: ActivatedRouteSnapshot, { url }: RouterStateSnapshot) {
-
     return this.auth.claims.pipe(
       map(claims => {
         // User hasn't sign in

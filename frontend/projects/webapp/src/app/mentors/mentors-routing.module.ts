@@ -3,15 +3,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { IsAdminGuard } from '../core/guards/is-admin.guard';
 import { IsMentorGuard } from '../core/guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from '../core/guards/valid-period-of-mentor.guard';
-import { ListMentorsPageComponent } from './pages/list-mentors-page/list-mentors-page.component';
-import { MentorProfilePageComponent } from './pages/mentor-profile-page/mentor-profile-page.component';
+import { ListMentorsComponent } from './pages/list-mentors/list-mentors.component';
+import { ViewMentorHistoryComponent } from './pages/view-mentor-history/view-mentor-history.component';
+import { ViewMentorComponent } from './pages/view-mentor/view-mentor.component';
 
 const routes: Routes = [
   // View all mentors inscribed
-  { path: '', component: ListMentorsPageComponent, canActivate: [IsAdminGuard], },
+  { path: '', component: ListMentorsComponent, canActivate: [IsAdminGuard], },
 
-  // View the information of an specific mentor
-  { path: ':mentorId', component: MentorProfilePageComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard] },
+  // View the information of a mentor, stats, and assigned students
+  { path: ':mentorId', component: ViewMentorComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard], },
+  { path: ':mentorId/historial', component: ViewMentorHistoryComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard], }
 ];
 
 
@@ -20,5 +22,5 @@ const routes: Routes = [
   exports: [RouterModule],
 })
 export class MentorsRoutingModule {
-  static pages = [ListMentorsPageComponent, MentorProfilePageComponent];
+  static pages = [ListMentorsComponent, ViewMentorComponent, ViewMentorHistoryComponent];
 }

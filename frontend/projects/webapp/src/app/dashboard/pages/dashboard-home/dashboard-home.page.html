@@ -1,35 +1,26 @@
-<section
-  class="d-flex align-items-center border-top border-top-2 border-primary"
-  style="min-height: 80vh;"
->
+<section class="d-flex align-items-center border-top border-top-2 border-primary" style="min-height: 80vh;">
   <div class="container d-flex flex-column">
     <div class="row align-items-center justify-content-center no-gutters">
       <!-- illustration -->
-      <div
-        class="col-8 col-md-6 col-lg-7 offset-md-1 order-md-2 mt-auto mt-md-0 pt-8 pb-4 py-md-11"
-      >
+      <div class="col-8 col-md-6 col-lg-7 offset-md-1 order-md-2 mt-auto mt-md-0 pt-8 pb-4 py-md-11">
         <!-- Image -->
-        <img
-          src="/assets/illustrations/mentor-analytics.png"
-          alt="Mentor analitics"
-          class="img-fluid"
-        />
+        <img src="/assets/illustrations/mentor-analytics.png" alt="Mentor analitics" class="img-fluid" />
       </div>
 
       <!-- page content -->
-      <div
-        class="col-12 col-md-5 col-lg-4 order-md-1 mb-auto mb-md-0 pb-8 py-md-11"
-      >
+      <div class="col-12 col-md-5 col-lg-4 order-md-1 mb-auto mb-md-0 pb-8 py-md-11">
         <!-- Title of Page -->
-        <h1 class="text-center text-md-left" *ngIf="user">
-          Hola, <span class="text-primary">{{user.displayName|titlecase}}</span>
+        <h1 class="text-center text-md-left" *ngIf="user | async as usr">
+          Hola, <span class="text-primary">{{usr.displayName|titlecase}}</span>
         </h1>
 
+
         <!-- Leading paragraph -->
-        <p class="lead text-center text-md-left text-muted mb-0">
+        <p class="lead text-center text-md-left text-muted mb-2">
           Bienvenido al panel de control del Sistema de gestión del Proyecto
           Mentores.
         </p>
+
       </div>
     </div>
   </div>

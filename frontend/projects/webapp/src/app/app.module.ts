@@ -13,7 +13,7 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     CommonModule,
     BrowserModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production, registrationStrategy: 'registerImmediately' }),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     AppRoutingModule,
     CoreModule,
     SharedModule,

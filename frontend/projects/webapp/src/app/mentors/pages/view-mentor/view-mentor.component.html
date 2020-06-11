@@ -1,0 +1,53 @@
+<ng-container *ngIf="mentorObs | async as mentor">
+  <header class="py-6 py-md-9 bg-light border-bottom">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-12 col-md">
+          <!-- page title -->
+          <h1 class="mb-2">
+            <span class="small">Estudiantes de</span>
+            <br>
+            <span class="text-primary">{{mentor.displayName|titlecase}}</span>
+          </h1>
+
+          <!-- page lead -->
+          <p class="text-muted mb-0 mt-3">
+            <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+          </p>
+        </div>
+
+        <!-- actions column -->
+        <ng-container *ngIf="periodObs | async as period">
+
+          <div class="col-auto" *ngIf="period.current">
+            <!-- new accompaniment action -->
+            <a [routerLink]="['/panel-control',period.id,'registrar-acompañamiento', mentor.id]"
+              class="btn btn-primary shadow lift mt-4 mt-md-0">
+              Nuevo acompañamiento
+            </a>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </header>
+
+  <section class="py-6 py-md-9">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-lg-4 mb-6">
+          <!-- mentor card -->
+          <sgm-info-mentor [mentor]="mentor"></sgm-info-mentor>
+        </div>
+
+        <!-- main content -->
+        <div class="col col-12 col-lg-8">
+          <!-- stats -->
+          <sgm-mentor-stats [mentor]="mentor"></sgm-mentor-stats>
+
+          <!-- table of students -->
+          <sgm-students-table [students]="studentsObs | async"></sgm-students-table>
+        </div>
+      </div>
+    </div>
+  </section>
+</ng-container>

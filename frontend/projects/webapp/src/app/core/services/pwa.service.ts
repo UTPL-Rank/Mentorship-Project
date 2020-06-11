@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { SwPush, SwUpdate } from '@angular/service-worker';
+import { environment } from 'projects/webapp/src/environments/environment';
 import { BrowserLoggerService } from './browser-logger.service';
 
 @Injectable({ providedIn: 'root' })
@@ -14,9 +15,12 @@ export class PwaService {
   /** Init `updates checker` to check for a new version of the application is available */
   initUpdateChecker(): void {
     this.update.available
-      .subscribe(
-        update => this.logger.log('TODO: Update available', update)
-      );
+      .subscribe(_ => {
+        const reload = confirm('Hay una nueva versión de la página, Actualizar ahora?');
+
+        if (reload)
+          window.location.reload();
+      });
 
     this.logger.log('Update checker init successfully');
   }
@@ -42,13 +46,14 @@ export class PwaService {
    * Store user keys to send notifications in a server.
    */
   async requestPushAccess(): Promise<boolean> {
-    const serverPublicKey = '';
+    const serverPublicKey = environment.messaging.serverKey;
     await this.logger.info('request-push-access');
 
     try {
-      const sub = await this.push.requestSubscription({ serverPublicKey });
+      const key = await this.push.requestSubscription({ serverPublicKey });
 
-      this.logger.log('TODO: Store key in server', sub);
+      this.logger.log('TODO: Store key in server', key);
+      console.log(key);
       await this.logger.info('successful-push-access');
       return true;
     } catch (error) {

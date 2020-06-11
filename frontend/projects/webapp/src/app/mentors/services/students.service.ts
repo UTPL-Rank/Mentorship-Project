@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
@@ -8,11 +8,6 @@ import { Student, Students } from '../../models/models';
 import { MentorsService } from './mentors.service';
 
 const STUDENTS_COLLECTION_NAME = 'students';
-
-interface QueryStudentsParams {
-  mentorId?: string;
-  periodId?: string;
-}
 
 @Injectable({ providedIn: 'root' })
 export class StudentsService {
@@ -23,31 +18,22 @@ export class StudentsService {
     private readonly mentorsService: MentorsService
   ) { }
 
-  public getStudentsCollection(studentsParams?: QueryStudentsParams): AngularFirestoreCollection<Student> {
+  getStudentDocument(studentId: string): AngularFirestoreDocument<Student> {
+    return this.angularFirestore.collection(STUDENTS_COLLECTION_NAME).doc(studentId);
+  }
+
+  public getStudentsOfMentorAndShare(mentorId: string, periodId: string): Observable<Students> {
     return this.angularFirestore.collection<Student>(
       STUDENTS_COLLECTION_NAME,
       query => {
-        // Oder students by name
-        let q = query.orderBy('displayName');
+        const periodRef = this.periodsService.periodDocument(periodId).ref;
+        const mentorRef = this.mentorsService.getMentorDocument(mentorId).ref;
 
-        // filter students by mentor
-        if (studentsParams && studentsParams.periodId) {
-          const { ref } = this.periodsService.periodDocument(studentsParams.periodId);
-          q = q.where('period.reference', '==', ref);
-        }
-
-        if (studentsParams && studentsParams.mentorId) {
-          const { ref } = this.mentorsService.getMentorDocument(studentsParams.mentorId);
-          q = q.where('mentor.reference', '==', ref);
-        }
-
-        return q;
+        return query.orderBy('displayName')
+          .where('period.reference', '==', periodRef)
+          .where('mentor.reference', '==', mentorRef);
       }
-    );
-  }
-
-  public allStudents(studentsParams?: QueryStudentsParams): Observable<Students> {
-    return this.getStudentsCollection(studentsParams)
+    )
       .valueChanges()
       .pipe(
         this.perf.trace('List mentor assigned students'),

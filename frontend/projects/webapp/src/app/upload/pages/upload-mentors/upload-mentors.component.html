@@ -1,0 +1,42 @@
+<h2 class="mt-5">Subir Estudiantes Mentores</h2>
+
+<div class="my-3">
+  <sgm-read-file (upload)="readFile($event)"></sgm-read-file>
+</div>
+
+<p>Los estudiantes mentores deben tener el siguiente formato. <code>Nombres y Apellidos</code>,
+  <code>Correo Electrónico</code>, <code>Cédula de Identidad</code>, <code>Id del Área</code>,
+  <code>Id de la Titulación</code>.</p>
+
+<div class="card mb-5">
+  <div class="table-responsive">
+    <table class="table text-nowrap mb-0">
+      <thead>
+        <tr>
+          <th class="font-weight-bold text-muted small">#</th>
+          <th class="font-weight-bold text-muted small">Nombres y Apellidos</th>
+          <th class="font-weight-bold text-muted small">Correo Electrónico</th>
+          <th class="font-weight-bold text-muted small">Cédula de Identidad</th>
+          <th class="font-weight-bold text-muted small">Área</th>
+          <th class="font-weight-bold text-muted small">Titulación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let mentor of data; let idx = index">
+          <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.displayName | titlecase }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.email }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.ci }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.area.name | titlecase }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.degree.name | titlecase }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="d-flex justify-content-md-end">
+  <button class="btn btn-primary ml-2" (click)="save()">
+    Guardar Estudiantes Mentores
+  </button>
+</div>
