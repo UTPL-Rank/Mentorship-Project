@@ -11,7 +11,6 @@ import { UnconfirmedAccompanimentExistsGuard } from './guards/unconfirmed-accomp
 import { ValidPeriodOfAccompanimentGuard } from './guards/valid-period-of-accompaniment.guard';
 import { ValidPeriodOfStudentGuard } from './guards/valid-period-of-student.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsHistoryPage } from './pages/accompaniments-history/accompaniments-history.page';
 import { AccompanimentsRegistryPage } from './pages/accompaniments-registry/accompaniments-registry.page';
 import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
 import { AnalyticsPage } from './pages/analytics/analytics.page';
@@ -23,7 +22,6 @@ import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-acc
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
 import { AcademicPeriodResolver } from './resolvers/academic-period.resolver';
 import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
-import { HistoryAccompanimentsResolver } from './resolvers/history-accompaniments.resolver';
 import { InfoAccompanimentResolver } from './resolvers/info-accompaniment.resolver';
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
 import { InfoStudentResolver } from './resolvers/info-student.resolver';
@@ -76,22 +74,25 @@ const routes: Routes = [
       { path: 'ver-mentores', redirectTo: 'mentores' },
       { path: 'ver-estudiantes/:mentorId', redirectTo: 'mentores/:mentorId' },
 
+      { path: 'estudiantes', loadChildren: () => import('./../students/students.module').then(m => m.StudentsModule), },
+
 
       // List all accompaniments you registered with an student
-      {
-        path: 'historial-acompañamientos/:mentorId/:studentId',
-        component: AccompanimentsHistoryPage,
-        resolve: {
-          student: InfoStudentResolver,
-          mentor: InfoMentorResolver,
-          accompaniments: HistoryAccompanimentsResolver
-        },
-        canActivate: [
-          IsMentorGuard,
-          ValidPeriodOfMentorGuard,
-          ValidPeriodOfStudentGuard
-        ]
-      },
+      { path: 'historial-acompañamientos/:mentorId/:studentId', redirectTo: 'estudiantes/:studentId' },
+      // {
+      //   path: 'historial-acompañamientos/:mentorId/:studentId',
+      //   component: AccompanimentsHistoryPage,
+      //   resolve: {
+      //     student: InfoStudentResolver,
+      //     mentor: InfoMentorResolver,
+      //     accompaniments: HistoryAccompanimentsResolver
+      //   },
+      //   canActivate: [
+      //     IsMentorGuard,
+      //     ValidPeriodOfMentorGuard,
+      //     ValidPeriodOfStudentGuard
+      //   ]
+      // },
 
       // view all information of an accompaniment
       {

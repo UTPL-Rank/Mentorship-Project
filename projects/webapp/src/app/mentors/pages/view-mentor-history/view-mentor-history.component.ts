@@ -3,9 +3,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/acompaniments.service';
+import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { FirestoreAccompaniments, Mentor } from '../../../models/models';
-import { MentorsService } from '../../services/mentors.service';
 
 @Component({
   selector: 'sgm-view-mentor-history',

@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { AreasIds, Mentor, Mentors } from '../../../models/models';
-import { MentorsService } from '../../services/mentors.service';
 
 interface AreaStat {
   id: AreasIds;

@@ -1,0 +1,56 @@
+<ng-container *ngIf="studentObs | async as student">
+  <sgm-students-header [student]="student" [showCreateAccompaniment]="(period|async).current"></sgm-students-header>
+
+  <sgm-students-navbar [student]="student"></sgm-students-navbar>
+
+  <div class="container mt-8">
+
+    <!-- Heading -->
+    <h2 class="font-weight-bold text-uppercase mb-8">
+      Información
+    </h2>
+
+    <!-- Text -->
+    <h4 class="font-weight-bold text-uppercase mb-3">
+      Acompañamientos:
+    </h4>
+    <p class="text-muted ml-5 mb-6">
+      {{ student.stats.accompanimentsCount || 0 }} acompañamientos realizados
+    </p>
+
+    <!-- Text -->
+    <h4 class="font-weight-bold text-uppercase mb-3">
+      Ultimo Acompañamiento:
+    </h4>
+    <p class="text-muted ml-5 mb-6">
+      {{ student.stats.lastAccompaniment.toDate() | date }}
+    </p>
+
+    <!-- Text -->
+    <h4 class="font-weight-bold text-uppercase mb-3">
+      Ciclo Académico:
+    </h4>
+    <p class="text-muted ml-5 mb-6">
+      Estudiante de {{ student.cycle | academicCycleName }}
+    </p>
+
+    <h4 class="font-weight-bold text-uppercase mb-3">
+      Carrera / Área Académica:
+    </h4>
+    <p class="text-muted ml-5 mb-6">
+      {{ student.degree.name | titlecase }} · {{ student.area.name | titlecase }}
+    </p>
+
+    <!-- Heading -->
+    <h4 class="font-weight-bold text-uppercase mb-3">
+      Correo Electrónico
+    </h4>
+
+    <!-- Text -->
+    <p class="text-muted ml-5 mb-0">
+      <a [href]="'mailto:' + student.email" class="text-reset">
+        {{ student.email }}
+      </a>
+    </p>
+  </div>
+</ng-container>

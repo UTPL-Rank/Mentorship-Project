@@ -3,8 +3,8 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AcademicPeriodsService } from '../../core/services/academic-period.service';
 import { Mentor, Mentors } from '../../models/models';
+import { AcademicPeriodsService } from './academic-period.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
 
