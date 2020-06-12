@@ -1,0 +1,66 @@
+<ng-container *ngIf="studentObs | async as student">
+  <sgm-students-header [student]="student" [showCreateAccompaniment]="(periodObs|async).current"></sgm-students-header>
+
+  <sgm-students-navbar [student]="student"></sgm-students-navbar>
+</ng-container>
+
+<section class="container mt-8">
+  <ul class="nav nav-tabs flex-nowrap mb-0" id="myTab" role="tablist" style="overflow: auto hidden;">
+
+    <!-- validated accompaniments -->
+    <ng-container *ngIf="accompanimentsObs | async as accompaniments">
+      <li class="nav-item">
+        <!-- label -->
+        <a class="nav-link active text-nowrap" id="all-tab" data-toggle="tab" href="#all" role="tab" aria-controls="all"
+          aria-selected="true">
+          Todos
+          <!-- accompaniments count -->
+          <span class="badge badge-primary">{{ accompaniments.length }}</span>
+        </a>
+      </li>
+    </ng-container>
+
+    <!-- validated accompaniments -->
+    <ng-container *ngIf="validatedObs | async as validated">
+      <li class="nav-item">
+        <!-- label -->
+        <a class="nav-link text-nowrap" id="confirmed-tab" data-toggle="tab" href="#confirmed" role="tab"
+          aria-controls="confirmed" aria-selected="false">
+          Validados
+          <!-- accompaniments count -->
+          <span class="badge badge-success">{{ validated.length }}</span>
+        </a>
+      </li>
+    </ng-container>
+
+
+    <!-- validated accompaniments -->
+    <ng-container *ngIf="unValidatedObs | async as unvalidated">
+      <li class="nav-item">
+        <!-- label -->
+        <a class="nav-link text-nowrap" id="unconfirmed-tab" data-toggle="tab" href="#unconfirmed" role="tab"
+          aria-controls="unconfirmed" aria-selected="false">
+          Sin Validar
+          <!-- accompaniments count -->
+          <span class="badge badge-warning">{{unvalidated.length}}</span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+
+  <!-- main table history -->
+  <div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="all" role="tabpanel" aria-labelledby="all-tab">
+      <sgm-accompaniments-table [accompaniments]="accompanimentsObs|async">
+      </sgm-accompaniments-table>
+    </div>
+    <div class="tab-pane fade" id="confirmed" role="tabpanel" aria-labelledby="confirmed-tab">
+      <sgm-accompaniments-table [accompaniments]="validatedObs|async">
+      </sgm-accompaniments-table>
+    </div>
+    <div class="tab-pane fade" id="unconfirmed" role="tabpanel" aria-labelledby="unconfirmed-tab">
+      <sgm-accompaniments-table [accompaniments]="unValidatedObs|async">
+      </sgm-accompaniments-table>
+    </div>
+  </div>
+</section>

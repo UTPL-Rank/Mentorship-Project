@@ -16,8 +16,6 @@ export class AccompanimentsTableComponent {
 
   @Input('accompaniments')
   set setAccompaniments(accompaniments: FirestoreAccompaniments) {
-    console.log(accompaniments);
-
     this.accompaniments = accompaniments;
   }
 }

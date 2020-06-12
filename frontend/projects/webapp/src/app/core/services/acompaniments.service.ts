@@ -59,4 +59,23 @@ export class AccompanimentsService {
         shareReplay(1)
       );
   }
+
+  /**
+   * Get an observable of a student
+   * @param periodId Identifier of the academic period
+   * @param studentId IDentifier of the student
+   */
+  public getAccompanimentsOfStudent(periodId: string, studentId: string): Observable<FirestoreAccompaniments> {
+    const periodRef = this.periodsService.periodDocument(periodId).ref;
+    const studentRef = this.studentsService.getStudentDocument(studentId).ref;
+
+    return this.angularFirestore.collection<FirestoreAccompaniment>(
+      ACCOMPANIMENTS_COLLECTION_NAME,
+      query => query.orderBy('timeCreated')
+        .where('period.reference', '==', periodRef)
+        .where('student.reference', '==', studentRef)
+    )
+      .valueChanges()
+      .pipe(this.perf.trace('List accompaniments'));
+  }
 }
