@@ -16,7 +16,6 @@ import { InfoAccompanimentComponent } from './components/info-accompaniment/info
 import { InfoStudentComponent } from './components/info-student/info-student.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { ReviewFormCardComponent } from './components/review-form-card/review-form-card.component';
-import { SigCanvasComponent } from './components/sig-canvas/sig-canvas.component';
 import { ViewRegistryFormComponent } from './components/view-registry-form/view-registry-form.component';
 import { DashboardModuleRoutingModule } from './dashboard-routing.module';
 import { IsCurrentPeriodActiveGuard } from './guards/is-current-period-active.guard';
@@ -38,7 +37,6 @@ import { RegisterAccompanimentPage } from './pages/register-accompaniment/regist
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
-import { SemesterNamePipe } from './pipes/semester-name.pipe';
 import { AcademicPeriodResolver } from './resolvers/academic-period.resolver';
 import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
 import { HistoryAccompanimentsResolver } from './resolvers/history-accompaniments.resolver';
@@ -51,7 +49,7 @@ import { ListStudentsResolver } from './resolvers/list-students.resolver';
 const COMPONENTS = [
   InfoStudentComponent,
   InfoAccompanimentComponent,
-  SigCanvasComponent,
+
   DashboardNavbarComponent,
   AccompanimentFormComponent,
   LoadingBarComponent,
@@ -71,7 +69,6 @@ const COMPONENTS = [
 // Pipes
 const PIPES = [
   QualificationValuePipe,
-  SemesterNamePipe
 ];
 
 // Pages
