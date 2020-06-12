@@ -3,8 +3,8 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { AcademicPeriodsService } from '../../core/services/academic-period.service';
 import { Student, Students } from '../../models/models';
+import { AcademicPeriodsService } from './academic-period.service';
 import { MentorsService } from './mentors.service';
 
 const STUDENTS_COLLECTION_NAME = 'students';
@@ -18,8 +18,26 @@ export class StudentsService {
     private readonly mentorsService: MentorsService
   ) { }
 
-  getStudentDocument(studentId: string): AngularFirestoreDocument<Student> {
-    return this.angularFirestore.collection(STUDENTS_COLLECTION_NAME).doc(studentId);
+  /**
+   * Get the firestore document of a student
+   * @param studentId Identifier of the student
+   */
+  public getStudentDocument(studentId: string): AngularFirestoreDocument<Student> {
+    return this.angularFirestore
+      .collection(STUDENTS_COLLECTION_NAME)
+      .doc<Student>(studentId);
+  }
+
+  /**
+   * Get an observable of the student and share the response
+   * @param studentId Identifier of the student
+   */
+  public getStudentObsAndShare(studentId: string): Observable<Student> {
+    return this.getStudentDocument(studentId)
+      .valueChanges()
+      .pipe(
+        shareReplay(1)
+      );
   }
 
   public getStudentsOfMentorAndShare(mentorId: string, periodId: string): Observable<Students> {

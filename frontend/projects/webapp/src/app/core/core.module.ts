@@ -8,7 +8,9 @@ import { AcademicAreasService } from './services/academic-areas.service';
 import { AcademicPeriodsService } from './services/academic-period.service';
 import { AuthenticationService } from './services/authentication.service';
 import { BrowserLoggerService } from './services/browser-logger.service';
+import { MentorsService } from './services/mentors.service';
 import { PwaService } from './services/pwa.service';
+import { StudentsService } from './services/students.service';
 import { TitleService } from './services/title.service';
 
 
@@ -24,7 +26,9 @@ import { TitleService } from './services/title.service';
     AuthenticationService,
     AcademicPeriodsService,
     AcademicAreasService,
-    TitleService
+    TitleService,
+    MentorsService,
+    StudentsService,
   ],
 })
 export class CoreModule {

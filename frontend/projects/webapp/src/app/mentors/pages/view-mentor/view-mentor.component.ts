@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { MentorsService } from '../../../core/services/mentors.service';
+import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
 import { AcademicPeriod, Mentor, Students } from '../../../models/models';
-import { MentorsService } from '../../services/mentors.service';
-import { StudentsService } from '../../services/students.service';
 
 @Component({
   selector: 'sgm-view-mentor',

@@ -3,10 +3,10 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
-import { MentorsService } from '../../mentors/services/mentors.service';
-import { StudentsService } from '../../mentors/services/students.service';
 import { FirestoreAccompaniment, FirestoreAccompaniments } from '../../models/models';
 import { AcademicPeriodsService } from './academic-period.service';
+import { MentorsService } from './mentors.service';
+import { StudentsService } from './students.service';
 
 const ACCOMPANIMENTS_COLLECTION_NAME = 'accompaniments';
 
