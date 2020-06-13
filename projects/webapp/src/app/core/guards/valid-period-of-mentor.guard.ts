@@ -8,9 +8,11 @@ import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
  */
 @Injectable({ providedIn: 'root' })
 export class ValidPeriodOfMentorGuard implements CanActivate {
+
   constructor(private db: AngularFirestore) { }
 
   async canActivate({ params }: ActivatedRouteSnapshot) {
+
     const { mentorId, periodId } = params;
     const periodRef = this.db.collection('academic-periods').doc(periodId).ref;
 

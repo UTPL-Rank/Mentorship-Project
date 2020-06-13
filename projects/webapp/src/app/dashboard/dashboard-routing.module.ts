@@ -3,10 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { IsAdminGuard } from '../core/guards/is-admin.guard';
 import { IsMentorGuard } from '../core/guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from '../core/guards/valid-period-of-mentor.guard';
-import { IsCurrentPeriodActiveGuard } from './guards/is-current-period-active.guard';
-import { IsSignInGuard } from './guards/is-sign-in.guard';
+import { CurrentPeriodActiveGuard } from './guards/current-period-active.guard';
 import { IsStudentGuard } from './guards/is-student.guard';
-import { RedirectToLastPeriodGuard } from './guards/redirect-to-last-period.guard';
+import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
+import { SignedInGuard } from './guards/signed-in.guard';
 import { UnconfirmedAccompanimentExistsGuard } from './guards/unconfirmed-accompaniment-exists.guard';
 import { ValidPeriodOfAccompanimentGuard } from './guards/valid-period-of-accompaniment.guard';
 import { ValidPeriodOfStudentGuard } from './guards/valid-period-of-student.guard';
@@ -20,7 +20,7 @@ import { DashboardShell } from './pages/dashboard.page';
 import { RegisterAccompanimentPage } from './pages/register-accompaniment/register-accompaniment.page';
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
-import { AcademicPeriodResolver } from './resolvers/academic-period.resolver';
+import { ActivePeriodResolver } from './resolvers/active-period.resolver';
 import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
 import { InfoAccompanimentResolver } from './resolvers/info-accompaniment.resolver';
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
@@ -28,21 +28,25 @@ import { InfoStudentResolver } from './resolvers/info-student.resolver';
 import { ListStudentsResolver } from './resolvers/list-students.resolver';
 
 const routes: Routes = [
-  // redirect page, where users will wait to sign in
-  {
-    path: 'ingresar',
-    loadChildren: () => import('../sign-in/sign-in.module').then(m => m.SignInModule)
-  },
 
-  // landing route, that redirect to actual home with periodID
-  { path: '', canActivate: [IsSignInGuard, RedirectToLastPeriodGuard] },
+  // ==================
+  // Redirect actual period
+  // ==================
+  { path: '', canActivate: [SignedInGuard, RedirectCurrentGuard] },
 
-  // shell component to encapsulare sub-routes
+  // ==================
+  // Sign in feature
+  // ==================
+  { path: 'ingresar', loadChildren: () => import('../sign-in/sign-in.module').then(m => m.SignInModule) },
+
+  // ==================
+  // Dashboard shell
+  // ==================
   {
     path: ':periodId',
     component: DashboardShell,
-    resolve: { activePeriod: AcademicPeriodResolver },
-    canActivate: [IsSignInGuard, ValidPeriodGuard],
+    resolve: { activePeriod: ActivePeriodResolver },
+    canActivate: [SignedInGuard, ValidPeriodGuard],
     runGuardsAndResolvers: 'always',
     children: [
       // dashboard home page
@@ -60,39 +64,27 @@ const routes: Routes = [
         ]
       },
 
-      // upload information
-      // this route should be acceced by admin users
-      // and the the activePeriod should have the current attribute true
+      // ==================
+      // Upload information feature
+      // ==================
       {
-        path: 'subir-informacion',
-        loadChildren: () => import('./../upload/upload.module').then(m => m.UploadModule),
-        canActivate: [IsAdminGuard, IsCurrentPeriodActiveGuard],
+        path: 'subir-informacion', loadChildren: () => import('../upload/upload.module').then(m => m.UploadModule),
+        canActivate: [IsAdminGuard, CurrentPeriodActiveGuard]
       },
 
-      // view all information related with the mentor , students and coordinators
-      { path: 'mentores', loadChildren: () => import('./../mentors/mentors.module').then(m => m.MentorsModule), },
+      // ==================
+      // Mentors feature
+      // ==================
+      { path: 'mentores', loadChildren: () => import('./../mentors/mentors.module').then(m => m.MentorsModule) },
       { path: 'ver-mentores', redirectTo: 'mentores' },
       { path: 'ver-estudiantes/:mentorId', redirectTo: 'mentores/:mentorId' },
 
-      { path: 'estudiantes', loadChildren: () => import('./../students/students.module').then(m => m.StudentsModule), },
-
-
-      // List all accompaniments you registered with an student
+      // =====================
+      // Student Feature
+      // =====================
+      { path: 'estudiantes', loadChildren: () => import('./../students/students.module').then(m => m.StudentsModule) },
       { path: 'historial-acompañamientos/:mentorId/:studentId', redirectTo: 'estudiantes/:studentId' },
-      // {
-      //   path: 'historial-acompañamientos/:mentorId/:studentId',
-      //   component: AccompanimentsHistoryPage,
-      //   resolve: {
-      //     student: InfoStudentResolver,
-      //     mentor: InfoMentorResolver,
-      //     accompaniments: HistoryAccompanimentsResolver
-      //   },
-      //   canActivate: [
-      //     IsMentorGuard,
-      //     ValidPeriodOfMentorGuard,
-      //     ValidPeriodOfStudentGuard
-      //   ]
-      // },
+
 
       // view all information of an accompaniment
       {
@@ -114,7 +106,7 @@ const routes: Routes = [
         canActivate: [
           IsStudentGuard,
           UnconfirmedAccompanimentExistsGuard,
-          IsCurrentPeriodActiveGuard,
+          CurrentPeriodActiveGuard,
           ValidPeriodOfStudentGuard,
           ValidPeriodOfAccompanimentGuard
         ]
@@ -130,7 +122,7 @@ const routes: Routes = [
         },
         canActivate: [
           IsMentorGuard,
-          IsCurrentPeriodActiveGuard,
+          CurrentPeriodActiveGuard,
           ValidPeriodOfMentorGuard
         ]
       }

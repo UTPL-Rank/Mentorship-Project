@@ -21,7 +21,7 @@ export class ValidPeriodGuard implements CanActivate {
 
     if (!valid)
       // navigate to panel, to be redirected to a valid id
-      return this.router.navigateByUrl('/panel-control');
+      return this.router.createUrlTree(['/panel-control']);
 
     return true;
   }

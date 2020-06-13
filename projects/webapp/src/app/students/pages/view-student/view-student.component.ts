@@ -18,7 +18,7 @@ export class ViewStudentComponent {
     private readonly studentsService: StudentsService,
   ) { }
 
-  public readonly studentObs: Observable<Student> = this.route.params
+  public readonly studentObs: Observable<Student | undefined> = this.route.params
     .pipe(
       switchMap(params => this.studentsService.getStudentObsAndShare(params.studentId)),
       tap(student => this.title.setTitle(student.displayName.toUpperCase())),

@@ -23,7 +23,12 @@
       Ultimo Acompañamiento:
     </h4>
     <p class="text-muted ml-5 mb-6">
-      {{ student.stats.lastAccompaniment.toDate() | date }}
+      <ng-container *ngIf="student.stats.lastAccompaniment; else noDateTemplate">
+        {{ student.stats.lastAccompaniment.toDate() | date }}
+      </ng-container>
+      <ng-template #noDateTemplate>
+        --/--/--
+      </ng-template>
     </p>
 
     <!-- Text -->
