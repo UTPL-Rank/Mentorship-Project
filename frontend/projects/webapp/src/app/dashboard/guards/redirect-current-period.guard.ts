@@ -3,11 +3,15 @@ import { CanActivate, Router } from '@angular/router';
 import { AcademicPeriodsService } from '../../core/services/academic-period.service';
 
 /**
- * this guard is responsable por redirecting any user with the panel home, with the correct period id.
+ * Redirect to the current academic period
  */
 @Injectable({ providedIn: 'root' })
-export class RedirectToLastPeriodGuard implements CanActivate {
-  constructor(private period: AcademicPeriodsService, private router: Router) { }
+export class RedirectCurrentGuard implements CanActivate {
+
+  constructor(
+    private readonly period: AcademicPeriodsService,
+    private readonly router: Router
+  ) { }
 
   async canActivate() {
     // asume no period is defined
@@ -18,6 +22,6 @@ export class RedirectToLastPeriodGuard implements CanActivate {
 
     // just redirect to current period
     const active = this.period.loadedPeriods.find(p => p.current);
-    return this.router.navigate(['/panel-control', active.id]);
+    return this.router.createUrlTree(['/panel-control', active.id]);
   }
 }

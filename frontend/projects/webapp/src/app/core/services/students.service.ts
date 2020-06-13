@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
@@ -17,6 +17,14 @@ export class StudentsService {
     private readonly periodsService: AcademicPeriodsService,
     private readonly mentorsService: MentorsService
   ) { }
+
+  /**
+   * Get the firestore collection of students
+   */
+  public getStudentsCollection(): AngularFirestoreCollection<Student> {
+    return this.angularFirestore
+      .collection<Student>(STUDENTS_COLLECTION_NAME);
+  }
 
   /**
    * Get the firestore document of a student

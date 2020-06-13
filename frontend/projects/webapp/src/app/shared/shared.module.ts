@@ -6,6 +6,7 @@ import { InfoMentorComponent } from './components/info-mentor/info-mentor.compon
 import { SigCanvasComponent } from './components/sig-canvas/sig-canvas.component';
 import { AcademicCycleNamePipe } from './pipes/academic-cycle-name.pipe';
 import { FollowingNamePipe } from './pipes/following-name.pipe';
+import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     FollowingNamePipe,
     SemesterNamePipe,
     SigCanvasComponent,
+    QualificationValuePipe,
   ],
   exports: [
     AcademicCycleNamePipe,
@@ -25,6 +27,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     FollowingNamePipe,
     SemesterNamePipe,
     SigCanvasComponent,
+    QualificationValuePipe,
   ]
 })
 export class SharedModule { }

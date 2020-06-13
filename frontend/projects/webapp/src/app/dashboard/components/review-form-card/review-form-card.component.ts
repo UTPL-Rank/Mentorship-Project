@@ -6,7 +6,7 @@ import {
   ViewChild
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { SigCanvasComponent } from "../sig-canvas/sig-canvas.component";
+import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
 export interface ReviewFormValue {
   qualification: string;
@@ -19,7 +19,7 @@ export interface ReviewFormValue {
   templateUrl: "./review-form-card.component.html"
 })
 export class ReviewFormCardComponent implements OnInit {
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) { }
 
   @ViewChild(SigCanvasComponent)
   private sigCanvas: SigCanvasComponent;

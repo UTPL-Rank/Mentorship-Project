@@ -19,6 +19,7 @@ import { StudentsRoutingModule } from './students-routing.module';
   ],
   providers: [
     StudentsRoutingModule.resolvers,
+    StudentsRoutingModule.guards,
   ],
 })
 export class StudentsModule { }

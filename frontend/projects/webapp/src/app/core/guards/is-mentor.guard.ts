@@ -3,6 +3,11 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 
+/**
+ * Guard to protect any route, and allow access to:
+ * - Administers
+ * - Mentors
+ */
 @Injectable({ providedIn: 'root' })
 export class IsMentorGuard implements CanActivate {
   constructor(

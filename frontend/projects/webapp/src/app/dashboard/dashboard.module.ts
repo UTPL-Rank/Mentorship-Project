@@ -16,17 +16,15 @@ import { InfoAccompanimentComponent } from './components/info-accompaniment/info
 import { InfoStudentComponent } from './components/info-student/info-student.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { ReviewFormCardComponent } from './components/review-form-card/review-form-card.component';
-import { ViewRegistryFormComponent } from './components/view-registry-form/view-registry-form.component';
 import { DashboardModuleRoutingModule } from './dashboard-routing.module';
-import { IsCurrentPeriodActiveGuard } from './guards/is-current-period-active.guard';
-import { IsSignInGuard } from './guards/is-sign-in.guard';
+import { CurrentPeriodActiveGuard } from './guards/current-period-active.guard';
 import { IsStudentGuard } from './guards/is-student.guard';
-import { RedirectToLastPeriodGuard } from './guards/redirect-to-last-period.guard';
+import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
+import { SignedInGuard } from './guards/signed-in.guard';
 import { UnconfirmedAccompanimentExistsGuard } from './guards/unconfirmed-accompaniment-exists.guard';
 import { ValidPeriodOfAccompanimentGuard } from './guards/valid-period-of-accompaniment.guard';
 import { ValidPeriodOfStudentGuard } from './guards/valid-period-of-student.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsHistoryPage } from './pages/accompaniments-history/accompaniments-history.page';
 import { AccompanimentsRegistryPage } from './pages/accompaniments-registry/accompaniments-registry.page';
 import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
 import { AnalyticsPage } from './pages/analytics/analytics.page';
@@ -36,8 +34,7 @@ import { DashboardShell } from './pages/dashboard.page';
 import { RegisterAccompanimentPage } from './pages/register-accompaniment/register-accompaniment.page';
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
-import { QualificationValuePipe } from './pipes/qualification-value.pipe';
-import { AcademicPeriodResolver } from './resolvers/academic-period.resolver';
+import { ActivePeriodResolver } from './resolvers/active-period.resolver';
 import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
 import { HistoryAccompanimentsResolver } from './resolvers/history-accompaniments.resolver';
 import { InfoAccompanimentResolver } from './resolvers/info-accompaniment.resolver';
@@ -54,7 +51,6 @@ const COMPONENTS = [
   AccompanimentFormComponent,
   LoadingBarComponent,
   ReviewFormCardComponent,
-  ViewRegistryFormComponent,
   ...[
     ProblemsChartComponent,
     FollowingChartComponent,
@@ -66,14 +62,8 @@ const COMPONENTS = [
   ]
 ];
 
-// Pipes
-const PIPES = [
-  QualificationValuePipe,
-];
-
 // Pages
 const PAGES = [
-  AccompanimentsHistoryPage,
   DashboardShell,
   DashboardHomePage,
   [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
@@ -85,7 +75,7 @@ const PAGES = [
 
 // Resolvers
 const RESOLVERS = [
-  AcademicPeriodResolver,
+  ActivePeriodResolver,
   ListStudentsResolver,
   HistoryAccompanimentsResolver,
   ExportAccompanimentsResolver,
@@ -96,14 +86,14 @@ const RESOLVERS = [
 
 // Guards
 const GUARDS = [
-  IsSignInGuard,
+  SignedInGuard,
   IsStudentGuard,
   UnconfirmedAccompanimentExistsGuard,
-  RedirectToLastPeriodGuard,
+  RedirectCurrentGuard,
 
   // validate correct period of data
   ValidPeriodGuard,
-  IsCurrentPeriodActiveGuard,
+  CurrentPeriodActiveGuard,
   ValidPeriodOfAccompanimentGuard,
   ValidPeriodOfStudentGuard
 ];
@@ -118,7 +108,7 @@ const GUARDS = [
     ChartsModule,
     SharedModule
   ],
-  declarations: [PAGES, COMPONENTS, PIPES],
+  declarations: [PAGES, COMPONENTS],
   providers: [RESOLVERS, GUARDS]
 })
 export class DashboardModuleModule { }

@@ -1,15 +1,24 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { StudentOfMentorGuard } from './guards/student-of-mentor.guard';
 import { GenerateStudentReportComponent } from './pages/generate-student-report/generate-student-report.component';
 import { ViewStudentHistoryComponent } from './pages/view-student-history/view-student-history.component';
 import { ViewStudentComponent } from './pages/view-student/view-student.component';
 
+// IsMentorGuard,
+// ValidPeriodOfMentorGuard,
+// ValidPeriodOfStudentGuard
 
 const ROUTES: Routes = [
-  { path: ':studentId/informacion', component: ViewStudentComponent },
-  { path: ':studentId/historial', component: ViewStudentHistoryComponent },
-  { path: ':studentId/ficha-estudiante', component: GenerateStudentReportComponent },
-  { path: ':studentId', redirectTo: ':studentId/informacion' },
+  {
+    path: ':studentId', canActivate: [StudentOfMentorGuard],
+    children: [
+      { path: 'informacion', component: ViewStudentComponent, },
+      { path: 'historial', component: ViewStudentHistoryComponent, },
+      { path: 'ficha-estudiante', component: GenerateStudentReportComponent, },
+      { path: '', redirectTo: 'informacion' },
+    ]
+  },
 ];
 
 @NgModule({
@@ -25,5 +34,9 @@ export class StudentsRoutingModule {
   ];
 
   static resolvers = [];
+
+  static guards = [
+    StudentOfMentorGuard,
+  ];
 
 }

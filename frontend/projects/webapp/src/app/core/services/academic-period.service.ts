@@ -1,20 +1,21 @@
 import { Injectable } from '@angular/core';
-// tslint:disable-next-line: max-line-length
-import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument, CollectionReference } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AcademicPeriod, AcademicPeriods } from '../../models/academic-period.model';
+import { BrowserLoggerService } from './browser-logger.service';
 
-/**
- * Firestore collection of academic periods name
- */
+/** Firestore collection of academic periods name */
 const ACADEMIC_PERIODS_COLLECTION_NAME = 'academic-periods';
 
 /**
- * @Service manage academic periods through
+ * Manage academic periods through
  */
 @Injectable({ providedIn: 'root' })
 export class AcademicPeriodsService {
 
-  constructor(private readonly angularFirestore: AngularFirestore) { }
+  constructor(
+    private readonly angularFirestore: AngularFirestore,
+    private readonly logger: BrowserLoggerService
+  ) { }
 
   /**
    * Academic periods loaded by the service
@@ -22,7 +23,7 @@ export class AcademicPeriodsService {
   private academicPeriods: AcademicPeriods;
 
   /**
-   * State of the service to keep track if academic periods have loaded successfully
+   * State of the service to keep track if academic periods have loaded or not
    */
   private loaded = false;
 
@@ -30,16 +31,20 @@ export class AcademicPeriodsService {
    * start loading academic periods, and update internal service code
    */
   async loadAcademicPeriods(): Promise<void> {
-    const snap = await this.periodsCollectionReference()
-      .orderBy('date', 'desc')
-      .get();
+    const periodsCollection = this.periodsCollection().ref.orderBy('date', 'desc');
+    try {
+      const { docs } = await periodsCollection.get();
+      this.academicPeriods = docs.map(p => p.data() as AcademicPeriod);
 
-    this.academicPeriods = snap.docs.map(p => p.data() as AcademicPeriod);
-    this.loaded = true;
+      this.loaded = true;
+      this.logger.log('Academic Periods Loaded', this.academicPeriods);
+    } catch (error) {
+      this.logger.error('loading-academic-periods', error);
+    }
   }
 
   /**
-   * read state of the service, whether periods have been loaded
+   * get whether periods have been loaded
    */
   get hasLoaded(): boolean {
     return this.loaded;
@@ -49,7 +54,9 @@ export class AcademicPeriodsService {
    * Read loaded periods, prevent reading periods if these haven't been loaded first
    */
   get loadedPeriods(): AcademicPeriods {
-    if (!this.loaded) throw new Error('[ERROR]: Fetch Academic Periods First');
+    if (!this.loaded)
+      throw new Error('[ERROR]: Fetch Academic Periods First');
+
     return this.academicPeriods;
   }
 
@@ -58,13 +65,6 @@ export class AcademicPeriodsService {
    */
   public periodsCollection(): AngularFirestoreCollection<AcademicPeriod> {
     return this.angularFirestore.collection<AcademicPeriod>(ACADEMIC_PERIODS_COLLECTION_NAME);
-  }
-
-  /**
-   * Get firestore reference to a collection of academic periods
-   */
-  public periodsCollectionReference(): CollectionReference {
-    return this.periodsCollection().ref;
   }
 
   /**

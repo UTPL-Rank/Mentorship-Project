@@ -8,7 +8,11 @@ import { StudentsTableComponent } from './components/mentors-table/students-tabl
 import { MentorsRoutingModule } from './mentors-routing.module';
 
 @NgModule({
-  imports: [CommonModule, MentorsRoutingModule, SharedModule],
+  imports: [
+    CommonModule,
+    MentorsRoutingModule,
+    SharedModule,
+  ],
   declarations: [
     MentorsRoutingModule.pages,
     MentorsTableComponent,
