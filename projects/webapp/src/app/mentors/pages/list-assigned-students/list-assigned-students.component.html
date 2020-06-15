@@ -1,0 +1,13 @@
+<ng-container *ngIf="mentorObs | async as mentor">
+
+  <sgm-mentor-header [mentor]="mentor"></sgm-mentor-header>
+
+  <sgm-mentor-navbar [mentor]="mentor"></sgm-mentor-navbar>
+
+  <section class="py-6 py-md-9">
+    <div class="container">
+      <!-- table of students -->
+      <sgm-students-table [students]="studentsObs | async"></sgm-students-table>
+    </div>
+  </section>
+</ng-container>
