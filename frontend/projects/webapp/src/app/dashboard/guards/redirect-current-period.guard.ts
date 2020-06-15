@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AcademicPeriodsService } from '../../core/services/academic-period.service';
+import { AcademicPeriodsService } from '../../core/services/academic-periods.service';
 
 /**
  * Redirect to the current academic period

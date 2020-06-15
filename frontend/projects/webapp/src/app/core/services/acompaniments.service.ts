@@ -4,7 +4,7 @@ import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 import { FirestoreAccompaniment, FirestoreAccompaniments } from '../../models/models';
-import { AcademicPeriodsService } from './academic-period.service';
+import { AcademicPeriodsService } from './academic-periods.service';
 import { MentorsService } from './mentors.service';
 import { StudentsService } from './students.service';
 

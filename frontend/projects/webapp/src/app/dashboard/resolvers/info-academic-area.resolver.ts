@@ -4,7 +4,7 @@ import { AngularFirePerformance } from "@angular/fire/performance";
 import { ActivatedRouteSnapshot, Resolve } from "@angular/router";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
-import { AcademicPeriodsService } from "../../core/services/academic-period.service";
+import { AcademicPeriodsService } from "../../core/services/academic-periods.service";
 import { AcademicArea } from "../../models/academic-area.model";
 
 @Injectable({ providedIn: "root" })
