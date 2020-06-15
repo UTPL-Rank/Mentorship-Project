@@ -44,16 +44,6 @@ import { Mentor } from '../../../models/models';
             </a>
           </small>
         </p>
-
-
-        <p class="text-muted mb-0">
-          <small>
-            <a class="text-nowrap"
-            [routerLink]="['/panel-control',mentor.period.reference.id,'mentores',mentor.id,'historial']">
-              Historial acompañamientos
-            </a>
-          </small>
-        </p>
       </div>
     </div>
   `
