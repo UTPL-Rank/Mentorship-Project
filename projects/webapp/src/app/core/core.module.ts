@@ -5,7 +5,7 @@ import { ValidPeriodOfMentorGuard } from './guards/valid-period-of-mentor.guard'
 import { FirebaseModule } from './modules/firebase.module';
 import { LocateModule } from './modules/locate.module';
 import { AcademicAreasService } from './services/academic-areas.service';
-import { AcademicPeriodsService } from './services/academic-period.service';
+import { AcademicPeriodsService } from './services/academic-periods.service';
 import { AuthenticationService } from './services/authentication.service';
 import { BrowserLoggerService } from './services/browser-logger.service';
 import { MentorsService } from './services/mentors.service';

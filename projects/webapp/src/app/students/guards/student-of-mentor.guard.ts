@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
-import { AcademicPeriodsService } from '../../core/services/academic-period.service';
+import { AcademicPeriodsService } from '../../core/services/academic-periods.service';
 import { AuthenticationService } from '../../core/services/authentication.service';
 import { MentorsService } from '../../core/services/mentors.service';
 import { StudentsService } from '../../core/services/students.service';

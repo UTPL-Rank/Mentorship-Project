@@ -4,7 +4,7 @@ import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { Mentor, Mentors } from '../../models/models';
-import { AcademicPeriodsService } from './academic-period.service';
+import { AcademicPeriodsService } from './academic-periods.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
 

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomePage } from './pages/home/home.page';
-import { LandingShell } from './pages/landing.shell';
+import { LandingShellComponent } from './pages/landing-shell/landing-shell.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: LandingShell,
+    component: LandingShellComponent,
     children: [
       { path: '', component: HomePage }
     ]
@@ -18,5 +18,8 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class LandingRoutingModule {
-  static components = [LandingShell, HomePage];
+  static pages = [
+    LandingShellComponent,
+    HomePage,
+  ];
 }
