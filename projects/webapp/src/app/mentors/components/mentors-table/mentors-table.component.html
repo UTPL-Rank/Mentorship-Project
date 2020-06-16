@@ -14,6 +14,11 @@
             Nombre
           </th>
 
+          <!-- last accompaniment -->
+          <th class="font-weight-bold text-muted small">
+            Ultimo Acompañamiento
+          </th>
+
           <!-- degree header -->
           <th class="font-weight-bold text-muted small">
             Carrera
@@ -44,6 +49,16 @@
           <!-- name cell -->
           <td class="font-weight-bold text-muted small">
             {{ mentor.displayName | titlecase }}
+          </td>
+
+          <!-- last accompaniment -->
+          <td class="font-weight-bold text-muted small">
+            <span *ngIf="mentor.stats.lastAccompaniment; else noDateTemplate">
+              {{ mentor.stats.lastAccompaniment.toDate() | date }}
+            </span>
+            <ng-template #noDateTemplate>
+              --/--/--
+            </ng-template>
           </td>
 
           <!-- degree cell -->
