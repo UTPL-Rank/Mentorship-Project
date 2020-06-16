@@ -17,28 +17,27 @@ export class StudentOfMentorGuard implements CanActivate {
 
   canActivate({ params }: ActivatedRouteSnapshot) {
 
-    return this.auth.claims
-      .pipe(
-        mergeMap(async ({ isAdmin = false, mentorId, isMentor }) => {
-          // User is admin, and can enter the route
-          if (isAdmin) return true;
+    return this.auth.claims.pipe(
+      mergeMap(async ({ isAdmin = false, mentorId, isMentor }) => {
+        // User is admin, and can enter the route
+        if (isAdmin) return true;
 
-          if (!isMentor) return false;
+        if (!isMentor) return false;
 
-          const periodRef = this.periodsService.periodDocument(params.periodId).ref;
-          const mentorRef = this.mentorsService.getMentorDocument(mentorId).ref;
+        const periodRef = this.periodsService.periodDocument(params.periodId).ref;
+        const mentorRef = this.mentorsService.getMentorDocument(mentorId).ref;
 
-          const studentRef = this.studentsService
-            .getStudentsCollection()
-            .ref
-            .where('id', '==', params.studentId)
-            .where('period.reference', '==', periodRef)
-            .where('mentor.reference', '==', mentorRef);
+        const studentRef = this.studentsService
+          .getStudentsCollection()
+          .ref
+          .where('id', '==', params.studentId)
+          .where('period.reference', '==', periodRef)
+          .where('mentor.reference', '==', mentorRef);
 
-          const studentSnap = await studentRef.get();
+        const studentSnap = await studentRef.get();
 
-          return !studentSnap.empty;
-        })
-      );
+        return !studentSnap.empty;
+      })
+    );
   }
 }
