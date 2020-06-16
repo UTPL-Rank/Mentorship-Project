@@ -1,0 +1,10 @@
+<ng-container *ngIf="mentorObs | async as mentor">
+
+  <sgm-mentor-header [mentor]="mentor"></sgm-mentor-header>
+
+  <sgm-mentor-navbar [mentor]="mentor"></sgm-mentor-navbar>
+
+  <section class="py-6 py-md-9 container">
+    <sgm-evaluation-form></sgm-evaluation-form>
+  </section>
+</ng-container>
