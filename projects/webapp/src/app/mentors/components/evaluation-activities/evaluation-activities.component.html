@@ -1,0 +1,78 @@
+<h3>
+  2) Actividades o medios a través de las cuales realizó el acompañamiento
+</h3>
+
+<hr>
+
+<form class="mt-4" [formGroup]="activitiesForm" (ngSubmit)="save()">
+  <div class="form-group">
+    <!-- leading -->
+    <label for="meetings">
+      Reuniones
+    </label>
+
+    <!-- textarea -->
+    <textarea id="meetings" placeholder="Detalle de la actividad" formControlName="meetings" class="form-control"
+      rows="3"></textarea>
+  </div>
+
+  <div class="form-group">
+    <!-- leading -->
+    <label for="sports">
+      Actividades recreativas y deportivas
+    </label>
+
+    <!-- textarea -->
+    <textarea id="sports" placeholder="Detalle de la actividad" formControlName="sports" class="form-control"
+      rows="3"></textarea>
+  </div>
+
+  <div class="form-group">
+    <!-- leading -->
+    <label for="academicEvent">
+      Evento Académico
+    </label>
+
+    <!-- textarea -->
+    <textarea id="academicEvent" placeholder="Detalle de la actividad" formControlName="academicEvent"
+      class="form-control" rows="3"></textarea>
+  </div>
+
+  <div class="form-group">
+    <!-- leading -->
+    <label for="socialEvent">
+      Evento Sociales
+    </label>
+
+    <!-- textarea -->
+    <textarea id="socialEvent" placeholder="Detalle de la actividad" formControlName="socialEvent" class="form-control"
+      rows="3"></textarea>
+  </div>
+
+  <div class="form-group">
+    <!-- leading -->
+    <label for="virtualAccompaniment">
+      Acompañamiento virtual
+    </label>
+
+    <!-- textarea -->
+    <textarea id="virtualAccompaniment" placeholder="Detalle de la actividad" formControlName="virtualAccompaniment"
+      class="form-control" rows="3"></textarea>
+  </div>
+
+  <div class="form-group">
+    <!-- leading -->
+    <label for="other">
+      Otros
+    </label>
+
+    <!-- textarea -->
+    <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" class="form-control"
+      rows="3"></textarea>
+  </div>
+
+  <button class="btn btn-primary" type="submit">
+    Guardar
+  </button>
+
+</form>

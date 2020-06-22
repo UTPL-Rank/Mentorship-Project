@@ -1,0 +1,45 @@
+<h3>
+  Parte C: Observaciones Generales del Proyecto
+</h3>
+
+<hr>
+
+<form class="mt-4" [formGroup]="observationsForm" (ngSubmit)="save()">
+  <div class="form-group ">
+    <!-- leading -->
+    <label for="positives">
+      Puntos positivos de las actividades desarrolladas durante el semestre
+    </label>
+
+    <!-- textarea -->
+    <textarea id="positives" placeholder="Detalle de la actividad" formControlName="positives" class="form-control"
+      rows="3"></textarea>
+  </div>
+
+  <div class="form-group ">
+    <!-- leading -->
+    <label for="inconveniences">
+      Principales inconvenientes detectados
+    </label>
+
+    <!-- textarea -->
+    <textarea id="inconveniences" placeholder="Detalle de la actividad" formControlName="inconveniences"
+      class="form-control" rows="3"></textarea>
+  </div>
+
+  <div class="form-group ">
+    <!-- leading -->
+    <label for="suggestions">
+      Sugerencias que puedan ayudar a mejorar el proyecto
+    </label>
+
+    <!-- textarea -->
+    <textarea id="suggestions" placeholder="Detalle de la actividad" formControlName="suggestions" class="form-control"
+      rows="3"></textarea>
+  </div>
+
+  <button class="btn btn-primary" type="submit">
+    Guardar
+  </button>
+
+</form>

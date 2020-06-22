@@ -4,6 +4,7 @@
   <sgm-mentor-navbar [mentor]="mentor"></sgm-mentor-navbar>
 
   <section class="container py-6 py-md-9">
+    <sgm-mentor-stats [mentor]="mentor"></sgm-mentor-stats>
 
     <sgm-accompaniments-table [accompaniments]="accompanimentsObs | async" [showStudentName]="true">
     </sgm-accompaniments-table>

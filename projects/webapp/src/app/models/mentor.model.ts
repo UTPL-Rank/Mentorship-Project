@@ -49,3 +49,31 @@ export interface IncrementAccompanimentCounterFirestoreMentor {
     lastAccompaniment: firestore.FieldValue;
   };
 }
+
+
+export interface MentorEvaluationActivities {
+  meetings?: string;
+  sports?: string;
+  academicEvent?: string;
+  socialEvent?: string;
+  virtualAccompaniment?: string;
+  other?: string;
+}
+
+export interface MentorEvaluationDependencies {
+  coordinator?: string;
+  teachers?: string;
+  missions?: string;
+  chancellor?: string;
+  library?: string;
+  firstSolvedByMentor?: string;
+  otherServices?: string;
+  other?: string;
+}
+
+export interface MentorEvaluationObservation {
+  positives?: string;
+  inconveniences?: string;
+  suggestions?: string;
+  other?: string;
+}
