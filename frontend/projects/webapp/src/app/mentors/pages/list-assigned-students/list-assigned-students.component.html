@@ -6,6 +6,7 @@
 
   <section class="py-6 py-md-9">
     <div class="container">
+      <sgm-mentor-stats [mentor]="mentor"></sgm-mentor-stats>
       <!-- table of students -->
       <sgm-students-table [students]="studentsObs | async"></sgm-students-table>
     </div>
