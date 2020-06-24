@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Mentor, Mentors } from '../../models/models';
+import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationObservations, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
@@ -58,5 +58,50 @@ export class MentorsService {
         this.perf.trace('load mentor information'),
         shareReplay(1)
       );
+  }
+
+  private evaluationActivitiesReference(mentorId: string): AngularFirestoreDocument {
+    return this.getMentorDocument(mentorId).collection('evaluation').doc('activities');
+  }
+
+  public evaluationActivities(mentorId: string): Observable<MentorEvaluationActivities | null> {
+    return this.evaluationActivitiesReference(mentorId).get().pipe(
+      this.perf.trace('load mentor activities evaluation'),
+      map(snap => snap.data())
+    );
+  }
+
+  public async saveEvaluationActivities(mentorId: string, data: MentorEvaluationActivities) {
+    return await this.evaluationActivitiesReference(mentorId).set(data);
+  }
+
+  private evaluationDependenciesReference(mentorId: string): AngularFirestoreDocument {
+    return this.getMentorDocument(mentorId).collection('evaluation').doc('dependencies');
+  }
+
+  public evaluationDependencies(mentorId: string): Observable<MentorEvaluationDependencies | null> {
+    return this.evaluationDependenciesReference(mentorId).get().pipe(
+      this.perf.trace('load mentor dependencies evaluation'),
+      map(snap => snap.data())
+    );
+  }
+
+  public async saveEvaluationDependencies(mentorId: string, data: MentorEvaluationDependencies) {
+    return await this.evaluationDependenciesReference(mentorId).set(data);
+  }
+
+  private evaluationObservationsReference(mentorId: string): AngularFirestoreDocument {
+    return this.getMentorDocument(mentorId).collection('evaluation').doc('observations');
+  }
+
+  public evaluationObservations(mentorId: string): Observable<MentorEvaluationObservations | null> {
+    return this.evaluationObservationsReference(mentorId).get().pipe(
+      this.perf.trace('load mentor observations evaluation'),
+      map(snap => snap.data())
+    );
+  }
+
+  public async saveEvaluationObservations(mentorId: string, data: MentorEvaluationObservations) {
+    return await this.evaluationObservationsReference(mentorId).set(data);
   }
 }
