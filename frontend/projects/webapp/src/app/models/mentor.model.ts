@@ -71,7 +71,7 @@ export interface MentorEvaluationDependencies {
   other?: string;
 }
 
-export interface MentorEvaluationObservation {
+export interface MentorEvaluationObservations {
   positives?: string;
   inconveniences?: string;
   suggestions?: string;

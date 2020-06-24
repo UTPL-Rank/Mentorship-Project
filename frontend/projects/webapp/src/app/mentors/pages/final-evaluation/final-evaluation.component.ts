@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
-import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationObservation } from '../../../models/models';
+import { Mentor } from '../../../models/models';
 
 @Component({
   selector: 'sgm-final-evaluation',
@@ -24,19 +24,5 @@ export class FinalEvaluationComponent implements OnInit {
     tap(mentor => this.title.setTitle(mentor.displayName.toUpperCase())),
   );
 
-  ngOnInit() {
-
-  }
-
-  saveActivities(activities: MentorEvaluationActivities) {
-    console.log(activities);
-  }
-
-  saveDependencies(dependencies: MentorEvaluationDependencies) {
-    console.log(dependencies);
-  }
-
-  saveObservations(observations: MentorEvaluationObservation) {
-    console.log(observations);
-  }
+  ngOnInit() { }
 }
