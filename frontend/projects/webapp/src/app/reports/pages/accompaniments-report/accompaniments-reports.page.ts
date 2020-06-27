@@ -6,7 +6,7 @@ import { FirestoreAccompaniment, Mentor, SemesterKind, Student } from '../../../
   selector: 'sgm-accompaniments-report',
   templateUrl: './accompaniments-report.page.html'
 })
-export class AccompanimentsReport implements OnInit {
+export class AccompanimentsReportComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   public accompaniments: FirestoreAccompaniment[];
