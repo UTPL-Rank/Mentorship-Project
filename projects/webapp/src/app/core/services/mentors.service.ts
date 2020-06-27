@@ -70,19 +70,19 @@ export class MentorsService {
       );
   }
 
-  private evaluationActivitiesReference(mentorId: string): AngularFirestoreDocument {
+  private evaluationActivitiesDocument(mentorId: string): AngularFirestoreDocument {
     return this.mentorDocument(mentorId).collection('evaluation').doc('activities');
   }
 
   public evaluationActivities(mentorId: string): Observable<MentorEvaluationActivities | null> {
-    return this.evaluationActivitiesReference(mentorId).get().pipe(
+    return this.evaluationActivitiesDocument(mentorId).get().pipe(
       this.perf.trace('load mentor activities evaluation'),
       map(snap => snap.data())
     );
   }
 
   public async saveEvaluationActivities(mentorId: string, data: MentorEvaluationActivities) {
-    return await this.evaluationActivitiesReference(mentorId).set(data);
+    return await this.evaluationActivitiesDocument(mentorId).set(data);
   }
 
   private evaluationDependenciesReference(mentorId: string): AngularFirestoreDocument {
