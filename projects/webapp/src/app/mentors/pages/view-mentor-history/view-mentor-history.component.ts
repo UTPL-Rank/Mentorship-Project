@@ -23,11 +23,11 @@ export class ViewMentorHistoryComponent {
 
   public readonly mentorObs: Observable<Mentor> = this.route.params
     .pipe(
-      switchMap(params => this.mentorsService.getMentorAndShare(params.mentorId)),
+      switchMap(params => this.mentorsService.mentorStream(params.mentorId)),
       tap(mentor => this.title.setTitle(`Historial | ${mentor.displayName.toUpperCase()}`)),
     );
 
   public readonly accompanimentsObs: Observable<FirestoreAccompaniments> = this.route.params
-    .pipe(switchMap(p => this.accompanimentsService.getAccompanimentsAndShare(p as any, 10)));
+    .pipe(switchMap(p => this.accompanimentsService.listAccompanimentsStream(p as any, 10)));
 
 }

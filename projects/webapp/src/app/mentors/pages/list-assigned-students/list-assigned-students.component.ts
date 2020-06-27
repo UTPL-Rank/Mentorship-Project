@@ -9,7 +9,8 @@ import { Mentor, Students } from '../../../models/models';
 
 @Component({
   selector: 'sgm-list-assigned-students',
-  templateUrl: './list-assigned-students.component.html'
+  templateUrl: './list-assigned-students.component.html',
+  styleUrls: ['./list-assigned-students.component.scss']
 })
 export class ListAssignedStudentsComponent {
 
@@ -22,7 +23,7 @@ export class ListAssignedStudentsComponent {
 
   public readonly mentorObs: Observable<Mentor> = this.route.params
     .pipe(
-      switchMap(params => this.mentorsService.getMentorAndShare(params.mentorId)),
+      switchMap(params => this.mentorsService.mentorStream(params.mentorId)),
       tap(mentor => this.title.setTitle(`Estudiantes Asignados | ${mentor.displayName.toUpperCase()}`)),
     );
 

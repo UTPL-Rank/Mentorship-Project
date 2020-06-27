@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationObservations, Mentors } from '../../models/models';
+import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
@@ -43,16 +43,26 @@ export class MentorsService {
       );
   }
 
-  public getMentorDocument(mentorId: string): AngularFirestoreDocument<Mentor> {
-    return this.getMentorsCollection().doc<Mentor>(mentorId);
+  private mentorDocument(mentorId: string): AngularFirestoreDocument<Mentor> {
+    return this.getMentorsCollection().doc(mentorId);
+  }
+
+  public mentor(mentorId: string): Observable<Mentor> {
+    return this.getMentorsCollection().doc(mentorId).get().pipe(
+      map(snap => (snap.data() as Mentor))
+    );
+  }
+
+  public mentorRef(mentorId: string): MentorReference {
+    return this.getMentorsCollection().doc(mentorId).ref as MentorReference;
   }
 
   /**
    * get information about an specific mentor
    * @param mentorId identifier of requested mentor
    */
-  public getMentorAndShare(mentorId: string): Observable<Mentor> {
-    return this.getMentorDocument(mentorId)
+  public mentorStream(mentorId: string): Observable<Mentor> {
+    return this.mentorDocument(mentorId)
       .valueChanges()
       .pipe(
         this.perf.trace('load mentor information'),
@@ -61,7 +71,7 @@ export class MentorsService {
   }
 
   private evaluationActivitiesReference(mentorId: string): AngularFirestoreDocument {
-    return this.getMentorDocument(mentorId).collection('evaluation').doc('activities');
+    return this.mentorDocument(mentorId).collection('evaluation').doc('activities');
   }
 
   public evaluationActivities(mentorId: string): Observable<MentorEvaluationActivities | null> {
@@ -76,7 +86,7 @@ export class MentorsService {
   }
 
   private evaluationDependenciesReference(mentorId: string): AngularFirestoreDocument {
-    return this.getMentorDocument(mentorId).collection('evaluation').doc('dependencies');
+    return this.mentorDocument(mentorId).collection('evaluation').doc('dependencies');
   }
 
   public evaluationDependencies(mentorId: string): Observable<MentorEvaluationDependencies | null> {
@@ -91,7 +101,7 @@ export class MentorsService {
   }
 
   private evaluationObservationsReference(mentorId: string): AngularFirestoreDocument {
-    return this.getMentorDocument(mentorId).collection('evaluation').doc('observations');
+    return this.mentorDocument(mentorId).collection('evaluation').doc('observations');
   }
 
   public evaluationObservations(mentorId: string): Observable<MentorEvaluationObservations | null> {

@@ -25,7 +25,6 @@ import { UnconfirmedAccompanimentExistsGuard } from './guards/unconfirmed-accomp
 import { ValidPeriodOfAccompanimentGuard } from './guards/valid-period-of-accompaniment.guard';
 import { ValidPeriodOfStudentGuard } from './guards/valid-period-of-student.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsRegistryPage } from './pages/accompaniments-registry/accompaniments-registry.page';
 import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
 import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
@@ -35,11 +34,8 @@ import { RegisterAccompanimentPage } from './pages/register-accompaniment/regist
 import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
 import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
-import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
-import { HistoryAccompanimentsResolver } from './resolvers/history-accompaniments.resolver';
 import { InfoAccompanimentResolver } from './resolvers/info-accompaniment.resolver';
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
-import { InfoStudentResolver } from './resolvers/info-student.resolver';
 import { ListStudentsResolver } from './resolvers/list-students.resolver';
 
 // Components
@@ -70,17 +66,13 @@ const PAGES = [
   ViewAccompanimentPage,
   ReviewAccompanimentPage,
   RegisterAccompanimentPage,
-  AccompanimentsRegistryPage
 ];
 
 // Resolvers
 const RESOLVERS = [
   ActivePeriodResolver,
   ListStudentsResolver,
-  HistoryAccompanimentsResolver,
-  ExportAccompanimentsResolver,
   InfoMentorResolver,
-  InfoStudentResolver,
   InfoAccompanimentResolver
 ];
 

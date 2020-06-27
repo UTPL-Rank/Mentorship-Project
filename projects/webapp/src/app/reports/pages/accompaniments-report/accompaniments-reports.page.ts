@@ -1,12 +1,12 @@
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-import { FirestoreAccompaniment, Mentor, SemesterKind, Student } from "../../../models/models";
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { FirestoreAccompaniment, Mentor, SemesterKind, Student } from '../../../models/models';
 
 @Component({
-  selector: "sgm-accompaniments-registry",
-  templateUrl: "./accompaniments-registry.page.html"
+  selector: 'sgm-accompaniments-report',
+  templateUrl: './accompaniments-report.page.html'
 })
-export class AccompanimentsRegistryPage implements OnInit {
+export class AccompanimentsReport implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   public accompaniments: FirestoreAccompaniment[];
@@ -34,6 +34,6 @@ export class AccompanimentsRegistryPage implements OnInit {
     if (!!this.accompaniments && this.accompaniments.length > 0) {
       return this.accompaniments[0].period.name;
     }
-    return "";
+    return '';
   }
 }

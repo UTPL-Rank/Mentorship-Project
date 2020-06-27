@@ -25,7 +25,7 @@ export class StudentOfMentorGuard implements CanActivate {
         if (!isMentor) return false;
 
         const periodRef = this.periodsService.periodDocument(params.periodId).ref;
-        const mentorRef = this.mentorsService.getMentorDocument(mentorId).ref;
+        const mentorRef = this.mentorsService.mentorRef(mentorId);
 
         const studentRef = this.studentsService
           .getStudentsCollection()

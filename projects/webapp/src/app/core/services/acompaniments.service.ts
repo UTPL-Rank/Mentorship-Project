@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { FirestoreAccompaniment, FirestoreAccompaniments } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { MentorsService } from './mentors.service';
@@ -16,6 +16,21 @@ interface GetAccompaniments {
   periodId: string;
 }
 
+interface QueryAccompaniments {
+  orderBy?: {
+    timeCreated?: 'asc' | 'desc';
+  };
+  where?: {
+    periodId?: string;
+    semesterKind?: string;
+    mentorId?: string;
+    studentId?: string;
+  };
+  limit?: {
+    start?: number;
+  };
+}
+
 @Injectable({ providedIn: 'root' })
 export class AccompanimentsService {
   constructor(
@@ -26,8 +41,48 @@ export class AccompanimentsService {
     private readonly studentsService: StudentsService
   ) { }
 
+  private accompanimentsCollection({ orderBy, where, limit }: QueryAccompaniments) {
+    return this.angularFirestore.collection<FirestoreAccompaniment>(
+      ACCOMPANIMENTS_COLLECTION_NAME,
+      query => {
+        let q = query.orderBy('timeCreated', orderBy.timeCreated);
 
-  public getAccompanimentsAndShare({ mentorId, periodId, studentId }: GetAccompaniments, limit?: number): Observable<FirestoreAccompaniments> {
+
+        if (where.periodId) {
+          const periodRef = this.periodsService.periodDocument(where.periodId).ref;
+          q = q.where('period.reference', '==', periodRef);
+        }
+
+        if (where.mentorId) {
+          const mentorRef = this.mentorsService.mentorRef(where.mentorId);
+          q = q.where('mentor.reference', '==', mentorRef);
+        }
+
+        if (where.studentId) {
+          const studentRef = this.studentsService.studentRef(where.studentId);
+          q = q.where('student.reference', '==', studentRef);
+        }
+
+        if (where.semesterKind) {
+          q = q.where('semesterKind', '==', where.semesterKind);
+        }
+
+        // if (limit.start)
+        //   return q.limit(limit.start);
+
+        return q;
+      }
+    );
+  }
+
+  public listAccompaniments(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
+    return this.accompanimentsCollection(query).get().pipe(
+      map(snap => snap.docs.map(d => (d.data() as FirestoreAccompaniment)))
+    );
+  }
+
+
+  public listAccompanimentsStream({ mentorId, periodId, studentId }: GetAccompaniments, limit?: number): Observable<FirestoreAccompaniments> {
     return this.angularFirestore.collection<FirestoreAccompaniment>(
       ACCOMPANIMENTS_COLLECTION_NAME,
       query => {
@@ -38,12 +93,12 @@ export class AccompanimentsService {
         }
 
         if (mentorId) {
-          const mentorRef = this.mentorsService.getMentorDocument(mentorId).ref;
+          const mentorRef = this.mentorsService.mentorRef(mentorId);
           q = q.where('mentor.reference', '==', mentorRef);
         }
 
         if (studentId) {
-          const studentRef = this.studentsService.getStudentDocument(studentId).ref;
+          const studentRef = this.studentsService.studentRef(studentId);
           q = q.where('student.reference', '==', studentRef);
         }
 
@@ -67,7 +122,7 @@ export class AccompanimentsService {
    */
   public getAccompanimentsOfStudent(periodId: string, studentId: string): Observable<FirestoreAccompaniments> {
     const periodRef = this.periodsService.periodDocument(periodId).ref;
-    const studentRef = this.studentsService.getStudentDocument(studentId).ref;
+    const studentRef = this.studentsService.studentRef(studentId);
 
     return this.angularFirestore.collection<FirestoreAccompaniment>(
       ACCOMPANIMENTS_COLLECTION_NAME,
