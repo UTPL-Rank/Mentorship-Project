@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
-import { Student, Students } from '../../models/models';
+import { map, shareReplay } from 'rxjs/operators';
+import { Student, StudentReference, Students } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { MentorsService } from './mentors.service';
 
@@ -30,20 +30,30 @@ export class StudentsService {
    * Get the firestore document of a student
    * @param studentId Identifier of the student
    */
-  public getStudentDocument(studentId: string): AngularFirestoreDocument<Student> {
+  private studentDocument(studentId: string): AngularFirestoreDocument<Student> {
     return this.angularFirestore
       .collection(STUDENTS_COLLECTION_NAME)
       .doc<Student>(studentId);
+  }
+
+  public student(studentId: string): Observable<Student> {
+    return this.studentDocument(studentId).get().pipe(
+      map(snap => (snap.data() as Student))
+    );
+  }
+
+  public studentRef(studentId: string): StudentReference {
+    return this.studentDocument(studentId).ref as StudentReference;
   }
 
   /**
    * Get an observable of the student and share the response
    * @param studentId Identifier of the student
    */
-  public getStudentObsAndShare(studentId: string): Observable<Student> {
-    return this.getStudentDocument(studentId)
-      .valueChanges()
+  public studentStream(studentId: string): Observable<Student> {
+    return this.studentDocument(studentId).valueChanges()
       .pipe(
+        this.perf.trace('stream student'),
         shareReplay(1)
       );
   }
@@ -53,7 +63,7 @@ export class StudentsService {
       STUDENTS_COLLECTION_NAME,
       query => {
         const periodRef = this.periodsService.periodDocument(periodId).ref;
-        const mentorRef = this.mentorsService.getMentorDocument(mentorId).ref;
+        const mentorRef = this.mentorsService.mentorRef(mentorId);
 
         return query.orderBy('displayName')
           .where('period.reference', '==', periodRef)

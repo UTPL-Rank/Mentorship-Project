@@ -19,7 +19,7 @@ export class ViewMentorComponent {
   ) { }
 
   public readonly mentorObs: Observable<Mentor> = this.route.params.pipe(
-    switchMap(params => this.mentorsService.getMentorAndShare(params.mentorId)),
+    switchMap(params => this.mentorsService.mentorStream(params.mentorId)),
     tap(mentor => this.title.setTitle(mentor.displayName.toUpperCase())),
   );
 }
