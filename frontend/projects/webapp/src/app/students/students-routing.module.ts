@@ -5,10 +5,6 @@ import { GenerateStudentReportComponent } from './pages/generate-student-report/
 import { ViewStudentHistoryComponent } from './pages/view-student-history/view-student-history.component';
 import { ViewStudentComponent } from './pages/view-student/view-student.component';
 
-// IsMentorGuard,
-// ValidPeriodOfMentorGuard,
-// ValidPeriodOfStudentGuard
-
 const ROUTES: Routes = [
   {
     path: ':studentId', canActivate: [StudentOfMentorGuard],

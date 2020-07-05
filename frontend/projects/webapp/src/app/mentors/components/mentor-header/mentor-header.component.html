@@ -1,0 +1,29 @@
+<header class="pt-6 pb-4 pt-md-9 pb-md-6 bg-light">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md">
+        <!-- page title -->
+        <h1 class="mb-2">
+          <span class="small">Estudiante Mentor</span>
+          <br>
+          <span class="text-primary">{{mentor.displayName|titlecase}}</span>
+        </h1>
+
+        <!-- page lead -->
+        <p class="text-muted mb-0 mt-3">
+          <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+        </p>
+      </div>
+
+      <!-- actions column -->
+      <ng-container *ngIf="isPeriodActiveObs | async">
+        <div class="col-auto">
+          <a class="btn btn-primary shadow lift mt-4 mt-md-0"
+            [routerLink]="['/panel-control',mentor.period.reference.id,'registrar-acompañamiento', mentor.id]">
+            Nuevo acompañamiento
+          </a>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</header>

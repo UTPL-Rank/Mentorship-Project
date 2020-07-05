@@ -1,0 +1,40 @@
+.grid-students {
+  --grid-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  gap: var(--space-6);
+}
+
+
+@media only screen and (max-width: 600px) {
+  .grid-students {
+    --grid-columns: 1fr;
+  }
+}
+
+
+.card{
+  --dialog-width: 100%;
+  --dialog-spacer: var( --space-6);
+}
+
+.card .content{
+  padding-top: 0;
+}
+
+.student-stats {
+  display: flex;
+  flex-direction:row;
+  justify-content: space-between;
+}
+
+.student-stats > * {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.student-stats > * > *:not(:last-child) {
+  margin-bottom: var(--space-1);
+}

@@ -1,0 +1,31 @@
+form {
+  --grid-columns: repeat(auto-fit, minmax(350px, 1fr));
+
+  display: grid;
+  grid-template-columns: var(--grid-columns);
+  gap: 1rem;
+}
+
+@media only screen and (max-width: 600px) {
+  form {
+    --grid-columns: 1fr;
+  }
+}
+
+form .form-group{
+  width: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+form .form-group label {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+form button {
+  justify-self: start;
+  align-self: start;;
+}

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { AcademicPeriodsService } from '../../core/services/academic-period.service';
+import { AcademicPeriodsService } from '../../core/services/academic-periods.service';
 import { AcademicPeriod } from '../../models/models';
 
 /**

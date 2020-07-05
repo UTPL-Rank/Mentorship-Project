@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { User } from 'firebase/app';
 import { Subscription } from 'rxjs';
-import { AcademicPeriodsService } from '../../../core/services/academic-period.service';
+import { AcademicPeriodsService } from '../../../core/services/academic-periods.service';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { AcademicPeriod, AcademicPeriods, UserClaims } from '../../../models/models';
 

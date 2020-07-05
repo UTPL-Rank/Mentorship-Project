@@ -10,7 +10,7 @@ const COMPONENTS = [LandingNavbarComponent, LandingFooterComponent];
 
 // landing module
 @NgModule({
-  declarations: [LandingRoutingModule.components, COMPONENTS],
+  declarations: [LandingRoutingModule.pages, COMPONENTS],
   imports: [CommonModule, LandingRoutingModule]
 })
 export class LandingModule { }

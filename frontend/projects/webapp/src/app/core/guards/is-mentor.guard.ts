@@ -25,7 +25,7 @@ export class IsMentorGuard implements CanActivate {
 
         // User is admin, and can enter the route
         // User is a mentor and is the mentor is the correct one
-        if (claims.isAdmin || claims.isMentor && claims.mentorId === params.mentorId)
+        if (claims.isAdmin || (claims.isMentor && claims.mentorId === params.mentorId))
           return true;
 
         // Nop, user is not allowed to enter the route

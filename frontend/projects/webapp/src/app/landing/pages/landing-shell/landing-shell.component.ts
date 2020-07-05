@@ -1,7 +1,7 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: "sgm-landing-shell",
+  selector: 'sgm-landing-shell',
   template: `
     <sgm-landing-navbar></sgm-landing-navbar>
 
@@ -10,4 +10,4 @@ import { Component } from "@angular/core";
     <sgm-landing-footer></sgm-landing-footer>
   `
 })
-export class LandingShell {}
+export class LandingShellComponent { }
