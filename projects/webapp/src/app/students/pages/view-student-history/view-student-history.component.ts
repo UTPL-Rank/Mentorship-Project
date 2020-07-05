@@ -23,7 +23,7 @@ export class ViewStudentHistoryComponent {
 
   public readonly studentObs: Observable<Student> = this.route.params
     .pipe(
-      switchMap(params => this.studentsService.getStudentObsAndShare(params.studentId)),
+      switchMap(params => this.studentsService.studentStream(params.studentId)),
       tap(student => this.title.setTitle(`Historial | ${student.displayName.toUpperCase()}`)),
     );
 

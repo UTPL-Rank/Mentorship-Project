@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
-import { AcademicPeriodsService } from '../../core/services/academic-period.service';
+import { AcademicPeriodsService } from '../../core/services/academic-periods.service';
 
 /**
  * this guard is responsable por validating whether the academic period is valid, and loaded in the service

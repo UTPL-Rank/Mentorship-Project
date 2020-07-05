@@ -1,0 +1,102 @@
+<h3>
+  3) Dependencias o personas a través de los cuales se resolvieron las problemáticas de los estudiantes
+</h3>
+
+<hr>
+
+<ng-container *ngIf="dependenciesForm">
+  <form class="mt-4" [formGroup]="dependenciesForm" (ngSubmit)="save()">
+    <div class="form-group">
+      <!-- leading -->
+      <label for="coordinator">
+        Coordinador de Titulación
+      </label>
+
+      <!-- textarea -->
+      <textarea id="coordinator" placeholder="Detalle de la actividad" formControlName="coordinator"
+        class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="teachers">
+        Docentes
+      </label>
+
+      <!-- textarea -->
+      <textarea id="teachers" placeholder="Detalle de la actividad" formControlName="teachers" class="form-control"
+        rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="missions">
+        Misiones Universitarias
+      </label>
+
+      <!-- textarea -->
+      <textarea id="missions" placeholder="Detalle de la actividad" formControlName="missions" class="form-control"
+        rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="chancellor">
+        Vicerrectorado Académico
+      </label>
+
+      <!-- textarea -->
+      <textarea id="chancellor" placeholder="Detalle de la actividad" formControlName="chancellor" class="form-control"
+        rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="library">
+        Biblioteca
+      </label>
+
+      <!-- textarea -->
+      <textarea id="library" placeholder="Detalle de la actividad" formControlName="library" class="form-control"
+        rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="firstSolvedByMentor">
+        Resuelto en primera instancia por el mentor
+      </label>
+
+      <!-- textarea -->
+      <textarea id="firstSolvedByMentor" placeholder="Detalle de la actividad" formControlName="firstSolvedByMentor"
+        class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="otherServices">
+        Servicios Estudiantiles
+      </label>
+
+      <!-- textarea -->
+      <textarea id="otherServices" placeholder="Detalle de la actividad" formControlName="otherServices"
+        class="form-control" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <!-- leading -->
+      <label for="other">
+        Servicios Estudiantiles
+      </label>
+
+      <!-- textarea -->
+      <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" class="form-control"
+        rows="3"></textarea>
+    </div>
+
+    <button class="btn btn-primary" type="submit">
+      Guardar
+    </button>
+
+  </form>
+</ng-container>

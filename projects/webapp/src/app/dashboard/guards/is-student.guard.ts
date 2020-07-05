@@ -16,7 +16,7 @@ export class IsStudentGuard implements CanActivate {
 
         // User is admin, and can enter the route
         // User is a student and is the correct student one
-        if (claims.isAdmin || claims.isMentor && claims.studentId === params.studentId)
+        if (claims.isAdmin || (claims.isStudent && claims.studentId === params.studentId))
           return true;
 
         // Nop, user is not allowed to enter the route

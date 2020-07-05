@@ -20,7 +20,7 @@ export class ViewStudentComponent {
 
   public readonly studentObs: Observable<Student | undefined> = this.route.params
     .pipe(
-      switchMap(params => this.studentsService.getStudentObsAndShare(params.studentId)),
+      switchMap(params => this.studentsService.studentStream(params.studentId)),
       tap(student => this.title.setTitle(student.displayName.toUpperCase())),
     );
 

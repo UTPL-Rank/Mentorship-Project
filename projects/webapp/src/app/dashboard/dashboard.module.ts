@@ -25,17 +25,13 @@ import { UnconfirmedAccompanimentExistsGuard } from './guards/unconfirmed-accomp
 import { ValidPeriodOfAccompanimentGuard } from './guards/valid-period-of-accompaniment.guard';
 import { ValidPeriodOfStudentGuard } from './guards/valid-period-of-student.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsRegistryPage } from './pages/accompaniments-registry/accompaniments-registry.page';
 import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
 import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShell } from './pages/dashboard.page';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
-import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
-import { HistoryAccompanimentsResolver } from './resolvers/history-accompaniments.resolver';
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
-import { InfoStudentResolver } from './resolvers/info-student.resolver';
 
 // Components
 const COMPONENTS = [
@@ -62,17 +58,17 @@ const PAGES = [
   DashboardShell,
   DashboardHomePage,
   [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
-  AccompanimentsRegistryPage
+  ViewAccompanimentPage,
+  ReviewAccompanimentPage,
+  RegisterAccompanimentPage,
 ];
 
 // Resolvers
 const RESOLVERS = [
   ActivePeriodResolver,
-  HistoryAccompanimentsResolver,
-  ExportAccompanimentsResolver,
+  ListStudentsResolver,
   InfoMentorResolver,
-  InfoStudentResolver,
-
+  InfoAccompanimentResolver
 ];
 
 // Guards

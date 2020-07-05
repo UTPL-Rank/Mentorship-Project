@@ -5,16 +5,12 @@ import { CurrentPeriodActiveGuard } from './guards/current-period-active.guard';
 import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
 import { SignedInGuard } from './guards/signed-in.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsRegistryPage } from './pages/accompaniments-registry/accompaniments-registry.page';
 import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
 import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShell } from './pages/dashboard.page';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
-import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
-import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
-import { InfoStudentResolver } from './resolvers/info-student.resolver';
 
 const routes: Routes = [
 
@@ -84,19 +80,21 @@ const routes: Routes = [
     ]
   },
 
-  // view accompaniment registry of specific semester
+  // =====================
+  // Reports feature
+  // =====================
+  { path: 'reportes', loadChildren: () => import('./../reports/reports.module').then(m => m.ReportsModule) },
   {
     path: 'ficha-acompañamiento/:mentorId/:studentId/:semesterKind',
-    component: AccompanimentsRegistryPage,
-    resolve: {
-      mentor: InfoMentorResolver,
-      student: InfoStudentResolver,
-      accompaniments: ExportAccompanimentsResolver
-    }
+    redirectTo: 'reportes/acompañamientos/:mentorId/:studentId/:semesterKind'
   },
 
+  // =====================
+  // default redirect route dashboard
+  // =====================
   { path: '**', redirectTo: '/panel-control' }
 ];
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
