@@ -4,13 +4,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { firestore } from 'firebase/app';
 import { Subscription } from 'rxjs';
 import { FirestoreAccompaniment } from '../../../models/models';
-import { ReviewFormValue } from '../../components/review-form-card/review-form-card.component';
+import { ReviewFormValue } from '../../../models/review-form.model';
 
 @Component({
   selector: 'sgm-review-accompaniment',
-  templateUrl: './review-accompaniment.page.html'
+  templateUrl: './review-accompaniment.component.html'
 })
-export class ReviewAccompanimentPage implements OnInit, OnDestroy {
+export class ReviewAccompanimentComponent implements OnInit, OnDestroy {
   constructor(
     private readonly db: AngularFirestore,
     private readonly router: Router,

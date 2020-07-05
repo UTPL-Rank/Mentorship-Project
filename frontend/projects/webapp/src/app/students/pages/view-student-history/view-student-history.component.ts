@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { AccompanimentsService } from '../../../core/services/acompaniments.service';
+import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
 import { AcademicPeriod, FirestoreAccompaniments, Student } from '../../../models/models';

@@ -78,4 +78,11 @@ export class AccompanimentsService {
       .valueChanges()
       .pipe(this.perf.trace('List accompaniments'));
   }
+
+
+  public accompanimentStream(accompanimentId: string): Observable<FirestoreAccompaniment> {
+    return this.angularFirestore.collection(ACCOMPANIMENTS_COLLECTION_NAME).doc<FirestoreAccompaniment>(accompanimentId)
+      .valueChanges()
+      .pipe(this.perf.trace('get accompaniment stream'));
+  }
 }

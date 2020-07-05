@@ -3,14 +3,14 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { ActivatedRoute, Router } from '@angular/router';
 import { firestore } from 'firebase/app';
+import { AccompanimentFormValue } from '../../../dashboard/components/accompaniment-form/accompaniment-form.component';
 import { AcademicPeriod, AccompanimentAsset, AccompanimentAssets, CreateFirestoreAccompaniment, FollowingKind, Mentor, MentorReference, SemesterKind, Student, StudentReference } from '../../../models/models';
-import { AccompanimentFormValue } from '../../components/accompaniment-form/accompaniment-form.component';
 
 @Component({
-  selector: 'sgm-register-accompaniment',
-  templateUrl: './register-accompaniment.page.html'
+  selector: 'sgm-new-accompaniment',
+  templateUrl: './new-accompaniment.component.html'
 })
-export class RegisterAccompanimentPage implements OnInit {
+export class NewAccompanimentComponent implements OnInit {
   constructor(
     private db: AngularFirestore,
     private router: Router,

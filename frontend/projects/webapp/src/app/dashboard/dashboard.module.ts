@@ -31,16 +31,11 @@ import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShell } from './pages/dashboard.page';
-import { RegisterAccompanimentPage } from './pages/register-accompaniment/register-accompaniment.page';
-import { ReviewAccompanimentPage } from './pages/review-accompaniment/review-accompaniment.page';
-import { ViewAccompanimentPage } from './pages/view-accompaniment/view-accompaniment.page';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
 import { ExportAccompanimentsResolver } from './resolvers/export-accompaniments.resolver';
 import { HistoryAccompanimentsResolver } from './resolvers/history-accompaniments.resolver';
-import { InfoAccompanimentResolver } from './resolvers/info-accompaniment.resolver';
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
 import { InfoStudentResolver } from './resolvers/info-student.resolver';
-import { ListStudentsResolver } from './resolvers/list-students.resolver';
 
 // Components
 const COMPONENTS = [
@@ -67,21 +62,17 @@ const PAGES = [
   DashboardShell,
   DashboardHomePage,
   [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
-  ViewAccompanimentPage,
-  ReviewAccompanimentPage,
-  RegisterAccompanimentPage,
   AccompanimentsRegistryPage
 ];
 
 // Resolvers
 const RESOLVERS = [
   ActivePeriodResolver,
-  ListStudentsResolver,
   HistoryAccompanimentsResolver,
   ExportAccompanimentsResolver,
   InfoMentorResolver,
   InfoStudentResolver,
-  InfoAccompanimentResolver
+
 ];
 
 // Guards

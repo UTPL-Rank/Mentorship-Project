@@ -7,7 +7,8 @@ import { map } from 'rxjs/operators';
 import { Student, Students } from '../../models/student.model';
 
 @Injectable({ providedIn: 'root' })
-export class ListStudentsResolver implements Resolve<Students> {
+export class PreloadStudentsOfMentor implements Resolve<Students> {
+
   constructor(
     private db: AngularFirestore,
     private perf: AngularFirePerformance
