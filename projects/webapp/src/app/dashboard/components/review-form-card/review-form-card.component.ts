@@ -8,11 +8,6 @@ import {
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
-export interface ReviewFormValue {
-  qualification: string;
-  comment?: string;
-  digitalSignature: string;
-}
 
 @Component({
   selector: "sgm-review-form-card",

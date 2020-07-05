@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { switchMap, tap } from 'rxjs/operators';
-import { AccompanimentsService } from '../../../core/services/acompaniments.service';
+import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { FirestoreAccompaniments, Mentor } from '../../../models/models';
