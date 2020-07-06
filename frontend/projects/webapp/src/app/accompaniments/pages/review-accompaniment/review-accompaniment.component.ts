@@ -41,7 +41,7 @@ export class ReviewAccompanimentComponent implements OnInit, OnDestroy {
       this.isSaving = true;
       // TODO: validate confirmation
 
-      await this.accompanimentService.saveStudentValidation(this.accompaniment.id, confirmation)
+      await this.accompanimentService.saveValidation(this.accompaniment.id, confirmation)
 
 
       alert('Todos los cambios están guardados.\nGracias por colaborar.');

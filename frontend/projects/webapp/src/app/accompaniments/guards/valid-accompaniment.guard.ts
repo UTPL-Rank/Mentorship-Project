@@ -14,6 +14,6 @@ export class ValidAccompanimentGuard implements CanActivate {
   canActivate({ params }: ActivatedRouteSnapshot) {
     const { accompanimentId, periodId } = params;
     const query = { accompanimentId, where: { periodId } };
-    return this.accompanimentService.accompanimentExists(query);
+    return this.accompanimentService.includes(query);
   }
 }
