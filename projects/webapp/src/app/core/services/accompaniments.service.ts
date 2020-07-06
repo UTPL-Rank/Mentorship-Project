@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AccompanimentFormValue } from '../../accompaniments/components/accompaniment-form/accompaniment-form.component';

@@ -36,8 +36,12 @@ export class FinalEvaluationComponent implements OnInit {
       alert('Debe ingresar una firma.');
       return;
     }
-    // http://localhost:4200/panel-control/reportes/evaluacion-final/g5Hmy2gSn6MYXYqzsTaT
 
+    console.log('TODO: remove old report generator');
+
+    this.mentorsService.generateFinalEvaluationReport(mentorId, this.sigCanvas.getDataURL())
+      .subscribe(console.log);
+    return;
     await this.router.navigate(
       [
         '/panel-control',

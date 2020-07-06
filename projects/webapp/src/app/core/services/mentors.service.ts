@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
+import { ReportsService } from './reports.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
 
@@ -13,7 +14,8 @@ export class MentorsService {
   constructor(
     private readonly angularFirestore: AngularFirestore,
     private readonly perf: AngularFirePerformance,
-    private readonly periodsService: AcademicPeriodsService
+    private readonly periodsService: AcademicPeriodsService,
+    private readonly reportsService: ReportsService,
   ) { }
 
   public getMentorsCollection(periodId?: string): AngularFirestoreCollection<Mentor> {
@@ -113,5 +115,28 @@ export class MentorsService {
 
   public async saveEvaluationObservations(mentorId: string, data: MentorEvaluationObservations) {
     return await this.evaluationObservationsReference(mentorId).set(data);
+  }
+
+  /**
+   * Generate the final evaluation report with a snapshot of the current user
+   *
+   * @param mentorId identifier of the mentor
+   * @param signature signature of the mentor, to generate the report
+   */
+  public generateFinalEvaluationReport(mentorId: string, signature: string): Observable<string> {
+    // fetch all data to generate the final evaluation report data
+    const reportData = forkJoin({
+      mentor: this.mentor(mentorId),
+      activities: this.evaluationActivities(mentorId),
+      dependencies: this.evaluationDependencies(mentorId),
+      observations: this.evaluationObservations(mentorId)
+    });
+
+    const saveReport = reportData.pipe(
+      map(data => Object.assign(data, { signature })),
+      switchMap(data => this.reportsService.create(data)),
+    );
+
+    return saveReport;
   }
 }
