@@ -3,13 +3,14 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { firestore } from 'firebase/app';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { AccompanimentFormValue } from '../../accompaniments/components/accompaniment-form/accompaniment-form.component';
 import { Accompaniment, AccompanimentAsset, AccompanimentAssets, CreateFirestoreAccompaniment, FirestoreAccompaniments, FollowingKind, SemesterKind } from '../../models/models';
 import { ReviewFormValue } from '../../models/review-form.model';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { MentorsService } from './mentors.service';
+import { ReportsService } from './reports.service';
 import { StudentsService } from './students.service';
 
 const ACCOMPANIMENTS_COLLECTION_NAME = 'accompaniments';
@@ -45,6 +46,7 @@ export class AccompanimentsService {
     private readonly mentorsService: MentorsService,
     private readonly studentsService: StudentsService,
     private readonly storage: AngularFireStorage,
+    private readonly reportsService: ReportsService,
   ) { }
 
   private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments) {
@@ -89,14 +91,14 @@ export class AccompanimentsService {
     );
   }
 
-  public listAccompaniments(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
+  public accompaniments(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
     return this.accompanimentsCollection(query).get().pipe(
       map(snap => snap.docs.map(d => (d.data() as Accompaniment)))
     );
   }
 
 
-  public listAccompanimentsStream({ mentorId, periodId, studentId }: GetAccompaniments, limit?: number): Observable<FirestoreAccompaniments> {
+  public accompanimentsStream({ mentorId, periodId, studentId }: GetAccompaniments, limit?: number): Observable<FirestoreAccompaniments> {
     return this.firestoreDB.collection<Accompaniment>(
       ACCOMPANIMENTS_COLLECTION_NAME,
       query => {
@@ -249,5 +251,22 @@ export class AccompanimentsService {
     });
 
     return Promise.all(assetsData);
+  }
+
+  public generateReport(mentorId: string, studentId: string, semesterKind: SemesterKind, signature: string): Observable<string> {
+    const reportData = forkJoin({
+      mentor: this.mentorsService.mentor(mentorId),
+      student: this.studentsService.student(studentId),
+      accompaniments: this.accompaniments({ orderBy: { timeCreated: 'desc' }, where: { mentorId, studentId, semesterKind } })
+    });
+
+    console.log({ orderBy: { timeCreated: 'desc' }, where: { mentorId, studentId, semesterKind } });
+
+    const saveReport = reportData.pipe(
+      map(data => Object.assign(data, { signature, semesterKind })),
+      switchMap(data => this.reportsService.create(data)),
+    );
+
+    return saveReport;
   }
 }

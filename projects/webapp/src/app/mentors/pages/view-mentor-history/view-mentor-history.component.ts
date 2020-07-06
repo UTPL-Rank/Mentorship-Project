@@ -28,6 +28,6 @@ export class ViewMentorHistoryComponent {
     );
 
   public readonly accompanimentsObs: Observable<FirestoreAccompaniments> = this.route.params
-    .pipe(switchMap(p => this.accompanimentsService.listAccompanimentsStream(p as any, 10)));
+    .pipe(switchMap(p => this.accompanimentsService.accompanimentsStream(p as any, 10)));
 
 }
