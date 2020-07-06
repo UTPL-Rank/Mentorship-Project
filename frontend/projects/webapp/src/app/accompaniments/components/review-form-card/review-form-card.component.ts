@@ -1,30 +1,26 @@
-import {
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-  ViewChild
-} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReviewFormValue } from '../../../models/review-form.model';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
-
 @Component({
-  selector: "sgm-review-form-card",
-  templateUrl: "./review-form-card.component.html"
+  selector: 'sgm-review-form-card',
+  templateUrl: './review-form-card.component.html'
 })
 export class ReviewFormCardComponent implements OnInit {
-  constructor(private fb: FormBuilder) { }
 
   @ViewChild(SigCanvasComponent)
-  private sigCanvas: SigCanvasComponent;
+  public sigCanvas: SigCanvasComponent;
 
   public confirmationForm: FormGroup;
   private validated = false;
 
-  @Output() public submitReview: EventEmitter<
-    ReviewFormValue
-  > = new EventEmitter();
+  @Output()
+  public submitReview = new EventEmitter<ReviewFormValue>();
+
+  constructor(
+    private readonly fb: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
     this.confirmationForm = this.fb.group({
@@ -34,16 +30,18 @@ export class ReviewFormCardComponent implements OnInit {
   }
 
   save() {
+    // take snapshot of the current form
+    const { invalid, value } = this.confirmationForm;
+    const { qualification, comment } = value;
+
     this.validated = true;
 
-    if (this.confirmationForm.invalid) {
-      return;
-    }
+    // invalid forms will be rejected
+    if (invalid) return;
 
-    const { qualification, comment } = this.confirmationForm.value;
-
+    // all submissions needs the user signature
     if (this.sigCanvas.isCanvasBlank()) {
-      alert("Tiene que ingresar la firma digital.");
+      alert('Tiene que ingresar la firma digital.');
       return;
     }
 
@@ -52,10 +50,6 @@ export class ReviewFormCardComponent implements OnInit {
       digitalSignature: this.sigCanvas.getDataURL(),
       comment: !!comment ? (comment as string).trim() : null
     });
-  }
-
-  resetSignature() {
-    this.sigCanvas.clearCanvas();
   }
 
   get isQualificationInvalid() {

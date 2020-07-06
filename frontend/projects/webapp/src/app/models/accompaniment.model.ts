@@ -9,16 +9,16 @@ export type FollowingKind = 'sgm#virtual' | 'sgm#presencial';
 export type SemesterKind = 'sgm#firstSemester' | 'sgm#secondSemester';
 export type QualificationKind = 'sgm#1' | 'sgm#2' | 'sgm#3' | 'sgm#4' | 'sgm#5';
 
-export type FirestoreAccompanimentReference = firestore.DocumentReference<FirestoreAccompaniment>;
+export type FirestoreAccompanimentReference = firestore.DocumentReference<BaseAccompaniment>;
 
-export type FirestoreAccompaniments = Array<FirestoreAccompaniment>;
+export type FirestoreAccompaniments = Array<BaseAccompaniment>;
 
-export type FirestoreAccompaniment = Accompaniment & { timeCreated: firestore.Timestamp; };
-export type CreateFirestoreAccompaniment = Accompaniment & { timeCreated: firestore.FieldValue };
+export type Accompaniment = BaseAccompaniment & { timeCreated: firestore.Timestamp; };
+export type CreateFirestoreAccompaniment = BaseAccompaniment & { timeCreated: firestore.FieldValue };
 
 
 
-interface Accompaniment {
+interface BaseAccompaniment {
   id: string;
 
   mentor: Mentor & { reference: MentorReference; };
@@ -51,6 +51,8 @@ interface Accompaniment {
   topicDescription: string;
 
   assets: AccompanimentAssets;
+
+  important: boolean;
 
   // confirmation
   timeConfirmed?: firestore.Timestamp;

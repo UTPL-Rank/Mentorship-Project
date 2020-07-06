@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { Students } from "../../../models/models";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Students } from '../../../models/models';
 
 export interface AccompanimentFormValue {
   studentId: string;
@@ -10,6 +10,7 @@ export interface AccompanimentFormValue {
   problemDescription: string;
   solutionDescription: string;
   topicDescription: string;
+  important: boolean;
 
   problems: {
     academic: boolean;
@@ -25,8 +26,8 @@ export interface AccompanimentFormValue {
 }
 
 @Component({
-  selector: "sgm-accompaniment-form",
-  templateUrl: "./accompaniment-form.component.html"
+  selector: 'sgm-accompaniment-form',
+  templateUrl: './accompaniment-form.component.html'
 })
 export class AccompanimentFormComponent implements OnInit {
   constructor(private fb: FormBuilder) { }
@@ -40,7 +41,7 @@ export class AccompanimentFormComponent implements OnInit {
   private selectedStudentId: string = null;
 
   // before setting `selectedStudentId`, validate it exist within the students
-  @Input("selectedStudentId")
+  @Input('selectedStudentId')
   set setSelectedStudentId(selectedStudentId: string) {
     const valid = this.students.map(s => s.id).includes(selectedStudentId);
     if (valid) {
@@ -65,6 +66,7 @@ export class AccompanimentFormComponent implements OnInit {
       problemDescription: [null, Validators.required],
       solutionDescription: [null, Validators.required],
       topicDescription: [null, Validators.required],
+      important: [false],
 
       problems: this.fb.group({
         academic: [false],
@@ -82,6 +84,7 @@ export class AccompanimentFormComponent implements OnInit {
     if (!this.valid) {
       return null;
     }
+
 
     const { value } = this.accompanimentForm;
 
@@ -116,6 +119,7 @@ export class AccompanimentFormComponent implements OnInit {
         other: !!value.problems.otherDescription,
         problemCount
       },
+      important: value.important,
       problemDescription: (value.problemDescription as string).trim(),
       semesterKind: value.semesterKind,
       solutionDescription: (value.solutionDescription as string).trim(),

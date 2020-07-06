@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
+import { AngularFireStorage } from '@angular/fire/storage';
+import { firestore } from 'firebase';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { FirestoreAccompaniment, FirestoreAccompaniments } from '../../models/models';
+import { AccompanimentFormValue } from '../../accompaniments/components/accompaniment-form/accompaniment-form.component';
+import { Accompaniment, AccompanimentAsset, AccompanimentAssets, CreateFirestoreAccompaniment, FirestoreAccompaniments, FollowingKind, SemesterKind } from '../../models/models';
+import { ReviewFormValue } from '../../models/review-form.model';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { MentorsService } from './mentors.service';
 import { StudentsService } from './students.service';
@@ -18,7 +22,7 @@ interface GetAccompaniments {
 
 interface QueryAccompaniments {
   orderBy?: {
-    timeCreated?: 'asc' | 'desc';
+    timeCreated?: firestore.OrderByDirection;
   };
   where?: {
     periodId?: string;
@@ -29,24 +33,34 @@ interface QueryAccompaniments {
   limit?: {
     start?: number;
   };
+  accompanimentId?: string;
 }
 
 @Injectable({ providedIn: 'root' })
 export class AccompanimentsService {
   constructor(
-    private readonly angularFirestore: AngularFirestore,
+    private readonly firestoreDB: AngularFirestore,
     private readonly perf: AngularFirePerformance,
     private readonly periodsService: AcademicPeriodsService,
     private readonly mentorsService: MentorsService,
-    private readonly studentsService: StudentsService
+    private readonly studentsService: StudentsService,
+    private readonly storage: AngularFireStorage,
   ) { }
 
-  private accompanimentsCollection({ orderBy, where, limit }: QueryAccompaniments) {
-    return this.angularFirestore.collection<FirestoreAccompaniment>(
+  private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments) {
+
+    if (!queryAccompaniment)
+      return this.firestoreDB.collection<Accompaniment>(ACCOMPANIMENTS_COLLECTION_NAME);
+
+    return this.firestoreDB.collection<Accompaniment>(
       ACCOMPANIMENTS_COLLECTION_NAME,
       query => {
-        let q = query.orderBy('timeCreated', orderBy.timeCreated);
+        const { orderBy, where, limit, accompanimentId } = queryAccompaniment;
 
+        let q = query.orderBy('timeCreated', orderBy?.timeCreated);
+
+        if (accompanimentId)
+          q = q.where('id', '==', accompanimentId);
 
         if (where.periodId) {
           const periodRef = this.periodsService.periodDocument(where.periodId).ref;
@@ -77,13 +91,13 @@ export class AccompanimentsService {
 
   public listAccompaniments(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
     return this.accompanimentsCollection(query).get().pipe(
-      map(snap => snap.docs.map(d => (d.data() as FirestoreAccompaniment)))
+      map(snap => snap.docs.map(d => (d.data() as Accompaniment)))
     );
   }
 
 
   public listAccompanimentsStream({ mentorId, periodId, studentId }: GetAccompaniments, limit?: number): Observable<FirestoreAccompaniments> {
-    return this.angularFirestore.collection<FirestoreAccompaniment>(
+    return this.firestoreDB.collection<Accompaniment>(
       ACCOMPANIMENTS_COLLECTION_NAME,
       query => {
         let q = query.orderBy('timeCreated');
@@ -124,7 +138,7 @@ export class AccompanimentsService {
     const periodRef = this.periodsService.periodDocument(periodId).ref;
     const studentRef = this.studentsService.studentRef(studentId);
 
-    return this.angularFirestore.collection<FirestoreAccompaniment>(
+    return this.firestoreDB.collection<Accompaniment>(
       ACCOMPANIMENTS_COLLECTION_NAME,
       query => query.orderBy('timeCreated')
         .where('period.reference', '==', periodRef)
@@ -134,10 +148,106 @@ export class AccompanimentsService {
       .pipe(this.perf.trace('List accompaniments'));
   }
 
+  private accompanimentDocument(accompanimentId: string): AngularFirestoreDocument<Accompaniment> {
+    return this.firestoreDB.collection('accompaniments').doc<Accompaniment>(accompanimentId);
 
-  public accompanimentStream(accompanimentId: string): Observable<FirestoreAccompaniment> {
-    return this.angularFirestore.collection(ACCOMPANIMENTS_COLLECTION_NAME).doc<FirestoreAccompaniment>(accompanimentId)
+  }
+
+  public accompanimentStream(accompanimentId: string): Observable<Accompaniment> {
+    return this.firestoreDB.collection(ACCOMPANIMENTS_COLLECTION_NAME).doc<Accompaniment>(accompanimentId)
       .valueChanges()
       .pipe(this.perf.trace('get accompaniment stream'));
+  }
+
+  public async saveStudentValidation(accompanimentId: string, confirmation: ReviewFormValue): Promise<void> {
+    const batch = this.firestoreDB.firestore.batch();
+    const accompanimentRef = this.accompanimentDocument(accompanimentId).ref;
+
+    batch.set(
+      accompanimentRef,
+      { timeConfirmed: firestore.FieldValue.serverTimestamp(), reviewKey: null, confirmation },
+      { merge: true }
+    );
+
+    return await batch.commit();
+  }
+
+
+  public accompanimentExists({ where, accompanimentId }: QueryAccompaniments): Observable<boolean> {
+    return this.accompanimentsCollection({ where, accompanimentId }).get().pipe(
+      map(snap => !snap.empty)
+    );
+  }
+
+  public async saveAccompaniment(mentorId: string, data: AccompanimentFormValue): Promise<Accompaniment> {
+    const mentorReference = this.mentorsService.mentorRef(mentorId);
+    const mentorSnap = await mentorReference.get();
+    const mentorData = mentorSnap.data();
+
+    const studentReference = this.studentsService.studentRef(data.studentId);
+    const studentSnap = await studentReference.get();
+    const studentData = studentSnap.data();
+
+    const accompaniment: CreateFirestoreAccompaniment = {
+      id: this.firestoreDB.createId(),
+      mentor: { ...mentorData, reference: mentorReference, },
+      student: { ...studentData, reference: studentReference, },
+      period: studentData.period,
+      degree: studentData.degree,
+      area: studentData.area,
+
+      timeCreated: firestore.FieldValue.serverTimestamp(),
+      assets: await this.uploadFiles(data.assets),
+
+      // accompaniment data
+      important: data.important,
+      followingKind: data.followingKind as FollowingKind,
+      semesterKind: data.semesterKind as SemesterKind,
+      problemDescription: data.problemDescription,
+      problems: data.problems,
+      reviewKey: Math.random().toString(36).substring(7),
+      solutionDescription: data.solutionDescription,
+      topicDescription: data.topicDescription
+    };
+
+    // ---------------------------------
+    // save on firestore
+    // ---------------------------------
+    const accompanimentRef = this.accompanimentsCollection().doc(accompaniment.id).ref;
+    const batch = this.firestoreDB.firestore.batch();
+
+    batch.set(accompanimentRef, accompaniment);
+    console.log('TODO: change to one reference');
+    batch.update(mentorReference, 'stats.accompanimentsCount', firestore.FieldValue.increment(1));
+    batch.update(mentorReference, 'stats.lastAccompaniment', firestore.FieldValue.serverTimestamp());
+    batch.update(studentReference, 'stats.accompanimentsCount', firestore.FieldValue.increment(1));
+    batch.update(studentReference, 'stats.lastAccompaniment', firestore.FieldValue.serverTimestamp());
+
+    await batch.commit();
+    return accompaniment as Accompaniment;
+  }
+
+
+  private async uploadFiles(files: File[]): Promise<AccompanimentAssets> {
+    const now = Date.now();
+    const uploadTasks = files.map(async file => {
+      const path = `/accompaniments/assets/${now}/${file.name}`;
+      await this.storage.upload(path, file);
+      return path;
+    });
+    const paths = await Promise.all(uploadTasks);
+
+    const assetsData = paths.map(async path => {
+      const ref = this.storage.storage.ref(path);
+      const data: AccompanimentAsset = {
+        name: ref.name,
+        path,
+        downloadUrl: await ref.getDownloadURL(),
+      };
+
+      return data;
+    });
+
+    return Promise.all(assetsData);
   }
 }

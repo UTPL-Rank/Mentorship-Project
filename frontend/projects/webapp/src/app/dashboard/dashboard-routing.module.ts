@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CurrentPeriodActiveGuard } from '../core/guards/current-period-active.guard';
 import { IsAdminGuard } from '../core/guards/is-admin.guard';
-import { CurrentPeriodActiveGuard } from './guards/current-period-active.guard';
 import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
 import { SignedInGuard } from './guards/signed-in.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
