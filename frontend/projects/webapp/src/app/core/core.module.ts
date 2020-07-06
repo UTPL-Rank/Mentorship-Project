@@ -12,6 +12,7 @@ import { AuthenticationService } from './services/authentication.service';
 import { BrowserLoggerService } from './services/browser-logger.service';
 import { MentorsService } from './services/mentors.service';
 import { PwaService } from './services/pwa.service';
+import { ReportsService } from './services/reports.service';
 import { StudentsService } from './services/students.service';
 import { TitleService } from './services/title.service';
 
@@ -33,6 +34,7 @@ import { TitleService } from './services/title.service';
     StudentsService,
     PreloadMentorResolver,
     CurrentPeriodActiveGuard,
+    ReportsService,
   ],
 })
 export class CoreModule {
