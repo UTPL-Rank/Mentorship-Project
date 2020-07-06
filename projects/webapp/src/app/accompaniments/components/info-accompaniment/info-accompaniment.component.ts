@@ -1,17 +1,17 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { Subscription } from "rxjs";
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { AuthenticationService } from '../../../core/services/authentication.service';
-import { FirestoreAccompaniment } from "../../../models/models";
+import { Accompaniment } from '../../../models/models';
 
 @Component({
-  selector: "sgm-info-accompaniment",
-  templateUrl: "./info-accompaniment.component.html"
+  selector: 'sgm-info-accompaniment',
+  templateUrl: './info-accompaniment.component.html'
 })
 export class InfoAccompanimentComponent implements OnInit, OnDestroy {
   constructor(private auth: AuthenticationService) { }
 
   @Input()
-  public accompaniment: FirestoreAccompaniment;
+  public accompaniment: Accompaniment;
   public isAdmin = false;
   private sub: Subscription;
 

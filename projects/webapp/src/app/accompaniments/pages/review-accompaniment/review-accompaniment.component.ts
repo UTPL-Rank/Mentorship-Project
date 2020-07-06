@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute, Router } from '@angular/router';
-import { firestore } from 'firebase/app';
-import { Subscription } from 'rxjs';
-import { FirestoreAccompaniment } from '../../../models/models';
+import { Observable, Subscription } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import { AccompanimentsService } from '../../../core/services/accompaniments.service';
+import { Accompaniment } from '../../../models/models';
 import { ReviewFormValue } from '../../../models/review-form.model';
 
 @Component({
@@ -12,19 +12,21 @@ import { ReviewFormValue } from '../../../models/review-form.model';
 })
 export class ReviewAccompanimentComponent implements OnInit, OnDestroy {
   constructor(
-    private readonly db: AngularFirestore,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly accompanimentService: AccompanimentsService,
+    private readonly route: ActivatedRoute,
   ) { }
 
-  public accompaniment: FirestoreAccompaniment;
+  public accompaniment: Accompaniment;
   private sub: Subscription;
   private isSaving = false;
 
   ngOnInit() {
-    this.sub = this.route.data.subscribe(
-      ({ accompaniment }) => (this.accompaniment = accompaniment)
+    const accompanimentObs: Observable<Accompaniment> = this.route.params.pipe(
+      switchMap(params => this.accompanimentService.accompanimentStream(params.accompanimentId))
     );
+
+    this.sub = accompanimentObs.subscribe(a => this.accompaniment = a);
   }
 
   ngOnDestroy() {
@@ -38,17 +40,9 @@ export class ReviewAccompanimentComponent implements OnInit, OnDestroy {
     try {
       this.isSaving = true;
       // TODO: validate confirmation
-      const batch = this.db.firestore.batch();
 
-      const accompanimentRef = this.db.collection('accompaniments').doc(this.accompaniment.id).ref;
+      await this.accompanimentService.saveStudentValidation(this.accompaniment.id, confirmation)
 
-      batch.set(
-        accompanimentRef,
-        { timeConfirmed: firestore.FieldValue.serverTimestamp(), reviewKey: null, confirmation },
-        { merge: true }
-      );
-
-      await batch.commit();
 
       alert('Todos los cambios están guardados.\nGracias por colaborar.');
       this.router.navigateByUrl('/');

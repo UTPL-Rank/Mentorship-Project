@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AccompanimentsService } from '../../core/services/acompaniments.service';
+import { AccompanimentsService } from '../../core/services/accompaniments.service';
 import { FirestoreAccompaniments } from '../../models/models';
+
 
 @Injectable({ providedIn: 'root' })
 export class PreloadAccompanimentsResolver implements Resolve<FirestoreAccompaniments> {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { FirestoreAccompaniment, Mentor, SemesterKind, Student } from '../../../models/models';
+import { Accompaniment, Mentor, SemesterKind, Student } from '../../../models/models';
 
 @Component({
   selector: 'sgm-accompaniments-report',
@@ -9,7 +9,7 @@ import { FirestoreAccompaniment, Mentor, SemesterKind, Student } from '../../../
 export class AccompanimentsReportComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
-  public accompaniments: FirestoreAccompaniment[];
+  public accompaniments: Accompaniment[];
   public student: Student;
   public mentor: Mentor;
   public semesterKind: SemesterKind;

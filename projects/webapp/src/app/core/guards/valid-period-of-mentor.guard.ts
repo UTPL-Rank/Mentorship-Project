@@ -12,6 +12,8 @@ export class ValidPeriodOfMentorGuard implements CanActivate {
   constructor(private db: AngularFirestore) { }
 
   async canActivate({ params }: ActivatedRouteSnapshot) {
+    console.log('TODO: need to be implemented through the service');
+
 
     const { mentorId, periodId } = params;
     const periodRef = this.db.collection('academic-periods').doc(periodId).ref;

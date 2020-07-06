@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { AngularFirestore } from "@angular/fire/firestore";
 import { AngularFirePerformance } from "@angular/fire/performance";
-import { FirestoreAccompaniment, FirestoreAccompaniments } from "projects/webapp/src/app/models/models";
+import { Accompaniment, FirestoreAccompaniments } from "projects/webapp/src/app/models/models";
 import { Subscription } from "rxjs";
 
 @Component({
@@ -24,7 +24,7 @@ export class AccompanimentsAnalyticsPage implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.sub = this.db
-      .collection<FirestoreAccompaniment>("accompaniments", q => {
+      .collection<Accompaniment>("accompaniments", q => {
         const query = q;
         // TODO: fix this
         // const query = q.where("periodReference", "==", this.period.currentRef);
