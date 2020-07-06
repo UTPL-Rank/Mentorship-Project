@@ -33,7 +33,7 @@ export class ViewStudentHistoryComponent {
 
   public readonly accompanimentsObs: Observable<FirestoreAccompaniments> = this.route.params
     .pipe(
-      switchMap(params => this.accompanimentsService.getAccompanimentsOfStudent(params.periodId, params.studentId)),
+      switchMap(({ periodId, studentId }) => this.accompanimentsService.accompanimentsStream({ where: { periodId, studentId } })),
       shareReplay(1),
       map(a => [...a])
     );

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { firestore } from 'firebase/app';
@@ -49,119 +49,90 @@ export class AccompanimentsService {
     private readonly reportsService: ReportsService,
   ) { }
 
-  private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments) {
+  /** @internal query accompaniments collection */
+  private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<Accompaniment> {
 
+    // query-less collection, only get a reference to the collection
     if (!queryAccompaniment)
       return this.firestoreDB.collection<Accompaniment>(ACCOMPANIMENTS_COLLECTION_NAME);
 
-    return this.firestoreDB.collection<Accompaniment>(
-      ACCOMPANIMENTS_COLLECTION_NAME,
-      query => {
-        const { orderBy, where, limit, accompanimentId } = queryAccompaniment;
+    // accompaniment with query
+    return this.firestoreDB.collection<Accompaniment>(ACCOMPANIMENTS_COLLECTION_NAME, query => {
+      const { orderBy, where, limit, accompanimentId } = queryAccompaniment;
 
-        let q = query.orderBy('timeCreated', orderBy?.timeCreated);
+      let q = query.orderBy('timeCreated', orderBy?.timeCreated);
 
-        if (accompanimentId)
-          q = q.where('id', '==', accompanimentId);
+      if (accompanimentId)
+        q = q.where('id', '==', accompanimentId);
 
-        if (where.periodId) {
-          const periodRef = this.periodsService.periodDocument(where.periodId).ref;
-          q = q.where('period.reference', '==', periodRef);
-        }
-
-        if (where.mentorId) {
-          const mentorRef = this.mentorsService.mentorRef(where.mentorId);
-          q = q.where('mentor.reference', '==', mentorRef);
-        }
-
-        if (where.studentId) {
-          const studentRef = this.studentsService.studentRef(where.studentId);
-          q = q.where('student.reference', '==', studentRef);
-        }
-
-        if (where.semesterKind) {
-          q = q.where('semesterKind', '==', where.semesterKind);
-        }
-
-        // if (limit.start)
-        //   return q.limit(limit.start);
-
-        return q;
+      if (where.periodId) {
+        const periodRef = this.periodsService.periodDocument(where.periodId).ref;
+        q = q.where('period.reference', '==', periodRef);
       }
-    );
+
+      if (where.mentorId) {
+        const mentorRef = this.mentorsService.mentorRef(where.mentorId);
+        q = q.where('mentor.reference', '==', mentorRef);
+      }
+
+      if (where.studentId) {
+        const studentRef = this.studentsService.studentRef(where.studentId);
+        q = q.where('student.reference', '==', studentRef);
+      }
+
+      if (where.semesterKind) {
+        q = q.where('semesterKind', '==', where.semesterKind);
+      }
+
+      // if (limit.start)
+      //   return q.limit(limit.start);
+
+      return q;
+    });
   }
 
+  /**
+   * Get a list of accompaniments, single emitting
+   * @param query to fetch accompaniments
+   */
   public accompaniments(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
     return this.accompanimentsCollection(query).get().pipe(
       map(snap => snap.docs.map(d => (d.data() as Accompaniment)))
     );
   }
 
-
-  public accompanimentsStream({ mentorId, periodId, studentId }: GetAccompaniments, limit?: number): Observable<FirestoreAccompaniments> {
-    return this.firestoreDB.collection<Accompaniment>(
-      ACCOMPANIMENTS_COLLECTION_NAME,
-      query => {
-        let q = query.orderBy('timeCreated');
-        if (periodId) {
-          const periodRef = this.periodsService.periodDocument(periodId).ref;
-          q = q.where('period.reference', '==', periodRef);
-        }
-
-        if (mentorId) {
-          const mentorRef = this.mentorsService.mentorRef(mentorId);
-          q = q.where('mentor.reference', '==', mentorRef);
-        }
-
-        if (studentId) {
-          const studentRef = this.studentsService.studentRef(studentId);
-          q = q.where('student.reference', '==', studentRef);
-        }
-
-        if (limit)
-          return q.limit(limit);
-
-        return q;
-      }
-    )
-      .valueChanges()
-      .pipe(
-        this.perf.trace('List accompaniments'),
-        shareReplay(1)
-      );
+  /** @internal get the firestore document of an accompaniment */
+  private accompanimentDocument(accompanimentId: string): AngularFirestoreDocument<Accompaniment> {
+    return this.accompanimentsCollection().doc<Accompaniment>(accompanimentId);
   }
 
   /**
-   * Get an observable of a student
-   * @param periodId Identifier of the academic period
-   * @param studentId IDentifier of the student
+   * get an stream of accompaniments
+   * @param accompanimentId identifier of the required accompaniment
    */
-  public getAccompanimentsOfStudent(periodId: string, studentId: string): Observable<FirestoreAccompaniments> {
-    const periodRef = this.periodsService.periodDocument(periodId).ref;
-    const studentRef = this.studentsService.studentRef(studentId);
-
-    return this.firestoreDB.collection<Accompaniment>(
-      ACCOMPANIMENTS_COLLECTION_NAME,
-      query => query.orderBy('timeCreated')
-        .where('period.reference', '==', periodRef)
-        .where('student.reference', '==', studentRef)
-    )
-      .valueChanges()
-      .pipe(this.perf.trace('List accompaniments'));
-  }
-
-  private accompanimentDocument(accompanimentId: string): AngularFirestoreDocument<Accompaniment> {
-    return this.firestoreDB.collection('accompaniments').doc<Accompaniment>(accompanimentId);
-
-  }
-
   public accompanimentStream(accompanimentId: string): Observable<Accompaniment> {
-    return this.firestoreDB.collection(ACCOMPANIMENTS_COLLECTION_NAME).doc<Accompaniment>(accompanimentId)
-      .valueChanges()
-      .pipe(this.perf.trace('get accompaniment stream'));
+    return this.accompanimentDocument(accompanimentId).valueChanges().pipe(
+      this.perf.trace('get accompaniment stream')
+    );
   }
 
-  public async saveStudentValidation(accompanimentId: string, confirmation: ReviewFormValue): Promise<void> {
+  /**
+   * Get a stream list of accompaniments, single emitting
+   * @param query to fetch accompaniments
+   */
+  public accompanimentsStream(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
+    return this.accompanimentsCollection(query).valueChanges().pipe(
+      this.perf.trace('List accompaniments'),
+      shareReplay(1)
+    );
+  }
+
+  /**
+   * Save the validation of an accompaniments
+   * @param accompanimentId identifier of the accompaniment
+   * @param confirmation data to be updated
+   */
+  public async saveValidation(accompanimentId: string, confirmation: ReviewFormValue): Promise<void> {
     const batch = this.firestoreDB.firestore.batch();
     const accompanimentRef = this.accompanimentDocument(accompanimentId).ref;
 
@@ -174,14 +145,18 @@ export class AccompanimentsService {
     return await batch.commit();
   }
 
-
-  public accompanimentExists({ where, accompanimentId }: QueryAccompaniments): Observable<boolean> {
+  /**
+   * Find if an accompaniment exist
+   * @param query to find accompaniment
+   */
+  public includes({ where, accompanimentId }: QueryAccompaniments): Observable<boolean> {
     return this.accompanimentsCollection({ where, accompanimentId }).get().pipe(
       map(snap => !snap.empty)
     );
   }
 
   public async saveAccompaniment(mentorId: string, data: AccompanimentFormValue): Promise<Accompaniment> {
+    console.log('TODO: add docs');
     const mentorReference = this.mentorsService.mentorRef(mentorId);
     const mentorSnap = await mentorReference.get();
     const mentorData = mentorSnap.data();
@@ -231,6 +206,8 @@ export class AccompanimentsService {
 
 
   private async uploadFiles(files: File[]): Promise<AccompanimentAssets> {
+    console.log('TODO: add docs');
+
     const now = Date.now();
     const uploadTasks = files.map(async file => {
       const path = `/accompaniments/assets/${now}/${file.name}`;
@@ -253,6 +230,13 @@ export class AccompanimentsService {
     return Promise.all(assetsData);
   }
 
+  /**
+   * Generate the accompaniments report
+   * @param mentorId identifier of the mentor
+   * @param studentId identifier of the student
+   * @param semesterKind identifier of the semester to export
+   * @param signature student signature
+   */
   public generateReport(mentorId: string, studentId: string, semesterKind: SemesterKind, signature: string): Observable<string> {
     const reportData = forkJoin({
       mentor: this.mentorsService.mentor(mentorId),
