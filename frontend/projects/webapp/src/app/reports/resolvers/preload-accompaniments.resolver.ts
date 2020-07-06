@@ -11,7 +11,7 @@ export class PreloadAccompanimentsResolver implements Resolve<FirestoreAccompani
   constructor(private readonly accompanimentsService: AccompanimentsService) { }
 
   resolve({ params }: ActivatedRouteSnapshot): Observable<FirestoreAccompaniments> {
-    return this.accompanimentsService.listAccompaniments(
+    return this.accompanimentsService.accompaniments(
       {
         orderBy:
           { timeCreated: 'asc' },

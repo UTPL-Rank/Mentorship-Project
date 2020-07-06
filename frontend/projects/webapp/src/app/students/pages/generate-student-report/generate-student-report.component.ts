@@ -2,9 +2,10 @@ import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
+import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
-import { AcademicPeriod, Student } from '../../../models/models';
+import { AcademicPeriod, SemesterKind, Student } from '../../../models/models';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
 @Component({
@@ -17,6 +18,7 @@ export class GenerateStudentReportComponent {
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
     private readonly studentsService: StudentsService,
+    private readonly accompanimentsService: AccompanimentsService,
     private readonly router: Router,
   ) { }
 
@@ -32,7 +34,9 @@ export class GenerateStudentReportComponent {
   @ViewChild(SigCanvasComponent)
   public readonly sigCanvas: SigCanvasComponent;
 
-  export(mentorId: string, studentId: string, semesterId: string) {
+  export(mentorId: string, studentId: string, semesterId: SemesterKind) {
+    this.accompanimentsService.generateReport(mentorId, studentId, semesterId, this.sigCanvas.getDataURL())
+      .subscribe(console.log);
     const url =
       'https://us-central1-sgmentores.cloudfunctions.net/exportToPdf?' +
       `mentorId=${mentorId}&` +
@@ -43,7 +47,10 @@ export class GenerateStudentReportComponent {
     window.open(url, '_blank');
   }
 
-  navigate(mentorId: string, studentId: string, semesterId: string) {
+  navigate(mentorId: string, studentId: string, semesterId: SemesterKind) {
+    this.accompanimentsService.generateReport(mentorId, studentId, semesterId, this.sigCanvas.getDataURL())
+      .subscribe(console.log);
+
     if (this.sigCanvas.isCanvasBlank()) {
       alert('Debe ingresar una firma.');
       return;
