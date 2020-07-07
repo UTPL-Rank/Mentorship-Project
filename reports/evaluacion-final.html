@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Evaluación Final</title>
+
+  <script defer src="/__/firebase/7.15.5/firebase-app.js"></script>
+  <script defer src="/__/firebase/7.15.5/firebase-firestore.js"></script>
+  <script defer src="/__/firebase/init.js"></script>
+  <script defer src="./src/evaluacion-final.js"></script>
+
+  <link rel="stylesheet" href="./styles/evaluacion-final.css">
+</head>
+
+<body>
+  <div class="contenedor">
+    <img src="./assets/icon-UTPL.jpg" width="40%">
+    <h3 id="title">INFORME FINAL DE MENTORÍA <br>
+      PROYECTO MENTORES PARA ESTUDIANTES DE NUEVO INGRESO
+    </h3>
+
+
+    <div class="mentor-data">
+      <table>
+        <tr>
+          <td width="250px">
+            Nombres y apellidos del Mentor Compañero:
+          </td>
+          <td colspan="4" width="300px" id="name"></td>
+          <td width="300px">
+            Titulación de los estudiantes de nuevo ingreso asignados:
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>Titulación del mentor compañero:</td>
+          <td colspan="4" id="mentorDegree"></td>
+          <td>Período Académico en el que ingresan los estudiantes nuevos:</td>
+          <td>Octubre/2019- Febrero/2020 </td>
+        </tr>
+        <tr>
+          <td>Veces que ha participado como mentor compañero:</td>
+          <td width="50px">Primera vez</td>
+          <td width="40px"></td>
+          <td width="50px">Más de una vez</td>
+          <td width="40px"></td>
+          <td> Periodo académico en el cual se ejecutó el acompañamiento:</td>
+          <td></td>
+
+        </tr>
+      </table>
+
+    </div>
+    <br>
+    <p>
+      Fecha:
+      <span id="reportDate"></span>
+    </p>
+    <br>
+
+    <!--    Detalle  -->
+    <!-- info -->
+
+    <div class="detail">
+      <table>
+        <thead>
+          <tr>
+            <td colspan="5">
+              <b>PARTE A: INFORME DEL MENTOR COMPAÑERO</b>
+              <br>
+              (Debe ser llenada por el Mentor Compañero)
+            </td>
+
+          </tr>
+          <tr>
+            <th colspan="5">Acompañamiento Mentorial</th>
+          </tr>
+          <tr>
+            <th colspan="5">Detalle del acompañamiento</th>
+          </tr>
+
+          <tr>
+            <th rowspan="2" width="200px">
+              1.1 Nro. De estudiantes de nuevo ingreso asignados
+            </th>
+            <td rowspan="2" width="50px"></td>
+            <th rowspan="3" width="300px">
+              Principales problemáticas presentadas por los estudiantes de nuevo ingreso y soluciones
+              dadas:
+            </th>
+            <td colspan="2" rowspan="3" width="300px"></td>
+
+
+          </tr>
+          <tr>
+
+
+          </tr>
+          <tr>
+            <th>
+              1.2 Nro. De Estudiantes de nuevo ingreso que recibieron acompañamiento.
+            </th>
+            <td></td>
+
+
+          </tr>
+          <tr>
+            <th>
+              <b>1.3 Nro. De Estudiantes de nuevo ingreso que no participan del proyecto.</b>
+            </th>
+            <td></td>
+            <th>
+              Causas principales por las que los estudiantes no recibieron acompañamiento:
+            </th>
+            <td colspan="2"></td>
+
+          </tr>
+        </thead>
+        <!-- Activities  -->
+        <tbody>
+          <tr>
+            <th colspan="6">
+              <b>
+                (2) Actividades o medios a través de las cuales realizó el acompañamiento
+              </b>
+            </th>
+          </tr>
+          <tr>
+            <th>Actividad</th>
+            <th colspan="2">Detalle de la actividad</th>
+            <th>Actividad</th>
+            <th colspan="2">Detalle de la actividad</th>
+          </tr>
+          <tr>
+            <td>Reuniones</td>
+            <td colspan="2" id="meetings"></td>
+            <td>Actividades recreativas y deportivas</td>
+            <td colspan="2" id="sports"></td>
+          </tr>
+          <tr>
+            <td>Evento académico</td>
+            <td colspan="2" id="academicEvent"></td>
+            <td>Eventos sociales</td>
+            <td colspan="2" id="socialEvent"></td>
+          </tr>
+          <tr>
+            <td>Acompañamiento virtual</td>
+            <td colspan="2" id="virtualAccompaniment"></td>
+            <td>Otros:<br></td>
+            <td colspan="2" id="other"></td>
+          </tr>
+          <!--    depend -->
+          <th colspan="6"> (3) Dependencias o personas a través de los cuales se resolvieron las
+            problemáticas de los estudiantes</th>
+          </tr>
+          <tr>
+            <th>Figura</th>
+            <th colspan="2">Detalle del apoyo recibido</th>
+            <th>Figura</th>
+            <th colspan="2">Detalle del apoyo recibido</th>
+          </tr>
+          <tr>
+            <td>Coordinador de Titulación</td>
+            <td colspan="2" id="coordinator"></td>
+            <td>Docentes</td>
+            <td colspan="2" id="teachers"></td>
+          </tr>
+          <tr>
+            <td>Misiones Universitarias</td>
+            <td colspan="2" id="missions"></td>
+            <td>Vicerrectorado Académico</td>
+            <td colspan="2" id="chancellor"></td>
+          </tr>
+          <tr>
+            <td>Biblioteca</td>
+            <td colspan="2" id="library"></td>
+            <td>Resuelto en primera instancia por el mentor</td>
+            <td colspan="2" id="firstSolvedByMentor"></td>
+          </tr>
+          <tr>
+            <td>Servicios Estudiantiles</td>
+            <td colspan="2" id="otherServices"></td>
+            <td>Otros:<br></td>
+            <td colspan="2" id="other"></td>
+          </tr>
+        </tbody>
+
+        <!--  remark -->
+        <tfoot>
+          <tr>
+            <td colspan="5">
+              <b>PARTE B: OBSERVACIONES GENERALES DEL PROYECTO</b>
+              <br>
+              (Debe ser llenado por el Mentor Compañero)
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              Puntos positivos de las actividades desarrolladas durante el semestre:
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" id="positives"></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              Principales inconvenientes detectados:
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" id="inconveniences"></td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              Sugerencias que puedan ayudar a mejorar el proyecto:
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" id="suggestions"></td>
+          </tr>
+
+          <!-- firm -->
+          <tr></tr>
+          <td colspan="3" class="space_firm">
+            <img id="reportSignature" alt="Firma del Mentor">
+          </td>
+          <td colspan="3" class="space_firm"></td>
+          </tr>
+          <tr>
+            <th colspan="3" class="firm">
+              Firma del mentor compañero
+            </th>
+            <th colspan="3" class="firm">
+              Firma responsable del proyecto
+            </th>
+          </tr>
+        </tfoot>
+      </table>
+
+    </div>
+    <p>
+      <small id="generatedBy"></small>
+    </p>
+  </div>
+
+</body>
+
+</html>
