@@ -55,6 +55,9 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
         batch.set(studentRef, student);
         batch.set(claimsRef, claims, { merge: true });
         batch.update(mentorRef, 'stats.assignedStudentCount', firestore.FieldValue.increment(1));
+        batch.update(mentorRef, 'stats.withAccompaniments', []);
+        batch.update(mentorRef, 'stats.withoutAccompaniments', firestore.FieldValue.arrayUnion(student.displayName));
+        batch.update(mentorRef, 'stats.studentsDegrees', firestore.FieldValue.arrayUnion(student.degree.name));
       });
 
       await batch.commit();

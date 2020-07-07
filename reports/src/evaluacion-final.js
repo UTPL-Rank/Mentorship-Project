@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         const app = firebase.app();
         const firestore = app.firestore();
 
-        let reportRef = firestore.collection("/reports").doc("Ulw5NUYm9kj7PCP4Lb2C");
+        let reportRef = firestore.collection("/reports").doc("2xTcY2DqhoblCkdjQMkB");
 
         const reportDocument = await reportRef.get()
 
@@ -19,10 +19,14 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // start filling the blanks
         document.getElementById('name').innerText = data.mentor.displayName;
-        document.getElementById('generatedBy').innerText = `Generado por: ${data.report.displayName}`;
+        document.getElementById('generatedBy').innerText = `Generado por: ${data.creator.displayName}`;
         document.getElementById('mentorDegree').innerText = data.mentor.degree.name;
+        document.getElementById('studentsDegrees').innerText = data.mentor.stats.studentsDegrees.join(', ');
+        document.getElementById('assignedStudents').innerText = data.mentor.stats.assignedStudentCount;
+        document.getElementById('withAccompaniments').innerText = data.mentor.stats.withAccompaniments.length;
+        document.getElementById('withoutAccompaniments').innerText = data.mentor.stats.withoutAccompaniments.length;
 
-        writeReportDate(data.report.reportCreationTime.toDate());
+        writeReportDate(data.createdAt.toDate());
 
         document.getElementById('reportSignature').setAttribute('src', data.signature);
 
@@ -32,7 +36,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('academicEvent').innerText = data.activities.academicEvent;
         document.getElementById('socialEvent').innerText = data.activities.socialEvent;
         document.getElementById('virtualAccompaniment').innerText = data.activities.virtualAccompaniment;
-        document.getElementById('other').innerText = data.activities.other;
+        document.getElementById('otherActivities').innerText = data.activities.other;
 
         // dependencies
         document.getElementById('coordinator').innerText = data.dependencies.coordinator;
@@ -42,7 +46,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         document.getElementById('library').innerText = data.dependencies.library;
         document.getElementById('firstSolvedByMentor').innerText = data.dependencies.firstSolvedByMentor;
         document.getElementById('otherServices').innerText = data.dependencies.otherServices;
-        document.getElementById('other').innerText = data.dependencies.other;
+        document.getElementById('otherDependencies').innerText = data.dependencies.other;
 
         // observations
         document.getElementById('positives').innerText = data.observations.positives;
