@@ -194,9 +194,10 @@ export class AccompanimentsService {
     const batch = this.firestoreDB.firestore.batch();
 
     batch.set(accompanimentRef, accompaniment);
-    console.log('TODO: change to one reference');
     batch.update(mentorReference, 'stats.accompanimentsCount', firestore.FieldValue.increment(1));
     batch.update(mentorReference, 'stats.lastAccompaniment', firestore.FieldValue.serverTimestamp());
+    batch.update(mentorReference, 'stats.withAccompaniments', firestore.FieldValue.arrayUnion(studentData.displayName));
+    batch.update(mentorReference, 'stats.withoutAccompaniments', firestore.FieldValue.arrayRemove(studentData.displayName));
     batch.update(studentReference, 'stats.accompanimentsCount', firestore.FieldValue.increment(1));
     batch.update(studentReference, 'stats.lastAccompaniment', firestore.FieldValue.serverTimestamp());
 
