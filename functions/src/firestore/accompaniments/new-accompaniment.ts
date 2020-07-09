@@ -35,6 +35,27 @@ async function sendEmailToUser(
   }
 }
 
+async function sendNotificationToAdministrators(accompaniment: firestore.DocumentData) {
+  // get administrators
+  const snaps = await firestore().collection('claims').where('isAdmin', '==', true).get();
+  const emails = snaps.docs.map(s => s.id);
+
+  const tasks = emails.map(async email => {
+    const username = email.split('@')[0];
+    const id = firestore().collection('users').doc(username).collection('notifications').doc().id;
+    return await firestore().collection('users').doc(username).collection('notifications').doc(id).set({
+      id,
+      displayName: accompaniment.mentor.displayName,
+      message: 'Ha marcado un acompañamiento como importante.',
+      unRead: true,
+      redirect: `/panel-control/abr20-ago20/acompañamientos/ver/${accompaniment.mentor.reference.id}/${accompaniment.id}`,
+      time: firestore.FieldValue.serverTimestamp()
+    });
+  })
+
+  await Promise.all(tasks);
+}
+
 async function getAccompaniment(doc: functions.firestore.DocumentSnapshot) {
   return (doc.exists) ? doc.data() : null;
 }
@@ -44,7 +65,17 @@ export const mailAccompanimentReview = functions.firestore
   .onCreate(async (document, _) => {
     const accompaniment = await getAccompaniment(document);
 
-    if (!!accompaniment) {
-      await sendEmailToUser(accompaniment);
-    }
+    if (!accompaniment)
+      return;
+
+    const tasks = [];
+
+    tasks.push(sendEmailToUser(accompaniment));
+
+    // accompaniment tagged as important 
+    // send notification to administrators
+    if (accompaniment.important)
+      tasks.push(sendNotificationToAdministrators(accompaniment));
+
+    await Promise.all(tasks);
   });
