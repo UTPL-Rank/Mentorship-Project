@@ -13,6 +13,7 @@ import { ProblemsChartComponent } from './components/charts/problems-chart.compo
 import { ProblemsDegreeChartComponent } from './components/charts/problems-degree-chart.component';
 import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
+import { NotificationsComponent } from './components/notifications/notifications.component';
 import { DashboardModuleRoutingModule } from './dashboard-routing.module';
 import { IsStudentGuard } from './guards/is-student.guard';
 import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
@@ -31,6 +32,7 @@ const COMPONENTS = [
 
   DashboardNavbarComponent,
   LoadingBarComponent,
+  NotificationsComponent,
   ...[
     ProblemsChartComponent,
     FollowingChartComponent,

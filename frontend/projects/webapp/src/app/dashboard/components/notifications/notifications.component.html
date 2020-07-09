@@ -1,0 +1,34 @@
+<div class="notification">
+  <!-- visible -->
+  <button class="button button-primary">
+    <i class="fas fa-bell"></i>
+  </button>
+
+  <!-- menu content -->
+  <div class="notification--content">
+    <!-- notification header -->
+    <div class="notification--header">
+      <span class="text-title">
+        Notificaciones
+      </span>
+    </div>
+    <!-- end header -->
+
+    <!-- list of notification items -->
+    <ng-container *ngIf="auth.notifications | async as notifications">
+      <div class="notification--items">
+        <ng-container *ngFor="let notification of notifications">
+          <a [routerLink]="[notification.redirect]" routerLinkActive="router-link-active" class="notification--item">
+            <b class="displayName">{{notification.displayName | titlecase}}</b>
+            <span class="text-body">
+              {{notification.message}}
+            </span>
+            <small>
+              {{notification.time.toDate() | date:'long'}}
+            </small>
+          </a>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+</div>

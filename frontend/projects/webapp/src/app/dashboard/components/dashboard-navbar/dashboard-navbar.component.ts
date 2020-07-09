@@ -12,9 +12,9 @@ import { AcademicPeriod, AcademicPeriods, UserClaims } from '../../../models/mod
 })
 export class DashboardNavbarComponent implements OnInit, OnDestroy {
   constructor(
-    private auth: AuthenticationService,
-    private periodService: AcademicPeriodsService,
-    private route: ActivatedRoute
+    private readonly auth: AuthenticationService,
+    private readonly periodService: AcademicPeriodsService,
+    private readonly route: ActivatedRoute
   ) { }
 
   private userSub: Subscription;
@@ -25,7 +25,6 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   public periods: AcademicPeriods;
   public user: User;
   public claims: UserClaims;
-
   ngOnInit(): void {
     this.periods = this.periodService.loadedPeriods;
 

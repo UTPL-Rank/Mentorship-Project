@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { auth } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { filter, map, shareReplay, switchMap } from 'rxjs/operators';
-import { UserClaims } from '../../models/models';
+import { Notification, UserClaims } from '../../models/models';
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
@@ -15,11 +15,17 @@ export class AuthenticationService {
     filter(user => !!user),
     map(user => user.email),
     map(email => this.firestore.collection('claims').doc<UserClaims>(email)),
-    // tap(() => console.log('fetch db')),
     switchMap(claimsRef => claimsRef.valueChanges()),
     shareReplay(1),
-    // tap(() => console.log('share data')),
-    // tap(console.log),
+  );
+
+  public notifications: Observable<Array<Notification>> = this.afAuth.user.pipe(
+    filter(user => !!user),
+    map(user => user.email),
+    map(email => this.firestore.collection('users').doc(email.split('@')[0])),
+    map(userDoc => userDoc.collection<Notification>('notifications', q => q.limit(10))),
+    switchMap(claimsRef => claimsRef.valueChanges()),
+    shareReplay(1),
   );
 
   public currentUser = this.afAuth.user;
