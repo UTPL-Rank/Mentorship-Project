@@ -47,7 +47,7 @@ async function sendNotificationToAdministrators(accompaniment: firestore.Documen
       id,
       displayName: accompaniment.mentor.displayName,
       message: 'Ha marcado un acompañamiento como importante.',
-      unRead: true,
+      read: false,
       redirect: `/panel-control/abr20-ago20/acompañamientos/ver/${accompaniment.mentor.reference.id}/${accompaniment.id}`,
       time: firestore.FieldValue.serverTimestamp()
     });
