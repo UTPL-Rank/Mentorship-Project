@@ -1,34 +1,41 @@
-<div class="notification">
-  <!-- visible -->
-  <button class="button button-primary">
-    <i class="fas fa-bell"></i>
-  </button>
+<ng-container *ngIf="auth.notifications | async as notifications">
+  <div class="notification">
+    <!-- visible -->
+    <button class="button button-primary" title="Notificaciones">
+      <i class="fas fa-bell"></i>
+    </button>
 
-  <!-- menu content -->
-  <div class="notification--content">
-    <!-- notification header -->
-    <div class="notification--header">
-      <span class="text-title">
-        Notificaciones
-      </span>
-    </div>
-    <!-- end header -->
+    <!-- menu content -->
+    <div class="notification--content">
+      <!-- notification header -->
+      <div class="notification--header">
+        <span class="text-body2">
+          Notificaciones
+        </span>
+      </div>
+      <!-- end header -->
 
-    <!-- list of notification items -->
-    <ng-container *ngIf="auth.notifications | async as notifications">
+      <!-- list of notification items -->
       <div class="notification--items">
         <ng-container *ngFor="let notification of notifications">
-          <a [routerLink]="[notification.redirect]" routerLinkActive="router-link-active" class="notification--item">
-            <b class="displayName">{{notification.displayName | titlecase}}</b>
-            <span class="text-body">
+          <button (click)="handleRedirect(notification)" routerLinkActive="router-link-active"
+            class="notification--item">
+            <b class="displayName text-body-2" [ngClass]="{'text-primary': !notification.read}">
+              {{notification.displayName | titlecase}}
+            </b>
+            <span class="text-caption">
               {{notification.message}}
             </span>
-            <small>
+            <small class="text-caption text-reduce-contrast">
               {{notification.time.toDate() | date:'long'}}
             </small>
-          </a>
+          </button>
         </ng-container>
       </div>
-    </ng-container>
+
+      <span class="notification--footer text-caption">
+        <ng-container *ngIf="notifications.length == 9">+</ng-container>{{notifications.length}} notificaciones
+      </span>
+    </div>
   </div>
-</div>
+</ng-container>
