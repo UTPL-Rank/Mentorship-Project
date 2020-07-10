@@ -44,10 +44,14 @@
   &--item {
     display: flex;
     flex-direction: column;
+    align-self: flex-start;;
 
     padding: var(--space-4) var(--space-8);
     color: var(--color-high-contrast);
     text-decoration: none;
+    background-color: var(--color-white);
+    border: none;
+    outline: none;
 
     displayName {
       width: 100%;
@@ -55,6 +59,16 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+
+    > * {
+      text-align: start;
+    }
   }
 
+
+  &--footer {
+    width: 100%;
+    text-align: justify;
+    padding: var(--space-2) var(--space-4);
+  }
 }
