@@ -1,47 +1,92 @@
-<nav class="navbar">
-  <div class="navbar--brand text-title">
-    Proyecto <span>Mentores</span>
-
-  </div>
-
-  <!-- rol -->
-  <!-- <ng-container *ngIf="claims">
-    <div class="chip chip-enable text-caption">
-      <i class="fas fa-user-circle"></i>
-
-      <span>
-        <ng-container *ngIf="claims.isAdmin">Administrador</ng-container>
-        <ng-container *ngIf="claims.isMentor">Mentor</ng-container>
-        <ng-container *ngIf="claims.isStudent">Estudiante</ng-container>
-      </span>
-    </div>
-  </ng-container> -->
-
-  <div class="spacer"></div>
-
-  <sgm-notifications></sgm-notifications>
-
-  <button class="button logout" (click)="logout()">
-    Cerrar Sesión
-    <i class="fas fa-sign-out-alt"></i>
-  </button>
-</nav>
-
-
-<!-- <ng-template #mainNavigation>
-  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-    <ng-container *ngIf="!!claims && claims.isAdmin">
-      <li class="nav-item dropdown" *ngIf="periods">
-        <a class="nav-link dropdown-toggle" href="#" id="selectPeriodDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          {{ activePeriod.name | titlecase }}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="selectPeriodDropdown">
-          <a class="dropdown-item" *ngFor="let period of periods" [routerLink]="['/panel-control', period.id]">
-            {{ period.name | titlecase }}
-          </a>
+<ng-container *ngIf="activePeriod">
+  <nav class="navbar">
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Inicio"
+        [routerLink]="['/panel-control', activePeriod.id]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-home"></i>
         </div>
-      </li>
+        <span class="item--text">
+          Inicio
+        </span>
+      </a>
     </ng-container>
-  </ul>
-</ng-template> -->
+
+    <!-- analytics -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Analíticas"
+        [routerLink]="['/panel-control', activePeriod.id, 'analiticas']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <span class="item--text">
+          Analíticas
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Mentores"
+        [routerLink]="['/panel-control', activePeriod.id, 'mentores']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <span class="item--text">
+          Mentores
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isMentor">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Mis Estudiantes"
+        [routerLink]="['/panel-control', activePeriod.id, 'mentores', claims.mentorId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <span class="item--text">
+          Mis Estudiantes
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isMentor">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Nuevo Acompañamiento"
+        [routerLink]="['/panel-control', activePeriod.id, 'registrar-acompañamiento', claims.mentorId]"
+        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-plus"></i>
+        </div>
+        <span class="item--text">
+          Nuevo Acompañamiento
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isAdmin && activePeriod.current">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Subir Información"
+        [routerLink]="['/panel-control', activePeriod.id, 'subir-informacion']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-arrow-circle-up"></i>
+        </div>
+        <span class="item--text">
+          Subir Información
+        </span>
+      </a>
+    </ng-container>
+
+    <a class="navbar--item tooltip tooltip-right" data-tooltip="Soporte / Informar de un Error" target="_blank"
+      href="mailto:proyectomentores@utpl.edu.ec">
+      <div class="item--icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <span class="item--text">
+        Soporte
+      </span>
+    </a>
+  </nav>
+</ng-container>

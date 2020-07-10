@@ -5,4 +5,4 @@ import { Component } from '@angular/core';
   templateUrl: './dashboard-shell.component.html',
   styleUrls: ['./dashboard-shell.component.scss']
 })
-export class DashboardShell { }
+export class DashboardShellComponent { }

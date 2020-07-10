@@ -3,18 +3,6 @@
   --color-accent: #f6c343;
 }
 
-body::-webkit-scrollbar {
-  width: var(--space-1);
-}
-
-body::-webkit-scrollbar-track {
-  background: var(--color-high-contrast);
-}
-
-body::-webkit-scrollbar-thumb {
-  background: var(--color-accent);
-}
-
 @media print {
   .hide-print {
     display: none !important;
