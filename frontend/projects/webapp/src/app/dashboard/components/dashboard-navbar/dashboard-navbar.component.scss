@@ -5,9 +5,11 @@
   margin: 0;
   padding: var(--space-2) var(--space-4);
 
-  .chip {
-    margin-left: var(--space-2);
-  }
+  border-bottom: 1px solid var(--color-reduce-contrast);
+
+  // .chip {
+  //   margin-left: var(--space-2);
+  // }
 
   &--brand {
     font-weight: 600;
@@ -20,7 +22,7 @@
     flex-grow: 1;
   }
 
-  .logout {
-    // margin-right: var(--space-n-4);
-  }
+  // .logout {
+  //   // margin-right: var(--space-n-4);
+  // }
 }
