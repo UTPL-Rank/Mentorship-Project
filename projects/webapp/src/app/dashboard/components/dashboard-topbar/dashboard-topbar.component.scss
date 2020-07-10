@@ -1,0 +1,28 @@
+.navbar {
+
+  display: flex;
+  flex-direction: row;
+  margin: 0;
+  padding: var(--space-2) var(--space-4);
+
+  border-bottom: 1px solid var(--color-reduce-contrast);
+
+  // .chip {
+  //   margin-left: var(--space-2);
+  // }
+
+  &--brand {
+    font-weight: 600;
+    span {
+      color: var(--color-primary);
+    }
+  }
+
+  .spacer {
+    flex-grow: 1;
+  }
+
+  .logout {
+    margin-right: var(--space-n-4);
+  }
+}

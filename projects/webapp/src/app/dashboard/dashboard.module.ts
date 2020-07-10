@@ -12,7 +12,7 @@ import { ProblemsAreaChartComponent } from './components/charts/problems-area-ch
 import { ProblemsChartComponent } from './components/charts/problems-chart.component';
 import { ProblemsDegreeChartComponent } from './components/charts/problems-degree-chart.component';
 import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
-import { DashboardSidebarComponent } from './components/dashboard-sidebar/dashboard-sidebar.component';
+import { DashboardTopbarComponent } from './components/dashboard-topbar/dashboard-topbar.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { DashboardModuleRoutingModule } from './dashboard-routing.module';
@@ -24,14 +24,14 @@ import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-an
 import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
-import { DashboardShell } from './pages/dashboard.page';
+import { DashboardShellComponent } from './pages/dashboard-shell.component';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
 import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
 
 // Components
 const COMPONENTS = [
-  DashboardSidebarComponent,
   DashboardNavbarComponent,
+  DashboardTopbarComponent,
   LoadingBarComponent,
   NotificationsComponent,
   ...[
@@ -47,7 +47,7 @@ const COMPONENTS = [
 
 // Pages
 const PAGES = [
-  DashboardShell,
+  DashboardShellComponent,
   DashboardHomePage,
   [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
 ];
