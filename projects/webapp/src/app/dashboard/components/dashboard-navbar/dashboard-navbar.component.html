@@ -16,8 +16,7 @@
     <!-- analytics -->
     <ng-container *ngIf="claims && claims.isAdmin">
       <a class="navbar--item tooltip tooltip-right" data-tooltip="Analíticas"
-        [routerLink]="['/panel-control', activePeriod.id, 'analiticas']" routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}">
+        [routerLink]="['/panel-control', activePeriod.id, 'analiticas']" routerLinkActive="active">
         <div class="item--icon">
           <i class="fas fa-chart-bar"></i>
         </div>
@@ -55,7 +54,7 @@
 
     <ng-container *ngIf="claims && claims.isMentor">
       <a class="navbar--item tooltip tooltip-right" data-tooltip="Nuevo Acompañamiento"
-        [routerLink]="['/panel-control', activePeriod.id, 'registrar-acompañamiento', claims.mentorId]"
+        [routerLink]="['/panel-control', activePeriod.id, 'acompañamientos', 'nuevo', claims.mentorId]"
         routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <div class="item--icon">
           <i class="fas fa-plus"></i>
@@ -66,10 +65,22 @@
       </a>
     </ng-container>
 
+    <ng-container *ngIf="claims && claims.isMentor">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Evaluación Final"
+        [routerLink]="['/panel-control', activePeriod.id, 'mentores', claims.mentorId, 'evaluacion-final']"
+        routerLinkActive="active">
+        <div class="item--icon">
+          <i class="fas fa-file-contract"></i>
+        </div>
+        <span class="item--text">
+          Evaluación Final
+        </span>
+      </a>
+    </ng-container>
+
     <ng-container *ngIf="claims && claims.isAdmin && activePeriod.current">
       <a class="navbar--item tooltip tooltip-right" data-tooltip="Subir Información"
-        [routerLink]="['/panel-control', activePeriod.id, 'subir-informacion']" routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}">
+        [routerLink]="['/panel-control', activePeriod.id, 'subir-informacion']" routerLinkActive="active">
         <div class="item--icon">
           <i class="fas fa-arrow-circle-up"></i>
         </div>
