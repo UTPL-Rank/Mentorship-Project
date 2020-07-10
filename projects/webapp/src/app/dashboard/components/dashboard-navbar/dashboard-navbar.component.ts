@@ -8,7 +8,8 @@ import { AcademicPeriod, AcademicPeriods, UserClaims } from '../../../models/mod
 
 @Component({
   selector: 'sgm-dashboard-navbar',
-  templateUrl: './dashboard-navbar.component.html'
+  templateUrl: './dashboard-navbar.component.html',
+  styleUrls: ['./dashboard-navbar.component.scss']
 })
 export class DashboardNavbarComponent implements OnInit, OnDestroy {
   constructor(

@@ -16,9 +16,9 @@ export class NotificationsComponent {
     private readonly router: Router,
   ) { }
 
-  async handleRedirect(n: Notification) {
-    const update = this.auth.toggleNotificationRead(n.id).pipe(
-      mergeMap(async _ => await this.router.navigateByUrl(n.redirect)),
+  async handleRedirect(notification: Notification) {
+    const update = this.auth.toggleNotificationRead(notification.id).pipe(
+      mergeMap(async _ => await this.router.navigateByUrl(notification.redirect)),
     );
 
     await update.toPromise();
