@@ -1,13 +1,8 @@
-import { Component } from "@angular/core";
+import { Component } from '@angular/core';
 
 @Component({
-  selector: "sgm-dashboard",
-  template: `
-    <sgm-dashboard-navbar class="hide-print"></sgm-dashboard-navbar>
-
-    <sgm-loading-bar class="hide-print"></sgm-loading-bar>
-
-    <router-outlet></router-outlet>
-  `
+  selector: 'sgm-dashboard',
+  templateUrl: './dashboard-shell.component.html',
+  styleUrls: ['./dashboard-shell.component.scss']
 })
-export class DashboardShell {}
+export class DashboardShell { }

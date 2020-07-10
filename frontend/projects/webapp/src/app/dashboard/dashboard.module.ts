@@ -12,6 +12,7 @@ import { ProblemsAreaChartComponent } from './components/charts/problems-area-ch
 import { ProblemsChartComponent } from './components/charts/problems-chart.component';
 import { ProblemsDegreeChartComponent } from './components/charts/problems-degree-chart.component';
 import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
+import { DashboardSidebarComponent } from './components/dashboard-sidebar/dashboard-sidebar.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { DashboardModuleRoutingModule } from './dashboard-routing.module';
@@ -29,7 +30,7 @@ import { InfoMentorResolver } from './resolvers/info-mentor.resolver';
 
 // Components
 const COMPONENTS = [
-
+  DashboardSidebarComponent,
   DashboardNavbarComponent,
   LoadingBarComponent,
   NotificationsComponent,

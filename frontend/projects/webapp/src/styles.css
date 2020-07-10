@@ -1,22 +1,22 @@
+:root {
+  --color-primary: #1B6AE1;
+}
+
 @media print {
   .hide-print {
     display: none !important;
   }
-
   .text-print {
     font-size: 62.5%;
   }
 }
 
 .lift {
-  transition: box-shadow 0.25s ease, transform 0.25s ease,
-    -webkit-transform 0.25s ease, 0.25s !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, -webkit-transform 0.25s ease, 0.25s !important;
 }
 
-.lift:focus,
-.lift:hover {
-  box-shadow: 0 1rem 2.5rem rgba(22, 28, 45, 0.1),
-    0 0.5rem 1rem -0.75rem rgba(22, 28, 45, 0.1) !important;
+.lift:focus, .lift:hover {
+  box-shadow: 0 1rem 2.5rem rgba(22, 28, 45, 0.1), 0 0.5rem 1rem -0.75rem rgba(22, 28, 45, 0.1) !important;
   -webkit-transform: translate3d(0, -3px, 0);
   transform: translate3d(0, -3px, 0);
 }
