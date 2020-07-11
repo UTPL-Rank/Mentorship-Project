@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  ElementRef,
-  OnInit,
-  ViewChild
-} from "@angular/core";
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 interface MousePosition {
   x: number;
@@ -12,13 +6,13 @@ interface MousePosition {
 }
 
 @Component({
-  selector: "sgm-sig-canvas",
-  templateUrl: "./sig-canvas.component.html"
+  selector: 'sgm-sig-canvas',
+  templateUrl: './sig-canvas.component.html'
 })
 export class SigCanvasComponent implements OnInit, AfterViewInit {
-  constructor() {}
+  constructor() { }
 
-  @ViewChild("sigCanvas")
+  @ViewChild('sigCanvas')
   private canvasRef: ElementRef;
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
@@ -43,15 +37,15 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.canvas = this.canvasRef.nativeElement;
-    this.ctx = this.canvas.getContext("2d");
-    this.ctx.strokeStyle = "#222222";
+    this.ctx = this.canvas.getContext('2d');
+    this.ctx.strokeStyle = '#222222';
 
     // ---------------------------------------------
     // add event listeners
     // ---------------------------------------------
     const self = this;
     this.canvas.addEventListener(
-      "mousedown",
+      'mousedown',
       (event: MouseEvent) => {
         self.drawing = true;
         self.lastPos = self.getMousePos(event);
@@ -59,14 +53,14 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
       false
     );
     this.canvas.addEventListener(
-      "mouseup",
+      'mouseup',
       (event: MouseEvent) => {
         self.drawing = false;
       },
       false
     );
     this.canvas.addEventListener(
-      "mousemove",
+      'mousemove',
       (event: MouseEvent) => {
         self.mousePos = self.getMousePos(event);
       },
@@ -77,33 +71,33 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
     // Add touch event support for mobile
     // ---------------------------------------------
     this.canvas.addEventListener(
-      "touchstart",
-      (event: TouchEvent) => {},
+      'touchstart',
+      (event: TouchEvent) => { },
       false
     );
     this.canvas.addEventListener(
-      "touchmove",
+      'touchmove',
       (event: TouchEvent) => {
         const { clientX, clientY } = event.touches.item(0);
-        const me = new MouseEvent("mousemove", { clientX, clientY });
+        const me = new MouseEvent('mousemove', { clientX, clientY });
         self.canvas.dispatchEvent(me);
       },
       false
     );
     this.canvas.addEventListener(
-      "touchstart",
+      'touchstart',
       (event: TouchEvent) => {
         self.mousePos = self.getTouchPos(event);
         const { clientX, clientY } = event.touches.item(0);
-        const me = new MouseEvent("mousedown", { clientX, clientY });
+        const me = new MouseEvent('mousedown', { clientX, clientY });
         self.canvas.dispatchEvent(me);
       },
       false
     );
     this.canvas.addEventListener(
-      "touchend",
+      'touchend',
       (event: TouchEvent) => {
-        const me = new MouseEvent("mouseup", {});
+        const me = new MouseEvent('mouseup', {});
         self.canvas.dispatchEvent(me);
       },
       false
@@ -113,7 +107,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
     // Prevent scrolling when touching the canvas
     // ---------------------------------------------
     document.body.addEventListener(
-      "touchstart",
+      'touchstart',
       (event: TouchEvent) => {
         if (event.target === self.canvas) {
           event.preventDefault();
@@ -122,7 +116,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
       { passive: false }
     );
     document.body.addEventListener(
-      "touchend",
+      'touchend',
       (event: TouchEvent) => {
         if (event.target === self.canvas) {
           event.preventDefault();
@@ -131,7 +125,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
       { passive: false }
     );
     document.body.addEventListener(
-      "touchmove",
+      'touchmove',
       (event: TouchEvent) => {
         if (event.target === self.canvas) {
           event.preventDefault();

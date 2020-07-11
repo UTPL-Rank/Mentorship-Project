@@ -33,6 +33,23 @@
     display: grid;
     gap: var(--space-10) var(--space-8);
     grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+
+    &__long {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &--export {
+    padding: 0 var(--space-4);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    margin-bottom: var(--space-10);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    > *:not(:last-child) {
+      margin-bottom: var(--space-3);
+    }
   }
 
   &--actions {
