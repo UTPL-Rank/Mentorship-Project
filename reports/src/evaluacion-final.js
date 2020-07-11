@@ -4,11 +4,17 @@ var firebase;
 
 document.addEventListener('DOMContentLoaded', async function () {
     try {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.has('reportId')) {
+            alert('URL invalida')
+            return;
+        }
+
         const app = firebase.app();
         const firestore = app.firestore();
 
-        let reportRef = firestore.collection("/reports").doc("2xTcY2DqhoblCkdjQMkB");
-
+        const reportId = urlParams.get('reportId')
+        const reportRef = firestore.collection("reports").doc(reportId);
         const reportDocument = await reportRef.get()
 
         if (!reportDocument.exists)
@@ -58,12 +64,6 @@ document.addEventListener('DOMContentLoaded', async function () {
         alert('No se pudo cargar el reporte')
     }
 });
-
-/**
-inconveniences: "Claw drapes poop in the plant pot so eats owners hair then claws head, yet attempt to leap between furniture but woefully miscalibrate and bellyflop onto the floor"
-positives: ""
-suggestions: ""
- */
 
 /**
  * 
