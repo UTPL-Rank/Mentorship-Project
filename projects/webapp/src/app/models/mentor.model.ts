@@ -51,6 +51,12 @@ export interface IncrementAccompanimentCounterFirestoreMentor {
 }
 
 
+export interface MentorEvaluationDetails {
+  mentorFirstTime?: boolean;
+  principalProblems?: string;
+  studentsWithoutAccompaniments?: string;
+}
+
 export interface MentorEvaluationActivities {
   meetings?: string;
   sports?: string;

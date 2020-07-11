@@ -5,6 +5,7 @@ import { IsMentorGuard } from '../core/guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from '../core/guards/valid-period-of-mentor.guard';
 import { EvaluationActivitiesComponent } from './pages/final-evaluation/evaluation-activities.component';
 import { EvaluationDependenciesComponent } from './pages/final-evaluation/evaluation-dependencies.component';
+import { EvaluationDetailsComponent } from './pages/final-evaluation/evaluation-details.component';
 import { EvaluationExportComponent } from './pages/final-evaluation/evaluation-export.component';
 import { EvaluationObservationsComponent } from './pages/final-evaluation/evaluation-observations.component';
 import { ListAssignedStudentsComponent } from './pages/list-assigned-students/list-assigned-students.component';
@@ -24,6 +25,7 @@ const routes: Routes = [
     path: ':mentorId/evaluacion-final',
     canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard],
     children: [
+      { path: 'detalles', component: EvaluationDetailsComponent },
       { path: 'actividades', component: EvaluationActivitiesComponent },
       { path: 'dependencias', component: EvaluationDependenciesComponent },
       { path: 'observaciones', component: EvaluationObservationsComponent },
@@ -44,6 +46,7 @@ export class MentorsRoutingModule {
     ViewMentorComponent,
     ViewMentorHistoryComponent,
     ListAssignedStudentsComponent,
+    EvaluationDetailsComponent,
     EvaluationActivitiesComponent,
     EvaluationDependenciesComponent,
     EvaluationObservationsComponent,
