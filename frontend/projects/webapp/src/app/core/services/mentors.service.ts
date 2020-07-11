@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { forkJoin, Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
-import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
+import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
 
@@ -115,6 +115,21 @@ export class MentorsService {
 
   public async saveEvaluationObservations(mentorId: string, data: MentorEvaluationObservations) {
     return await this.evaluationObservationsReference(mentorId).set(data);
+  }
+
+  private evaluationDetailsReference(mentorId: string): AngularFirestoreDocument {
+    return this.mentorDocument(mentorId).collection('evaluation').doc('details');
+  }
+
+  public evaluationDetails(mentorId: string): Observable<MentorEvaluationDetails | null> {
+    return this.evaluationDetailsReference(mentorId).get().pipe(
+      this.perf.trace('load mentor Details evaluation'),
+      map(snap => snap.data())
+    );
+  }
+
+  public async saveEvaluationDetails(mentorId: string, data: MentorEvaluationDetails) {
+    return await this.evaluationDetailsReference(mentorId).set(data);
   }
 
   /**

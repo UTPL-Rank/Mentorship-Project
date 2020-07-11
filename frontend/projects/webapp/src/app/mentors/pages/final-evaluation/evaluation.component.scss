@@ -25,6 +25,13 @@
     }
   }
 
+  &--information {
+    padding: 0 var(--space-4);
+    max-width: var(--max-width);
+    margin: 0 auto;
+    margin-bottom: var(--space-8);
+  }
+
   &--form {
     padding: 0 var(--space-4);
     max-width: var(--max-width);
