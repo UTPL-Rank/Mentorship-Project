@@ -1,47 +1,72 @@
-<h3>
-  Parte C: Observaciones Generales del Proyecto
-</h3>
+<div class="evaluation">
+  <header class="evaluation--header">
+    <span class="text-caption text-reduce-contrast">
+      Parte 3 de 3
+    </span>
 
-<hr>
-<ng-container *ngIf="observationsForm">
+    <h1 class="text-headline">
+      Evaluación Final de Mentoria
+    </h1>
 
-  <form class="mt-4" [formGroup]="observationsForm" (ngSubmit)="save()">
-    <div class="form-group ">
-      <!-- leading -->
-      <label for="positives">
-        Puntos positivos de las actividades desarrolladas durante el semestre
-      </label>
+    <h2 class="text-title text-reduce-contrast">
+      Observaciones Generales del Proyecto
+    </h2>
+  </header>
 
-      <!-- textarea -->
-      <textarea id="positives" placeholder="Detalle de la actividad" formControlName="positives" class="form-control"
-        rows="3"></textarea>
-    </div>
+  <ng-container *ngIf="observationsForm">
+    <form class="evaluation--form" [formGroup]="observationsForm" (ngSubmit)="save()">
+      <!-- positivos -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="positives">Puntos positivos de las actividades desarrolladas durante el semestre</label>
+          <textarea id="positives" placeholder="Detalle de la actividad" formControlName="positives"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group ">
-      <!-- leading -->
-      <label for="inconveniences">
-        Principales inconvenientes detectados
-      </label>
+      <!-- inconveniences -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="inconveniences">Principales inconvenientes detectados</label>
+          <textarea id="inconveniences" placeholder="Detalle de la actividad" formControlName="inconveniences"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="inconveniences" placeholder="Detalle de la actividad" formControlName="inconveniences"
-        class="form-control" rows="3"></textarea>
-    </div>
+      <!-- suggestions -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="suggestions">Sugerencias que puedan ayudar a mejorar el proyecto</label>
+          <textarea id="suggestions" placeholder="Detalle de la actividad" formControlName="suggestions"
+            rows="3"></textarea>
+        </div>
+      </div>
+    </form>
+  </ng-container>
 
-    <div class="form-group ">
-      <!-- leading -->
-      <label for="suggestions">
-        Sugerencias que puedan ayudar a mejorar el proyecto
-      </label>
+  <section class="evaluation--actions">
+    <!-- return message -->
+    <a class="button-outline button-primary " [routerLink]="['../dependencias']">
+      Anterior
+    </a>
 
-      <!-- textarea -->
-      <textarea id="suggestions" placeholder="Detalle de la actividad" formControlName="suggestions"
-        class="form-control" rows="3"></textarea>
-    </div>
+    <!-- save message -->
+    <ng-container *ngIf="saved">
+      <span class="text-caption text-reduce-contrast">
+        Guardado...
+      </span>
+    </ng-container>
 
-    <button class="btn btn-primary" type="submit">
-      Guardar
-    </button>
+    <!-- steps -->
+    <ng-container *ngIf="!saved">
+      <span class="text-caption text-reduce-contrast">
+        Parte 3 de 3
+      </span>
+    </ng-container>
 
-  </form>
-</ng-container>
+    <!-- next button -->
+    <a class="button-contained button-primary" [routerLink]="['../exportar']">
+      Finalizar
+    </a>
+  </section>
+</div>

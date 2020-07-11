@@ -1,102 +1,114 @@
-<h3>
-  3) Dependencias o personas a través de los cuales se resolvieron las problemáticas de los estudiantes
-</h3>
+<div class="evaluation">
+  <header class="evaluation--header">
+    <span class="text-caption text-reduce-contrast">
+      Parte 2 de 3
+    </span>
 
-<hr>
+    <h1 class="text-headline">
+      Evaluación Final de Mentoria
+    </h1>
 
-<ng-container *ngIf="dependenciesForm">
-  <form class="mt-4" [formGroup]="dependenciesForm" (ngSubmit)="save()">
-    <div class="form-group">
-      <!-- leading -->
-      <label for="coordinator">
-        Coordinador de Titulación
-      </label>
+    <h2 class="text-title text-reduce-contrast">
+      Dependencias o personas a través de los cuales se resolvieron las problemáticas de los estudiantes
+    </h2>
+  </header>
 
-      <!-- textarea -->
-      <textarea id="coordinator" placeholder="Detalle de la actividad" formControlName="coordinator"
-        class="form-control" rows="3"></textarea>
-    </div>
+  <ng-container *ngIf="dependenciesForm">
+    <form class="evaluation--form" [formGroup]="dependenciesForm" (ngSubmit)="save()">
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="teachers">
-        Docentes
-      </label>
+      <!-- coordinator -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="coordinator">Coordinador de Titulación</label>
+          <textarea id="coordinator" placeholder="Detalle de la actividad" formControlName="coordinator"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="teachers" placeholder="Detalle de la actividad" formControlName="teachers" class="form-control"
-        rows="3"></textarea>
-    </div>
+      <!-- teachers -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="teachers">Docentes</label>
+          <textarea id="teachers" placeholder="Detalle de la actividad" formControlName="teachers" rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="missions">
-        Misiones Universitarias
-      </label>
+      <!-- missions -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="missions">Misiones Universitarias</label>
+          <textarea id="missions" placeholder="Detalle de la actividad" formControlName="missions" rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="missions" placeholder="Detalle de la actividad" formControlName="missions" class="form-control"
-        rows="3"></textarea>
-    </div>
+      <!-- chancellor -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="chancellor">Vicerrectorado Académico</label>
+          <textarea id="chancellor" placeholder="Detalle de la actividad" formControlName="chancellor"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="chancellor">
-        Vicerrectorado Académico
-      </label>
+      <!-- library -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="library">Biblioteca</label>
+          <textarea id="library" placeholder="Detalle de la actividad" formControlName="library" rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="chancellor" placeholder="Detalle de la actividad" formControlName="chancellor" class="form-control"
-        rows="3"></textarea>
-    </div>
+      <!-- firstSolvedByMentor -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="firstSolvedByMentor">Resuelto en primera instancia por el mentor</label>
+          <textarea id="firstSolvedByMentor" placeholder="Detalle de la actividad" formControlName="firstSolvedByMentor"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="library">
-        Biblioteca
-      </label>
+      <!-- otherServices -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="otherServices">Servicios Estudiantiles</label>
+          <textarea id="otherServices" placeholder="Detalle de la actividad" formControlName="otherServices"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="library" placeholder="Detalle de la actividad" formControlName="library" class="form-control"
-        rows="3"></textarea>
-    </div>
+      <!-- other -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="other">Servicios Estudiantiles</label>
+          <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" rows="3"></textarea>
+        </div>
+      </div>
+    </form>
+  </ng-container>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="firstSolvedByMentor">
-        Resuelto en primera instancia por el mentor
-      </label>
+  <section class="evaluation--actions">
+    <!-- return message -->
+    <a class="button-outline button-primary" [routerLink]="['../actividades']">
+      Anterior
+    </a>
 
-      <!-- textarea -->
-      <textarea id="firstSolvedByMentor" placeholder="Detalle de la actividad" formControlName="firstSolvedByMentor"
-        class="form-control" rows="3"></textarea>
-    </div>
+    <!-- save message -->
+    <ng-container *ngIf="saved">
+      <span class="text-caption text-reduce-contrast">
+        Guardado...
+      </span>
+    </ng-container>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="otherServices">
-        Servicios Estudiantiles
-      </label>
+    <!-- steps -->
+    <ng-container *ngIf="!saved">
+      <span class="text-caption text-reduce-contrast">
+        Parte 2 de 3
+      </span>
+    </ng-container>
 
-      <!-- textarea -->
-      <textarea id="otherServices" placeholder="Detalle de la actividad" formControlName="otherServices"
-        class="form-control" rows="3"></textarea>
-    </div>
-
-    <div class="form-group">
-      <!-- leading -->
-      <label for="other">
-        Servicios Estudiantiles
-      </label>
-
-      <!-- textarea -->
-      <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" class="form-control"
-        rows="3"></textarea>
-    </div>
-
-    <button class="btn btn-primary" type="submit">
-      Guardar
-    </button>
-
-  </form>
-</ng-container>
+    <!-- next button -->
+    <a class="button-contained button-primary" [routerLink]="['../observaciones']">
+      siguiente
+    </a>
+  </section>
+</div>
