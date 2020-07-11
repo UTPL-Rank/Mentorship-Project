@@ -1,81 +1,96 @@
-<h3>
-  2) Actividades o medios a través de las cuales realizó el acompañamiento
-</h3>
+<div class="evaluation">
+  <header class="evaluation--header">
+    <span class="text-caption text-reduce-contrast">
+      Parte 1 de 3
+    </span>
 
-<hr>
+    <h1 class="text-headline">
+      Evaluación Final de Mentoria
+    </h1>
 
-<ng-container *ngIf="activitiesForm">
-  <form class="mt-4" [formGroup]="activitiesForm" (ngSubmit)="save()">
-    <div class="form-group">
-      <!-- leading -->
-      <label for="meetings">
-        Reuniones
-      </label>
+    <h2 class="text-title text-reduce-contrast">
+      Actividades o medios a través de las cuales realizó el acompañamiento
+    </h2>
+  </header>
 
-      <!-- textarea -->
-      <textarea id="meetings" placeholder="Detalle de la actividad" formControlName="meetings" class="form-control"
-        rows="3"></textarea>
-    </div>
+  <ng-container *ngIf="activitiesForm">
+    <form class="evaluation--form" [formGroup]="activitiesForm" (ngSubmit)="save()">
+      <!-- meeting field -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="meetings">Reuniones</label>
+          <textarea id="meetings" placeholder="Detalle de la actividad" formControlName="meetings" rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="sports">
-        Actividades recreativas y deportivas
-      </label>
+      <!-- sports -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="sports">Actividades recreativas y deportivas</label>
+          <textarea id="sports" placeholder="Detalle de la actividad" formControlName="sports" rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="sports" placeholder="Detalle de la actividad" formControlName="sports" class="form-control"
-        rows="3"></textarea>
-    </div>
+      <!-- academicEvent -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="academicEvent">Evento Académico</label>
+          <textarea id="academicEvent" placeholder="Detalle de la actividad" formControlName="academicEvent"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="academicEvent">
-        Evento Académico
-      </label>
+      <!-- socialEvent -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="socialEvent">Evento Sociales</label>
+          <textarea id="socialEvent" placeholder="Detalle de la actividad" formControlName="socialEvent"
+            rows="3"></textarea>
+        </div>
+      </div>
 
-      <!-- textarea -->
-      <textarea id="academicEvent" placeholder="Detalle de la actividad" formControlName="academicEvent"
-        class="form-control" rows="3"></textarea>
-    </div>
+      <!-- virtualAccompaniment -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="virtualAccompaniment">Acompañamiento virtual</label>
+          <textarea id="virtualAccompaniment" placeholder="Detalle de la actividad"
+            formControlName="virtualAccompaniment" rows="3"></textarea>
+        </div>
+      </div>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="socialEvent">
-        Evento Sociales
-      </label>
+      <!-- other -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="other">Otros</label>
+          <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" rows="3"></textarea>
+        </div>
+      </div>
+    </form>
+  </ng-container>
 
-      <!-- textarea -->
-      <textarea id="socialEvent" placeholder="Detalle de la actividad" formControlName="socialEvent"
-        class="form-control" rows="3"></textarea>
-    </div>
+  <section class="evaluation--actions">
+    <!-- return message -->
+    <a class="button-outline disabled">
+      Anterior
+    </a>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="virtualAccompaniment">
-        Acompañamiento virtual
-      </label>
+    <!-- save message -->
+    <ng-container *ngIf="saved">
+      <span class="text-caption text-reduce-contrast">
+        Guardado...
+      </span>
+    </ng-container>
 
-      <!-- textarea -->
-      <textarea id="virtualAccompaniment" placeholder="Detalle de la actividad" formControlName="virtualAccompaniment"
-        class="form-control" rows="3"></textarea>
-    </div>
+    <!-- steps -->
+    <ng-container *ngIf="!saved">
+      <span class="text-caption text-reduce-contrast">
+        Parte 1 de 3
+      </span>
+    </ng-container>
 
-    <div class="form-group">
-      <!-- leading -->
-      <label for="other">
-        Otros
-      </label>
-
-      <!-- textarea -->
-      <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" class="form-control"
-        rows="3"></textarea>
-    </div>
-
-    <button class="btn btn-primary" type="submit">
-      Guardar
-    </button>
-
-  </form>
-
-</ng-container>
+    <!-- next button -->
+    <a class="button-contained button-primary" [routerLink]="['../dependencias']">
+      siguiente
+    </a>
+  </section>
+</div>

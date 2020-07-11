@@ -2,20 +2,22 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { BrowserLoggerService } from '../../../core/services/browser-logger.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 
 @Component({
   selector: 'sgm-evaluation-observations',
   templateUrl: './evaluation-observations.component.html',
-  styleUrls: ['./evaluation-observations.component.scss']
+  styleUrls: ['./evaluation.component.scss']
 })
 export class EvaluationObservationsComponent implements OnInit, OnDestroy {
 
   public observationsForm: FormGroup;
+  public saved = false;
 
   private dataSubscription: Subscription;
+  private valueSubscription: Subscription;
 
   constructor(
     private readonly fb: FormBuilder,
@@ -36,11 +38,18 @@ export class EvaluationObservationsComponent implements OnInit, OnDestroy {
           inconveniences: evaluation?.inconveniences,
           suggestions: evaluation?.suggestions,
         });
+
+        // save value on demand
+        const formChanges = this.observationsForm.valueChanges.pipe(debounceTime(1000));
+        this.valueSubscription = formChanges.subscribe(() => {
+          this.save();
+        });
       });
   }
 
   ngOnDestroy() {
     this.dataSubscription.unsubscribe();
+    this.valueSubscription.unsubscribe();
   }
 
   /**
@@ -58,9 +67,15 @@ export class EvaluationObservationsComponent implements OnInit, OnDestroy {
     // save the evaluation
     try {
       await this.mentorService.saveEvaluationObservations(mentorId, evaluation);
-      alert('se guardaron los cambios correctamente.');
+      this.showSave();
     } catch (error) {
       this.logger.error('cant save evaluation form', error);
     }
+  }
+
+  /** show save message for a few seconds */
+  private showSave() {
+    this.saved = true;
+    setTimeout(() => this.saved = false, 1000);
   }
 }
