@@ -21,7 +21,7 @@ interface GetAccompaniments {
   periodId: string;
 }
 
-interface QueryAccompaniments {
+export interface QueryAccompaniments {
   orderBy?: {
     timeCreated?: firestore.OrderByDirection;
   };
@@ -31,9 +31,8 @@ interface QueryAccompaniments {
     mentorId?: string;
     studentId?: string;
   };
-  limit?: {
-    start?: number;
-  };
+  start?: number;
+  limit?: number;
   accompanimentId?: string;
 }
 
@@ -51,7 +50,6 @@ export class AccompanimentsService {
 
   /** @internal query accompaniments collection */
   private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<Accompaniment> {
-
     // query-less collection, only get a reference to the collection
     if (!queryAccompaniment)
       return this.firestoreDB.collection<Accompaniment>(ACCOMPANIMENTS_COLLECTION_NAME);
