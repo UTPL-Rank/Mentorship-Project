@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/services/authentication.service';
 import { Notification } from '../../../models/models';
@@ -9,12 +10,26 @@ import { Notification } from '../../../models/models';
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent {
+export class NotificationsComponent implements OnInit, OnDestroy {
+
+  public notifications: Array<Notification>;
+
+  private notificationsSub: Subscription;
 
   constructor(
-    public readonly auth: AuthenticationService,
+    private readonly auth: AuthenticationService,
     private readonly router: Router,
   ) { }
+
+  ngOnInit() {
+    this.notificationsSub = this.auth.notificationsStream.subscribe(
+      notifications => this.notifications = notifications
+    );
+  }
+
+  ngOnDestroy() {
+    this.notificationsSub.unsubscribe();
+  }
 
   async handleRedirect(notification: Notification) {
     const update = this.auth.toggleNotificationRead(notification.id).pipe(
@@ -23,4 +38,9 @@ export class NotificationsComponent {
 
     await update.toPromise();
   }
+
+  get unread(): boolean {
+    return this.notifications.some(n => !n.read);
+  }
+
 }

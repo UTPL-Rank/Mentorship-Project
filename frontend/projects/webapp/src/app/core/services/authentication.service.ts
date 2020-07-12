@@ -19,7 +19,7 @@ export class AuthenticationService {
     shareReplay(1),
   );
 
-  public notifications: Observable<Array<Notification>> = this.afAuth.user.pipe(
+  public notificationsStream: Observable<Array<Notification>> = this.afAuth.user.pipe(
     filter(user => !!user),
     map(user => user.email),
     map(email => this.firestore.collection('users').doc(email.split('@')[0])),
