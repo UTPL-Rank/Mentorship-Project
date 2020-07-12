@@ -30,7 +30,7 @@ const db = admin.firestore();
     const studentsWithAccompaniments = students.reduce((obj, s) => {
         // check if mentor exists 
         if (!obj[s.mentor.reference.id])
-            obj[s.mentor.reference.id] = { withAccompaniments: [], withoutAccompaniments: [], studentsDegrees: [] };
+            obj[s.mentor.reference.id] = { withAccompaniments: [], withoutAccompaniments: [], degrees: [], cycles: [] };
 
         // add student to respective list
         if (!s.stats.accompanimentsCount)
@@ -39,8 +39,12 @@ const db = admin.firestore();
             obj[s.mentor.reference.id].withAccompaniments.push(s.displayName);
 
         const studentDegree = s.degree.name;
-        if (!obj[s.mentor.reference.id].studentsDegrees.includes(studentDegree))
-            obj[s.mentor.reference.id].studentsDegrees.push(studentDegree);
+        if (!obj[s.mentor.reference.id].degrees.includes(studentDegree))
+            obj[s.mentor.reference.id].degrees.push(studentDegree);
+
+        const studentCycle = s.cycle;
+        if (!obj[s.mentor.reference.id].cycles.includes(studentCycle))
+            obj[s.mentor.reference.id].cycles.push(studentCycle);
 
         return obj;
     }, {});
@@ -61,11 +65,12 @@ const db = admin.firestore();
     const batch = db.batch();
     for (const key in studentsWithAccompaniments) {
         if (studentsWithAccompaniments.hasOwnProperty(key)) {
-            const stats = studentsWithAccompaniments[key];
+            const student = studentsWithAccompaniments[key];
             const ref = db.collection('mentors').doc(key)
-            batch.update(ref, 'stats.withoutAccompaniments', stats.withoutAccompaniments);
-            batch.update(ref, 'stats.withAccompaniments', stats.withAccompaniments);
-            batch.update(ref, 'stats.studentsDegrees', stats.studentsDegrees);
+            batch.update(ref, 'students.withoutAccompaniments', student.withoutAccompaniments);
+            batch.update(ref, 'students.withAccompaniments', student.withAccompaniments);
+            batch.update(ref, 'students.degrees', student.degrees);
+            batch.update(ref, 'students.cycles', student.cycles);
         }
     }
 

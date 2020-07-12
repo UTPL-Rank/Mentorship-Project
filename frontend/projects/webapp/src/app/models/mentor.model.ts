@@ -2,6 +2,7 @@ import { firestore } from 'firebase/app';
 import { AcademicAreaReference } from './academic-area.model';
 import { FirestoreAcademicDegreeReference } from './academic-degree.model';
 import { AcademicPeriodReference } from './academic-period.model';
+import { AcademicCycleKind } from './models';
 
 export type MentorReference = firestore.DocumentReference<Mentor>;
 export type MentorQuery = firestore.Query<Mentor>;
@@ -34,6 +35,13 @@ export interface Mentor {
     assignedStudentCount: number;
     accompanimentsCount: number;
     lastAccompaniment?: firestore.Timestamp;
+  };
+
+  students: {
+    withAccompaniments: Array<string>;
+    withoutAccompaniments: Array<string>;
+    degrees: Array<string>;
+    cycles: Array<AcademicCycleKind>;
   };
 }
 

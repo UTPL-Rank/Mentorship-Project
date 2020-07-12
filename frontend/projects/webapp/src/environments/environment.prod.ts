@@ -12,5 +12,8 @@ export const environment = {
   },
   messaging: {
     serverKey: 'AAAAXBENMjc:APA91bEUyppWzkzuDGdbx-Dq351ABRyIgajWrhMDz8qyhXNYemx6B1JUe9kY89niqgJ3B36BCs5FI1sM-e-opNGgujV7_oApW76GM7lNpDd1Y05mc5nDf0ndDidzazUBYGKgfibTnKlZ'
+  },
+  reports: {
+    mentorEvaluation: 'https://reportes-sgmentores/evaluacion-final.html'
   }
 };

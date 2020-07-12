@@ -21,22 +21,36 @@ document.addEventListener('DOMContentLoaded', async function () {
             throw new Error('Report not found');
 
         const data = reportDocument.data();
-        console.log("Document data:", data);
+        // console.log("Document data:", data);
 
         // start filling the blanks
         document.getElementById('name').innerText = data.mentor.displayName;
         document.getElementById('generatedBy').innerText = `Generado por: ${data.creator.displayName}`;
         document.getElementById('mentorDegree').innerText = data.mentor.degree.name;
-        document.getElementById('studentsDegrees').innerText = data.mentor.stats.studentsDegrees.join(', ');
+        document.getElementById('mentorAcademicPeriod').innerText = data.mentor.period.name;
         document.getElementById('assignedStudents').innerText = data.mentor.stats.assignedStudentCount;
-        document.getElementById('withAccompaniments').innerText = data.mentor.stats.withAccompaniments.length;
-        document.getElementById('withoutAccompaniments').innerText = data.mentor.stats.withoutAccompaniments.length;
+        document.getElementById('studentsDegrees').innerText = data.mentor.students.degrees.join(', ');
+        document.getElementById('withAccompaniments').innerText = data.mentor.students.withAccompaniments.length;
+        document.getElementById('withoutAccompaniments').innerText = data.mentor.students.withoutAccompaniments.length;
+
+        const cycles = data.mentor.students.cycles.map(cycle => {
+            if (cycle === 'sgm#first') return 'Primer Ciclo';
+            if (cycle === 'sgm#second') return 'Segundo Ciclo';
+            if (cycle === 'sgm#third') return 'Tercer Ciclo';
+        });
+        document.getElementById('studentsCicles').innerText = cycles.join(', ');
 
         writeReportDate(data.createdAt.toDate());
 
         document.getElementById('reportSignature').setAttribute('src', data.signature);
 
-        // activities
+        // details
+        const mentorFirstTime = data.details.mentorFirstTime;
+        document.getElementById(mentorFirstTime ? 'mentorFirstTimeTrue' : 'mentorFirstTimeFalse').innerText = 'X';
+        document.getElementById('principalProblems').innerText = data.details.principalProblems;
+        document.getElementById('studentsWithoutAccompaniments').innerText = data.details.studentsWithoutAccompaniments;
+
+        // activities>
         document.getElementById('meetings').innerText = data.activities.meetings;
         document.getElementById('sports').innerText = data.activities.sports;
         document.getElementById('academicEvent').innerText = data.activities.academicEvent;

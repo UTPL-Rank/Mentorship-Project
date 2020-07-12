@@ -30,7 +30,7 @@ const routes: Routes = [
       { path: 'dependencias', component: EvaluationDependenciesComponent },
       { path: 'observaciones', component: EvaluationObservationsComponent },
       { path: 'exportar', component: EvaluationExportComponent },
-      { path: '**', redirectTo: 'actividades' },
+      { path: '**', redirectTo: 'detalles' },
     ]
   },
 ];

@@ -89,4 +89,16 @@ export class EvaluationDetailsComponent implements OnInit, OnDestroy {
     this.saved = true;
     setTimeout(() => this.saved = false, 1000);
   }
+
+  get studentsWithAccompaniments() {
+    return this.mentor.students.withAccompaniments.join(', ');
+  }
+
+  get studentsWithoutAccompaniments() {
+    return this.mentor.students.withoutAccompaniments.join(', ');
+  }
+
+  get studentsDegrees() {
+    return this.mentor.students.degrees.join(', ');
+  }
 }

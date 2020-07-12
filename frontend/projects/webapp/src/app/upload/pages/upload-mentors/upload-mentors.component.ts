@@ -103,7 +103,8 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
       area: { reference: areaReference, name: areaData.name },
       period: { reference: periodReference, name: periodData.name, date: periodData.date },
       degree: { reference: degreeReference, name: degreeData.name },
-      stats: { accompanimentsCount: 0, assignedStudentCount: 0 }
+      stats: { accompanimentsCount: 0, assignedStudentCount: 0 },
+      students: { cycles: [], degrees: [], withAccompaniments: [], withoutAccompaniments: [] }
     };
   }
 

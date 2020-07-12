@@ -38,16 +38,16 @@
           <td>Titulación del mentor compañero:</td>
           <td colspan="4" id="mentorDegree"></td>
           <td>Período Académico en el que ingresan los estudiantes nuevos:</td>
-          <td>Octubre/2019- Febrero/2020 </td>
+          <td id="studentsCicles"></td>
         </tr>
         <tr>
           <td>Veces que ha participado como mentor compañero:</td>
           <td width="50px">Primera vez</td>
-          <td width="40px"></td>
+          <td width="40px" id="mentorFirstTimeTrue"></td>
           <td width="50px">Más de una vez</td>
-          <td width="40px"></td>
+          <td width="40px" id="mentorFirstTimeFalse"></td>
           <td> Periodo académico en el cual se ejecutó el acompañamiento:</td>
-          <td></td>
+          <td id="mentorAcademicPeriod"></td>
 
         </tr>
       </table>
@@ -90,7 +90,7 @@
               Principales problemáticas presentadas por los estudiantes de nuevo ingreso y soluciones
               dadas:
             </th>
-            <td colspan="2" rowspan="3" width="300px"></td>
+            <td colspan="2" rowspan="3" width="300px" id="principalProblems"></td>
 
 
           </tr>
@@ -114,7 +114,7 @@
             <th>
               Causas principales por las que los estudiantes no recibieron acompañamiento:
             </th>
-            <td colspan="2"></td>
+            <td colspan="2" id="studentsWithoutAccompaniments"></td>
 
           </tr>
         </thead>
