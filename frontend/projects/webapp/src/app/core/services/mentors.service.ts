@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { forkJoin, Observable } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
@@ -79,7 +79,7 @@ export class MentorsService {
   public evaluationActivities(mentorId: string): Observable<MentorEvaluationActivities | null> {
     return this.evaluationActivitiesDocument(mentorId).get().pipe(
       this.perf.trace('load mentor activities evaluation'),
-      map(snap => snap.data())
+      map(snap => snap.exists ? snap.data() : null),
     );
   }
 
@@ -94,7 +94,7 @@ export class MentorsService {
   public evaluationDependencies(mentorId: string): Observable<MentorEvaluationDependencies | null> {
     return this.evaluationDependenciesReference(mentorId).get().pipe(
       this.perf.trace('load mentor dependencies evaluation'),
-      map(snap => snap.data())
+      map(snap => snap.exists ? snap.data() : null),
     );
   }
 
@@ -109,7 +109,7 @@ export class MentorsService {
   public evaluationObservations(mentorId: string): Observable<MentorEvaluationObservations | null> {
     return this.evaluationObservationsReference(mentorId).get().pipe(
       this.perf.trace('load mentor observations evaluation'),
-      map(snap => snap.data())
+      map(snap => snap.exists ? snap.data() : null),
     );
   }
 
@@ -124,7 +124,7 @@ export class MentorsService {
   public evaluationDetails(mentorId: string): Observable<MentorEvaluationDetails | null> {
     return this.evaluationDetailsReference(mentorId).get().pipe(
       this.perf.trace('load mentor Details evaluation'),
-      map(snap => snap.data())
+      map(snap => snap.exists ? snap.data() : null),
     );
   }
 
@@ -149,6 +149,7 @@ export class MentorsService {
     });
 
     const saveReport = reportData.pipe(
+      tap(console.log),
       map(data => Object.assign(data, { signature })),
       switchMap(data => this.reportsService.create(data)),
     );
