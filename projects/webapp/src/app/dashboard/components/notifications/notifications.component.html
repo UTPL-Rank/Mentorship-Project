@@ -1,7 +1,8 @@
-<ng-container *ngIf="auth.notifications | async as notifications">
+<ng-container *ngIf="notifications">
   <div class="notification">
     <!-- visible -->
-    <button class="button button-primary" title="Notificaciones">
+    <button class="button" [ngClass]="{'button-primary': unread}" title="Notificaciones">
+      <ng-container *ngIf="unread">+</ng-container>
       <i class="fas fa-bell"></i>
     </button>
 
@@ -21,7 +22,7 @@
           <button (click)="handleRedirect(notification)" routerLinkActive="router-link-active"
             class="notification--item">
             <b class="displayName text-body-2" [ngClass]="{'text-primary': !notification.read}">
-              {{notification.displayName | titlecase}}
+              {{notification.name}}
             </b>
             <span class="text-caption">
               {{notification.message}}
