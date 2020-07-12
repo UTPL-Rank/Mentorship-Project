@@ -45,8 +45,8 @@ async function sendNotificationToAdministrators(accompaniment: firestore.Documen
     const id = firestore().collection('users').doc(username).collection('notifications').doc().id;
     return await firestore().collection('users').doc(username).collection('notifications').doc(id).set({
       id,
-      displayName: accompaniment.mentor.displayName,
-      message: 'Ha marcado un acompañamiento como importante.',
+      name: 'Acompañamiento Importante',
+      message: `${accompaniment.mentor.displayName.toUpperCase()} ha marcado un acompañamiento como importante.`,
       read: false,
       redirect: `/panel-control/abr20-ago20/acompañamientos/ver/${accompaniment.mentor.reference.id}/${accompaniment.id}`,
       time: firestore.FieldValue.serverTimestamp()
