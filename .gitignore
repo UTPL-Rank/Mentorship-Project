@@ -106,3 +106,4 @@ dist
 # firebsae logs and credential
 .firebase
 credentials.json
+credentials-sgm.json

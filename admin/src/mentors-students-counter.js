@@ -7,7 +7,7 @@
  */
 
 const admin = require("firebase-admin");
-const serviceAccount = require("../credentials.json");
+const serviceAccount = require("../credentials-sgm.json");
 const assert = require('assert').strict;
 
 

@@ -13,6 +13,16 @@
           "dev-sgmentores-9c117"
         ]
       }
+    },
+    "sgmentores": {
+      "hosting": {
+        "reports": [
+          "reportes-sgmentores"
+        ],
+        "dashboard": [
+          "sgmentores"
+        ]
+      }
     }
   }
 }
