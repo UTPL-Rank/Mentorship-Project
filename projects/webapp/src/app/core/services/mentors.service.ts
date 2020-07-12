@@ -142,6 +142,7 @@ export class MentorsService {
     // fetch all data to generate the final evaluation report data
     const reportData = forkJoin({
       mentor: this.mentor(mentorId),
+      details: this.evaluationDetails(mentorId),
       activities: this.evaluationActivities(mentorId),
       dependencies: this.evaluationDependencies(mentorId),
       observations: this.evaluationObservations(mentorId)

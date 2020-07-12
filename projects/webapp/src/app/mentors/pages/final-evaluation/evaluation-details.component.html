@@ -16,31 +16,33 @@
   <ng-container *ngIf="mentor">
     <section class="evaluation--information">
       <h3 class="text-subtitle text-reduce-contrast">
-        Nombres y apellidos del Mentor Compañero
+        Nro. De estudiantes de nuevo ingreso asignados
       </h3>
       <p class="text-reduce-contrast">
-        {{mentor.displayName | titlecase}}
+        <b>{{mentor.stats.assignedStudentCount}} estudiantes.</b>
       </p>
 
       <h3 class="text-subtitle text-reduce-contrast">
-        Periodo académico en el cual se ejecutó el acompañamiento
+        Estudiantes de nuevo ingreso que recibieron acompañamiento.
       </h3>
       <p class="text-reduce-contrast">
-        {{mentor.period.name | titlecase}}
+        <b>({{mentor.students.withAccompaniments.length}} estudiantes)</b> : {{studentsWithAccompaniments | titlecase}}.
       </p>
 
       <h3 class="text-subtitle text-reduce-contrast">
-        Titulación del mentor compañero
+        Estudiantes de nuevo ingreso que no
+        participan del proyecto
       </h3>
       <p class="text-reduce-contrast">
-        {{mentor.area.name | titlecase}}
+        <b>({{mentor.students.withoutAccompaniments.length}} estudiantes)</b> :
+        {{studentsWithoutAccompaniments| titlecase}}.
       </p>
 
       <h3 class="text-subtitle text-reduce-contrast">
-        Acompañamientos Realizados
+        Titulación de los estudiantes de nuevo ingreso asignados
       </h3>
       <p class="text-reduce-contrast">
-        {{mentor.stats.accompanimentsCount}} acompañamientos realizados.
+        <b>({{mentor.students.degrees.length}} Titulaciones)</b> : {{studentsDegrees| titlecase}}.
       </p>
     </section>
   </ng-container>
@@ -62,11 +64,26 @@
       <!-- studentsWithoutAccompaniments -->
       <div class="text-field">
         <div class="text-field-outline">
-          <label for="studentsWithoutAccompaniments">Evento Académico</label>
+          <label for="studentsWithoutAccompaniments">Estudiantes que no recibieron acompañamiento</label>
           <textarea id="studentsWithoutAccompaniments" placeholder="Detalle de la actividad"
             formControlName="studentsWithoutAccompaniments" rows="3"></textarea>
         </div>
+        <span class="text-reduce-contrast">
+          Causas principales por las que los estudiantes no recibieron acompañamiento
+        </span>
       </div>
+
+      <label class="checkbox">
+        <input type="checkbox" formControlName="mentorFirstTime">
+        <div class="icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <span class="checkbox-label">
+          <div class="text-reduce-contrast">
+            Primera vez que ha participado como mentor compañero
+          </div>
+        </span>
+      </label>
     </form>
   </ng-container>
 
@@ -91,7 +108,7 @@
     </ng-container>
 
     <!-- next button -->
-    <a class="button-contained button-primary" [routerLink]="['../activities']">
+    <a class="button-contained button-primary" [routerLink]="['../actividades']">
       siguiente
     </a>
   </section>

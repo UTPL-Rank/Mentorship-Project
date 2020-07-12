@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'projects/webapp/src/environments/environment';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
@@ -34,20 +35,9 @@ export class EvaluationExportComponent implements OnInit {
     }
 
     this.mentorsService.generateFinalEvaluationReport(mentorId, this.sigCanvas.getDataURL())
-      .subscribe(console.log);
-    return;
-    // await this.router.navigate(
-    //   [
-    //     '/panel-control',
-    //     'reportes',
-    //     'evaluacion-final',
-    //     mentorId,
-    //   ],
-    //   {
-    //     queryParams: {
-    //       signature: this.sigCanvas.getDataURL()
-    //     }
-    //   }
-    // );
+      .subscribe(reportId => {
+        const url = `${environment.reports.mentorEvaluation}?reportId=${reportId}`;
+        window.open(url, '_blank');
+      });
   }
 }
