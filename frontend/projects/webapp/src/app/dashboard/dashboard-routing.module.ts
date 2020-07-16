@@ -76,7 +76,7 @@ const routes: Routes = [
       { path: 'acompañamientos', loadChildren: () => import('./../accompaniments/accompaniments.module').then(m => m.AccompanimentsModule) },
       { path: 'registrar-acompañamiento/:mentorId', redirectTo: 'acompañamientos/nuevo/:mentorId' },
       { path: 'ver-acompañamiento/:mentorId/:accompanimentId', redirectTo: 'acompañamientos/ver/:mentorId/:accompanimentId' },
-      { path: 'calificar-acompañamiento/:studentId/:accompanimentId/:reviewKey', redirectTo: 'calificar/:studentId/:accompanimentId/:reviewKey' },
+      { path: 'calificar-acompañamiento/:studentId/:accompanimentId/:reviewKey', redirectTo: 'acompañamientos/calificar/:studentId/:accompanimentId/:reviewKey' },
     ]
   },
 

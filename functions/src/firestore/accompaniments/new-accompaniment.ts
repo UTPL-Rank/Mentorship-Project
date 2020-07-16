@@ -3,7 +3,7 @@ import * as functions from 'firebase-functions';
 import { sendEmail } from '../../utils/utils';
 import { BASE_URL, DEFAULT_EMAIL_SEND } from '../../utils/variables';
 
-async function sendEmailToUser(
+async function notifyUserOfAccompaniment(
   accompaniment: firestore.DocumentData & {
     student?: { email?: string; displayName?: string; id?: string };
     reviewKey?: string;
@@ -25,12 +25,29 @@ async function sendEmailToUser(
       },
     };
 
-    await sendEmail(msg);
+    const tasks: Array<Promise<any>> = [sendEmail(msg)];
+
+    // send notification
+    const username = accompaniment?.student?.email?.split('@')[0];
+    if (username) {
+      const id = firestore().collection('users').doc(username).collection('notifications').doc().id;
+      const notificationTask = firestore().collection('users').doc(username).collection('notifications').doc(id).set({
+        id,
+        name: 'Validación de Acompañamiento',
+        message: `${accompaniment?.mentor?.displayName?.toUpperCase()} ha registrado un nuevo acompañamiento, ayudanos validandolo.`,
+        read: false,
+        redirect: `/panel-control/${accompaniment?.period?.reference?.id}/calificar-acompañamiento/${accompaniment?.student?.id}/${accompaniment.id}/${accompaniment.reviewKey}`,
+        time: accompaniment?.timeCreated
+      });
+
+      tasks.push(notificationTask);
+    }
+
+    await Promise.all(tasks);
   } catch (error) {
     console.error({
       message: "Message couldn't be send.",
       error,
-      accompaniment,
     });
   }
 }
@@ -70,7 +87,7 @@ export const mailAccompanimentReview = functions.firestore
 
     const tasks = [];
 
-    tasks.push(sendEmailToUser(accompaniment));
+    tasks.push(notifyUserOfAccompaniment(accompaniment));
 
     // accompaniment tagged as important 
     // send notification to administrators
