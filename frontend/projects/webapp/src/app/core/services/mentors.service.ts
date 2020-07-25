@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { forkJoin, Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
@@ -13,6 +14,7 @@ const MENTORS_COLLECTION_NAME = 'mentors';
 export class MentorsService {
   constructor(
     private readonly angularFirestore: AngularFirestore,
+    private readonly functions: AngularFireFunctions,
     private readonly perf: AngularFirePerformance,
     private readonly periodsService: AcademicPeriodsService,
     private readonly reportsService: ReportsService,
@@ -155,5 +157,11 @@ export class MentorsService {
     );
 
     return saveReport;
+  }
+
+  generateCSV(): Observable<string> {
+    const fn = this.functions.httpsCallable<{}, string>('CSVMentors');
+    const csv = fn({});
+    return csv;
   }
 }

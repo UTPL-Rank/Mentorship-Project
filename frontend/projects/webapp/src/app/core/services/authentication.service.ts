@@ -19,6 +19,10 @@ export class AuthenticationService {
     shareReplay(1),
   );
 
+  public isAdmin: Observable<boolean> = this.claims.pipe(
+    map(claims => claims.isAdmin)
+  );
+
   public notificationsStream: Observable<Array<Notification>> = this.afAuth.user.pipe(
     filter(user => !!user),
     map(user => user.email),

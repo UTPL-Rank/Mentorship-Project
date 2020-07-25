@@ -46,29 +46,3 @@ export const exportToPdf = functions
       return null;
     }
   });
-
-// export const exportToPdf = functions
-//   .runWith({ memory: '1GB', timeoutSeconds: 540 })
-//   .https.onCall(async (data, context) => {
-//     if (!context.auth) return null;
-
-//     try {
-//       const { mentorId, studentId, semesterId, signature } = data;
-
-//       const url =
-//         `${BASE_URL}/ficha-acompañamiento` +
-//         `/${mentorId}/${studentId}/${semesterId}` +
-//         `?signature=${signature}`;
-
-//       const content = await getPageContent(url);
-
-//       return content.toString('base64');
-//     } catch (error) {
-//       console.error({
-//         message: 'An error occurred while exporting accompaniments',
-//         error,
-//         data,
-//       });
-//       return null;
-//     }
-//   });
