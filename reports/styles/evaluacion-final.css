@@ -1,0 +1,39 @@
+.contenedor {
+    margin: auto;
+    width: 1200px;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+    text-align: center;
+    font-size: 12px;
+}
+
+td, th {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+#title {
+    text-align: center;
+}
+
+tfoot td {
+    height: 40px;
+}
+
+.firm {
+    height: 0;
+    padding: 0px;
+}
+
+.space_firm {
+    height: 150px;
+}
+
+#name {
+    text-transform: capitalize;
+}

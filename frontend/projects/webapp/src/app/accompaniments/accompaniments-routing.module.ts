@@ -68,6 +68,7 @@ export class AccompanimentsRoutingModule {
   static guards = [
     ValidPeriodOfMentorGuard,
     ValidAccompanimentGuard,
+    ValidPeriodOfStudentGuard,
     UnconfirmedAccompanimentExistsGuard,
   ];
 }

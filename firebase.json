@@ -9,20 +9,32 @@
       "npm --prefix \"$RESOURCE_DIR\" run build"
     ]
   },
-  "hosting": {
-    "public": "dist/webapp",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
+  "hosting": [
+    {
+      "target": "dashboard",
+      "public": "dist/webapp",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ]
+    },
+    {
+      "target": "reports",
+      "public": "reports",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ]
+    }
+  ],
   "storage": {
     "rules": "firebase/storage.rules"
   }

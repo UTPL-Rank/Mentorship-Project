@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
-import { auth, firestore, sendEmail } from '../utils/utils';
+import { authentication, dbFirestore, sendEmail } from '../utils/utils';
 import { BASE_URL, DEFAULT_EMAIL_SEND } from '../utils/variables';
 
 function isUTPLEmail({ email }: UserRecord): boolean {
@@ -8,8 +8,8 @@ function isUTPLEmail({ email }: UserRecord): boolean {
 }
 
 async function disableAccount({ uid }: UserRecord) {
-  await auth.updateUser(uid, { disabled: true });
-  await auth.revokeRefreshTokens(uid);
+  await authentication.updateUser(uid, { disabled: true });
+  await authentication.revokeRefreshTokens(uid);
 }
 
 async function sendWelcomeEmail({ email, displayName }: UserRecord) {
@@ -28,12 +28,12 @@ async function sendWelcomeEmail({ email, displayName }: UserRecord) {
 async function assignCustomClaimsIfExist({ email, uid }: UserRecord) {
   if (!email) return;
 
-  const doc = firestore.collection('claims').doc(email);
+  const doc = dbFirestore.collection('claims').doc(email);
   const claimsSnap = await doc.get();
 
   if (claimsSnap.exists) {
     const claims = claimsSnap.data() as object;
-    await auth.setCustomUserClaims(uid, claims);
+    await authentication.setCustomUserClaims(uid, claims);
     // await auth.revokeRefreshTokens(uid);
   }
 }

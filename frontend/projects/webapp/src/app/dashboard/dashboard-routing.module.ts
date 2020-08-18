@@ -9,7 +9,7 @@ import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-an
 import { AnalyticsPage } from './pages/analytics/analytics.page';
 import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
-import { DashboardShell } from './pages/dashboard.page';
+import { DashboardShellComponent } from './pages/dashboard-shell.component';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
 
 const routes: Routes = [
@@ -29,7 +29,7 @@ const routes: Routes = [
   // ==================
   {
     path: ':periodId',
-    component: DashboardShell,
+    component: DashboardShellComponent,
     resolve: { activePeriod: ActivePeriodResolver },
     canActivate: [SignedInGuard, ValidPeriodGuard],
     runGuardsAndResolvers: 'always',
@@ -76,7 +76,7 @@ const routes: Routes = [
       { path: 'acompañamientos', loadChildren: () => import('./../accompaniments/accompaniments.module').then(m => m.AccompanimentsModule) },
       { path: 'registrar-acompañamiento/:mentorId', redirectTo: 'acompañamientos/nuevo/:mentorId' },
       { path: 'ver-acompañamiento/:mentorId/:accompanimentId', redirectTo: 'acompañamientos/ver/:mentorId/:accompanimentId' },
-      { path: 'calificar-acompañamiento/:studentId/:accompanimentId/:reviewKey', redirectTo: 'calificar/:studentId/:accompanimentId/:reviewKey' },
+      { path: 'calificar-acompañamiento/:studentId/:accompanimentId/:reviewKey', redirectTo: 'acompañamientos/calificar/:studentId/:accompanimentId/:reviewKey' },
     ]
   },
 
