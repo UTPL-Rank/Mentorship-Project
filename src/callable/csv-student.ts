@@ -1,3 +1,7 @@
+import * as functions from 'firebase-functions';
+import { ListStudentsOfMentor } from '../utils/student-utils';
+import { GenerateCSVFromObjects } from '../utils/utils';
+
 /**
  * CSV Mentors
  * ==========================================================
@@ -12,11 +16,6 @@
  * @param mentorId identifier of the mentor.
  * @return generated csv string
  */
-
-import * as functions from 'firebase-functions';
-import { ListStudentsOfMentor } from '../utils/student-utils';
-import { GenerateCSVFromObjects } from '../utils/utils';
-
 export const CSVStudents = functions.https.onCall(async (data) => {
     const { mentorId } = data;
 
