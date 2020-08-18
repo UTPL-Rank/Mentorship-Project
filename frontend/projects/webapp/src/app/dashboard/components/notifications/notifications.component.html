@@ -1,0 +1,42 @@
+<ng-container *ngIf="notifications">
+  <div class="notification">
+    <!-- visible -->
+    <button class="button" [ngClass]="{'button-primary': unread}" title="Notificaciones">
+      <ng-container *ngIf="unread">+</ng-container>
+      <i class="fas fa-bell"></i>
+    </button>
+
+    <!-- menu content -->
+    <div class="notification--content">
+      <!-- notification header -->
+      <div class="notification--header">
+        <span class="text-body2">
+          Notificaciones
+        </span>
+      </div>
+      <!-- end header -->
+
+      <!-- list of notification items -->
+      <div class="notification--items">
+        <ng-container *ngFor="let notification of notifications">
+          <button (click)="handleRedirect(notification)" routerLinkActive="router-link-active"
+            class="notification--item">
+            <b class="displayName text-body-2" [ngClass]="{'text-primary': !notification.read}">
+              {{notification.name}}
+            </b>
+            <span class="text-caption">
+              {{notification.message}}
+            </span>
+            <small class="text-caption text-reduce-contrast">
+              {{notification.time.toDate() | date:'long'}}
+            </small>
+          </button>
+        </ng-container>
+      </div>
+
+      <span class="notification--footer text-caption">
+        <ng-container *ngIf="notifications.length == 9">+</ng-container>{{notifications.length}} notificaciones
+      </span>
+    </div>
+  </div>
+</ng-container>

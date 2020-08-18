@@ -3,7 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 import { IsAdminGuard } from '../core/guards/is-admin.guard';
 import { IsMentorGuard } from '../core/guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from '../core/guards/valid-period-of-mentor.guard';
-import { FinalEvaluationComponent } from './pages/final-evaluation/final-evaluation.component';
+import { EvaluationActivitiesComponent } from './pages/final-evaluation/evaluation-activities.component';
+import { EvaluationDependenciesComponent } from './pages/final-evaluation/evaluation-dependencies.component';
+import { EvaluationDetailsComponent } from './pages/final-evaluation/evaluation-details.component';
+import { EvaluationExportComponent } from './pages/final-evaluation/evaluation-export.component';
+import { EvaluationObservationsComponent } from './pages/final-evaluation/evaluation-observations.component';
 import { ListAssignedStudentsComponent } from './pages/list-assigned-students/list-assigned-students.component';
 import { ListMentorsComponent } from './pages/list-mentors/list-mentors.component';
 import { ViewMentorHistoryComponent } from './pages/view-mentor-history/view-mentor-history.component';
@@ -17,7 +21,18 @@ const routes: Routes = [
   { path: ':mentorId', component: ViewMentorComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard], },
   { path: ':mentorId/estudiantes', component: ListAssignedStudentsComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard], },
   { path: ':mentorId/historial', component: ViewMentorHistoryComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard], },
-  { path: ':mentorId/evaluacion-final', component: FinalEvaluationComponent, canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard], },
+  {
+    path: ':mentorId/evaluacion-final',
+    canActivate: [IsMentorGuard, ValidPeriodOfMentorGuard],
+    children: [
+      { path: 'detalles', component: EvaluationDetailsComponent },
+      { path: 'actividades', component: EvaluationActivitiesComponent },
+      { path: 'dependencias', component: EvaluationDependenciesComponent },
+      { path: 'observaciones', component: EvaluationObservationsComponent },
+      { path: 'exportar', component: EvaluationExportComponent },
+      { path: '**', redirectTo: 'detalles' },
+    ]
+  },
 ];
 
 
@@ -31,6 +46,10 @@ export class MentorsRoutingModule {
     ViewMentorComponent,
     ViewMentorHistoryComponent,
     ListAssignedStudentsComponent,
-    FinalEvaluationComponent,
+    EvaluationDetailsComponent,
+    EvaluationActivitiesComponent,
+    EvaluationDependenciesComponent,
+    EvaluationObservationsComponent,
+    EvaluationExportComponent
   ];
 }

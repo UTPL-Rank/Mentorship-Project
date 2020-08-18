@@ -1,138 +1,103 @@
-<nav class="navbar navbar-expand-lg navbar-dark" [ngClass]="{
-    'bg-primary': activePeriod.current,
-    'bg-secondary': !activePeriod.current
-  }">
-  <a [routerLink]="['/panel-control', activePeriod.id]" class="navbar-brand">
-    Proyecto Mentores
-  </a>
-
-  <button class="navbar-toggler" data-toggle="collapse" data-target="#toggleNavbar" aria-controls="toggleNavbar"
-    aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="toggleNavbar">
-    <ng-container *ngTemplateOutlet="mainNavigation"></ng-container>
-
-    <ng-container *ngTemplateOutlet="userSignInOptions"></ng-container>
-  </div>
-</nav>
-
-<ng-template #mainNavigation>
-  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-    <ng-container *ngIf="!!claims && claims.isAdmin">
-      <li class="nav-item dropdown" *ngIf="periods">
-        <a class="nav-link dropdown-toggle" href="#" id="selectPeriodDropdown" role="button" data-toggle="dropdown"
-          aria-haspopup="true" aria-expanded="false">
-          {{ activePeriod.name | titlecase }}
-        </a>
-        <div class="dropdown-menu" aria-labelledby="selectPeriodDropdown">
-          <a class="dropdown-item" *ngFor="let period of periods" [routerLink]="['/panel-control', period.id]">
-            {{ period.name | titlecase }}
-          </a>
+<ng-container *ngIf="activePeriod">
+  <nav class="navbar">
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Inicio"
+        [routerLink]="['/panel-control', activePeriod.id]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-home"></i>
         </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/panel-control', activePeriod.id, 'analiticas']" routerLinkActive="active">
-          Analíticas
-        </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/panel-control', activePeriod.id, 'mentores']" routerLinkActive="active">
-          Estudiantes Mentores
-        </a>
-      </li>
-    </ng-container>
-
-    <ng-container *ngIf="!!claims && claims.isMentor">
-      <li class="nav-item">
-        <!-- assigned students -->
-        <a class="nav-link" [routerLink]="[
-            '/panel-control',
-            activePeriod.id,
-            'mentores',
-            claims.mentorId
-          ]" routerLinkActive="active">
-          Mis Estudiantes
-        </a>
-      </li>
-
-      <!-- new accompaniment -->
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="[
-            '/panel-control',
-            activePeriod.id,
-            'registrar-acompañamiento',
-            claims.mentorId
-          ]" routerLinkActive="active">
-          Nuevo Acompañamiento
-        </a>
-      </li>
-    </ng-container>
-  </ul>
-</ng-template>
-
-<ng-template #userSignInOptions>
-  <!-- signed in dropdown -->
-  <div class="dropdown" *ngIf="!!user">
-    <button class="btn btn-light dropdown-toggle" id="signInDropdown" data-toggle="dropdown" aria-haspopup="true"
-      aria-expanded="false">
-      {{ user.displayName | titlecase }}
-    </button>
-
-    <div class="dropdown-menu" aria-labelledby="signInDropdown">
-      <!-- email -->
-      <h6 class="dropdown-header">
-        {{ user.email }}
-      </h6>
-
-      <div class="dropdown-divider"></div>
-
-      <ng-container *ngIf="
-          !!claims && (claims.isAdmin || claims.isMentor || claims.isStudent)
-        ">
-        <!-- roles -->
-        <h6 class="dropdown-header">Rol Activo</h6>
-
-        <!-- admin rol -->
-        <a class="dropdown-item disabled" tabindex="-1" aria-disabled="true" *ngIf="claims.isAdmin">
-          Rol Administrador
-        </a>
-
-        <!-- mentor rol -->
-        <a class="dropdown-item disabled" tabindex="-1" aria-disabled="true" *ngIf="claims.isMentor">
-          Rol Mentor
-        </a>
-
-        <!-- student rol -->
-        <a class="dropdown-item disabled" tabindex="-1" aria-disabled="true" *ngIf="claims.isStudent">
-          Rol Estudiante
-        </a>
-
-        <div class="dropdown-divider"></div>
-
-        <!-- upload information -->
-        <ng-container *ngIf="claims.isAdmin && activePeriod.current">
-          <a class="dropdown-item" [routerLink]="[
-              '/panel-control',
-              activePeriod.id,
-              'subir-informacion'
-            ]">
-            Subir Información
-          </a>
-          <div class="dropdown-divider"></div>
-        </ng-container>
-      </ng-container>
-
-      <!-- mail to proyecto mentores service -->
-      <a class="dropdown-item" target="_blank" href="mailto:proyectomentores@utpl.edu.ec">
-        Informar de un Error
+        <span class="item--text">
+          Inicio
+        </span>
       </a>
+    </ng-container>
 
-      <!-- sign out user -->
-      <button class="dropdown-item" (click)="logout()">
-        Cerrar Sesión
-      </button>
-    </div>
-  </div>
-</ng-template>
+    <!-- analytics -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Analíticas"
+        [routerLink]="['/panel-control', activePeriod.id, 'analiticas']" routerLinkActive="active">
+        <div class="item--icon">
+          <i class="fas fa-chart-bar"></i>
+        </div>
+        <span class="item--text">
+          Analíticas
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Mentores"
+        [routerLink]="['/panel-control', activePeriod.id, 'mentores']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-user-graduate"></i>
+        </div>
+        <span class="item--text">
+          Mentores
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isMentor">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Mis Estudiantes"
+        [routerLink]="['/panel-control', activePeriod.id, 'mentores', claims.mentorId]" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <span class="item--text">
+          Mis Estudiantes
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isMentor">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Nuevo Acompañamiento"
+        [routerLink]="['/panel-control', activePeriod.id, 'acompañamientos', 'nuevo', claims.mentorId]"
+        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-plus"></i>
+        </div>
+        <span class="item--text">
+          Nuevo Acompañamiento
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isMentor">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Evaluación Final"
+        [routerLink]="['/panel-control', activePeriod.id, 'mentores', claims.mentorId, 'evaluacion-final']"
+        routerLinkActive="active">
+        <div class="item--icon">
+          <i class="fas fa-file-contract"></i>
+        </div>
+        <span class="item--text">
+          Evaluación Final
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isAdmin && activePeriod.current">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Subir Información"
+        [routerLink]="['/panel-control', activePeriod.id, 'subir-informacion']" routerLinkActive="active">
+        <div class="item--icon">
+          <i class="fas fa-arrow-circle-up"></i>
+        </div>
+        <span class="item--text">
+          Subir Información
+        </span>
+      </a>
+    </ng-container>
+
+    <a class="navbar--item tooltip tooltip-right" data-tooltip="Soporte / Informar de un Error" target="_blank"
+      href="mailto:proyectomentores@utpl.edu.ec">
+      <div class="item--icon">
+        <i class="fas fa-exclamation-circle"></i>
+      </div>
+      <span class="item--text">
+        Soporte
+      </span>
+    </a>
+  </nav>
+</ng-container>

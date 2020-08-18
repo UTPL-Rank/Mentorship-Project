@@ -1,0 +1,47 @@
+<nav class="navbar">
+  <div class="navbar--brand text-title">
+    Proyecto <span>Mentores</span>
+
+  </div>
+
+  <!-- rol -->
+  <!-- <ng-container *ngIf="claims">
+    <div class="chip chip-enable text-caption">
+      <i class="fas fa-user-circle"></i>
+
+      <span>
+        <ng-container *ngIf="claims.isAdmin">Administrador</ng-container>
+        <ng-container *ngIf="claims.isMentor">Mentor</ng-container>
+        <ng-container *ngIf="claims.isStudent">Estudiante</ng-container>
+      </span>
+    </div>
+  </ng-container> -->
+
+  <div class="spacer"></div>
+
+  <sgm-notifications></sgm-notifications>
+
+  <button class="button logout" (click)="logout()">
+    Cerrar Sesión
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
+</nav>
+
+
+<!-- <ng-template #mainNavigation>
+  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+    <ng-container *ngIf="!!claims && claims.isAdmin">
+      <li class="nav-item dropdown" *ngIf="periods">
+        <a class="nav-link dropdown-toggle" href="#" id="selectPeriodDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          {{ activePeriod.name | titlecase }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="selectPeriodDropdown">
+          <a class="dropdown-item" *ngFor="let period of periods" [routerLink]="['/panel-control', period.id]">
+            {{ period.name | titlecase }}
+          </a>
+        </div>
+      </li>
+    </ng-container>
+  </ul>
+</ng-template> -->

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
+import { AuthenticationService } from '../../../core/services/authentication.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { AreasIds, Mentor, Mentors } from '../../../models/models';
@@ -23,6 +24,7 @@ export class ListMentorsComponent implements OnInit {
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
     private readonly mentorsService: MentorsService,
+    public readonly auth: AuthenticationService,
   ) { }
 
   public allMentors: Observable<Mentors> = this.route.params.pipe(
@@ -79,6 +81,22 @@ export class ListMentorsComponent implements OnInit {
 
   ngOnInit() {
     this.title.setTitle('Estudiantes Mentores');
+  }
+
+  exportCSV() {
+    const source = this.mentorsService.generateCSV();
+
+    source.subscribe(content => {
+      console.log(content);
+
+      const downloadElement = document.createElement('a') as HTMLAnchorElement;
+      downloadElement.style.display = 'none';
+      downloadElement.setAttribute('href', 'data:text/csv;charset=utf-8' + content);
+      downloadElement.setAttribute('download', 'mentores.csv');
+      document.body.appendChild(downloadElement);
+      downloadElement.click();
+      document.removeChild(downloadElement);
+    });
   }
 
 }

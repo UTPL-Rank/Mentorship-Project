@@ -13,6 +13,14 @@
           registrados en la plataforma.
         </p>
       </div>
+
+      <ng-container *ngIf="auth.isAdmin|async">
+        <div class="col-auto mt-5">
+          <button class="btn btn-primary shadow lift" (click)="exportCSV()">
+            Exportar Mentores
+          </button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </header>
