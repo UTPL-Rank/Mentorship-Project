@@ -11,6 +11,15 @@ import { Notification, UserClaims } from '../../models/models';
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
 
+  constructor(
+    private readonly afAuth: AngularFireAuth,
+    private readonly eventLog: AngularFireAnalytics,
+    private readonly firestore: AngularFirestore,
+    private readonly router: Router,
+  ) { }
+
+  public currentUser = this.afAuth.user;
+
   public claims: Observable<UserClaims> = this.afAuth.user.pipe(
     filter(user => !!user),
     map(user => user.email),
@@ -31,15 +40,6 @@ export class AuthenticationService {
     switchMap(claimsRef => claimsRef.valueChanges()),
     shareReplay(1),
   );
-
-  public currentUser = this.afAuth.user;
-
-  constructor(
-    private afAuth: AngularFireAuth,
-    private eventLog: AngularFireAnalytics,
-    private firestore: AngularFirestore,
-    private router: Router,
-  ) { }
 
   async UTPLSignWithUsername(username: string) {
     // proceed to create a new UTPL provider
@@ -86,6 +86,4 @@ export class AuthenticationService {
 
     return update;
   }
-
-
 }

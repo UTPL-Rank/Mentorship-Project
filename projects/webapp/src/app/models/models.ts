@@ -8,3 +8,9 @@ export * from './student.model';
 export * from './upload-data.interface';
 export * from './user-claims';
 
+// models to be moved to its own package
+
+export interface SaveMessagingToken {
+  username: string;
+  token: string;
+}

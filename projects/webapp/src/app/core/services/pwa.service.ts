@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAnalytics } from '@angular/fire/analytics';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { SwUpdate } from '@angular/service-worker';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, map as tap, mergeMap, switchMap, take } from 'rxjs/operators';
+import { SaveMessagingToken } from '../../models/models';
+import { AuthenticationService } from './authentication.service';
 
 /**
  * @author Bruno Esparza
@@ -25,11 +28,13 @@ export class PwaService {
     private readonly update: SwUpdate,
     private readonly messaging: AngularFireMessaging,
     private readonly logger: AngularFireAnalytics,
+    private readonly functions: AngularFireFunctions,
+    private readonly auth: AuthenticationService,
   ) { }
 
   /**
    * start the `updates checker` to check for a new version of the application is available
-   * */
+   */
   initUpdateChecker(): void {
     this.update.available
       .subscribe(_ => {
@@ -38,7 +43,6 @@ export class PwaService {
         if (reload)
           window.location.reload();
       });
-
   }
 
   /**
@@ -55,28 +59,26 @@ export class PwaService {
    */
   get isPushEnabled(): Observable<boolean> {
     // return this.messaging.;
-    return of(false);
+    return this.messaging.getToken.pipe(
+      tap(token => !!token)
+    );
   }
 
   /**
    * Request user permission to send push notifications.
-   *
    * Store user keys to send notifications in a server.
+   * Also log events like accepted or denied request to analytics
    */
   requestPushAccess(): Observable<boolean> {
-    const logAccepted = from(this.logger.logEvent('request-push-access-accepted')).pipe(
-      map(() => true)
-    );
-
-    const logDenied = from(this.logger.logEvent('request-push-access-denied')).pipe(
-      map(() => false)
-    );
-
-    const requestAndSave = from(this.logger.logEvent('request-push-access')).pipe(
-      switchMap(() => this.messaging.requestToken),
-      tap(console.log),
-      switchMap(token => logAccepted),
-      catchError(_ => logDenied),
+    const requestAndSave = this.messaging.requestToken.pipe(
+      switchMap(token => this.saveToken(token)),
+      catchError(() => of(false)),
+      mergeMap(async saved => {
+        try {
+          await this.logger.logEvent(saved ? 'request-push-access-denied' : 'request-push-access-accepted');
+        } catch { }
+        return saved;
+      }),
     );
 
     return requestAndSave;
@@ -88,22 +90,60 @@ export class PwaService {
    * Remove key form server
    */
   removePushAccess(): Observable<boolean> {
-    const removeSuccess = from(this.logger.logEvent('remove-push-access-success')).pipe(
-      map(() => true)
-    );
-
-    const removeFail = from(this.logger.logEvent('remove-push-access-fail')).pipe(
-      map(() => false)
-    );
-
-    const removeAction = from(this.logger.logEvent('remove-push-access')).pipe(
-      switchMap(() => this.messaging.deleteToken),
-      tap(console.log),
-      switchMap(_ => removeSuccess),
-      catchError(_ => removeFail),
+    const removeAction = this.messaging.getToken.pipe(
+      switchMap(token => this.removeToken(token)),
+      catchError(_ => of(false)),
+      mergeMap(async saved => {
+        try {
+          await this.logger.logEvent(saved ? 'remove-push-access-success' : 'remove-push-access-fail');
+        } catch { }
+        return saved;
+      }),
     );
 
     return removeAction;
   }
 
+  /**
+   * Save the obtained token to send push notifications via a
+   * firebase function to make the transaction secure.
+   * Asume the token received is from the current signed in user
+   *
+   * @param token to be saved in the database
+   */
+  private saveToken(token: string): Observable<boolean> {
+    const user = this.auth.currentUser;
+    const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('saveMessagingToken');
+
+    const tokenSaved = user.pipe(
+      map(({ email }) => email.split('@')[0]),
+      switchMap(username => action({ username, token })),
+      take(1),
+      catchError(_ => of(false))
+    );
+
+    return tokenSaved;
+  }
+
+  /**
+   * Remove the token to of the user via a
+   * firebase function to make the transaction secure.
+   * Asume the token received is from the current signed in user
+   *
+   * @param token to be removed
+   */
+  private removeToken(token: string): Observable<boolean> {
+    const user = this.auth.currentUser;
+    const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('removeMessagingToken');
+
+    const tokenRemoved = this.messaging.deleteToken(token).pipe(
+      switchMap(() => user),
+      map(({ email }) => email.split('@')[0]),
+      switchMap(username => action({ username, token })),
+      take(1),
+      catchError(_ => of(false))
+    );
+
+    return tokenRemoved;
+  }
 }
