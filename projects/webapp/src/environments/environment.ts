@@ -14,9 +14,6 @@ export const environment = {
     appId: '1:1017614581508:web:7218a510a9dca0c9af9a51',
     measurementId: 'G-ECSP0Z6X9Z'
   },
-  messaging: {
-    serverKey: 'AAAA7O6OPwQ:APA91bF-JvN46zIuCXTfmwRbNGfDSqd55tfkRrsgHZvoS8jEBdvuLWz_Dwb-G4-yQYyXrI3SizqnZyA85p39PmCAMs5wr7wVffJf3Fmcz_GnPUERiMvZCD9TVxmKtoV2K98OGhVoAH26'
-  },
   reports: {
     mentorEvaluation: 'http://localhost:5000/evaluacion-final.html'
   }

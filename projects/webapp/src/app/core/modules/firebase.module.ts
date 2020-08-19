@@ -4,6 +4,7 @@ import { AngularFireAnalyticsModule, ScreenTrackingService, UserTrackingService 
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule } from '@angular/fire/functions';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { environment } from 'projects/webapp/src/environments/environment';
@@ -16,16 +17,18 @@ import { environment } from 'projects/webapp/src/environments/environment';
     AngularFireAuthModule,
     AngularFireAnalyticsModule,
     AngularFireFunctionsModule,
-    AngularFirePerformanceModule
+    AngularFirePerformanceModule,
+    AngularFireMessagingModule
   ],
   exports: [
-    AngularFireModule,
-    AngularFirestoreModule,
-    AngularFireStorageModule,
-    AngularFireAuthModule,
-    AngularFireAnalyticsModule,
-    AngularFireFunctionsModule,
-    AngularFirePerformanceModule,
+    // AngularFireModule,
+    // AngularFirestoreModule,
+    // AngularFireStorageModule,
+    // AngularFireAuthModule,
+    // AngularFireAnalyticsModule,
+    // AngularFireFunctionsModule,
+    // AngularFirePerformanceModule,
+    // AngularFireMessagingModule
   ],
   providers: [ScreenTrackingService, UserTrackingService]
 })

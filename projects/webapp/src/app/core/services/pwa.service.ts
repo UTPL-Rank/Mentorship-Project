@@ -1,18 +1,35 @@
 import { Injectable } from '@angular/core';
-import { SwPush, SwUpdate } from '@angular/service-worker';
-import { environment } from 'projects/webapp/src/environments/environment';
-import { BrowserLoggerService } from './browser-logger.service';
+import { AngularFireAnalytics } from '@angular/fire/analytics';
+import { AngularFireMessaging } from '@angular/fire/messaging';
+import { SwUpdate } from '@angular/service-worker';
+import { from, Observable, of } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
+/**
+ * @author Bruno Esparza
+ *
+ * Service to handle progressive web app features
+ * - push notifications
+ * - service worker
+ *
+ * Push notifications are managed by the Angularfire library.To enable messaging features add the
+ * AngularFireMessagingModule to the firebase module, and add the `firebase-messaging-sw.js` to
+ * the project assets
+ *
+ * Service worker is managed by the angular pwa subscription
+ */
 @Injectable({ providedIn: 'root' })
 export class PwaService {
 
   constructor(
     private readonly update: SwUpdate,
-    private readonly push: SwPush,
-    private readonly logger: BrowserLoggerService
+    private readonly messaging: AngularFireMessaging,
+    private readonly logger: AngularFireAnalytics,
   ) { }
 
-  /** Init `updates checker` to check for a new version of the application is available */
+  /**
+   * start the `updates checker` to check for a new version of the application is available
+   * */
   initUpdateChecker(): void {
     this.update.available
       .subscribe(_ => {
@@ -22,22 +39,23 @@ export class PwaService {
           window.location.reload();
       });
 
-    this.logger.log('Update checker init successfully');
   }
 
-  /** Init service to listen for incoming push notifications */
+  /**
+   * start the service to listen for incoming push notifications
+   */
   initPushNotifications(): void {
-    this.push.messages
-      .subscribe(
-        message => this.logger.log('TODO: incoming message', message)
-      );
-
-    this.logger.log('Push notifications init successfully');
+    this.messaging.messages.subscribe(
+      console.log
+    );
   }
 
-  /** Wether push notifications are enabled or not */
-  get isPushEnabled() {
-    return this.push.isEnabled;
+  /**
+   * Wether push notifications are enabled or not
+   */
+  get isPushEnabled(): Observable<boolean> {
+    // return this.messaging.;
+    return of(false);
   }
 
   /**
@@ -45,21 +63,23 @@ export class PwaService {
    *
    * Store user keys to send notifications in a server.
    */
-  async requestPushAccess(): Promise<boolean> {
-    const serverPublicKey = environment.messaging.serverKey;
-    await this.logger.info('request-push-access');
+  requestPushAccess(): Observable<boolean> {
+    const logAccepted = from(this.logger.logEvent('request-push-access-accepted')).pipe(
+      map(() => true)
+    );
 
-    try {
-      const key = await this.push.requestSubscription({ serverPublicKey });
+    const logDenied = from(this.logger.logEvent('request-push-access-denied')).pipe(
+      map(() => false)
+    );
 
-      this.logger.log('TODO: Store key in server', key);
-      console.log(key);
-      await this.logger.info('successful-push-access');
-      return true;
-    } catch (error) {
-      await this.logger.error('error-getting-push-access', error);
-      return false;
-    }
+    const requestAndSave = from(this.logger.logEvent('request-push-access')).pipe(
+      switchMap(() => this.messaging.requestToken),
+      tap(console.log),
+      switchMap(token => logAccepted),
+      catchError(_ => logDenied),
+    );
+
+    return requestAndSave;
   }
 
   /**
@@ -67,10 +87,23 @@ export class PwaService {
    *
    * Remove key form server
    */
-  async removePushAccess(): Promise<void> {
-    await this.push.unsubscribe();
-    this.logger.log('TODO: Unsubscribe successful, remove ey from server');
-    await this.logger.info('removed-push-access');
+  removePushAccess(): Observable<boolean> {
+    const removeSuccess = from(this.logger.logEvent('remove-push-access-success')).pipe(
+      map(() => true)
+    );
+
+    const removeFail = from(this.logger.logEvent('remove-push-access-fail')).pipe(
+      map(() => false)
+    );
+
+    const removeAction = from(this.logger.logEvent('remove-push-access')).pipe(
+      switchMap(() => this.messaging.deleteToken),
+      tap(console.log),
+      switchMap(_ => removeSuccess),
+      catchError(_ => removeFail),
+    );
+
+    return removeAction;
   }
 
 }
