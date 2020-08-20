@@ -16,19 +16,19 @@ function AccompanimentsCollection(): firestore.CollectionReference<Accompaniment
     return dbFirestore.collection('accompaniments');
 }
 
-/**
- * Accompaniment Firestore Document
- * ===============================================
- * 
- * @author Bruno Esparza
- * 
- * Get the firestore document of an accompaniments
- * 
- * @param id Identifier of the accompaniment document 
- */
-function AccompanimentDocument(id: string): firestore.DocumentReference<Accompaniment> {
-    return AccompanimentsCollection().doc(id);
-}
+// /**
+//  * Accompaniment Firestore Document
+//  * ===============================================
+//  * 
+//  * @author Bruno Esparza
+//  * 
+//  * Get the firestore document of an accompaniments
+//  * 
+//  * @param id Identifier of the accompaniment document 
+//  */
+// function AccompanimentDocument(id: string): firestore.DocumentReference<Accompaniment> {
+//     return AccompanimentsCollection().doc(id);
+// }
 
 /**
  * List Accompaniments Current Period
