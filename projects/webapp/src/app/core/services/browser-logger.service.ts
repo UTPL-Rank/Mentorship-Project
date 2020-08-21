@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAnalytics } from '@angular/fire/analytics';
 import { environment } from 'projects/webapp/src/environments/environment';
+import { Observable, of } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 /**
  * Footprint function to implement log events
@@ -17,17 +19,48 @@ interface LoggerService {
   error: LoggingFunction;
 }
 
-@Injectable({
-  providedIn: 'root'
-})
 /**
+ * @author Bruno Esparza
+ *
  * Log messages to the console when working with the webapp in the develop mode.
  * And  in productions logs event to a server where the data can be tracked,
  * and issues can be address later
  */
+@Injectable({
+  providedIn: 'root'
+})
 export class BrowserLoggerService implements LoggerService {
 
-  constructor(private eventLog: AngularFireAnalytics) { }
+  constructor(
+    private readonly eventLog: AngularFireAnalytics,
+  ) { }
+
+  /**
+   * Attatch a log event to an observable, so when the observable emits any value,
+   * it will also log any event to google analytics.
+   * The log to google analytics will only work in production mode, so for develop, it wll
+   * also print to the console the value of the stream
+   *
+   * @param name of the event
+   * @param value of the new observable
+   */
+  info$<T>(name: string, value: T): Observable<T> {
+    const logger = of(value).pipe(
+      mergeMap(async val => {
+        if (environment.production)
+          try {
+            await this.eventLog.logEvent(name);
+          } catch { }
+
+        else
+          console.info(name, val);
+
+        return val;
+      })
+    );
+
+    return logger;
+  }
 
   /**
    * Log information to the console and event log

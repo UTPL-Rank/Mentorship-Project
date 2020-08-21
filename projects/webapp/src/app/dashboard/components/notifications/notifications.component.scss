@@ -41,12 +41,9 @@
     overflow-y: auto;
   }
 
-  &--item {
-    display: flex;
-    flex-direction: column;
-    align-self: flex-start;;
-
-    padding: var(--space-4) var(--space-8);
+  // base styles for notification elements
+  &--item, &--enable {
+    padding: var(--space-4) var(--space-6);
     color: var(--color-high-contrast);
     text-decoration: none;
     background-color: var(--color-white);
@@ -59,16 +56,44 @@
       white-space: nowrap;
       text-overflow: ellipsis;
     }
+  }
+
+  &--item {
+    display: flex;
+    flex-direction: column;
+    align-self: flex-start;
 
     > * {
       text-align: start;
     }
   }
 
+  // styles for the enable notifications action
+  &--enable {
+    display: grid;
+    grid-template-areas: 'displayName displayName' 'content button';
+    gap: var(--space-2);
+
+    .displayName {
+      grid-area: displayName;
+    }
+
+    .content {
+      grid-area:content;
+      display: flex;
+      flex-direction: column;
+      align-self: flex-start;
+    }
+
+    .button{
+      grid-area:button;
+      align-self: center;
+    }
+  }
 
   &--footer {
     width: 100%;
     text-align: justify;
-    padding: var(--space-2) var(--space-4);
+    padding: var(--space-2) var(--space-6);
   }
 }

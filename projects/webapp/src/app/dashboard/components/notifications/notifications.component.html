@@ -18,9 +18,13 @@
 
       <!-- list of notification items -->
       <div class="notification--items">
+        <!-- action to enable notifications -->
+        <ng-container [ngTemplateOutlet]="enableNotificationsTemplate" *ngIf="showEnableNotifications |async">
+        </ng-container>
+
+        <!-- notifications -->
         <ng-container *ngFor="let notification of notifications">
-          <button (click)="handleRedirect(notification)" routerLinkActive="router-link-active"
-            class="notification--item">
+          <button (click)="handleRedirect(notification)" class="notification--item">
             <b class="displayName text-body-2" [ngClass]="{'text-primary': !notification.read}">
               {{notification.name}}
             </b>
@@ -40,3 +44,27 @@
     </div>
   </div>
 </ng-container>
+
+
+<!--
+  ========================================================
+  Enable notifications
+
+  Show users an action to enable notifications on their device
+  ========================================================
+ -->
+<ng-template #enableNotificationsTemplate>
+  <div class="notification--enable">
+    <b class="displayName text-body-2">
+      Activa las notificaciones
+    </b>
+    <span class="content text-caption">
+      Si activas las notificaciones te llegaran alertas importantes a tu dispositivo.
+      <br>
+      Puedes desactivarlas en cualquier momento
+    </span>
+    <button class="button button-primary text-caption" (click)="requestSubscription()">
+      Activar
+    </button>
+  </div>
+</ng-template>

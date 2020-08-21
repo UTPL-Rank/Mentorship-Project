@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAnalytics } from '@angular/fire/analytics';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireMessaging } from '@angular/fire/messaging';
 import { SwUpdate } from '@angular/service-worker';
 import { Observable, of } from 'rxjs';
-import { catchError, map, map as tap, mergeMap, switchMap, take } from 'rxjs/operators';
+import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { SaveMessagingToken } from '../../models/models';
 import { AuthenticationService } from './authentication.service';
+import { BrowserLoggerService } from './browser-logger.service';
 
 /**
  * @author Bruno Esparza
@@ -27,7 +27,7 @@ export class PwaService {
   constructor(
     private readonly update: SwUpdate,
     private readonly messaging: AngularFireMessaging,
-    private readonly logger: AngularFireAnalytics,
+    private readonly logger: BrowserLoggerService,
     private readonly functions: AngularFireFunctions,
     private readonly auth: AuthenticationService,
   ) { }
@@ -57,10 +57,13 @@ export class PwaService {
   /**
    * Wether push notifications are enabled or not
    */
-  get isPushEnabled(): Observable<boolean> {
+  isPushEnabled(): Observable<boolean> {
+    console.log('TODO: change notifications enabled to user profile');
+
     // return this.messaging.;
     return this.messaging.getToken.pipe(
-      tap(token => !!token)
+      tap(console.log),
+      map(token => !!token)
     );
   }
 
@@ -72,36 +75,15 @@ export class PwaService {
   requestPushAccess(): Observable<boolean> {
     const requestAndSave = this.messaging.requestToken.pipe(
       switchMap(token => this.saveToken(token)),
-      catchError(() => of(false)),
-      mergeMap(async saved => {
-        try {
-          await this.logger.logEvent(saved ? 'request-push-access-denied' : 'request-push-access-accepted');
-        } catch { }
-        return saved;
+      switchMap(saved => this.logger.info$(saved ? 'request-push-access-accepted' : 'request-push-access-denied', saved)),
+      catchError((err) => {
+        console.log('TODO: other scenarios');
+        console.log(err);
+        return of(false);
       }),
     );
 
     return requestAndSave;
-  }
-
-  /**
-   * Remove push notification permission to send notification
-   *
-   * Remove key form server
-   */
-  removePushAccess(): Observable<boolean> {
-    const removeAction = this.messaging.getToken.pipe(
-      switchMap(token => this.removeToken(token)),
-      catchError(_ => of(false)),
-      mergeMap(async saved => {
-        try {
-          await this.logger.logEvent(saved ? 'remove-push-access-success' : 'remove-push-access-fail');
-        } catch { }
-        return saved;
-      }),
-    );
-
-    return removeAction;
   }
 
   /**
@@ -113,16 +95,30 @@ export class PwaService {
    */
   private saveToken(token: string): Observable<boolean> {
     const user = this.auth.currentUser;
-    const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('saveMessagingToken');
+    const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('SaveMessagingToken');
 
     const tokenSaved = user.pipe(
       map(({ email }) => email.split('@')[0]),
       switchMap(username => action({ username, token })),
       take(1),
-      catchError(_ => of(false))
     );
 
     return tokenSaved;
+  }
+
+  /**
+   * Remove push notification permission to send notification
+   *
+   * Remove key form server
+   */
+  removePushAccess(): Observable<boolean> {
+    const removeAction = this.messaging.getToken.pipe(
+      switchMap(token => this.removeToken(token)),
+      catchError(_ => of(false)),
+      switchMap(saved => this.logger.info$(saved ? 'remove-push-access-success' : 'remove-push-access-fail', saved)),
+    );
+
+    return removeAction;
   }
 
   /**
@@ -134,14 +130,13 @@ export class PwaService {
    */
   private removeToken(token: string): Observable<boolean> {
     const user = this.auth.currentUser;
-    const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('removeMessagingToken');
+    const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('RemoveMessagingToken');
 
     const tokenRemoved = this.messaging.deleteToken(token).pipe(
       switchMap(() => user),
       map(({ email }) => email.split('@')[0]),
       switchMap(username => action({ username, token })),
       take(1),
-      catchError(_ => of(false))
     );
 
     return tokenRemoved;

@@ -22,8 +22,8 @@ export class DashboardHomePage implements OnInit {
     this.title.setTitle('Panel de Control');
   }
 
-  enableMessaging() {
-    this.pwa.requestPushAccess().subscribe(console.log);
+  removeMessaging() {
+    this.pwa.removePushAccess().subscribe(console.log);
   }
 
 }

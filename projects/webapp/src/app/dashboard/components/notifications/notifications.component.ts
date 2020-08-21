@@ -1,8 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { AuthenticationService } from '../../../core/services/authentication.service';
+import { PwaService } from '../../../core/services/pwa.service';
 import { Notification } from '../../../models/models';
 
 @Component({
@@ -14,11 +15,18 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   public notifications: Array<Notification>;
 
+  public showEnableNotifications = this.pwa.isPushEnabled().pipe(
+    map(enabled => !enabled)
+  );
+
   private notificationsSub: Subscription;
+
+  private messagingRequestSub: Subscription | null = null;
 
   constructor(
     private readonly auth: AuthenticationService,
     private readonly router: Router,
+    private readonly pwa: PwaService,
   ) { }
 
   ngOnInit() {
@@ -29,6 +37,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.notificationsSub.unsubscribe();
+
+    if (!!this.messagingRequestSub)
+      this.messagingRequestSub.unsubscribe();
   }
 
   async handleRedirect(notification: Notification) {
@@ -43,4 +54,16 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     return this.notifications.some(n => !n.read);
   }
 
+
+  public requestSubscription(): void {
+    if (!!this.messagingRequestSub)
+      return;
+
+    this.messagingRequestSub = this.pwa.requestPushAccess().subscribe((saved) => {
+      alert(saved ? 'A partir de ahora recibirás notificaciones.' : 'Ocurrió un error, vuelve a intentarlo.');
+
+      this.messagingRequestSub.unsubscribe();
+      this.messagingRequestSub = null;
+    });
+  }
 }
