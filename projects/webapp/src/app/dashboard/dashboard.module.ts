@@ -1,16 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ChartsModule } from 'ng2-charts';
 import { UnconfirmedAccompanimentExistsGuard } from '../accompaniments/guards/unconfirmed-accompaniment-exists.guard';
 import { SharedModule } from '../shared/shared.module';
-import { AreasChartComponent } from './components/charts/areas-chart.component';
-import { DegreesChartComponent } from './components/charts/degrees-chart.component';
-import { FollowingChartComponent } from './components/charts/following-chart.component';
-import { MentorsDegreesChartComponent } from './components/charts/mentor-degrees-chart.component';
-import { ProblemsAreaChartComponent } from './components/charts/problems-area-chart.component';
-import { ProblemsChartComponent } from './components/charts/problems-chart.component';
-import { ProblemsDegreeChartComponent } from './components/charts/problems-degree-chart.component';
 import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboard-navbar.component';
 import { DashboardTopbarComponent } from './components/dashboard-topbar/dashboard-topbar.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
@@ -20,9 +12,6 @@ import { IsStudentGuard } from './guards/is-student.guard';
 import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
 import { SignedInGuard } from './guards/signed-in.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
-import { AnalyticsPage } from './pages/analytics/analytics.page';
-import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShellComponent } from './pages/dashboard-shell.component';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
@@ -35,13 +24,7 @@ const COMPONENTS = [
   LoadingBarComponent,
   NotificationsComponent,
   ...[
-    ProblemsChartComponent,
-    FollowingChartComponent,
-    AreasChartComponent,
-    ProblemsAreaChartComponent,
-    DegreesChartComponent,
-    ProblemsDegreeChartComponent,
-    MentorsDegreesChartComponent
+
   ]
 ];
 
@@ -49,7 +32,6 @@ const COMPONENTS = [
 const PAGES = [
   DashboardShellComponent,
   DashboardHomePage,
-  [AnalyticsPage, AccompanimentsAnalyticsPage, MentorsAnalyticsPage],
 ];
 
 // Resolvers
@@ -76,7 +58,7 @@ const GUARDS = [
     DashboardModuleRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    ChartsModule,
+
     SharedModule
   ],
   declarations: [PAGES, COMPONENTS],

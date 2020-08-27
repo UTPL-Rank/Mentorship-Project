@@ -5,9 +5,6 @@ import { IsAdminGuard } from '../core/guards/is-admin.guard';
 import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
 import { SignedInGuard } from './guards/signed-in.guard';
 import { ValidPeriodGuard } from './guards/valid-period.guard';
-import { AccompanimentsAnalyticsPage } from './pages/analytics/accompaniments-analytics/accompaniments-analytics.page';
-import { AnalyticsPage } from './pages/analytics/analytics.page';
-import { MentorsAnalyticsPage } from './pages/analytics/mentors-analytics/mentors-analytics.page';
 import { DashboardHomePage } from './pages/dashboard-home/dashboard-home.page';
 import { DashboardShellComponent } from './pages/dashboard-shell.component';
 import { ActivePeriodResolver } from './resolvers/active-period.resolver';
@@ -37,16 +34,13 @@ const routes: Routes = [
       // dashboard home page
       { path: '', component: DashboardHomePage },
 
-      // analytics page
+      // ==================
+      // analytics feature
+      // ==================
       {
         path: 'analiticas',
-        component: AnalyticsPage,
+        loadChildren: () => import('../analytics/analytics.module').then(m => m.AnalyticsModule),
         canActivate: [IsAdminGuard],
-        children: [
-          { path: 'acompañamientos', component: AccompanimentsAnalyticsPage },
-          { path: 'mentores', component: MentorsAnalyticsPage },
-          { path: '**', redirectTo: 'acompañamientos' }
-        ]
       },
 
       // ==================
