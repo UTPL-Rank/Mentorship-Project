@@ -17,6 +17,8 @@ firebase-debug.log*
 typings/
 
 node_modules/
+seed/
+*.log
 
 # Firebase config
 

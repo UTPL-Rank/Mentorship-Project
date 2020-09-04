@@ -1,6 +1,5 @@
 {
   "projects": {
     "default": "sgmentores",
-    "dev": "dev-sgmentores-9c117"
   }
 }
