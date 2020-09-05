@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { UpdateMentorsAnalytics } from '../utils/analytics-utils';
+import { UpdateAccompanimentsAnalytics, UpdateMentorsAnalytics, UpdateStudentsAnalytics } from '../utils/analytics-utils';
 
 /**
  * Analytics Calculator
@@ -15,11 +15,15 @@ import { UpdateMentorsAnalytics } from '../utils/analytics-utils';
  * 
  * The data that the function calculate is:
  * - Mentors analytics
- * - TODO: Students analytics
- * - TODO: Accompaniments analytics
+ * - Students analytics
+ * - Accompaniments analytics
  */
-export const AnalyticsCalculator = functions.pubsub.schedule('0 23 * * *').onRun(async _ => {
-    const tasks = [UpdateMentorsAnalytics()];
+export const AnalyticsCalculator = functions.pubsub.schedule('0 23 * * *').onRun(async () => {
+    const tasks = [
+        UpdateMentorsAnalytics(),
+        UpdateStudentsAnalytics(),
+        UpdateAccompanimentsAnalytics(),
+    ];
 
     try {
         await Promise.all(tasks);

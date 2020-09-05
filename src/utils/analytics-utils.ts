@@ -1,9 +1,9 @@
 import { firestore } from "firebase-admin";
+import { ListAccompanimentsCurrentPeriod } from "./accompaniments-utils";
 import { ListMentorsCurrentPeriod } from "./mentors-utils";
 import { CurrentPeriod } from "./period-utils";
+import { ListStudentsCurrentPeriod } from "./student-utils";
 import { dbFirestore } from "./utils";
-
-type MentorAnalytics = any;
 
 /**
  * Analytics Collection
@@ -58,6 +58,7 @@ async function SaveAnalytics<T>(id: string, data: T): Promise<void> {
  * of the current period and mapping them to a simplified version of the data
  */
 export async function UpdateMentorsAnalytics(): Promise<void> {
+    console.log('TODO: transform mentors data');
     const period = await CurrentPeriod();
     const mentors = await ListMentorsCurrentPeriod();
 
@@ -73,6 +74,68 @@ export async function UpdateMentorsAnalytics(): Promise<void> {
             name: period.name,
         },
         mentors: mentorsAnalytics
+    };
+
+    await SaveAnalytics(analyticsId, data);
+}
+
+/**
+ * Update the students Analytics
+ * ===================================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * Function to update the student analytics, by reading all the students 
+ * of the current period and mapping them to a simplified version of the data
+ */
+export async function UpdateStudentsAnalytics(): Promise<void> {
+    console.log('TODO: transform students data');
+    const period = await CurrentPeriod();
+    const students = await ListStudentsCurrentPeriod();
+
+    const analyticsId = `${period.id}-students`;
+    const studentsAnalytics = students.map(s => {
+        return s;
+    });
+
+    const data = {
+        lastUpdated: firestore.FieldValue.serverTimestamp(),
+        period: {
+            id: period.id,
+            name: period.name,
+        },
+        students: studentsAnalytics
+    };
+
+    await SaveAnalytics(analyticsId, data);
+}
+
+/**
+ * Update the Accompaniments Analytics
+ * ===================================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * Function to update the accompaniments analytics, by reading all the accompaniments 
+ * of the current period and mapping them to a simplified version of the data
+ */
+export async function UpdateAccompanimentsAnalytics(): Promise<void> {
+    console.log('TODO: transform accompaniments data');
+    const period = await CurrentPeriod();
+    const accompaniments = await ListAccompanimentsCurrentPeriod();
+
+    const analyticsId = `${period.id}-accompaniments`;
+    const accompanimentsAnalytics = accompaniments.map(a => {
+        return a;
+    });
+
+    const data = {
+        lastUpdated: firestore.FieldValue.serverTimestamp(),
+        period: {
+            id: period.id,
+            name: period.name,
+        },
+        accompaniments: accompanimentsAnalytics
     };
 
     await SaveAnalytics(analyticsId, data);
