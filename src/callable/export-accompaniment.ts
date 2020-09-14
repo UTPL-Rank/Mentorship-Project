@@ -24,7 +24,7 @@ export const exportToPdf = functions
   .runWith({ memory: '1GB', timeoutSeconds: 540 })
   .https.onRequest(async (req, res) => {
     try {
-      const { mentorId, studentId, semesterId, signature } = req.query;
+      const { mentorId, studentId, semesterId, signature } = req.query as any;
 
       const filename = `proyecto-mentores-${studentId}-${semesterId}.pdf`;
 
@@ -36,13 +36,13 @@ export const exportToPdf = functions
       const content = await getPagePDF(url);
 
       res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
-      return res.status(200).send(content);
+      res.status(200).send(content);
     } catch (error) {
       console.error({
         message: 'An error occurred while exporting accompaniments',
         error,
         data: req.query,
       });
-      return null;
+      res.status(500).send('An error occurred');
     }
   });
