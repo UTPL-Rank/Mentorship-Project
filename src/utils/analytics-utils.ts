@@ -1,8 +1,8 @@
 import { firestore } from "firebase-admin";
-import { ListAccompanimentsCurrentPeriod } from "./accompaniments-utils";
-import { ListMentorsCurrentPeriod } from "./mentors-utils";
+import { ListAccompanimentsPeriod } from "./accompaniments-utils";
+import { ListMentorsPeriod } from "./mentors-utils";
 import { CurrentPeriod } from "./period-utils";
-import { ListStudentsCurrentPeriod } from "./student-utils";
+import { ListStudentsPeriod } from "./student-utils";
 import { dbFirestore } from "./utils";
 
 /**
@@ -58,13 +58,27 @@ async function SaveAnalytics<T>(id: string, data: T): Promise<void> {
  * of the current period and mapping them to a simplified version of the data
  */
 export async function UpdateMentorsAnalytics(): Promise<void> {
-    console.log('TODO: transform mentors data');
     const period = await CurrentPeriod();
-    const mentors = await ListMentorsCurrentPeriod();
+    const mentors = await ListMentorsPeriod(period.id);
 
     const analyticsId = `${period.id}-mentors`;
     const mentorsAnalytics = mentors.map(m => {
-        return m;
+        const mentor = {
+            area: {
+                name: m.area.name,
+                id: m.area.reference.id,
+            },
+            degree: {
+                name: m.degree.name,
+                id: m.degree.reference.id,
+            },
+            accompanimentsCount: m.stats.accompanimentsCount,
+            assignedStudentCount: m.stats.assignedStudentCount,
+            withAccompaniments: m.students.withAccompaniments.length,
+            withoutAccompaniments: m.students.withoutAccompaniments.length,
+        };
+
+        return mentor;
     });
 
     const data = {
@@ -89,13 +103,30 @@ export async function UpdateMentorsAnalytics(): Promise<void> {
  * of the current period and mapping them to a simplified version of the data
  */
 export async function UpdateStudentsAnalytics(): Promise<void> {
-    console.log('TODO: transform students data');
     const period = await CurrentPeriod();
-    const students = await ListStudentsCurrentPeriod();
+    const students = await ListStudentsPeriod(period.id);
 
     const analyticsId = `${period.id}-students`;
+
     const studentsAnalytics = students.map(s => {
-        return s;
+        const student = {
+            area: {
+                name: s.area.name,
+                id: s.area.reference.id,
+            },
+            degree: {
+                name: s.degree.name,
+                id: s.degree.reference.id,
+            },
+            id: s.id,
+            mentor: {
+                displayName: s.mentor.displayName,
+                id: s.mentor.reference.id,
+            },
+            accompanimentsCount: s.stats.accompanimentsCount,
+        };
+
+        return student;
     });
 
     const data = {
@@ -120,13 +151,29 @@ export async function UpdateStudentsAnalytics(): Promise<void> {
  * of the current period and mapping them to a simplified version of the data
  */
 export async function UpdateAccompanimentsAnalytics(): Promise<void> {
-    console.log('TODO: transform accompaniments data');
     const period = await CurrentPeriod();
-    const accompaniments = await ListAccompanimentsCurrentPeriod();
+    const accompaniments = await ListAccompanimentsPeriod(period.id);
 
     const analyticsId = `${period.id}-accompaniments`;
     const accompanimentsAnalytics = accompaniments.map(a => {
-        return a;
+        const accompaniment = {
+            area: {
+                name: a.area.name,
+                id: a.area.reference.id
+            },
+            degree: {
+                name: a.degree.name,
+                id: a.degree.reference.id
+            },
+            followingKind: a.followingKind,
+            important: !!a.important,
+            id: a.id,
+            problems: a.problems,
+            reviewed: !a.reviewKey,
+            semesterKind: a.semesterKind,
+        };
+
+        return accompaniment;
     });
 
     const data = {
@@ -139,4 +186,4 @@ export async function UpdateAccompanimentsAnalytics(): Promise<void> {
     };
 
     await SaveAnalytics(analyticsId, data);
-}
+} 

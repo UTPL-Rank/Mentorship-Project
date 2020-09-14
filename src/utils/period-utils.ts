@@ -15,6 +15,20 @@ function PeriodsCollection(): firestore.CollectionReference<AcademicPeriod> {
 }
 
 /**
+ * Academic Period Document Reference
+ * =========================================================
+ * @author Bruno Esparza
+ * 
+ * Get the firestore document of an academic period 
+ * 
+ * @param id identifier of the required period
+ */
+export function PeriodDocument(id: string): firestore.DocumentReference<AcademicPeriod> {
+    const doc = PeriodsCollection().doc(id)
+    return doc;
+}
+
+/**
  * Get Current Period Query snapshot
  * =========================================================
  *
@@ -47,7 +61,10 @@ async function CurrentPeriodQuerySnapshot(): Promise<firestore.QueryDocumentSnap
  */
 export async function CurrentPeriodReference(): Promise<firestore.DocumentReference<AcademicPeriod>> {
     const periodSnap = await CurrentPeriodQuerySnapshot();
-    return periodSnap.ref;
+    const periodId = periodSnap.data().id;
+    const ref = PeriodDocument(periodId)
+
+    return ref;
 }
 
 /**
@@ -60,5 +77,6 @@ export async function CurrentPeriodReference(): Promise<firestore.DocumentRefere
  */
 export async function CurrentPeriod(): Promise<AcademicPeriod> {
     const periodSnap = await CurrentPeriodQuerySnapshot();
-    return periodSnap.data;
+
+    return periodSnap.data();
 }

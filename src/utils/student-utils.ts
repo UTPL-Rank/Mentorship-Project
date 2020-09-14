@@ -1,5 +1,5 @@
 import { MentorReference } from "./mentors-utils";
-import { CurrentPeriodReference } from "./period-utils";
+import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
 
 type Student = any;
@@ -26,6 +26,26 @@ function StudentCollection() {
  */
 export async function ListStudentsCurrentPeriod(): Promise<Array<Student>> {
     const periodRef = await CurrentPeriodReference();
+    const collection = StudentCollection().where('period.reference', '==', periodRef);
+
+    const snap = await collection.get();
+    const students = snap.docs.map(doc => doc.data());
+
+    return students;
+}
+
+/**
+ * List Students of the period
+ * ================================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * @param identifier of the period id
+ * 
+ * @returns students in the academic period 
+ */
+export async function ListStudentsPeriod(periodId: string): Promise<Array<Student>> {
+    const periodRef = PeriodDocument(periodId);
     const collection = StudentCollection().where('period.reference', '==', periodRef);
 
     const snap = await collection.get();
