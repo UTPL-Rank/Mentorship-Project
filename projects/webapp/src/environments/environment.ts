@@ -4,16 +4,6 @@
 
 export const environment = {
   production: false,
-  firebaseConfig: {
-    apiKey: 'AIzaSyB0J_KPDhRlOh8K0zgEMS72AULTPTUY9KE',
-    authDomain: 'dev-sgmentores-9c117.firebaseapp.com',
-    databaseURL: 'https://dev-sgmentores-9c117.firebaseio.com',
-    projectId: 'dev-sgmentores-9c117',
-    storageBucket: 'dev-sgmentores-9c117.appspot.com',
-    messagingSenderId: '1017614581508',
-    appId: '1:1017614581508:web:7218a510a9dca0c9af9a51',
-    measurementId: 'G-ECSP0Z6X9Z'
-  },
   reports: {
     mentorEvaluation: 'http://localhost:5000/evaluacion-final.html'
   }

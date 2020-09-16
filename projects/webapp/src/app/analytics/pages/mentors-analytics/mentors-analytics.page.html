@@ -1,45 +1,101 @@
-<h4 class="my-4">Estadísticas de los Mentores</h4>
-<p *ngIf="!loaded">Loading</p>
+<div class="container-fluid my-5">
+  <header class="header">
+    <div class="header-body">
+      <div class="row align-items-end">
+        <div class="col">
 
-<ng-container *ngIf="loaded">
-  <sgm-mentors-degrees-chart [data]="mentors"></sgm-mentors-degrees-chart>
-  <div class="row">
-    <div class="col-lg-6">
-      <div class="jumbotron">
-        <h5>Mentores sin acompañamientos</h5>
-        <hr />
-        <table class="table table-sm text-nowrap">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Nombre</th>
-              <th scope="col">Correo</th>
-              <th scope="col">Estudiantes Asignados</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let mentor of ceroMentors; let i = index">
-              <th scope="row">{{ i + 1 }}</th>
-              <td>{{mentor.displayName | titlecase}}</td>
-              <td>{{mentor.email}}</td>
-              <td class="text-center">{{mentor.assignedStudentCount}}</td>
-            </tr>
-          </tbody>
-        </table>
+          <!-- Analytics header -->
+          <h5 class="header-pretitle text-body2">
+            SGM <span class="text-primary">Analíticas</span>
+          </h5>
+
+          <!-- Panel name -->
+          <h1 class="header-title">
+            Mentores
+          </h1>
+        </div>
+
+        <!-- links -->
+        <div class="col-auto">
+          <ul class="nav header-tabs">
+            <li class="nav-item">
+              <a routerLink="../acompañamientos" class="nav-link text-center">
+                Estudiantes
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="../acompañamientos" class="nav-link text-center">
+                Acompañamientos
+              </a>
+            </li>
+            <li class="nav-item">
+              <a routerLink="../acompañamientos" class="nav-link text-center">
+                Plataforma
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
+  </header>
+</div>
+
+<!-- description of the panel -->
+<section class="container">
+  <div class="alert alert-primary my-4" role="alert">
+    <p>
+      <!-- period alert -->
+      <ng-container *ngIf="period$ | async as period">
+        Datos de los mentores registrados durante el periodo académico <b>{{period.name |titlecase}}</b>.
+      </ng-container>
+
+      <!-- last update alert -->
+      <ng-container *ngIf="lastUpdated$ | async as lastUpdated">
+        Ultima actualización <b>{{ lastUpdated.toDate() | date:'long' }}</b>
+      </ng-container>
+    </p>
+
+    <!-- update analytics now -->
+    <p class="mb-0">
+      <button class="btn btn-primary btn-sm" (click)="updateMentorsAnalytics()">
+        Actualizar ahora
+      </button>
+    </p>
+
   </div>
-</ng-container>
+</section>
 
-<!--
-  <h3>
-  Mentor Analytics Works!
-</h3>
+<section class="container-fluid">
+  <p *ngIf="!loaded">Loading</p>
 
-<p>mentores realizando el acompañamiento</p>
-<p>mentores que no tienen acompañammientors</p>
-<p>mentores con mas probemas encontrados</p>
-<p>mentores por area</p>
-<p>mentores por carrera</p>
-
- -->
+  <ng-container *ngIf="loaded">
+    <sgm-mentors-with-accompaniments></sgm-mentors-with-accompaniments>
+    <sgm-mentors-degrees-chart [data]="mentors"></sgm-mentors-degrees-chart>
+    <div class="row">
+      <div class="col-lg-6">
+        <div class="jumbotron">
+          <h5>Mentores sin acompañamientos</h5>
+          <hr />
+          <table class="table table-sm text-nowrap">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Correo</th>
+                <th scope="col">Estudiantes Asignados</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let mentor of ceroMentors; let i = index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{mentor.displayName | titlecase}}</td>
+                <td>{{mentor.email}}</td>
+                <td class="text-center">{{mentor.stats.assignedStudentCount}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</section>

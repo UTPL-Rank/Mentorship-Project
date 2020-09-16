@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { shareReplay } from 'rxjs/operators';
 import { AcademicPeriod, AcademicPeriods } from '../../models/academic-period.model';
 import { BrowserLoggerService } from './browser-logger.service';
 
@@ -68,10 +70,23 @@ export class AcademicPeriodsService {
   }
 
   /**
+   * @internal
    * Get firestore document of an academic period
    * @param periodId id of the document required
    */
   public periodDocument(periodId: string): AngularFirestoreDocument<AcademicPeriod> {
     return this.periodsCollection().doc<AcademicPeriod>(periodId);
+  }
+
+  /**
+   * Get one academic period
+   * @param periodId identifier of the academic period
+   */
+  public one$(periodId: string): Observable<AcademicPeriod> {
+    const doc = this.periodDocument(periodId);
+    const period = doc.valueChanges().pipe(
+      shareReplay(1),
+    );
+    return period;
   }
 }

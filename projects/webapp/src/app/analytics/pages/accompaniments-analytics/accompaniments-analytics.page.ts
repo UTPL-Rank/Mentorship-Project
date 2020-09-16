@@ -1,18 +1,43 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { AngularFirestore } from "@angular/fire/firestore";
-import { AngularFirePerformance } from "@angular/fire/performance";
-import { Accompaniment, FirestoreAccompaniments } from "projects/webapp/src/app/models/models";
-import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFirePerformance } from '@angular/fire/performance';
+import { ActivatedRoute } from '@angular/router';
+import { firestore } from 'firebase/app';
+import { AcademicPeriod, Accompaniment, FirestoreAccompaniments } from 'projects/webapp/src/app/models/models';
+import { Observable, Subscription } from 'rxjs';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { TitleService } from '../../../core/services/title.service';
+import { AnalyticsService } from '../../analytics.service';
 
 @Component({
-  selector: "sgm-accompaniments-analytics",
-  templateUrl: "./accompaniments-analytics.page.html"
+  selector: 'sgm-accompaniments-analytics',
+  templateUrl: './accompaniments-analytics.page.html'
 })
-export class AccompanimentsAnalyticsPage implements OnInit, OnDestroy {
+export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
+
   constructor(
-    private db: AngularFirestore,
-    private perf: AngularFirePerformance
+    private readonly analytics: AnalyticsService,
+    private readonly db: AngularFirestore,
+    private readonly perf: AngularFirePerformance,
+    private readonly title: TitleService,
+    private readonly route: ActivatedRoute,
   ) { }
+
+  private accompanimentsAnalytics$: Observable<any> = this.route.params.pipe(
+    switchMap(params => this.analytics.accompaniments$(params.periodId)),
+    tap(console.log),
+    shareReplay(1),
+  );
+
+  public period$: Observable<AcademicPeriod> = this.accompanimentsAnalytics$.pipe(
+    map(data => data.period),
+  );
+
+  public lastUpdated$: Observable<firestore.Timestamp> = this.accompanimentsAnalytics$.pipe(
+    map(data => data.lastUpdated),
+  );
+
+  // public accompanimentsCount$: Observable<Analitycs.>/
 
   private sub: Subscription;
   private $accompaniments: FirestoreAccompaniments;
@@ -23,8 +48,10 @@ export class AccompanimentsAnalyticsPage implements OnInit, OnDestroy {
   public selectedDegree: string = null;
 
   ngOnInit() {
+    this.title.setTitle('Analíticas Acompañamientos');
+
     this.sub = this.db
-      .collection<Accompaniment>("accompaniments", q => {
+      .collection<Accompaniment>('accompaniments', q => {
         const query = q;
         // TODO: fix this
         // const query = q.where("periodReference", "==", this.period.currentRef);
@@ -33,7 +60,7 @@ export class AccompanimentsAnalyticsPage implements OnInit, OnDestroy {
       })
       .valueChanges()
       .pipe(
-        this.perf.trace("list accompaniments")
+        this.perf.trace('list accompaniments')
         // map(docs => docs.map(async doc => AccompanimentParser(doc))),
         // mergeMap(async tasks => await Promise.all(tasks)),
         // tap(data => console.log(data))
@@ -47,6 +74,11 @@ export class AccompanimentsAnalyticsPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.sub.unsubscribe();
+  }
+
+  public updateAccompanimentsAnalytics(): void {
+    const task = this.analytics.updateAccompaniments();
+    task.subscribe(console.log);
   }
 
   calculateAccompaniments() {

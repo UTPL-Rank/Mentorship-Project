@@ -7,11 +7,21 @@ import { AngularFireFunctionsModule } from '@angular/fire/functions';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFirePerformanceModule } from '@angular/fire/performance';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { environment } from 'projects/webapp/src/environments/environment';
+
+const FIREBASE_CONFIG = {
+  apiKey: 'AIzaSyDSzoAXm8KmN5Z8dWCVckrygK-ESDUngag',
+  authDomain: 'sgmentores.firebaseapp.com',
+  databaseURL: 'https://sgmentores.firebaseio.com',
+  projectId: 'sgmentores',
+  storageBucket: 'sgmentores.appspot.com',
+  messagingSenderId: '395423068727',
+  appId: '1:395423068727:web:6052e03ffd5a6ffb8d85b2',
+  measurementId: 'G-FKJKMMSBLH'
+};
 
 @NgModule({
   imports: [
-    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFirestoreModule.enablePersistence(),
     AngularFireStorageModule,
     AngularFireAuthModule,
@@ -20,16 +30,17 @@ import { environment } from 'projects/webapp/src/environments/environment';
     AngularFirePerformanceModule,
     AngularFireMessagingModule
   ],
-  exports: [
-    // AngularFireModule,
-    // AngularFirestoreModule,
-    // AngularFireStorageModule,
-    // AngularFireAuthModule,
-    // AngularFireAnalyticsModule,
-    // AngularFireFunctionsModule,
-    // AngularFirePerformanceModule,
-    // AngularFireMessagingModule
-  ],
-  providers: [ScreenTrackingService, UserTrackingService]
+  providers: [
+    ScreenTrackingService,
+    UserTrackingService,
+    // {
+    //   provide: FirestoreSettingsToken,
+    //   useValue: environment.production ? undefined : {
+    //     host: 'localhost:8080',
+    //     ssl: false
+    //   }
+    // },
+    // { provide: ORIGIN, useValue: 'http://localhost:4200' }
+  ]
 })
 export class FirebaseModule { }
