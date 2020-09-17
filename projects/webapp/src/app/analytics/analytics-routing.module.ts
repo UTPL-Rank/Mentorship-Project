@@ -6,7 +6,7 @@ import { MentorsAnalyticsPage } from './pages/mentors-analytics/mentors-analytic
 const routes: Routes = [
   { path: 'acompañamientos', component: AccompanimentsAnalyticsComponent },
   { path: 'mentores', component: MentorsAnalyticsPage },
-  { path: '**', redirectTo: 'acompañamientos' }
+  { path: '**', redirectTo: 'mentores' }
 ];
 
 @NgModule({

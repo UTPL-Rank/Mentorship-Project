@@ -1,12 +1,5 @@
 import { firestore } from 'firebase';
 
-interface BaseAnalytic {
-  lastUpdated: firestore.Timestamp;
-  period: {
-    name: string;
-    reference: firestore.DocumentReference;
-  }
-}
 
 // tslint:disable-next-line: no-namespace
 export namespace AccompanimentsAnalytics {
@@ -28,43 +21,33 @@ export namespace AccompanimentsAnalytics {
 
 
 // tslint:disable-next-line: no-namespace
-export namespace MentorAnalytics {
-  export interface Analytics extends BaseAnalytic {
-    mentors: Array<MentorEntry>;
+export namespace Analytics {
+  interface BaseAnalytic {
+    period: { name: string; reference: firestore.DocumentReference; };
+    lastUpdated: firestore.Timestamp;
   }
 
-  interface MentorEntry {
-    displayName: string;
+  export interface MentorAnalytics extends BaseAnalytic {
+    mentors: Array<Mentor>;
+  }
+
+  export interface Mentor {
+    accompanimentsCount: number;
+
+    assignedStudentsCount: number;
+
+    area: { name: string; id: string; };
+
+    degree: { name: string; id: string; };
+
     id: string;
 
     competedFinalEvaluation: string;
 
-
     mentorCycles: Array<string>;
 
-    degree: {
-      name: string;
-      id: string;
-    };
+    withAccompaniments: number;
 
-    area: {
-      name: string;
-      id: string;
-    };
-
-    stats: {
-      accompanimentsCount: number;
-      assignedStudentsCount: number;
-      lastAccompaniments: firestore.Timestamp;
-    }
-
-    students: {
-      cycles: Array<string>;
-      studentsDegrees: Array<string>;
-      withAccompaniments: number;
-      withoutAccompaniments: number;
-    }
+    withoutAccompaniments: number;
   }
-
-
 }

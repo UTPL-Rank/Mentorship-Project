@@ -104,6 +104,7 @@ export class ProblemsDegreeChartComponent {
       position: "bottom"
     }
   };
+
   public barChartLabels: Label[];
   public barChartType: ChartType = "bar";
   public barChartLegend = true;

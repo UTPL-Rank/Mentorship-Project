@@ -33,6 +33,7 @@ const FIREBASE_CONFIG = {
   providers: [
     ScreenTrackingService,
     UserTrackingService,
+    // { provide: DEBUG_MODE, useValue: true },
     // {
     //   provide: FirestoreSettingsToken,
     //   useValue: environment.production ? undefined : {

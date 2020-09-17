@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase';
 import { AcademicPeriod, Mentor, Mentors } from 'projects/webapp/src/app/models/models';
 import { Observable, Subscription } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { TitleService } from '../../../core/services/title.service';
 import { AnalyticsService } from '../../analytics.service';
 
@@ -25,7 +25,6 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
 
   private mentorsAnalytics$: Observable<any> = this.route.params.pipe(
     switchMap(params => this.analytics.mentors$(params.periodId)),
-    tap(console.log),
     shareReplay(1),
   );
 
@@ -35,6 +34,10 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
 
   public lastUpdated$: Observable<firestore.Timestamp> = this.mentorsAnalytics$.pipe(
     map(data => data.lastUpdated),
+  );
+
+  public mentors$: Observable<any> = this.mentorsAnalytics$.pipe(
+    map(data => data.mentors),
   );
 
   private sub: Subscription;

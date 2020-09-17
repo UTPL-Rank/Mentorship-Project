@@ -1,12 +1,58 @@
-<!-- <div class="jumbotron">
-    <h5>Problemáticas Encontradas por Carrera</h5>
-    <hr />
-    <p>
-        Tipos de problemáticas por carrera de los estudiantes de nuevo ingreso.
-    </p>
-    <div class="chart">
-        <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions"
-            [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType">
-        </canvas>
+<div class="card">
+    <!-- 📝 Title -->
+    <div class="card-header">
+        <h5 class="card-header-title">
+            Mentores con Acompañamiento
+        </h5>
     </div>
-</div> -->
+
+    <div class="card-body">
+        <h6 class="card-subtitle mb-2 text-muted">
+            Estudiantes mentores que han ejecutado la mentoria con sus estudiantes.
+        </h6>
+
+        <ng-container *ngIf="!!mentors">
+            <div class="card-text chart">
+                <canvas baseChart [data]="[mentorsWithAccompaniments.length, mentorsWithoutAccompaniments.length]"
+                    [labels]="['Culminan mentoria', 'No ejecuta la mentoria']" chartType="pie" [options]="chartOptions"
+                    [plugins]="chartPlugins" [colors]="chartColors" [legend]="false">
+                </canvas>
+            </div>
+
+            <div>
+                <h6 class="text-uppercase text-muted mb-2">
+                    Mentores registrados
+                </h6>
+                <span class="h2 mb-0">
+                    {{mentors.length}}
+                </span>
+            </div>
+
+            <div>
+                <h6 class="text-uppercase text-muted mb-2">
+                    Culminan mentoria
+                </h6>
+                <span class="h2 mb-0">
+                    {{mentorsWithAccompaniments.length}}
+                </span>
+            </div>
+
+            <div>
+                <h6 class="text-uppercase text-muted mb-2">
+                    No ejecuta la mentoria
+                </h6>
+                <span class="h2 mb-0">
+                    {{mentorsWithoutAccompaniments.length}}
+                </span>
+            </div>
+        </ng-container>
+
+        <select class="custom-select custom-select-sm" (change)="applyFilter($event.target.value)">
+            <option selected value="">Selecciona una titulación</option>
+            <ng-container *ngFor="let degree of filterOptions">
+                <option [value]="degree.id">{{degree.name | titlecase}}</option>
+            </ng-container>
+        </select>
+
+    </div>
+</div>

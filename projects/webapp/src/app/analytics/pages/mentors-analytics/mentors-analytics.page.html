@@ -69,7 +69,8 @@
   <p *ngIf="!loaded">Loading</p>
 
   <ng-container *ngIf="loaded">
-    <sgm-mentors-with-accompaniments></sgm-mentors-with-accompaniments>
+    <sgm-mentors-with-accompaniments [data]="mentors$|async"></sgm-mentors-with-accompaniments>
+
     <sgm-mentors-degrees-chart [data]="mentors"></sgm-mentors-degrees-chart>
     <div class="row">
       <div class="col-lg-6">
