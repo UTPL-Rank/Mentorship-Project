@@ -13,7 +13,10 @@ import { filter } from 'rxjs/operators';
 export class TitleService {
 
 
-  constructor(private readonly title: Title, private readonly router: Router) {
+  constructor(
+    private readonly title: Title,
+    private readonly router: Router
+  ) {
     this.baseTitle = title.getTitle();
 
     // add a developer build title notice

@@ -10,6 +10,7 @@ import { AcademicAreasService } from './services/academic-areas.service';
 import { AcademicPeriodsService } from './services/academic-periods.service';
 import { AuthenticationService } from './services/authentication.service';
 import { BrowserLoggerService } from './services/browser-logger.service';
+import { DashboardService } from './services/dashboard.service';
 import { MentorsService } from './services/mentors.service';
 import { PwaService } from './services/pwa.service';
 import { ReportsService } from './services/reports.service';
@@ -35,6 +36,7 @@ import { TitleService } from './services/title.service';
     PreloadMentorResolver,
     CurrentPeriodActiveGuard,
     ReportsService,
+    DashboardService
   ],
 })
 export class CoreModule {

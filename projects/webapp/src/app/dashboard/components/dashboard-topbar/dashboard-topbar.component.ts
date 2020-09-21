@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '../../../core/services/authentication.service';
+import { DashboardService } from '../../../core/services/dashboard.service';
 
 @Component({
   selector: 'sgm-dashboard-topbar',
@@ -9,6 +10,7 @@ import { AuthenticationService } from '../../../core/services/authentication.ser
 export class DashboardTopbarComponent implements OnInit {
   constructor(
     private readonly auth: AuthenticationService,
+    public readonly dashboard: DashboardService
   ) { }
 
   ngOnInit() { }

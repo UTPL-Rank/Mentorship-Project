@@ -4,6 +4,7 @@ import { firestore } from 'firebase';
 import { AcademicPeriod } from 'projects/webapp/src/app/models/models';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { DashboardService } from '../../../core/services/dashboard.service';
 import { TitleService } from '../../../core/services/title.service';
 import { AnalyticsService } from '../../analytics.service';
 
@@ -17,6 +18,7 @@ export class MentorsAnalyticsPage implements OnInit {
     private readonly analytics: AnalyticsService,
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
+    private readonly dashboard: DashboardService,
   ) { }
 
   private mentorsAnalytics$: Observable<any> = this.route.params.pipe(
@@ -38,6 +40,7 @@ export class MentorsAnalyticsPage implements OnInit {
 
   ngOnInit() {
     this.title.setTitle('Analíticas Mentores');
+    this.dashboard.setTitle('SGM Analíticas');
   }
 
   public updateMentorsAnalytics() {
