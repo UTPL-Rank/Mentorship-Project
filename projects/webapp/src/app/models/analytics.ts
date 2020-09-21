@@ -38,9 +38,13 @@ export namespace Analytics {
 
     area: { name: string; id: string; };
 
+    period: { name: string; id: string; };
+
     degree: { name: string; id: string; };
 
     id: string;
+
+    displayName: string;
 
     competedFinalEvaluation: string;
 

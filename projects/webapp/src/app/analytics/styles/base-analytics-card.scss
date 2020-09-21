@@ -1,0 +1,44 @@
+.outer-title {
+    font: 500 11px/16px Roboto;
+    font-size: 12px;
+    letter-spacing: .8px;;
+    text-transform: uppercase;
+    margin-block: 0.8em;
+}
+
+
+.analytic-card {
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    box-shadow: none;
+    margin-block: 7px;
+    position: relative;
+    padding: 24px;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+
+    
+    &-bars-chart  {
+        position: relative;
+        width: 100%;
+        height: calc(500px - 3.71875rem);
+        overflow: hidden;
+    }
+
+    &-pie-chart  {
+        flex: 1 1 250px; 
+        justify-self: center;
+        align-self: stretch;
+
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+    
+    &-legend {
+        flex: 1 1 300px; 
+    }
+}

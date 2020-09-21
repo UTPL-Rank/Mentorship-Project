@@ -1,10 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFirePerformance } from '@angular/fire/performance';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase';
-import { AcademicPeriod, Mentor, Mentors } from 'projects/webapp/src/app/models/models';
-import { Observable, Subscription } from 'rxjs';
+import { AcademicPeriod } from 'projects/webapp/src/app/models/models';
+import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { TitleService } from '../../../core/services/title.service';
 import { AnalyticsService } from '../../analytics.service';
@@ -13,12 +11,10 @@ import { AnalyticsService } from '../../analytics.service';
   selector: 'sgm-mentors-analytics',
   templateUrl: './mentors-analytics.page.html'
 })
-export class MentorsAnalyticsPage implements OnInit, OnDestroy {
+export class MentorsAnalyticsPage implements OnInit {
 
   constructor(
     private readonly analytics: AnalyticsService,
-    private readonly db: AngularFirestore,
-    private readonly perf: AngularFirePerformance,
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
   ) { }
@@ -40,39 +36,12 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
     map(data => data.mentors),
   );
 
-  private sub: Subscription;
-  public mentors: Mentors;
-  loaded = false;
-
   ngOnInit() {
     this.title.setTitle('Analíticas Mentores');
-
-    this.sub = this.db
-      .collection<Mentor>('mentors', q => {
-        const query = q;
-        // TODO: fix this
-        // const query = q.where("periodReference", "==", this.period.currentRef);
-
-        return query;
-      })
-      .valueChanges()
-      .pipe(this.perf.trace('list mentors'))
-      .subscribe(mentors => {
-        this.mentors = mentors;
-        this.loaded = true;
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.sub.unsubscribe();
   }
 
   public updateMentorsAnalytics() {
     const task = this.analytics.updateMentors();
     task.subscribe(console.log);
-  }
-
-  get ceroMentors() {
-    return this.mentors.filter(mentor => mentor.stats.accompanimentsCount === 0);
   }
 }

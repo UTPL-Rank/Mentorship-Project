@@ -1,0 +1,95 @@
+.analytic-legend{
+    &-list{
+        display: flex;
+        flex-direction: column;
+        gap: .75em;
+    }
+    &-item{
+        border: 1px solid #dadce0;
+        border-radius: 4px;
+        box-shadow: none;
+        position: relative;
+        padding: .7em;
+
+        display: grid;
+        grid-template-areas: 'title percentage' 'count percentage';
+        grid-auto-rows: auto;
+        grid-template-columns: auto min-content;
+        gap: .5em;
+
+        .item-title {
+            grid-area: title;
+            color: #768499;
+            font-size: .8125rem;    
+            white-space: nowrap;
+        }
+        
+        .item-count {
+            grid-area: count;
+        }
+        
+        .item-percentage{
+            grid-area: percentage;
+            align-self: center;
+            white-space: nowrap;
+
+            color: #768499;
+            font-size: 2rem;  
+
+            .fa-percent{
+                font-size: 1.5rem;  
+            }
+        }
+    }
+}
+
+.list-mentors {
+    height: 250px;
+    overflow: hidden auto;
+    width: 100%;
+    position: relative;
+
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    box-shadow: none;
+    
+    .mentors-sub-list {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        
+        .sub-list-title {
+            position: sticky;
+            top: 0;
+            font-size: .8125rem;    
+            padding: .75em 1em;
+            color: white;
+            background-color: var(--color-primary);
+            margin: 0;
+            transform: translateY(-1px);
+            text-transform: uppercase;
+        }
+        
+        .sub-list-item{
+            padding: .25em 1em;
+            
+            display: flex;
+            align-items: center;
+            gap: .5em;
+
+            &:not(:last-child) {
+                border-bottom: 1px solid #dadce0;
+            }
+            
+            .item-icon {
+                color: var(--color-primary);
+            }
+            .item-label{
+                width: 100%;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+            }
+        }
+    }
+}

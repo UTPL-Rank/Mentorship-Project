@@ -65,38 +65,10 @@
   </div>
 </section>
 
-<section class="container-fluid">
-  <p *ngIf="!loaded">Loading</p>
+<ng-container *ngIf="mentors$|async as mentors">
+  <section class="container-fluid">
+    <sgm-mentors-with-accompaniments [data]="mentors"></sgm-mentors-with-accompaniments>
 
-  <ng-container *ngIf="loaded">
-    <sgm-mentors-with-accompaniments [data]="mentors$|async"></sgm-mentors-with-accompaniments>
-
-    <sgm-mentors-degrees-chart [data]="mentors"></sgm-mentors-degrees-chart>
-    <div class="row">
-      <div class="col-lg-6">
-        <div class="jumbotron">
-          <h5>Mentores sin acompañamientos</h5>
-          <hr />
-          <table class="table table-sm text-nowrap">
-            <thead>
-              <tr>
-                <th scope="col">#</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Correo</th>
-                <th scope="col">Estudiantes Asignados</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let mentor of ceroMentors; let i = index">
-                <th scope="row">{{ i + 1 }}</th>
-                <td>{{mentor.displayName | titlecase}}</td>
-                <td>{{mentor.email}}</td>
-                <td class="text-center">{{mentor.stats.assignedStudentCount}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </ng-container>
-</section>
+    <sgm-mentors-per-degree [data]="mentors"></sgm-mentors-per-degree>
+  </section>
+</ng-container>

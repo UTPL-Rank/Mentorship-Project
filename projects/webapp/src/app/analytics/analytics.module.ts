@@ -7,10 +7,10 @@ import { AnalyticsService } from './analytics.service';
 import { AreasChartComponent } from './components/charts/areas-chart.component';
 import { DegreesChartComponent } from './components/charts/degrees-chart.component';
 import { FollowingChartComponent } from './components/charts/following-chart.component';
-import { MentorsDegreesChartComponent } from './components/charts/mentor-degrees-chart.component';
 import { ProblemsAreaChartComponent } from './components/charts/problems-area-chart.component';
 import { ProblemsChartComponent } from './components/charts/problems-chart.component';
 import { ProblemsDegreeChartComponent } from './components/charts/problems-degree-chart.component';
+import { MentorsPerDegreeComponent } from './components/mentors-per-degree/mentor-per-degree.component';
 import { MentorsWithAccompanimentsComponent } from './components/mentors-with-accompaniments/mentors-with-accompaniments.component';
 
 @NgModule({
@@ -28,7 +28,7 @@ import { MentorsWithAccompanimentsComponent } from './components/mentors-with-ac
     ProblemsAreaChartComponent,
     DegreesChartComponent,
     ProblemsDegreeChartComponent,
-    MentorsDegreesChartComponent,
+    MentorsPerDegreeComponent,
     MentorsWithAccompanimentsComponent
   ],
   providers: [
