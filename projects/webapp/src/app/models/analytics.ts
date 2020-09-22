@@ -42,6 +42,8 @@ export namespace Analytics {
 
     degree: { name: string; id: string; };
 
+    mentorFirstTime: boolean;
+
     id: string;
 
     displayName: string;

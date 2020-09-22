@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase';
 import { AcademicPeriod } from 'projects/webapp/src/app/models/models';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { TitleService } from '../../../core/services/title.service';
@@ -20,6 +20,8 @@ export class MentorsAnalyticsPage implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly dashboard: DashboardService,
   ) { }
+
+  private updatingDataSub: Subscription | null;
 
   private mentorsAnalytics$: Observable<any> = this.route.params.pipe(
     switchMap(params => this.analytics.mentors$(params.periodId)),
@@ -45,6 +47,16 @@ export class MentorsAnalyticsPage implements OnInit {
 
   public updateMentorsAnalytics() {
     const task = this.analytics.updateMentors();
-    task.subscribe(console.log);
+    this.updatingDataSub = task.subscribe(updated => {
+      if (!updated)
+        alert('No se pudo actualizar la información');
+
+      this.updatingDataSub.unsubscribe();
+      this.updatingDataSub = null;
+    });
+  }
+
+  get isUpdating(): boolean {
+    return !!this.updatingDataSub;
   }
 }

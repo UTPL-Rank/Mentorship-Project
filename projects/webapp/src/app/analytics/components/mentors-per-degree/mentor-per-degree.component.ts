@@ -69,13 +69,18 @@ export class MentorsPerDegreeComponent {
     const groupsMap = this.sourceMentors.reduce((acc, mentor) => {
       const degreeId = mentor.degree.id;
 
-      if (degreeId in acc)
-        acc[degreeId].count++;
+      if (!(degreeId in acc))
+        acc[degreeId] = { notFirstTime: 0, firstTime: 0, name: mentor.degree.name, id: degreeId };
+
+      if (mentor.mentorFirstTime)
+        acc[degreeId].firstTime++;
       else
-        acc[degreeId] = { count: 1, name: mentor.degree.name, id: degreeId };
+        acc[degreeId].notFirstTime++;
 
       return acc;
-    }, {} as { [key: string]: { id: string, name: string, count: number } });
+    }, {} as {
+      [key: string]: { id: string, name: string, firstTime: number, notFirstTime: number, }
+    });
 
     const groups = Object.values(groupsMap);
 
@@ -84,7 +89,7 @@ export class MentorsPerDegreeComponent {
     this.chartLabels = sorted.map(g => g.name);
 
     this.chartData = [{
-      data: sorted.map(g => g.count),
+      data: sorted.map(g => g.firstTime),
       label: 'Nuevos mentors',
       borderWidth: 0,
       radius: 100,
@@ -92,7 +97,7 @@ export class MentorsPerDegreeComponent {
       backgroundColor: '#1B6AE1',
       hoverBackgroundColor: '#1B6AE1',
     }, {
-      data: sorted.map(g => g.count - 2),
+      data: sorted.map(g => g.notFirstTime),
       label: 'Mentores ',
       borderWidth: 0,
       radius: 100,
