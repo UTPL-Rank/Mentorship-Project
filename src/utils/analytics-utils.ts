@@ -1,6 +1,6 @@
 import { firestore } from "firebase-admin";
 import { ListAccompanimentsPeriod } from "./accompaniments-utils";
-import { ListMentorsPeriod } from "./mentors-utils";
+import { GetMentorDetailsEvaluation, ListMentorsPeriod } from "./mentors-utils";
 import { CurrentPeriod } from "./period-utils";
 import { ListStudentsPeriod } from "./student-utils";
 import { dbFirestore } from "./utils";
@@ -54,6 +54,8 @@ async function SaveAnalytics<T>(id: string, data: T): Promise<void> {
  * 
  * @author Bruno Esparza
  * 
+ * @todo improve way to get the mentorFirstTime and avoid reading to their evaluation 
+ * 
  * Function to update the analytics of the mentor by reading all the mentors 
  * of the current period and mapping them to a simplified version of the data
  */
@@ -62,8 +64,11 @@ export async function UpdateMentorsAnalytics(): Promise<void> {
     const mentors = await ListMentorsPeriod(period.id);
 
     const analyticsId = `${period.id}-mentors`;
-    const mentorsAnalytics = mentors.map(m => {
+    const mentorsAnalytics = mentors.map(async m => {
+        const evaluationDetails = await GetMentorDetailsEvaluation(m.id);
         const mentor = {
+            id: m.id,
+            displayName: m.displayName,
             area: {
                 name: m.area.name,
                 id: m.area.reference.id,
@@ -72,6 +77,11 @@ export async function UpdateMentorsAnalytics(): Promise<void> {
                 name: m.degree.name,
                 id: m.degree.reference.id,
             },
+            period: {
+                name: m.period.name,
+                id: m.period.reference.id
+            },
+            mentorFirstTime: evaluationDetails.mentorFirstTime,
             accompanimentsCount: m.stats.accompanimentsCount,
             assignedStudentCount: m.stats.assignedStudentCount,
             withAccompaniments: m.students.withAccompaniments.length,
@@ -87,7 +97,7 @@ export async function UpdateMentorsAnalytics(): Promise<void> {
             id: period.id,
             name: period.name,
         },
-        mentors: mentorsAnalytics
+        mentors: await Promise.all(mentorsAnalytics)
     };
 
     await SaveAnalytics(analyticsId, data);
@@ -114,11 +124,16 @@ export async function UpdateStudentsAnalytics(): Promise<void> {
                 name: s.area.name,
                 id: s.area.reference.id,
             },
+            period: {
+                name: s.period.name,
+                id: s.period.reference.id
+            },
             degree: {
                 name: s.degree.name,
                 id: s.degree.reference.id,
             },
             id: s.id,
+            displayName: s.displayName,
             mentor: {
                 displayName: s.mentor.displayName,
                 id: s.mentor.reference.id,
@@ -161,9 +176,21 @@ export async function UpdateAccompanimentsAnalytics(): Promise<void> {
                 name: a.area.name,
                 id: a.area.reference.id
             },
+            period: {
+                name: a.period.name,
+                id: a.period.reference.id
+            },
             degree: {
                 name: a.degree.name,
                 id: a.degree.reference.id
+            },
+            mentor: {
+                displayName: a.mentor.displayName,
+                id: a.mentor.reference.id,
+            },
+            student: {
+                displayName: a.student.displayName,
+                id: a.student.reference.id,
             },
             followingKind: a.followingKind,
             important: !!a.important,

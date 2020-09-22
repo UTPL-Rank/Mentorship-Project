@@ -141,3 +141,20 @@ export async function ListMentorsWithNoAccompaniments(): Promise<Array<Mentor>> 
 
     return mentors;
 }
+
+/**
+ * Mentor Detail Evaluation
+ * ==================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * Get the details evaluation of a mentor
+ * 
+ * @param mentorId identifier of the mentor
+ */
+export async function GetMentorDetailsEvaluation(mentorId: string): Promise<any> {
+    const mentorRef = MentorReference(mentorId);
+    const evalRef = mentorRef.collection('evaluation').doc('details');
+    const detailsEval = await evalRef.get();
+    return detailsEval;
+}
