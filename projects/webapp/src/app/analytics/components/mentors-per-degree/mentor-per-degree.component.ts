@@ -90,7 +90,7 @@ export class MentorsPerDegreeComponent {
 
     this.chartData = [{
       data: sorted.map(g => g.firstTime),
-      label: 'Nuevos mentors',
+      label: 'Mentor Primera Vez',
       borderWidth: 0,
       radius: 100,
       borderColor: '#1B6AE1',
@@ -98,7 +98,7 @@ export class MentorsPerDegreeComponent {
       hoverBackgroundColor: '#1B6AE1',
     }, {
       data: sorted.map(g => g.notFirstTime),
-      label: 'Mentores ',
+      label: 'Mentor Segunda Vez',
       borderWidth: 0,
       radius: 100,
       borderColor: '#95AAC9',
