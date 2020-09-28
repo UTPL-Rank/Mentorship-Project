@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../../../core/services/authentication.service';
-import { PwaService } from '../../../core/services/pwa.service';
 import { TitleService } from '../../../core/services/title.service';
 
 @Component({
@@ -13,7 +12,6 @@ export class DashboardHomePage implements OnInit {
   constructor(
     private readonly auth: AuthenticationService,
     private readonly title: TitleService,
-    private readonly pwa: PwaService,
   ) { }
 
   user: Observable<User> = this.auth.currentUser;
@@ -21,9 +19,4 @@ export class DashboardHomePage implements OnInit {
   async ngOnInit() {
     this.title.setTitle('Panel de Control');
   }
-
-  removeMessaging() {
-    this.pwa.removePushAccess().subscribe(console.log);
-  }
-
 }

@@ -39,7 +39,19 @@
       </div>
 
       <span class="notification--footer text-caption">
-        <ng-container *ngIf="notifications.length == 9">+</ng-container>{{notifications.length}} notificaciones
+        <span>
+          <ng-container *ngIf="notifications.length == 9">+</ng-container>{{notifications.length}} notificaciones
+        </span>
+        <ng-container *ngIf="!(showEnableNotifications |async)">
+          <button class="bordeleses-button" (click)="removeMessaging()">
+            Desactivar Notificaciones
+          </button>
+        </ng-container>
+        <ng-container *ngIf="showEnableNotifications |async">
+          <button class="bordeleses-button" (click)="requestSubscription()">
+            Activar Notificaciones
+          </button>
+        </ng-container>
       </span>
     </div>
   </div>

@@ -95,5 +95,14 @@
     width: 100%;
     text-align: justify;
     padding: var(--space-2) var(--space-6);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
   }
+}
+
+.bordeleses-button {
+  background-color: transparent;
+  color: var(--color-primary);
+  border: none;
 }

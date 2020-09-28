@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { SwUpdate } from '@angular/service-worker';
-import { Observable, of } from 'rxjs';
+import { SwPush, SwUpdate } from '@angular/service-worker';
+import { Observable, of, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { SaveMessagingToken } from '../../models/models';
 import { AuthenticationService } from './authentication.service';
@@ -26,6 +26,7 @@ export class PwaService {
 
   constructor(
     private readonly update: SwUpdate,
+    private readonly browserPush: SwPush,
     private readonly messaging: AngularFireMessaging,
     private readonly logger: BrowserLoggerService,
     private readonly functions: AngularFireFunctions,
@@ -33,10 +34,25 @@ export class PwaService {
   ) { }
 
   /**
+   * track new page version available subscription
+   */
+  private updateSub: Subscription | null = null;
+
+  /**
+   * track notifications subscription
+   */
+  private notificationsSub: Subscription | null = null;
+
+  /**
+   * Wether push notifications are enabled or not
+   */
+  public isPushEnabled: Observable<boolean> = of(this.browserPush.isEnabled);
+
+  /**
    * start the `updates checker` to check for a new version of the application is available
    */
   initUpdateChecker(): void {
-    this.update.available
+    this.updateSub = this.update.available
       .subscribe(_ => {
         const reload = confirm('Hay una nueva versión de la página, Actualizar ahora?');
 
@@ -49,22 +65,17 @@ export class PwaService {
    * start the service to listen for incoming push notifications
    */
   initPushNotifications(): void {
-    this.messaging.messages.subscribe(
+    this.notificationsSub = this.messaging.messages.subscribe(
       console.log
     );
   }
 
   /**
-   * Wether push notifications are enabled or not
+   * Remove all subscriptions to updates and notifications. dispose service
    */
-  isPushEnabled(): Observable<boolean> {
-    console.log('TODO: change notifications enabled to user profile');
-
-    // return this.messaging.;
-    return this.messaging.getToken.pipe(
-      tap(console.log),
-      map(token => !!token)
-    );
+  public disposePWA() {
+    this.updateSub?.unsubscribe();
+    this.notificationsSub?.unsubscribe();
   }
 
   /**
@@ -100,6 +111,7 @@ export class PwaService {
     const tokenSaved = user.pipe(
       map(({ email }) => email.split('@')[0]),
       switchMap(username => action({ username, token })),
+      tap(console.log),
       take(1),
     );
 

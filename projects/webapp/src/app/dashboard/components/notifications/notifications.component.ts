@@ -15,7 +15,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   public notifications: Array<Notification>;
 
-  public showEnableNotifications = this.pwa.isPushEnabled().pipe(
+  public showEnableNotifications = this.pwa.isPushEnabled.pipe(
     map(enabled => !enabled)
   );
 
@@ -37,9 +37,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.notificationsSub.unsubscribe();
-
-    if (!!this.messagingRequestSub)
-      this.messagingRequestSub.unsubscribe();
+    this.messagingRequestSub?.unsubscribe();
   }
 
   async handleRedirect(notification: Notification) {
@@ -54,7 +52,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     return this.notifications.some(n => !n.read);
   }
 
-
   public requestSubscription(): void {
     if (!!this.messagingRequestSub)
       return;
@@ -65,5 +62,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       this.messagingRequestSub.unsubscribe();
       this.messagingRequestSub = null;
     });
+  }
+
+  public removeMessaging(): void {
+    this.pwa.removePushAccess().subscribe(console.log);
   }
 }
