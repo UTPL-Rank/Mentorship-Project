@@ -60,7 +60,8 @@ export async function AddUserMessagingToken(username: string, token: string): Pr
     const data = {
         tokens: firestore.FieldValue.arrayUnion(token),
     };
-    await protectedDoc.update(data);
+
+    await protectedDoc.set(data, { merge: true });
 }
 
 /**
@@ -79,5 +80,5 @@ export async function RemoveUserMessagingToken(username: string, token: string):
     const data = {
         tokens: firestore.FieldValue.arrayRemove(token),
     };
-    await protectedDoc.update(data);
+    await protectedDoc.set(data, { merge: true });
 }
