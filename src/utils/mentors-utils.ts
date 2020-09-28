@@ -152,9 +152,11 @@ export async function ListMentorsWithNoAccompaniments(): Promise<Array<Mentor>> 
  * 
  * @param mentorId identifier of the mentor
  */
-export async function GetMentorDetailsEvaluation(mentorId: string): Promise<any> {
+export async function GetMentorDetailsEvaluation(mentorId: string): Promise<{ mentorFirstTime: boolean } | null> {
     const mentorRef = MentorReference(mentorId);
     const evalRef = mentorRef.collection('evaluation').doc('details');
-    const detailsEval = await evalRef.get();
+    const snap = await evalRef.get();
+    const detailsEval = snap.exists ? snap.data() as { mentorFirstTime: boolean } : null;
+
     return detailsEval;
 }

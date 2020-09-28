@@ -81,7 +81,7 @@ export async function UpdateMentorsAnalytics(): Promise<void> {
                 name: m.period.name,
                 id: m.period.reference.id
             },
-            mentorFirstTime: evaluationDetails.mentorFirstTime,
+            mentorFirstTime: (evaluationDetails && evaluationDetails.mentorFirstTime),
             accompanimentsCount: m.stats.accompanimentsCount,
             assignedStudentCount: m.stats.assignedStudentCount,
             withAccompaniments: m.students.withAccompaniments.length,
