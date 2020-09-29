@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFireMessaging } from '@angular/fire/messaging';
-import { SwPush, SwUpdate } from '@angular/service-worker';
-import { Observable, of, Subscription } from 'rxjs';
+import { SwUpdate } from '@angular/service-worker';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
 import { SaveMessagingToken } from '../../models/models';
-import { AuthenticationService } from './authentication.service';
 import { BrowserLoggerService } from './browser-logger.service';
+import { UserService } from './user.service';
 
 /**
  * @author Bruno Esparza
@@ -26,11 +26,10 @@ export class PwaService {
 
   constructor(
     private readonly update: SwUpdate,
-    private readonly browserPush: SwPush,
     private readonly messaging: AngularFireMessaging,
     private readonly logger: BrowserLoggerService,
     private readonly functions: AngularFireFunctions,
-    private readonly auth: AuthenticationService,
+    private readonly user: UserService,
   ) { }
 
   /**
@@ -46,7 +45,9 @@ export class PwaService {
   /**
    * Wether push notifications are enabled or not
    */
-  public isPushEnabled: Observable<boolean> = of(this.browserPush.isEnabled);
+  public isPushEnabled: Observable<boolean> = combineLatest([this.user.username, this.user.currentUserData]).pipe(
+    map(([username, data]) => data && data.notificationTopics && data.notificationTopics.includes(`user-${username}`)),
+  );
 
   /**
    * start the `updates checker` to check for a new version of the application is available
@@ -65,9 +66,10 @@ export class PwaService {
    * start the service to listen for incoming push notifications
    */
   initPushNotifications(): void {
-    this.notificationsSub = this.messaging.messages.subscribe(
-      console.log
-    );
+    this.notificationsSub = this.messaging.messages.subscribe(payload => {
+      const notification = new Notification(payload['title']);
+      console.log(notification);
+    });
   }
 
   /**
@@ -105,11 +107,9 @@ export class PwaService {
    * @param token to be saved in the database
    */
   private saveToken(token: string): Observable<boolean> {
-    const user = this.auth.currentUser;
     const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('SaveMessagingToken');
 
-    const tokenSaved = user.pipe(
-      map(({ email }) => email.split('@')[0]),
+    const tokenSaved = this.user.username.pipe(
       switchMap(username => action({ username, token })),
       tap(console.log),
       take(1),
@@ -141,12 +141,11 @@ export class PwaService {
    * @param token to be removed
    */
   private removeToken(token: string): Observable<boolean> {
-    const user = this.auth.currentUser;
+    const user = this.user.username;
     const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('RemoveMessagingToken');
 
     const tokenRemoved = this.messaging.deleteToken(token).pipe(
       switchMap(() => user),
-      map(({ email }) => email.split('@')[0]),
       switchMap(username => action({ username, token })),
       take(1),
     );

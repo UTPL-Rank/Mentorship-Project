@@ -16,6 +16,7 @@ import { PwaService } from './services/pwa.service';
 import { ReportsService } from './services/reports.service';
 import { StudentsService } from './services/students.service';
 import { TitleService } from './services/title.service';
+import { UserService } from './services/user.service';
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import { TitleService } from './services/title.service';
     PreloadMentorResolver,
     CurrentPeriodActiveGuard,
     ReportsService,
-    DashboardService
+    DashboardService,
+    UserService,
   ],
 })
 export class CoreModule {

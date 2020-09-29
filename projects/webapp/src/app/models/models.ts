@@ -6,6 +6,7 @@ export * from './mentor.model';
 export * from './notification.model';
 export * from './student.model';
 export * from './upload-data.interface';
+export * from './user';
 export * from './user-claims';
 
 // models to be moved to its own package

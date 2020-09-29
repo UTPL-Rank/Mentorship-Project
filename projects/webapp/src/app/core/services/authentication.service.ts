@@ -32,10 +32,14 @@ export class AuthenticationService {
     map(claims => claims.isAdmin)
   );
 
-  public notificationsStream: Observable<Array<Notification>> = this.afAuth.user.pipe(
+  public username: Observable<string> = this.afAuth.user.pipe(
     filter(user => !!user),
     map(user => user.email),
-    map(email => this.firestore.collection('users').doc(email.split('@')[0])),
+    map(email => email.split('@')[0]),
+  );
+
+  public notificationsStream: Observable<Array<Notification>> = this.username.pipe(
+    map(username => this.firestore.collection('users').doc(username)),
     map(userDoc => userDoc.collection<Notification>('notifications', q => q.limit(9).orderBy('time', 'desc'))),
     switchMap(claimsRef => claimsRef.valueChanges()),
     shareReplay(1),
