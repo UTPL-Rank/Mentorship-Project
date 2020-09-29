@@ -30,8 +30,6 @@ export const NotifyUsers = functions.firestore
         };
 
         try {
-            console.log({ username, payload });
-
             await SendNotificationToUser(username, payload);
         } catch (error) {
             console.log(error.message);
