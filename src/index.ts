@@ -10,8 +10,8 @@ export * from './cron/analytics-calculator';
 export * from './cron/backup-firestore';
 export * from './cron/calculate-home-statistics';
 export * from './cron/notify-mentors-accompaniments';
+// firestore
 export * from './firestore/accompaniments/new-accompaniment';
 export * from './firestore/claims/update-claims';
-
-
+export * from './firestore/notifications/notify-user';
 

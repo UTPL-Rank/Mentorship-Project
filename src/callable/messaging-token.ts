@@ -1,5 +1,5 @@
 import * as functions from 'firebase-functions';
-import { AddUserMessagingToken, RemoveUserMessagingToken } from '../utils/users-utils';
+import { SubscribeToUserNotifications, UnsubscribeToUserNotifications } from '../utils/notifiactions-utils';
 
 /**
  * Save Messaging Token
@@ -20,7 +20,7 @@ export const SaveMessagingToken = functions.https.onCall(async (data) => {
     const username = data.username;
 
     try {
-        await AddUserMessagingToken(username, token);
+        await SubscribeToUserNotifications(username, token);
         return true;
     } catch (err) {
         console.error(err.message);
@@ -47,7 +47,7 @@ export const RemoveMessagingToken = functions.https.onCall(async (data) => {
     const username = data.username;
 
     try {
-        await RemoveUserMessagingToken(username, token);
+        await UnsubscribeToUserNotifications(username, token);
         return true;
     } catch (err) {
         console.error(err.message);

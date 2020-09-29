@@ -2,7 +2,6 @@ import { firestore } from "firebase-admin";
 import { dbFirestore } from "./utils";
 
 type User = any;
-type UserProtectedDocument = any;
 
 /**
  * Users Collection
@@ -30,55 +29,56 @@ function UserDocument(username: string): firestore.DocumentReference<User> {
     return UsersCollection().doc(username);
 }
 
-/**
- * User Protected Information Document
- * ==============================================================
- * 
- * @author Bruno Esparza
- * 
- * Get the firestore document of the protected information of the user
- * 
- * @param username identifier of the user
- */
-function UserProtectedDocument(username: string): firestore.DocumentReference<UserProtectedDocument> {
-    return UserDocument(username).collection('account-configuration').doc('protected-information');
-}
 
 /**
- * Save Messaging Token
+ * Add User Messaging Topic
  * ==================================================================
  * 
  * @author Bruno Esparza
  * 
- * Save a token in the user protected information
+ * Save the topics the user has subscribed to
  * 
  * @param username identifier of the user
- * @param token messaging token to be saved
+ * @param topics the topics the user subscribed to
  */
-export async function AddUserMessagingToken(username: string, token: string): Promise<void> {
-    const protectedDoc = UserProtectedDocument(username);
+export async function AddUserMessagingTopic(username: string, ...topics: Array<string>): Promise<void> {
+    const userDoc = UserDocument(username);
     const data = {
-        tokens: firestore.FieldValue.arrayUnion(token),
+        notificationTopics: firestore.FieldValue.arrayUnion(topics),
     };
 
-    await protectedDoc.set(data, { merge: true });
+    await userDoc.set(data, { merge: true });
 }
 
 /**
- * Remove Messaging Token
+ * Remove User Messaging Topic
  * ==================================================================
  * 
  * @author Bruno Esparza
  * 
- * Remove a messaging token from the user protected information
+ * Remove a messaging topic from the user notifications topics
  * 
  * @param username identifier of the user
- * @param token messaging token to be saved
+ * @param topics the topics the user unsubscribed to
  */
-export async function RemoveUserMessagingToken(username: string, token: string): Promise<void> {
-    const protectedDoc = UserProtectedDocument(username);
+export async function RemoveUserMessagingTopic(username: string, ...topics: Array<string>): Promise<void> {
+    const userDoc = UserDocument(username);
     const data = {
-        tokens: firestore.FieldValue.arrayRemove(token),
+        notificationTopics: firestore.FieldValue.arrayRemove(topics),
     };
-    await protectedDoc.set(data, { merge: true });
+    await userDoc.set(data, { merge: true });
 }
+
+// /**
+//  * User Protected Information Document
+//  * ==============================================================
+//  * 
+//  * @author Bruno Esparza
+//  * 
+//  * Get the firestore document of the protected information of the user
+//  * 
+//  * @param username identifier of the user
+//  */
+// function UserProtectedDocument(username: string): firestore.DocumentReference<UserProtectedDocument> {
+//     return UserDocument(username).collection('account-configuration').doc('protected-information');
+// }
