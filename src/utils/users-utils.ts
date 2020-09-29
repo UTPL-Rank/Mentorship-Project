@@ -36,15 +36,15 @@ function UserDocument(username: string): firestore.DocumentReference<User> {
  * 
  * @author Bruno Esparza
  * 
- * Save the topics the user has subscribed to
+ * Save the topic the user has subscribed to
  * 
  * @param username identifier of the user
- * @param topics the topics the user subscribed to
+ * @param topic the topic the user subscribed to
  */
-export async function AddUserMessagingTopic(username: string, ...topics: Array<string>): Promise<void> {
+export async function AddUserMessagingTopic(username: string, topic: string): Promise<void> {
     const userDoc = UserDocument(username);
     const data = {
-        notificationTopics: firestore.FieldValue.arrayUnion(topics),
+        notificationTopics: firestore.FieldValue.arrayUnion(topic),
     };
 
     await userDoc.set(data, { merge: true });
@@ -59,12 +59,12 @@ export async function AddUserMessagingTopic(username: string, ...topics: Array<s
  * Remove a messaging topic from the user notifications topics
  * 
  * @param username identifier of the user
- * @param topics the topics the user unsubscribed to
+ * @param topic the topic the user unsubscribed to
  */
-export async function RemoveUserMessagingTopic(username: string, ...topics: Array<string>): Promise<void> {
+export async function RemoveUserMessagingTopic(username: string, topic: string): Promise<void> {
     const userDoc = UserDocument(username);
     const data = {
-        notificationTopics: firestore.FieldValue.arrayRemove(topics),
+        notificationTopics: firestore.FieldValue.arrayRemove(topic),
     };
     await userDoc.set(data, { merge: true });
 }
