@@ -3,7 +3,7 @@ import { AddUserMessagingTopic, RemoveUserMessagingTopic } from "./users-utils";
 import { fcm } from "./utils";
 
 export function GetUserTopic(username: string): string {
-    return `user-${username}`
+    return username;
 }
 
 export async function SubscribeToUserNotifications(username: string, token: string) {
