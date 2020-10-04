@@ -36,6 +36,7 @@ export class AuthenticationService {
     filter(user => !!user),
     map(user => user.email),
     map(email => email.split('@')[0]),
+    shareReplay(1),
   );
 
   public notificationsStream: Observable<Array<Notification>> = this.username.pipe(

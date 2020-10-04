@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { UserService } from '../../../core/services/user.service';
 
 interface MousePosition {
   x: number;
@@ -9,8 +11,11 @@ interface MousePosition {
   selector: 'sgm-sig-canvas',
   templateUrl: './sig-canvas.component.html'
 })
-export class SigCanvasComponent implements OnInit, AfterViewInit {
-  constructor() { }
+export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  constructor(
+    private readonly user: UserService,
+  ) { }
 
   @ViewChild('sigCanvas')
   private canvasRef: ElementRef;
@@ -26,6 +31,10 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
   };
   private lastPos: MousePosition = this.mousePos;
 
+
+  private saveSignatureSub: Subscription | null = null;
+  private loadSignatureSub: Subscription | null = null;
+
   ngOnInit() {
     this.requestAnimFrame =
       (window as any).requestAnimationFrame ||
@@ -33,6 +42,11 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
       (window as any).mozRequestAnimationFrame ||
       (window as any).oRequestAnimationFrame ||
       (window as any).msRequestAnimaitonFrame;
+  }
+
+  ngOnDestroy() {
+    this.saveSignatureSub?.unsubscribe();
+    this.loadSignatureSub?.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -138,6 +152,18 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
       self.requestAnimFrame(drawLoop);
       self.renderCanvas();
     })();
+
+
+    // at the end of setting up everything load previously saved signature
+    this.loadSignatureSub = this.user.signature$.subscribe(document => {
+      const signature = new Image();
+
+      signature.onload = () => {
+        this.ctx.drawImage(signature, 0, 0);
+      }
+      signature.src = document.data;
+
+    });
   }
 
   private getMousePos({ clientX, clientY }: MouseEvent): MousePosition {
@@ -170,8 +196,17 @@ export class SigCanvasComponent implements OnInit, AfterViewInit {
     this.canvas.width = this.canvas.width;
   }
 
-  public getDataURL() {
-    return this.canvas.toDataURL();
+  public getDataURL(): string {
+    const signature = this.canvas.toDataURL();
+
+    this.saveSignatureSub = this.user.saveSignature(signature).subscribe(saved => {
+      if (saved)
+        alert('Hemos guardado tu firma para utilizarla próximamente');
+
+      this.saveSignatureSub?.unsubscribe();
+      this.saveSignatureSub = null;
+    });
+    return signature;
   }
 
   isCanvasBlank() {
