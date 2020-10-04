@@ -16,10 +16,7 @@
             </th>
           </ng-container>
           <th class="font-weight-bold text-muted small">
-            Seguimiento
-          </th>
-          <th class="font-weight-bold text-muted small">
-            Problemas
+            Problemática
           </th>
           <th class="font-weight-bold text-muted small">
             Validación
@@ -42,15 +39,12 @@
             </td>
           </ng-container>
           <td class="font-weight-bold text-muted small">
-            {{ accompaniment.followingKind | followingName }}
-          </td>
-          <td class="font-weight-bold text-muted small">
             {{ accompaniment.problems.problemCount }}
             <span *ngIf="accompaniment.problems.problemCount === 1">
-              problema
+              problemática
             </span>
             <span *ngIf="accompaniment.problems.problemCount !== 1">
-              problemas
+              problemáticas
             </span>
           </td>
           <td>

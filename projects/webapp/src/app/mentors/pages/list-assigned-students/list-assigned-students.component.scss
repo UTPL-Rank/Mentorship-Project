@@ -1,40 +1,97 @@
 .grid-students {
-  --grid-columns: repeat(auto-fit, minmax(300px, 1fr));
-
-  display: grid;
-  grid-template-columns: var(--grid-columns);
+  display: flex;
+  flex-direction: column;
   gap: var(--space-6);
 }
 
+.card {
+  padding: 1em .75em;
 
-@media only screen and (max-width: 600px) {
-  .grid-students {
-    --grid-columns: 1fr;
+  display: grid;
+  grid-template-columns: 3fr 2fr 2fr ;
+  grid-auto-rows: auto;
+  gap: .8em;
+  grid-template-areas: 'info count last'
+  'action count last';
+  
+  @media screen and (max-width: 800px) {
+    grid-template-columns: repeat(2, 1fr) ;
+    grid-template-areas: 'info info'
+                          'count count '
+                          'last last'
+                          'action  action';
+    
   }
 }
 
+.student-info {
+  grid-area: info;
 
-.card{
-  --dialog-width: 100%;
-  --dialog-spacer: var( --space-6);
+  .student-name {
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .student-email {
+    font-size: .8em;
+    text-decoration: none;
+    color: var(--color-muted);
+  }
 }
 
-.card .content{
-  padding-top: 0;
+.accompaniment-count {
+  grid-area: count;
 }
 
-.student-stats {
-  display: flex;
-  flex-direction:row;
-  justify-content: space-between;
+.last-accompaniment {
+  grid-area: last;
 }
 
-.student-stats > * {
+.view-student-action {
+  grid-area: action;
+
+  color: #1b6ae1;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.accompaniment-count, .last-accompaniment {
+  width: 100%;
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
+  gap: .4em;
+
+  @media screen and (max-width: 800px) {
+    flex-direction: row;
+  }
+
+   > * { 
+    white-space: nowrap;
+  }
+  
+  .stat-title {
+    font-size: .9em;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    
+    @media screen and (max-width: 800px) {
+      text-align: left;
+    }
+  }
 }
 
-.student-stats > * > *:not(:last-child) {
-  margin-bottom: var(--space-1);
+.icon {
+  min-width: 1.5em;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
