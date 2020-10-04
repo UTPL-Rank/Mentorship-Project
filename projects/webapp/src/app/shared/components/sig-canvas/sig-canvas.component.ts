@@ -156,11 +156,15 @@ export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // at the end of setting up everything load previously saved signature
     this.loadSignatureSub = this.user.signature$.subscribe(document => {
+      if (!document)
+        return;
+
       const signature = new Image();
 
       signature.onload = () => {
         this.ctx.drawImage(signature, 0, 0);
-      }
+      };
+
       signature.src = document.data;
 
     });

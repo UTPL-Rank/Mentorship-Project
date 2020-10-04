@@ -18,9 +18,10 @@ export class UserService {
         shareReplay(1),
     );
 
-    public readonly signature$: Observable<UserSignature> = this.username.pipe(
+    public readonly signature$: Observable<UserSignature | null> = this.username.pipe(
         map(username => this.signatureDocument(username)),
-        switchMap(doc => doc.valueChanges()),
+        switchMap(doc => doc.get()),
+        map(snap => snap.exists ? snap.data() as UserSignature : null),
         shareReplay(1),
     );
 
