@@ -32,7 +32,6 @@
         <div class="mb-5">
           <ng-container *ngTemplateOutlet="faqs"> </ng-container>
         </div>
-        <sgm-info-mentor [mentor]="mentor"> </sgm-info-mentor>
       </div>
     </div>
   </div>
@@ -44,12 +43,15 @@
     <div class="card-body">
       <!-- heading -->
       <h4 class="mb-3">
-        Preguntas?
+        Preguntas Frecuentes
       </h4>
 
       <!-- text -->
       <p class="text-muted mb-5">
-        Registra un nuevo acompañamiento a traves del siguiente formulario
+        Registra un nuevo acompañamiento a traves del siguiente formulario, <a
+          routerLink="/articulos/registrar-acompañamiento" target="_black">
+          visita la guiá de como registrar un acompañamiento.
+        </a>
       </p>
 
       <!-- Heading -->
@@ -61,7 +63,9 @@
       <p class="text-muted mb-5 small">
         Seleccione un estudiante de la lista.
         <br />
-        Si no encuentras a un estudiante, contacta al administrador del sistema.
+        Si no encuentras a un estudiante, llena la siguiente <a target="_blank"
+          href="https://forms.gle/CpNp5XHPeJBBaGaK6">
+          ficha </a>.
       </p>
 
       <!-- Heading -->
@@ -85,7 +89,7 @@
         Selecciona una o varias problemáticas dependiendo del acompañamiento
         realizado.
         <br />
-        También puedes impartir una temática libre.
+        Si la temática no se encuentra. puedes agregar una temática, pero recomendamos usar las temáticas predefinidas.
       </p>
 
       <!-- Heading -->
@@ -95,21 +99,19 @@
 
       <!-- text -->
       <p class="text-muted mb-5 small">
-        Puedes seleccionar uno o varios archivos a la vez.
+        Puedes seleccionar uno o varios archivos a la vez. Estos anexos son la evidencia de haber realizado el
+        acompañamiento.
       </p>
 
       <!-- Heading -->
       <h6 class="font-weight-bold text-uppercase mb-1">
-        Envianos un correo
+        Problemas?
       </h6>
 
       <!-- text -->
       <p class="text-muted mb-0">
-        <small>
-          <a href="mailto:proyectomentores@utpl.edu.ec" class="text-reset">
-            proyectomentores@utpl.edu.ec
-          </a>
-        </small>
+        Llena la siguiente <a target="_blank" href="https://forms.gle/CpNp5XHPeJBBaGaK6">
+          ficha </a>
       </p>
     </div>
   </div>
