@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, Mentor, MentorClaims, UploadData } from 'projects/webapp/src/app/models/models';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'sgm-upload-mentors',
@@ -11,7 +12,8 @@ import { Subscription } from 'rxjs';
 export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDestroy {
   constructor(
     private db: AngularFirestore,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private readonly usersService: UserService,
   ) { }
 
   isSaving = false;
@@ -43,20 +45,20 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
       const batch = this.db.firestore.batch();
 
       // TODO: validate a mentor is not repeated
-      this.data
-        .forEach(mentor => {
-          // references to all the documents that will be updated when a new mentor is created
-          const mentorRef = this.db.collection('mentors').doc(mentor.id).ref;
-          const claimsRef = this.db.collection('claims').doc(mentor.email).ref;
+      this.data.forEach(mentor => {
+        // references to all the documents that will be updated when a new mentor is created
+        const username = mentor.email.split('@')[0];
+        const mentorRef = this.db.collection('mentors').doc(mentor.id).ref;
+        const claimsRef = this.usersService.claimsDocument(username).ref;
 
-          // data to be uploaded
-          const claims: MentorClaims = { isMentor: true, mentorId: mentor.id };
+        // data to be uploaded
+        const claims: MentorClaims = { isMentor: true, mentorId: mentor.id };
 
-          // batch writes
-          // TODO: add type validation
-          batch.set(mentorRef, mentor);
-          batch.set(claimsRef, claims, { merge: true });
-        });
+        // batch writes
+        // TODO: add type validation
+        batch.set(mentorRef, mentor);
+        batch.set(claimsRef, claims, { merge: true });
+      });
 
 
       await batch.commit();

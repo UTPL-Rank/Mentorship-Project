@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase/app';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../../core/services/user.service';
 import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, MentorQuery, Student, StudentClaims, UploadData } from '../../../models/models';
 
 @Component({
@@ -13,7 +14,9 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
 
   constructor(
     private readonly db: AngularFirestore,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private readonly usersService: UserService,
+
   ) { }
 
   private sub: Subscription;
@@ -44,9 +47,10 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
       const batch = this.db.firestore.batch();
 
       this.data.forEach(student => {
+        const username = student.email.split('@')[0];
         const studentRef = this.db.collection('students').doc(student.id).ref;
         const mentorRef = student.mentor.reference;
-        const claimsRef = this.db.collection('claims').doc(student.email).ref;
+        const claimsRef = this.usersService.claimsDocument(username).ref;
 
         // data to be sabed
         const claims: StudentClaims = { isStudent: true, mentorId: mentorRef.id, studentId: studentRef.id };
