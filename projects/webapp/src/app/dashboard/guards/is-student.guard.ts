@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from '../../core/services/authentication.service';
+import { UserService } from '../../core/services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class IsStudentGuard implements CanActivate {
-  constructor(private auth: AuthenticationService, private router: Router) { }
+  constructor(private auth: UserService, private router: Router) { }
 
   canActivate({ params }: ActivatedRouteSnapshot, { url }: RouterStateSnapshot) {
     return this.auth.claims.pipe(

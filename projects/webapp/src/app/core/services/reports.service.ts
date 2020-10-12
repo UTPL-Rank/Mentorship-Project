@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { firestore } from 'firebase/app';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { AuthenticationService } from './authentication.service';
+import { UserService } from './user.service';
 
 const REPORTS_COLLECTION = 'reports';
 
@@ -22,7 +22,7 @@ type CreateReport = BaseReport & { createdAt: firestore.FieldValue };
 export class ReportsService {
   constructor(
     private readonly angularFirestore: AngularFirestore,
-    private readonly auth: AuthenticationService
+    private readonly auth: UserService
   ) { }
 
   /**

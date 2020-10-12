@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { mergeMap } from 'rxjs/operators';
 import { AcademicPeriodsService } from '../../core/services/academic-periods.service';
-import { AuthenticationService } from '../../core/services/authentication.service';
 import { MentorsService } from '../../core/services/mentors.service';
 import { StudentsService } from '../../core/services/students.service';
+import { UserService } from '../../core/services/user.service';
 
 @Injectable({ providedIn: 'root' })
 export class StudentOfMentorGuard implements CanActivate {
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly periodsService: AcademicPeriodsService,
     private readonly studentsService: StudentsService,
     private readonly mentorsService: MentorsService,

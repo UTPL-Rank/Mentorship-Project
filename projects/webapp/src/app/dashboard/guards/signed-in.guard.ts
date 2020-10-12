@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from '../../core/services/authentication.service';
+import { UserService } from '../../core/services/user.service';
 
 /**
  * Validate the user is signed in
@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../core/services/authentication.servic
 export class SignedInGuard implements CanActivate {
 
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly router: Router
   ) { }
 

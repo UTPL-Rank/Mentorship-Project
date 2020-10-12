@@ -8,7 +8,6 @@ import { LocateModule } from './modules/locate.module';
 import { PreloadMentorResolver } from './resolvers/preload-mentor.resolver';
 import { AcademicAreasService } from './services/academic-areas.service';
 import { AcademicPeriodsService } from './services/academic-periods.service';
-import { AuthenticationService } from './services/authentication.service';
 import { BrowserLoggerService } from './services/browser-logger.service';
 import { DashboardService } from './services/dashboard.service';
 import { MentorsService } from './services/mentors.service';
@@ -28,7 +27,6 @@ import { UserService } from './services/user.service';
     [IsAdminGuard, IsMentorGuard, ValidPeriodOfMentorGuard],
     BrowserLoggerService,
     PwaService,
-    AuthenticationService,
     AcademicPeriodsService,
     AcademicAreasService,
     TitleService,

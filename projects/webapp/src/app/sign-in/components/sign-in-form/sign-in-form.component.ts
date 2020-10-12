@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthenticationService } from '../../../core/services/authentication.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'sgm-sign-in-form',
@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../../core/services/authentication.ser
 export class SignInFormComponent implements OnInit {
   constructor(
     private readonly fb: FormBuilder,
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
   ) { }
 
   public signInForm: FormGroup;

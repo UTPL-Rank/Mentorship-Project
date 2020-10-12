@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { User } from 'firebase/app';
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from '../../../core/services/authentication.service';
+import { UserService } from '../../../core/services/user.service';
 import { AcademicPeriod, UserClaims } from '../../../models/models';
 
 @Component({
@@ -21,7 +21,7 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
   private sub: Subscription;
 
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly route: ActivatedRoute
   ) { }
 

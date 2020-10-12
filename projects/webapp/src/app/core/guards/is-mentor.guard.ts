@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { map } from 'rxjs/operators';
-import { AuthenticationService } from '../services/authentication.service';
+import { UserService } from '../services/user.service';
 
 /**
  * Guard to protect any route, and allow access to:
@@ -11,7 +11,7 @@ import { AuthenticationService } from '../services/authentication.service';
 @Injectable({ providedIn: 'root' })
 export class IsMentorGuard implements CanActivate {
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly router: Router
   ) { }
 

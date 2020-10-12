@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthenticationService } from '../../../core/services/authentication.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'sgm-sign-in',
@@ -9,7 +9,7 @@ import { AuthenticationService } from '../../../core/services/authentication.ser
 })
 export class SignIn implements OnInit, OnDestroy {
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly router: ActivatedRoute,
     private readonly route: Router,
   ) { }

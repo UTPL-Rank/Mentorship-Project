@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { AuthenticationService } from '../../../core/services/authentication.service';
 import { PwaService } from '../../../core/services/pwa.service';
+import { UserService } from '../../../core/services/user.service';
 import { Notification } from '../../../models/models';
 
 @Component({
@@ -24,7 +24,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   private messagingRequestSub: Subscription | null = null;
 
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly router: Router,
     private readonly pwa: PwaService,
   ) { }

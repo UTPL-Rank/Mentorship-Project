@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'firebase/app';
 import { Observable } from 'rxjs';
-import { AuthenticationService } from '../../../core/services/authentication.service';
 import { TitleService } from '../../../core/services/title.service';
+import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'sgm-dashboard-home',
@@ -10,7 +10,7 @@ import { TitleService } from '../../../core/services/title.service';
 })
 export class DashboardHomePage implements OnInit {
   constructor(
-    private readonly auth: AuthenticationService,
+    private readonly auth: UserService,
     private readonly title: TitleService,
   ) { }
 

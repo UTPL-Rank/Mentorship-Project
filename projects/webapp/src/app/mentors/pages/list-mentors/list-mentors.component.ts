@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { AuthenticationService } from '../../../core/services/authentication.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
+import { UserService } from '../../../core/services/user.service';
 import { AreasIds, Mentor, Mentors } from '../../../models/models';
 
 interface AreaStat {
@@ -24,7 +24,7 @@ export class ListMentorsComponent implements OnInit {
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
     private readonly mentorsService: MentorsService,
-    public readonly auth: AuthenticationService,
+    public readonly auth: UserService,
   ) { }
 
   public allMentors: Observable<Mentors> = this.route.params.pipe(

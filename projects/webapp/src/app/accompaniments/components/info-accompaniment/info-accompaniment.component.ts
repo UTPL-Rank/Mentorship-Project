@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { AuthenticationService } from '../../../core/services/authentication.service';
+import { UserService } from '../../../core/services/user.service';
 import { Accompaniment } from '../../../models/models';
 
 @Component({
@@ -8,7 +8,7 @@ import { Accompaniment } from '../../../models/models';
   templateUrl: './info-accompaniment.component.html'
 })
 export class InfoAccompanimentComponent implements OnInit, OnDestroy {
-  constructor(private auth: AuthenticationService) { }
+  constructor(private auth: UserService) { }
 
   @Input()
   public accompaniment: Accompaniment;
