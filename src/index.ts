@@ -1,4 +1,4 @@
-export * from './auth/on-create';
+export * from './auth/create-new-user';
 // callable
 export * from './callable/analytics';
 export * from './callable/csv-mentors';
@@ -12,6 +12,7 @@ export * from './cron/calculate-home-statistics';
 export * from './cron/notify-mentors-accompaniments';
 // firestore
 export * from './firestore/accompaniments/new-accompaniment';
-export * from './firestore/claims/update-claims';
-export * from './firestore/notifications/notify-user';
+export * from './firestore/users/notify-user';
+export * from './firestore/users/send-user-emails';
+export * from './firestore/users/update-custom-claims';
 

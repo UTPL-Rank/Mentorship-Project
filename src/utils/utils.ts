@@ -1,25 +1,10 @@
-import * as sgMail from '@sendgrid/mail';
 import * as admin from 'firebase-admin/lib';
-import * as functions from 'firebase-functions';
 
 
 export const app = admin.initializeApp();
 export const dbFirestore = app.firestore();
 export const authentication = admin.auth();
 export const fcm = admin.messaging();
-
-
-export async function sendEmail(msg: any) {
-  try {
-    const SEND_GRID_API_KEY = functions.config().sendgrid.apikey;
-
-    sgMail.setApiKey(SEND_GRID_API_KEY);
-    return await sgMail.send(msg);
-  } catch (e) {
-    console.log('SEND_GRID_API_KEY not configured');
-    return await Promise.resolve(null);
-  }
-}
 
 /**
  * Generate CSV from Objects
