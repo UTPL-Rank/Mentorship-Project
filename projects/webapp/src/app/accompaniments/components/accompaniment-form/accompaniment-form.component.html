@@ -1,9 +1,9 @@
-<div class="card border-primary shadow border-right-0 border-left-0 border-bottom-0">
+<div class="shadow card border-primary border-right-0 border-left-0 border-bottom-0">
   <div class="card-body">
     <form class="mt-2" [formGroup]="accompanimentForm" [ngClass]="{ 'was-validated': valid }" (ngSubmit)="save()">
       <div class="row">
         <div class="col-12">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <!-- label -->
             <label for="studentSelect">
               Estudiante de nuevo ingreso
@@ -22,7 +22,7 @@
 
       <div class="row">
         <div class="col-12 col-lg-6">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <!-- label -->
             <label for="bimesterSelect">
               Bimestre
@@ -61,7 +61,7 @@
         </div>
       </div>
 
-      <div class="form-group mb-5" formGroupName="problems">
+      <div class="mb-5 form-group" formGroupName="problems">
         <div class="row">
           <div class="col-12">
             <!-- label -->
@@ -70,56 +70,92 @@
             </label>
           </div>
 
-          <!-- academic -->
-          <div class="col-12 col-lg-6">
-            <div class="form-check">
-              <input formControlName="academic" class="form-check-input" type="checkbox" id="academic" />
-              <label class="form-check-label" for="academic">
-                Problema Académico
-              </label>
+          <!-- invalid message -->
+          <ng-container *ngIf="showProblemsInvalid">
+            <div class="col-12">
+              <!-- label -->
+              <p class="text-danger">
+                Selecciona una problemática
+              </p>
             </div>
-          </div>
+          </ng-container>
+
+          <!-- academic -->
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12 col-lg-6">
+              <div class="form-check">
+                <input formControlName="academic" class="form-check-input" type="checkbox" id="academic" />
+                <label class="form-check-label" for="academic">
+                  Problema Académico
+                </label>
+              </div>
+            </div>
+          </ng-container>
 
           <!-- administrative -->
-          <div class="col-12 col-lg-6">
-            <div class="form-check">
-              <input formControlName="administrative" class="form-check-input" type="checkbox" id="administrative" />
-              <label class="form-check-label" for="administrative">
-                Problema Administrativo
-              </label>
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12 col-lg-6">
+              <div class="form-check">
+                <input formControlName="administrative" class="form-check-input" type="checkbox" id="administrative" />
+                <label class="form-check-label" for="administrative">
+                  Problema Administrativo
+                </label>
+              </div>
             </div>
-          </div>
+          </ng-container>
 
           <!-- economic -->
-          <div class="col-12 col-lg-6">
-            <div class="form-check">
-              <input formControlName="economic" class="form-check-input" type="checkbox" id="economic" />
-              <label class="form-check-label" for="economic">
-                Problema Económico
-              </label>
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12 col-lg-6">
+              <div class="form-check">
+                <input formControlName="economic" class="form-check-input" type="checkbox" id="economic" />
+                <label class="form-check-label" for="economic">
+                  Problema Económico
+                </label>
+              </div>
             </div>
-          </div>
+          </ng-container>
 
           <!-- psychosocial -->
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12 col-lg-6">
+              <div class="form-check">
+                <input formControlName="psychosocial" class="form-check-input" type="checkbox" id="psychosocial" />
+                <label class="form-check-label" for="psychosocial">
+                  Problema Psicosocial
+                </label>
+              </div>
+            </div>
+          </ng-container>
+
           <div class="col-12 col-lg-6">
             <div class="form-check">
-              <input formControlName="psychosocial" class="form-check-input" type="checkbox" id="psychosocial" />
-              <label class="form-check-label" for="psychosocial">
-                Problema Psicosocial
+              <input formControlName="none" class="form-check-input" type="checkbox" id="none" />
+              <label class="form-check-label" for="none">
+                Ningún Problema
               </label>
             </div>
           </div>
 
+
           <!-- input -->
-          <div class="col-12">
-            <input class="form-control mt-2" formControlName="otherDescription" placeholder="Problemática libre" />
-          </div>
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12">
+              <input class="mt-2 form-control" formControlName="otherDescription"
+                placeholder="Agrega tu propia temática" />
+              <small id="otherDescription" class="form-text text-muted">
+                En el espacio de mentoria puede que no exista ningún problema, pero puedes utilizar el espacio para
+                explicar
+                algún tema diferente a los que nosotros proponemos, si es el caso llena tu propia temática.
+              </small>
+            </div>
+          </ng-container>
         </div>
       </div>
 
       <div class="row">
         <div class="col-12">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <!-- label -->
             <label for="topicDescription">
               Temas Desarrollados
@@ -134,7 +170,7 @@
 
       <div class="row">
         <div class="col-12">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <!-- label -->
             <label for="problemDescription">
               Descripción del Problema
@@ -149,7 +185,7 @@
 
       <div class="row">
         <div class="col-12">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <!-- label -->
             <label for="solutionDescription">
               Soluciones
@@ -164,7 +200,7 @@
 
       <div class="row">
         <div class="col-12">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <!-- label -->
             <label for="solutions">
               Archivos anexos
@@ -184,7 +220,7 @@
 
       <div class="row">
         <div class="col-12">
-          <div class="form-group mb-5">
+          <div class="mb-5 form-group">
             <div class="custom-control custom-checkbox">
               <!-- label -->
               <input type="checkbox" class="custom-control-input" id="importantCheck" formControlName="important">
@@ -201,14 +237,14 @@
       <div class="row align-items-center">
         <div class="col-12 col-md">
           <!-- Submit button -->
-          <button type="submit" class="btn btn-primary mb-3 mb-lg-0 lift shadow">
+          <button type="submit" class="mb-3 shadow btn btn-primary mb-lg-0 lift">
             Guardar
           </button>
         </div>
 
         <!-- alert -->
         <div class="col-12 col-md-auto">
-          <small class="text-muted mb-0">
+          <small class="mb-0 text-muted">
             No se podrá modificar una vez guardada.
           </small>
         </div>

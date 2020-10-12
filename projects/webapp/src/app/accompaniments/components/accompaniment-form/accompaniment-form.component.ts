@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { map, shareReplay, startWith } from 'rxjs/operators';
 import { Students } from '../../../models/models';
 
 export interface AccompanimentFormValue {
@@ -13,6 +14,7 @@ export interface AccompanimentFormValue {
   important: boolean;
 
   problems: {
+    none: boolean;
     academic: boolean;
     administrative: boolean;
     economic: boolean;
@@ -49,66 +51,76 @@ export class AccompanimentFormComponent implements OnInit {
     }
   }
 
-  public accompanimentForm: FormGroup;
+  public accompanimentForm: FormGroup = this.fb.group({
+    studentId: [this.selectedStudentId, Validators.required],
+
+    semesterKind: [null, Validators.required],
+    followingKind: [null, Validators.required],
+    problemDescription: [null, Validators.required],
+    solutionDescription: [null, Validators.required],
+    topicDescription: [null, Validators.required],
+    important: [false],
+
+    problems: this.fb.group({
+      none: [false],
+      academic: [false],
+      administrative: [false],
+      economic: [false],
+      psychosocial: [false],
+      otherDescription: [null]
+    })
+  });
+
   private validated = false;
   private files: File[] = [];
+
+  public readonly showProblemsOptions$ = this.accompanimentForm.valueChanges.pipe(
+    map((form: AccompanimentFormValue) => !form.problems.none),
+    shareReplay(1),
+    startWith(true),
+  );
 
   @Output() public submitAccompaniment: EventEmitter<
     AccompanimentFormValue
   > = new EventEmitter();
 
-  ngOnInit(): void {
-    this.accompanimentForm = this.fb.group({
-      studentId: [this.selectedStudentId, Validators.required],
+  ngOnInit(): void { }
 
-      semesterKind: [null, Validators.required],
-      followingKind: [null, Validators.required],
-      problemDescription: [null, Validators.required],
-      solutionDescription: [null, Validators.required],
-      topicDescription: [null, Validators.required],
-      important: [false],
-
-      problems: this.fb.group({
-        academic: [false],
-        administrative: [false],
-        economic: [false],
-        psychosocial: [false],
-        otherDescription: [null]
-      })
-    });
-  }
 
   save(): void {
     this.validated = true;
 
-    if (!this.valid) {
+    if (!this.valid)
       return null;
-    }
-
 
     const { value } = this.accompanimentForm;
 
     let problemCount = 0;
-    if (!!value.problems.academic) {
+    if (!!value.problems.academic)
       problemCount++;
-    }
-    if (!!value.problems.administrative) {
+    if (!!value.problems.administrative)
       problemCount++;
-    }
-    if (!!value.problems.economic) {
+    if (!!value.problems.economic)
       problemCount++;
-    }
-    if (!!value.problems.otherDescription) {
+    if (!!value.problems.otherDescription)
       problemCount++;
-    }
-    if (!!value.problems.psychosocial) {
+    if (!!value.problems.psychosocial)
       problemCount++;
+    if (!!value.problems.none) {
+      problemCount = 0;
+      value.problems.academic = false;
+      value.problems.administrative = false;
+      value.problems.economic = false;
+      value.problems.psychosocial = false;
+      value.important = false;
+      value.problems.otherDescription = '';
     }
 
     this.submitAccompaniment.emit({
       assets: this.files,
       followingKind: value.followingKind,
       problems: {
+        none: value.problems.none,
         academic: value.problems.academic,
         administrative: value.problems.administrative,
         economic: value.problems.economic,
@@ -144,6 +156,9 @@ export class AccompanimentFormComponent implements OnInit {
   get isStudentIdInvalid() {
     const { invalid, touched } = this.accompanimentForm.controls.studentId;
     return invalid && (touched || this.validated);
+  }
+  get showProblemsInvalid() {
+    return !this.isProblemsValid && this.validated;
   }
 
   get isTopicDescriptionInvalid() {
@@ -190,7 +205,8 @@ export class AccompanimentFormComponent implements OnInit {
       administrative,
       economic,
       psychosocial,
-      otherDescription
+      otherDescription,
+      none
     } = this.accompanimentForm.controls.problems.value;
 
     return (
@@ -198,6 +214,7 @@ export class AccompanimentFormComponent implements OnInit {
       !!administrative ||
       !!economic ||
       !!psychosocial ||
+      !!none ||
       !!otherDescription
     );
   }

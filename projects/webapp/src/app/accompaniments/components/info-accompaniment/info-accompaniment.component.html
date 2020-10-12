@@ -30,6 +30,12 @@
     <p class="mb-0">Psicosociales</p>
   </div>
 
+  <!-- none -->
+  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.none">
+    <div class="badge badge-lg badge-success mr-4">+</div>
+    <p class="mb-0">Ningún problema</p>
+  </div>
+
   <!-- other -->
   <div class="d-flex align-items-center" *ngIf="accompaniment.problems.other">
     <div class="badge badge-lg badge-success mr-4">+</div>

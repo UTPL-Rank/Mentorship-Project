@@ -73,6 +73,7 @@ export interface FirestoreAccompanimentProblems {
   economic: boolean;
   psychosocial: boolean;
   other: boolean;
+  none: boolean;
   otherDescription: string;
 }
 
