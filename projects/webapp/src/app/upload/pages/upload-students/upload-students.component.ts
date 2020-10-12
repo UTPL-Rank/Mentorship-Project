@@ -16,7 +16,6 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
     private readonly db: AngularFirestore,
     private readonly route: ActivatedRoute,
     private readonly usersService: UserService,
-
   ) { }
 
   private sub: Subscription;
@@ -44,30 +43,56 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
 
     try {
       this.isSaving = true;
-      const batch = this.db.firestore.batch();
+      const chunks = this.data.reduce((acc, curr, idx) => {
+        const currentchunk = idx % 10;
+        if (!!acc[currentchunk])
+          acc[currentchunk].push(curr);
+        else
+          acc[currentchunk] = [curr];
+        return acc;
+      }, [[]]);
 
-      this.data.forEach(student => {
-        const username = student.email.split('@')[0];
-        const studentRef = this.db.collection('students').doc(student.id).ref;
-        const mentorRef = student.mentor.reference;
-        const claimsRef = this.usersService.claimsDocument(username).ref;
+      await Promise.all(chunks.map(async chunk => {
+        const batch = this.db.firestore.batch();
 
-        // data to be sabed
-        const claims: StudentClaims = { isStudent: true, mentorId: mentorRef.id, studentId: studentRef.id };
+        await Promise.all(chunk.map(async (student: Student) => {
+          const username = student.email.split('@')[0];
+          const studentRef = this.db.collection('students').doc(student.id).ref;
+          const mentorRef = student.mentor.reference;
+          const claimsRef = this.usersService.claimsDocument(username).ref;
 
-        // transactions
-        batch.set(studentRef, student);
-        batch.set(claimsRef, claims, { merge: true });
-        batch.update(mentorRef, 'stats.assignedStudentCount', firestore.FieldValue.increment(1));
-        batch.update(mentorRef, 'students.withAccompaniments', []);
-        batch.update(mentorRef, 'students.withoutAccompaniments', firestore.FieldValue.arrayUnion(student.displayName));
-        batch.update(mentorRef, 'students.degrees', firestore.FieldValue.arrayUnion(student.degree.name));
-        batch.update(mentorRef, 'students.cycles', firestore.FieldValue.arrayUnion(student.cycle));
-      });
+          // data to be sabed
+          const claims: StudentClaims = { isStudent: true, mentorId: mentorRef.id, studentId: studentRef.id };
 
-      await batch.commit();
-      alert('Todos los estudiantes de nuevo ingreso han sido guardados.');
+          const studentExistSnap = await studentRef.get();
+          const studentExist = studentExistSnap.exists;
+          const existingStudent = studentExistSnap.data() as Student;
+
+          if (studentExist)
+            student.stats = existingStudent.stats;
+
+          // transactions
+          batch.set(studentRef, student, { merge: true });
+          batch.set(claimsRef, claims, { merge: true });
+
+          if (!studentExist) {
+            batch.update(mentorRef, 'stats.assignedStudentCount', firestore.FieldValue.increment(1));
+            batch.update(mentorRef, 'students.withAccompaniments', []);
+            batch.update(mentorRef, 'students.withoutAccompaniments', firestore.FieldValue.arrayUnion(student.displayName));
+            batch.update(mentorRef, 'students.cycles', firestore.FieldValue.arrayUnion(student.cycle));
+            batch.update(mentorRef, 'students.degrees', firestore.FieldValue.arrayUnion(student.degree.name));
+          } else {
+            batch.update(mentorRef, 'students.cycles', firestore.FieldValue.arrayRemove(existingStudent.cycle));
+            batch.update(mentorRef, 'students.cycles', firestore.FieldValue.arrayUnion(student.cycle));
+          }
+        }));
+
+        await batch.commit();
+        console.log('saved chunk');
+
+      }));
       // this.router.navigateByUrl('/panel-control');
+      alert('Todos los estudiantes de nuevo ingreso han sido guardados.');
     } catch (error) {
       this.isSaving = false;
       console.log(error);
@@ -76,12 +101,15 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
   }
 
   async transformer(rawData: string[]): Promise<Student> {
-    // create an id
-    const id = this.db.createId();
 
     // trim all data data and lowercase it, and get variables
     const data = rawData.map(s => s.trim().toLocaleLowerCase());
     const [displayName, email, rawCiclo, mentorEmail, areaId, degreeId] = data;
+
+    const periodId = this.route.snapshot.params.periodId;
+
+    // create an id
+    const id = `${email.split('@')[0]}-${periodId}`;
 
     // format cycle
     const cycle = rawCiclo.includes('primero') ? 'sgm#first' : rawCiclo.includes('segundo') ? 'sgm#second' : 'sgm#third';

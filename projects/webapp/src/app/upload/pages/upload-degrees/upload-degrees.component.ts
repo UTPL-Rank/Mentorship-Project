@@ -28,7 +28,7 @@ export class UploadDegreesComponent implements UploadData<FirestoreAcademicDegre
 
       this.data.forEach(area => {
         const { ref } = this.db.collection('academic-degrees').doc(area.id);
-        batch.set(ref, area);
+        batch.set(ref, area, { merge: true });
       });
 
       await batch.commit();

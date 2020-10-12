@@ -5,7 +5,7 @@ import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firest
 import { Router } from '@angular/router';
 import { auth } from 'firebase/app';
 import { Observable, of } from 'rxjs';
-import { catchError, filter, map, mergeMap, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { User, UserClaims, UserSignature } from '../../models/models';
 import { Notification } from '../../models/notification.model';
 import { BrowserLoggerService } from './browser-logger.service';
@@ -34,7 +34,6 @@ export class UserService {
         switchMap(claimsRef => claimsRef.snapshotChanges()),
         map(snapshot => snapshot.payload.exists ? snapshot.payload.data() : null),
         shareReplay(1),
-        tap(console.log),
     );
 
     public isAdmin: Observable<boolean> = this.claims.pipe(
