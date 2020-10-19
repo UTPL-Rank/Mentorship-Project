@@ -116,7 +116,7 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
       .split(/\r\n|\n/)
       .filter(line => line.trim() !== '')
       .splice(1)
-      .map(line => line.split(';'))
+      .map(line => line.split(/,|;/g))
       .map(v => this.transformer(v));
 
     this.data = await Promise.all(data);
