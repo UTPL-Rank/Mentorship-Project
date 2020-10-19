@@ -1,6 +1,6 @@
 import admin = require('firebase-admin');
 import * as functions from 'firebase-functions';
-import { SendNotificationToUser } from '../../utils/notifiactions-utils';
+import { _SendNotification } from '../../utils/notifiactions-utils';
 import { BASE_URL } from '../../utils/variables';
 
 /**
@@ -20,7 +20,6 @@ export const NotifyUsers = functions.firestore
     .onCreate(async (snapshot, { params }) => {
         const notification = snapshot.data();
         const username = params.username;
-
         const payload: admin.messaging.MessagingPayload = {
             notification: {
                 title: notification.name,
@@ -29,9 +28,5 @@ export const NotifyUsers = functions.firestore
             }
         };
 
-        try {
-            await SendNotificationToUser(username, payload);
-        } catch (error) {
-            console.log(error.message);
-        }
+        await _SendNotification(username, payload);
     });

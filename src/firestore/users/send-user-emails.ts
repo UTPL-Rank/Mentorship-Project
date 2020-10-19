@@ -1,11 +1,6 @@
 import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
-import * as sgMail from '@sendgrid/mail';
 import * as functions from 'firebase-functions';
-
-const SEND_GRID_API_KEY = functions.config().sendgrid.apikey;
-export const DEFAULT_EMAIL_SEND = 'proyectomentores@utpl.edu.ec';
-
-sgMail.setApiKey(SEND_GRID_API_KEY);
+import { _SendEmail } from '../../utils/mailing-utils';
 
 /**
  * Send user mails
@@ -21,8 +16,5 @@ export const SendUserMails = functions.firestore
     .document('users/{username}/mails/{mailId}')
     .onCreate(async (payload, _) => {
         const mail = payload.data() as MailDataRequired;
-
-        mail.from = DEFAULT_EMAIL_SEND;
-
-        return await sgMail.send(mail);
+        await _SendEmail(mail);
     });
