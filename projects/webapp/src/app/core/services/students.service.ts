@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { catchError, map, shareReplay } from 'rxjs/operators';
 import { Student, StudentReference, Students } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
+import { BrowserLoggerService } from './browser-logger.service';
 import { MentorsService } from './mentors.service';
 
 const STUDENTS_COLLECTION_NAME = 'students';
@@ -15,7 +17,9 @@ export class StudentsService {
     private readonly angularFirestore: AngularFirestore,
     private readonly perf: AngularFirePerformance,
     private readonly periodsService: AcademicPeriodsService,
-    private readonly mentorsService: MentorsService
+    private readonly mentorsService: MentorsService,
+    private readonly fireFunctions: AngularFireFunctions,
+    private readonly logger: BrowserLoggerService,
   ) { }
 
   /**
@@ -77,4 +81,21 @@ export class StudentsService {
       );
   }
 
+  public transferStudentMentor$(data: TransferStudentMentorDTO): Observable<boolean> {
+    const endpoint = this.fireFunctions.httpsCallable<TransferStudentMentorDTO, boolean>('TransferStudentMentor');
+    const transferTask = endpoint(data).pipe(
+      catchError(err => {
+        this.logger.error(err);
+        return of(false);
+      })
+    );
+
+    return transferTask;
+  }
+
+}
+
+interface TransferStudentMentorDTO {
+  newMentorId: string;
+  studentId: string;
 }

@@ -19,6 +19,14 @@
             Ficha del estudiante
           </a>
         </li>
+        <ng-container *ngIf="user.isAdmin|async">
+          <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active"
+              [routerLink]="['/panel-control', student.period.reference.id, 'estudiantes', student.id, 'configurar']">
+              Configurar Estudiante
+            </a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </div>

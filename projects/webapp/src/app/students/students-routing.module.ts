@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { IsAdminGuard } from '../core/guards/is-admin.guard';
 import { StudentOfMentorGuard } from './guards/student-of-mentor.guard';
+import { ConfigureStudentComponent } from './pages/configure-student/configure-student.component';
 import { GenerateStudentReportComponent } from './pages/generate-student-report/generate-student-report.component';
 import { ViewStudentComponent } from './pages/view-student/view-student.component';
 
@@ -10,6 +12,7 @@ const ROUTES: Routes = [
     children: [
       { path: 'informacion', component: ViewStudentComponent, },
       { path: 'ficha-estudiante', component: GenerateStudentReportComponent, },
+      { path: 'configurar', component: ConfigureStudentComponent, canActivate: [IsAdminGuard] },
       { path: '', redirectTo: 'informacion' },
     ]
   },
@@ -24,6 +27,7 @@ export class StudentsRoutingModule {
   static pages = [
     ViewStudentComponent,
     GenerateStudentReportComponent,
+    ConfigureStudentComponent,
   ];
 
   static resolvers = [];

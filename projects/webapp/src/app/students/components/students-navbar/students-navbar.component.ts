@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { UserService } from '../../../core/services/user.service';
 import { Student } from '../../../models/models';
 
 @Component({
@@ -6,6 +7,8 @@ import { Student } from '../../../models/models';
   templateUrl: './students-navbar.component.html'
 })
 export class StudentsNavbarComponent {
+
+  constructor(public readonly user: UserService) { }
 
   student: Student;
 

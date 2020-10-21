@@ -1,0 +1,47 @@
+<ng-container *ngIf="student$ | async as student">
+  <sgm-students-header [student]="student" [showCreateAccompaniment]="(periodObs|async).current"></sgm-students-header>
+
+  <sgm-students-navbar [student]="student"></sgm-students-navbar>
+
+  <section class="container mt-8">
+
+    <div class="card">
+      <div class="card-body">
+        <div class="card-title d-flex justify-content-between align-items-center border-bottom">
+          <h4>Transferir estudiante a otro mentor</h4>
+
+          <!-- card chip to show special care -->
+          <span class="badge badge-danger">
+            <i class="fas fa-exclamation-triangle"></i> Acción Destructiva
+          </span>
+        </div>
+
+        <p class="card-text mb-1">
+          Cambia el mentor del estudiante, los acompañamientos que se hayan realizado seguirán constando en el
+          historial del antiguo mentor, estos acompañamientos también constaran en la ficha del estudiante.
+        </p>
+        <p class="card-text">
+          Para mover el estudiante selecciona el nuevo mentor de la lista desplegable.
+        </p>
+
+        <form [formGroup]="changeMentorForm" (submit)="changeStudentMentor()">
+          <ng-container *ngIf="mentors$|async as mentors">
+            <div class="form-group">
+              <label for="newMentorSelect" class="small">Mentores disponibles</label>
+              <select formControlName="newMentor" class="form-control" id="newMentorSelect">
+                <ng-container *ngFor="let mentor of mentors">
+                  <option [value]="mentor.id">
+                    {{mentor.displayName | titlecase}}
+                  </option>
+                </ng-container>
+              </select>
+            </div>
+          </ng-container>
+          <button type="submit" [disabled]="transferButtonDisabled" class="btn btn-sm btn-outline-danger">
+            {{transferButtonText}}
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+</ng-container>
