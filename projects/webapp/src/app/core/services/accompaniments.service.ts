@@ -52,8 +52,12 @@ export class AccompanimentsService {
   public readonly importantAccompaniments$: Observable<Accompaniment[]>
     = this.accompaniments({ where: { isImportant: true }, limit: 10, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
 
-  public validateAccompaniments$(studentId): Observable<Accompaniment[]> {
+  public validateAccompaniments$(studentId: string): Observable<Accompaniment[]> {
     return this.accompaniments({ where: { studentId }, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
+  }
+
+  public recentAccompaniments$(mentorId: string): Observable<Accompaniment[]> {
+    return this.accompaniments({ where: { mentorId }, orderBy: { timeCreated: 'desc' }, limit: 10 }) as Observable<Accompaniment[]>;
   }
 
   /** @internal query accompaniments collection */

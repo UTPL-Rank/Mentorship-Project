@@ -17,7 +17,7 @@
 
         <!-- Leading paragraph -->
         <p class="lead text-center text-md-left text-muted mb-5">
-          Bienvenido al panel de control del Sistema de gestión del Proyecto
+          Bienvenido al sistema de gestión del Proyecto
           Mentores.
         </p>
 
@@ -41,6 +41,21 @@
   </section>
 </ng-container>
 
+<ng-container *ngIf="recentAccompaniments$|async as accompaniments">
+  <section class="container mb-5">
+    <h2 class="h4 text-primary">
+      Últimos Acompañamientos
+    </h2>
+
+    <sgm-accompaniments-table [showStudentName]="true" [accompaniments]=accompaniments></sgm-accompaniments-table>
+
+    <small class="small text-muted">
+      Mostrando los últimos acompañamientos que registraste, recuerda que tus estudiantes deben validar el
+      acompañamiento.
+    </small>
+  </section>
+</ng-container>
+
 <ng-container *ngIf="importantAccompaniments$|async as accompaniments">
   <section class="container mb-5">
     <h2 class="h4 text-primary">
@@ -49,6 +64,8 @@
 
     <sgm-accompaniments-table [mentorName]="true" [accompaniments]=accompaniments></sgm-accompaniments-table>
 
-    <small class="small text-muted">Mostrando últimos acompañamientos registrados como importantes</small>
+    <small class="small text-muted">
+      Mostrando últimos acompañamientos registrados como importantes.
+    </small>
   </section>
 </ng-container>

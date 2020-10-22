@@ -25,6 +25,11 @@ export class DashboardHomePage implements OnInit {
     shareReplay(1),
   );
 
+  public recentAccompaniments$: Observable<Accompaniment[] | null> = this.auth.claims.pipe(
+    mergeMap(({ isMentor, mentorId }) => iif(() => isMentor, this.accompanimentsService.recentAccompaniments$(mentorId), of(null))),
+    shareReplay(1),
+  );
+
   public validateAccompaniments$: Observable<Accompaniment[] | null> = this.auth.claims.pipe(
     mergeMap(({ isStudent, studentId }) => iif(() => isStudent, this.accompanimentsService.validateAccompaniments$(studentId), of(null))),
     shareReplay(1),
