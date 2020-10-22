@@ -78,7 +78,7 @@ export class ConfigureStudentComponent implements OnDestroy {
 
     const transferTask = this.student$.pipe(
       take(1),
-      switchMap(student => this.studentsService.transferStudentMentor$({ newMentorId, studentId: student.id }))
+      switchMap(student => this.studentsService.transferStudent$({ newMentorId, studentId: student.id }))
     );
 
     this.transferStudentSub = transferTask.subscribe(updated => {

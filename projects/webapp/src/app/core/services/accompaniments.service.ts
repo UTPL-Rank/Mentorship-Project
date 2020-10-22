@@ -30,6 +30,7 @@ export interface QueryAccompaniments {
     semesterKind?: string;
     mentorId?: string;
     studentId?: string;
+    isImportant?: boolean;
   };
   start?: number;
   limit?: number;
@@ -47,6 +48,9 @@ export class AccompanimentsService {
     private readonly storage: AngularFireStorage,
     private readonly reportsService: ReportsService,
   ) { }
+
+  public importantAccompaniments$: Observable<Accompaniment[]>
+    = this.accompaniments({ where: { isImportant: true }, limit: 10, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
 
   /** @internal query accompaniments collection */
   private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<Accompaniment> {
@@ -78,12 +82,16 @@ export class AccompanimentsService {
         q = q.where('student.reference', '==', studentRef);
       }
 
+      if (where.isImportant) {
+        q = q.where('important', '==', true);
+      }
+
       if (where.semesterKind) {
         q = q.where('semesterKind', '==', where.semesterKind);
       }
 
-      // if (limit.start)
-      //   return q.limit(limit.start);
+      if (limit)
+        return q.limit(limit);
 
       return q;
     });
@@ -252,4 +260,6 @@ export class AccompanimentsService {
 
     return saveReport;
   }
+
+
 }

@@ -81,8 +81,8 @@ export class StudentsService {
       );
   }
 
-  public transferStudentMentor$(data: TransferStudentMentorDTO): Observable<boolean> {
-    const endpoint = this.fireFunctions.httpsCallable<TransferStudentMentorDTO, boolean>('TransferStudentMentor');
+  public transferStudent$(data: TransferStudentDTO): Observable<boolean> {
+    const endpoint = this.fireFunctions.httpsCallable<TransferStudentDTO, boolean>('TransferStudent');
     const transferTask = endpoint(data).pipe(
       catchError(err => {
         this.logger.error(err);
@@ -95,7 +95,7 @@ export class StudentsService {
 
 }
 
-interface TransferStudentMentorDTO {
+interface TransferStudentDTO {
   newMentorId: string;
   studentId: string;
 }
