@@ -1,7 +1,42 @@
+import { firestore } from "firebase-admin";
 import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
 
-type Mentor = any;
+export interface Mentor {
+    id: string;
+    displayName: string;
+    email: string;
+    ci: string;
+
+    period: {
+        reference: firestore.CollectionReference;
+        name: string;
+        date: firestore.Timestamp
+    };
+
+    area: {
+        reference: firestore.CollectionReference;
+        name: string;
+    };
+
+    degree: {
+        reference: firestore.CollectionReference;
+        name: string;
+    };
+
+    stats: {
+        assignedStudentCount: number;
+        accompanimentsCount: number;
+        lastAccompaniment?: firestore.Timestamp;
+    };
+
+    students: {
+        withAccompaniments: Array<string>;
+        withoutAccompaniments: Array<string>;
+        degrees: Array<string>;
+        //   cycles: Array<AcademicCycleKind>;
+    };
+}
 
 
 /**
@@ -26,8 +61,8 @@ function MentorCollection() {
  * 
  * @param id Identifier of the mentor document 
  */
-function MentorDocument(id: string) {
-    return MentorCollection().doc(id);
+export function _MentorDocument(id: string): firestore.DocumentReference<Mentor> {
+    return MentorCollection().doc(id) as firestore.DocumentReference<Mentor>;
 }
 
 /**
@@ -38,11 +73,11 @@ function MentorDocument(id: string) {
  * 
  * Get the reference to a mentor
  * 
+ * @deprecated use `_MentorDocument` instead
+ * 
  * @param id identifier of the mentor
  */
-export function MentorReference(id: string) {
-    return MentorDocument(id);
-}
+export const MentorReference = _MentorDocument;
 
 /**
  * List Mentors Current Period
@@ -59,7 +94,7 @@ export async function ListMentorsCurrentPeriod(): Promise<Array<Mentor>> {
 
     const snap = await collection.get();
 
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as Mentor);
 
     return mentors;
 }
@@ -80,7 +115,7 @@ export async function ListMentorsPeriod(periodId: string): Promise<Array<Mentor>
     const periodRef = PeriodDocument(periodId);
     const collection = MentorCollection().where('period.reference', '==', periodRef)
     const snap = await collection.get();
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as Mentor);
 
     return mentors;
 }
@@ -95,6 +130,8 @@ export async function ListMentorsPeriod(periodId: string): Promise<Array<Mentor>
  */
 function TimeTravelDate(days: number): Date {
     const today = new Date();
+    console.log('TODO: move function to correct file');
+
     today.setDate(today.getDate() + days);
     return today;
 }
@@ -116,7 +153,7 @@ export async function ListMentorsWithNoRecentAccompaniment(): Promise<Array<Ment
         .where('stats.lastAccompaniment', '<=', twoWeeksAgo);
 
     const snap = await collection.get();
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as Mentor);
 
     return mentors;
 }
@@ -137,7 +174,7 @@ export async function ListMentorsWithNoAccompaniments(): Promise<Array<Mentor>> 
         .where('stats.lastAccompaniment', '==', null);
 
     const snap = await collection.get();
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as Mentor);
 
     return mentors;
 }
@@ -153,10 +190,18 @@ export async function ListMentorsWithNoAccompaniments(): Promise<Array<Mentor>> 
  * @param mentorId identifier of the mentor
  */
 export async function GetMentorDetailsEvaluation(mentorId: string): Promise<{ mentorFirstTime: boolean } | null> {
-    const mentorRef = MentorReference(mentorId);
+    const mentorRef = _MentorDocument(mentorId);
     const evalRef = mentorRef.collection('evaluation').doc('details');
     const snap = await evalRef.get();
     const detailsEval = snap.exists ? snap.data() as { mentorFirstTime: boolean } : null;
 
     return detailsEval;
+}
+
+export async function OneMentor(mentorId: string): Promise<Mentor | null> {
+    const mentorDoc = MentorCollection().doc(mentorId) as firestore.DocumentReference<Mentor>;
+    const snapshot = await mentorDoc.get();
+    const mentor = snapshot.exists ? snapshot.data() as Mentor : null;
+
+    return mentor;
 }

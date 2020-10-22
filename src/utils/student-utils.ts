@@ -1,8 +1,47 @@
-import { MentorReference } from "./mentors-utils";
-import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
+import { firestore } from "firebase-admin";
+import { Mentor, _MentorDocument } from "./mentors-utils";
+import { AcademicPeriod, CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
 
-type Student = any;
+export type AcademicCycleKind = 'sgm#first' | 'sgm#second' | 'sgm#third';
+
+export type StudentReference = firestore.DocumentReference<Student>;
+
+export type Students = Array<Student>;
+
+export interface Student {
+    id: string;
+    displayName: string;
+    email: string;
+    cycle: AcademicCycleKind;
+
+    area: {
+        reference: firestore.DocumentReference;
+        name: string;
+    };
+
+    degree: {
+        reference: firestore.DocumentReference;
+        name: string;
+    };
+
+    period: {
+        reference: firestore.DocumentReference<AcademicPeriod>;
+        name: string;
+        date: firestore.Timestamp
+    };
+
+    mentor: {
+        reference: firestore.DocumentReference<Mentor>;
+        displayName: string;
+        email: string;
+    };
+
+    stats: {
+        accompanimentsCount: number;
+        lastAccompaniment?: firestore.Timestamp;
+    }
+}
 
 /**
  * Students Firestore Collection
@@ -14,6 +53,12 @@ type Student = any;
  */
 function StudentCollection() {
     return dbFirestore.collection('students');
+}
+
+export function _StudentDocument(studentId: string): firestore.DocumentReference<Student> {
+    const document = StudentCollection().doc(studentId) as firestore.DocumentReference<Student>;
+
+    return document;
 }
 
 /**
@@ -29,7 +74,7 @@ export async function ListStudentsCurrentPeriod(): Promise<Array<Student>> {
     const collection = StudentCollection().where('period.reference', '==', periodRef);
 
     const snap = await collection.get();
-    const students = snap.docs.map(doc => doc.data());
+    const students = snap.docs.map(doc => doc.data() as Student);
 
     return students;
 }
@@ -49,9 +94,27 @@ export async function ListStudentsPeriod(periodId: string): Promise<Array<Studen
     const collection = StudentCollection().where('period.reference', '==', periodRef);
 
     const snap = await collection.get();
-    const students = snap.docs.map(doc => doc.data());
+    const students = snap.docs.map(doc => doc.data() as Student);
 
     return students;
+}
+
+/**
+ * Get one student
+ * ================================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * @param studentId identifier of the student
+ * 
+ * @returns student data if exists 
+ */
+export async function OneStudent(studentId: string): Promise<Student | null> {
+    const document = StudentCollection().doc(studentId);
+    const snap = await document.get();
+    const student = snap.exists ? snap.data() as Student : null;
+
+    return student;
 }
 
 /**
@@ -66,14 +129,14 @@ export async function ListStudentsPeriod(periodId: string): Promise<Array<Studen
  */
 export async function ListStudentsOfMentor(mentorId: string): Promise<Array<Student>> {
     const periodRef = await CurrentPeriodReference();
-    const mentorRef = MentorReference(mentorId);
+    const mentorRef = _MentorDocument(mentorId);
 
     const collection = StudentCollection()
         .where('period.reference', '==', periodRef)
         .where('mentor.reference', '==', mentorRef);
 
     const snap = await collection.get();
-    const students = snap.docs.map(doc => doc.data());
+    const students = snap.docs.map(doc => doc.data() as Student);
 
     return students;
 }

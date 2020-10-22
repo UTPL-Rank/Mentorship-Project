@@ -1,30 +1,9 @@
-import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
+import { Accompaniment } from '../../utils/accompaniments-utils';
 import { DEFAULT_EMAIL_SEND, ProgramSendEmail } from '../../utils/mailing-utils';
 import { Notification, SendNotification } from '../../utils/notifiactions-utils';
 import { UsernameFromEmail } from '../../utils/users-utils';
 import { BASE_URL } from '../../utils/variables';
-
-interface Accompaniment {
-  important: boolean;
-  id: string;
-  student: {
-    id: string;
-    email: string;
-    displayName: string;
-    reference: firestore.DocumentReference,
-  }
-  mentor: {
-    id: string;
-    email: string;
-    displayName: string;
-    reference: firestore.DocumentReference,
-  }
-  period: {
-    reference: firestore.DocumentReference,
-  }
-  reviewKey?: string;
-}
 
 async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKey }: Accompaniment): Promise<void> {
   const studentUsername = UsernameFromEmail(student.email);

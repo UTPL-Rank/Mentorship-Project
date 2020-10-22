@@ -28,7 +28,7 @@ import { dbFirestore } from '../utils/utils';
  */
 async function countMentors() {
     const mentors = await ListMentorsCurrentPeriod();
-    const emails = mentors.map(mentor => mentor.email as string);
+    const emails = mentors.map(mentor => mentor.email);
     const uniqueEmails = [...new Set(emails)];
 
     return uniqueEmails.length;
@@ -39,7 +39,7 @@ async function countMentors() {
  */
 async function countStudents() {
     const students = await ListStudentsCurrentPeriod();
-    const emails = students.map(student => student.email as string);
+    const emails = students.map(student => student.email);
     const uniqueEmails = [...new Set(emails)];
     return uniqueEmails.length;
 }

@@ -1,7 +1,12 @@
 import { firestore } from "firebase-admin";
 import { dbFirestore } from "./utils";
 
-type AcademicPeriod = any;
+export interface AcademicPeriod {
+    id: string;
+    name: string;
+    date: firestore.Timestamp;
+    current: boolean;
+};
 
 /**
  * Academic Periods Collection Reference
@@ -11,7 +16,7 @@ type AcademicPeriod = any;
  * Get the firestore collection of academic periods 
  */
 function PeriodsCollection(): firestore.CollectionReference<AcademicPeriod> {
-    return dbFirestore.collection('academic-periods')
+    return dbFirestore.collection('academic-periods') as firestore.CollectionReference<AcademicPeriod>;
 }
 
 /**
@@ -73,7 +78,8 @@ export async function CurrentPeriodReference(): Promise<firestore.DocumentRefere
  * 
  * @author Bruno Esparza
  * 
- * Get the data of the current academic period 
+ * Get the data of the current academic period, with this method we can 
+ * asume that we will always recibe a valid period, otherwise an error is thrown
  */
 export async function CurrentPeriod(): Promise<AcademicPeriod> {
     const periodSnap = await CurrentPeriodQuerySnapshot();

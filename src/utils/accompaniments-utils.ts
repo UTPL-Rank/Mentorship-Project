@@ -2,7 +2,54 @@ import { firestore } from "firebase-admin";
 import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
 
-type Accompaniment = any;
+export type FollowingKind = 'sgm#virtual' | 'sgm#presencial';
+export type SemesterKind = 'sgm#firstSemester' | 'sgm#secondSemester';
+export interface Accompaniment {
+    problems: any;
+    semesterKind: SemesterKind;
+    followingKind: FollowingKind;
+    important: boolean;
+    id: string;
+    student: {
+        id: string;
+        email: string;
+        displayName: string;
+        reference: firestore.DocumentReference,
+    }
+    mentor: {
+        id: string;
+        email: string;
+        displayName: string;
+        reference: firestore.DocumentReference,
+    }
+    period: {
+        reference: firestore.DocumentReference,
+        name: string;
+        date: firestore.Timestamp
+    }
+    reviewKey?: string;
+
+    degree: {
+        reference: firestore.DocumentReference;
+        name: string;
+    };
+
+    area: {
+        reference: firestore.DocumentReference;
+        name: string;
+    };
+}
+
+export interface FirestoreAccompanimentProblems {
+    problemCount: number;
+    academic: boolean;
+    administrative: boolean;
+    economic: boolean;
+    psychosocial: boolean;
+    other: boolean;
+    none: boolean;
+    otherDescription: string;
+}
 
 /**
  * Accompaniments Firestore Collection
@@ -13,7 +60,7 @@ type Accompaniment = any;
  * Get the accompaniments firestore collection
  */
 function AccompanimentsCollection(): firestore.CollectionReference<Accompaniment> {
-    return dbFirestore.collection('accompaniments');
+    return dbFirestore.collection('accompaniments') as firestore.CollectionReference<Accompaniment>;
 }
 
 // /**
