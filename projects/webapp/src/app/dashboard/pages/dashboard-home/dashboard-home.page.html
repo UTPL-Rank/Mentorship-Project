@@ -27,6 +27,20 @@
   </div>
 </section>
 
+<ng-container *ngIf="validateAccompaniments$|async as accompaniments">
+  <section class="container mb-5">
+    <h2 class="h4 text-primary">
+      Validar acompañamientos
+    </h2>
+
+    <sgm-accompaniments-table [showValidate]="true" [accompaniments]=accompaniments></sgm-accompaniments-table>
+
+    <small class="small text-muted">
+      Mostrando los últimos acompañamientos que ha registrado tu mentor, asegurate de validarlos.
+    </small>
+  </section>
+</ng-container>
+
 <ng-container *ngIf="importantAccompaniments$|async as accompaniments">
   <section class="container mb-5">
     <h2 class="h4 text-primary">

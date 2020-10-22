@@ -18,4 +18,7 @@ export class AccompanimentsTableComponent {
 
   @Input()
   public showStudentName = false;
+
+  @Input()
+  public showValidate = false;
 }

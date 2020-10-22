@@ -49,8 +49,12 @@ export class AccompanimentsService {
     private readonly reportsService: ReportsService,
   ) { }
 
-  public importantAccompaniments$: Observable<Accompaniment[]>
+  public readonly importantAccompaniments$: Observable<Accompaniment[]>
     = this.accompaniments({ where: { isImportant: true }, limit: 10, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
+
+  public validateAccompaniments$(studentId): Observable<Accompaniment[]> {
+    return this.accompaniments({ where: { studentId }, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
+  }
 
   /** @internal query accompaniments collection */
   private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<Accompaniment> {

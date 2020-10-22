@@ -75,6 +75,22 @@
               ]">
               Visualizar
             </a>
+
+            <!-- show options in each row -->
+            <ng-container *ngIf="showValidate">
+              <a class="btn btn-success btn-sm small lift ml-3" [ngClass]="{disabled:!accompaniment.reviewKey}"
+                [routerLink]="[
+              '/panel-control',
+              accompaniment.period.reference.id,
+              'acompañamientos',
+              'calificar',
+              accompaniment.student.reference.id,
+              accompaniment.id,
+              accompaniment.reviewKey
+              ]">
+                Validar
+              </a>
+            </ng-container>
           </td>
         </tr>
       </tbody>
