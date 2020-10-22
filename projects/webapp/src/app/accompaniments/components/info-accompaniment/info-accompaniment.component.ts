@@ -8,7 +8,9 @@ import { Accompaniment } from '../../../models/models';
   templateUrl: './info-accompaniment.component.html'
 })
 export class InfoAccompanimentComponent implements OnInit, OnDestroy {
-  constructor(private auth: UserService) { }
+  constructor(
+    private readonly auth: UserService,
+  ) { }
 
   @Input()
   public accompaniment: Accompaniment;

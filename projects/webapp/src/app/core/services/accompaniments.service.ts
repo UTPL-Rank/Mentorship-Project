@@ -3,12 +3,13 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { firestore } from 'firebase/app';
-import { forkJoin, Observable } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { forkJoin, from, Observable, of } from 'rxjs';
+import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
 import { AccompanimentFormValue } from '../../accompaniments/components/accompaniment-form/accompaniment-form.component';
 import { Accompaniment, AccompanimentAsset, AccompanimentAssets, CreateFirestoreAccompaniment, FirestoreAccompaniments, FollowingKind, SemesterKind } from '../../models/models';
 import { ReviewFormValue } from '../../models/review-form.model';
 import { AcademicPeriodsService } from './academic-periods.service';
+import { BrowserLoggerService } from './browser-logger.service';
 import { MentorsService } from './mentors.service';
 import { ReportsService } from './reports.service';
 import { StudentsService } from './students.service';
@@ -47,6 +48,7 @@ export class AccompanimentsService {
     private readonly studentsService: StudentsService,
     private readonly storage: AngularFireStorage,
     private readonly reportsService: ReportsService,
+    private readonly logger: BrowserLoggerService,
   ) { }
 
   public readonly importantAccompaniments$: Observable<Accompaniment[]>
@@ -267,6 +269,19 @@ export class AccompanimentsService {
     );
 
     return saveReport;
+  }
+
+  public changeImportant$(accompanimentId: string, important: boolean): Observable<boolean> {
+    const accompanimentDocument = this.accompanimentDocument(accompanimentId);
+    const updateTask = from(accompanimentDocument.update({ important })).pipe(
+      map(() => true),
+      catchError(err => {
+        this.logger.error('Change accompaniment important', err);
+        return of(false);
+      })
+    );
+
+    return updateTask;
   }
 
 

@@ -67,6 +67,13 @@
             <sgm-info-mentor [mentor]="accompaniment.mentor"></sgm-info-mentor>
           </div>
           <sgm-info-student [student]="accompaniment.student"> </sgm-info-student>
+          <!-- button to change if accompaniment is important -->
+          <ng-container *ngIf="showImportantSwitch$|async">
+            <button class="mt-6 btn btn-sm btn-info lift" (click)="changeImportant()" [disabled]="disableButton">
+              <i class="fas fa-exclamation-circle"></i>
+              {{importantSwitchText$|async}}
+            </button>
+          </ng-container>
         </div>
       </div>
     </div>
