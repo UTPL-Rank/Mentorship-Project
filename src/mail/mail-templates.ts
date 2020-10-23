@@ -1,6 +1,6 @@
 
 export const MailTemplates = {
-    welcome: `
+    welcome: (data: MailData.Welcome) => `
         <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="center">
             <img class="max-width" border="0"
                 style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;"
@@ -23,7 +23,7 @@ export const MailTemplates = {
         <div style="font-family: inherit; text-align: inherit">
             <span
                 style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">Hola,
-                {{{displayName}}}
+                ${data.displayName}
             </span>
         </div>
 
@@ -35,13 +35,13 @@ export const MailTemplates = {
             <span
                 style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                 Te saludamos desde el Equipo del Proyecto Mentores, y bienvenido a al nuevo Sistema para el Acompañamiento
-                Memorial, el cual puedes acceder a través del siguiente enlace: {{{url}}}.
+                Memorial, el cual puedes acceder a través del siguiente enlace: ${data.url}.
             </span>
         </div>
 
         <td align="center" bgcolor="#007bff" class="inner-td"
             style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
-            <a href="{{{url}}}"
+            <a href="${data.url}"
                 style="background-color:#007bff; border:1px solid #007bff; border-color:#007bff; border-radius:6px; border-width:1px; color:#ffffff; display:inline-block; font-size:14px; font-weight:normal; letter-spacing:0px; line-height:normal; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid;"
                 target="_blank">
                 Visita el Sistema de Gestion Mentorial
@@ -72,7 +72,7 @@ export const MailTemplates = {
             tienes dudas o quieres notificar alguna falta, contactanos a <strong>proyectomentores@utpl.edu.ec</strong>.
         </div>
     `,
-    validateAccompaniment: `
+    validateAccompaniment: (data: MailData.ValidateAccompaniment) => `
         <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="center">
             <img class="max-width" border="0"
                 style="display:block; color:#000000; text-decoration:none; font-family:Helvetica, arial, sans-serif; font-size:16px;"
@@ -95,7 +95,7 @@ export const MailTemplates = {
         <div style="font-family: inherit; text-align: inherit">
             <span
                 style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                Hola, {{{studentName}}}
+                Hola, ${data.studentName}
             </span>
         </div>
 
@@ -113,7 +113,7 @@ export const MailTemplates = {
             <span
                 style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                 <strong>
-                    {{{mentorName}}}
+                    ${data.mentorName}
                 </strong>
             </span>
             <span
@@ -125,7 +125,7 @@ export const MailTemplates = {
         <td align="center" bgcolor="#007bff" class="inner-td"
             style="border-radius:6px; font-size:16px; text-align:center; background-color:inherit;">
             <a style="background-color:#007bff; border:1px solid #007bff; border-color:#007bff; border-radius:6px; border-width:1px; color:#ffffff; display:inline-block; font-family:arial,helvetica,sans-serif; font-size:16px; font-weight:normal; letter-spacing:0px; line-height:16px; padding:12px 18px 12px 18px; text-align:center; text-decoration:none; border-style:solid;"
-                href="{{{redirectUrl}}}" target="_blank">
+                href="${data.redirectUrl}" target="_blank">
                 Calificar seguimiento
             </a>
         </td>
@@ -160,7 +160,7 @@ export const MailTemplates = {
         <div>
             La información de este correo ha sido generada autoamticamente por el Sistema de Gestion del Proyecto Mentores. Si
             tienes dudas o quieres notificar alguna falta, contactanos a <strong>proyectomentores@utpl.edu.ec</strong>. Codigo
-            del acompañamiento realizado: <strong>{{{accompanimentId}}}</strong>
+            del acompañamiento realizado: <strong>${data.accompanimentId}</strong>
         </div>
     `
 }

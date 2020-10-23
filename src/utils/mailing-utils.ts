@@ -40,16 +40,7 @@ function MailingDocument(username: string, mailId: string): firestore.DocumentRe
 export async function ProgramSendEmail(username: string, data: SendMailDTO): Promise<void> {
     const mailingCollection = MailingCollection(username);
     const id = mailingCollection.doc().id;
-
-    let html = MailTemplates[data.templateId];
-
-    for (const key in data.templateData)
-        if (key in data.templateData) {
-            const value = data.templateData[key];
-            const pattern = new RegExp(`(\{\{\{${key}\}\}\})/g`);
-            html = html.replace(pattern, value);
-        }
-
+    const html = MailTemplates[data.templateId](data.templateData as any);
     const mail: CreateEmailDTO = {
         id,
         sended: false,
