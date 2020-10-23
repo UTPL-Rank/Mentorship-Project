@@ -76,7 +76,7 @@ export async function UnsubscribeToUserNotifications(username: string, token: st
 
 function UserNotificationsCollection(username: string): firestore.CollectionReference<Notification> {
     const userDoc = UserDocument(username);
-    const mailCollection = userDoc.collection('mails') as firestore.CollectionReference<Notification>;
+    const mailCollection = userDoc.collection('notifications') as firestore.CollectionReference<Notification>;
     return mailCollection
 }
 

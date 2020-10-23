@@ -11,7 +11,7 @@ const pass = functions.config().nodemail.pass;
 const client = createTransport({
     host: 'smtp.office365.com',
     port: 587,
-    secure: true,
+    secure: false,
     auth: { user, pass },
     tls: { ciphers: 'SSLv3' }
 });
