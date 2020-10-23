@@ -1,40 +1,69 @@
-import { MailDataRequired } from "@sendgrid/helpers/classes/mail";
-import * as sgMail from '@sendgrid/mail';
 import { firestore } from "firebase-admin";
 import * as functions from 'firebase-functions';
+import { createTransport } from 'nodemailer';
+import { MailTemplates } from "../mail/mail-templates";
 import { UserDocument } from "./users-utils";
+import Mail = require("nodemailer/lib/mailer");
 
-const SEND_GRID_API_KEY = functions.config().sendgrid.apikey;
-export const DEFAULT_EMAIL_SEND = 'proyectomentores@utpl.edu.ec';
+const user = functions.config().nodemail.user;
+const pass = functions.config().nodemail.pass;
 
-sgMail.setApiKey(SEND_GRID_API_KEY);
+const client = createTransport({
+    host: 'smtp.office365.com',
+    port: 587,
+    secure: true,
+    auth: { user, pass },
+    tls: { ciphers: 'SSLv3' }
+});
 
-export async function ProgramSendEmail(username: string, data: MailDataRequired): Promise<void> {
-    const mailingCollection = UserMailingCollection(username);
+export interface SendMailDTO<T = { [key: string]: any }> {
+    subject: string;
+    to: string;
+    templateId: keyof typeof MailTemplates;
+    templateData: T;
+}
+export type CreateEmailDTO = Mail.Options & {
+    id: string,
+    sended: false,
+}
+
+function MailingCollection(username: string): firestore.CollectionReference<CreateEmailDTO> {
+    const mailCollection = UserDocument(username).collection('mails') as firestore.CollectionReference<CreateEmailDTO>;
+    return mailCollection
+}
+
+function MailingDocument(username: string, mailId: string): firestore.DocumentReference<CreateEmailDTO> {
+    const mailCollection = MailingCollection(username).doc(mailId);
+    return mailCollection
+}
+
+export async function ProgramSendEmail(username: string, data: SendMailDTO): Promise<void> {
+    const mailingCollection = MailingCollection(username);
     const id = mailingCollection.doc().id;
 
-    await mailingCollection.add(Object.assign(data, {
-        from: DEFAULT_EMAIL_SEND, id
-    }));
+    let html = MailTemplates[data.templateId];
+
+    for (const key in data.templateData)
+        if (key in data.templateData) {
+            const value = data.templateData[key];
+            const pattern = new RegExp(`(\{\{\{${key}\}\}\})/g`);
+            html = html.replace(pattern, value);
+        }
+
+    const mail: CreateEmailDTO = {
+        id,
+        sended: false,
+        from: user,
+        to: data.to,
+        subject: data.subject,
+        html,
+    };
+
+    await mailingCollection.add(mail);
 }
 
 export const SendEmail = ProgramSendEmail;
 
-/**
- * User Mailing Collection
- * ==============================================================
- * 
- * @author Bruno Esparza
- * 
- * Get the firestore collection of sending emails to a user
- * 
- * @param username identifier of the user
- */
-function UserMailingCollection(username: string): firestore.CollectionReference<MailDataRequired> {
-    const userDoc = UserDocument(username);
-    const mailCollection = userDoc.collection('mails') as firestore.CollectionReference<MailDataRequired>;
-    return mailCollection
-}
 
 /**
  * (DO NOT USE) Send Mail
@@ -50,6 +79,11 @@ function UserMailingCollection(username: string): firestore.CollectionReference<
  * @param mail email content, and configuration
  * 
  */
-export async function _SendEmail(mail: MailDataRequired): Promise<void> {
-    await sgMail.send(mail);
+export async function _SendEmail(username: string, mailId: string, mail: Mail.Options): Promise<void> {
+    // send email
+    await client.sendMail(mail);
+
+    // update mail since it has been already sended
+    const mailDoc = MailingDocument(username, mailId);
+    await mailDoc.update({ sended: true });
 }

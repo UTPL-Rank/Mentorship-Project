@@ -1,5 +1,6 @@
 import { firestore } from "firebase-admin";
-import { DEFAULT_EMAIL_SEND, SendEmail } from "./mailing-utils";
+import { MailData } from "../mail/mail-templates";
+import { SendEmail, SendMailDTO } from "./mailing-utils";
 import { authentication, dbFirestore } from "./utils";
 import { BASE_URL } from "./variables";
 
@@ -84,11 +85,11 @@ export async function AssignCustomClaimsToUser(username: string, claims: UserCla
 export async function CreateNewUser(username: string, data: User): Promise<void> {
     const userDoc = UserDocument(username);
     const claimsDoc = UserClaimsDocument(username);
-    const welcomeEmail = {
+    const welcomeEmail: SendMailDTO<MailData.Welcome> = {
         to: data.email,
-        from: DEFAULT_EMAIL_SEND,
-        templateId: 'd-96289fbd340b496abc31564942b80575',
-        dynamic_template_data: {
+        templateId: 'welcome',
+        subject: 'Bienvenido Sistema de Gestión de Mentores - Proyecto Mentores',
+        templateData: {
             displayName: data.displayName,
             url: BASE_URL,
         },

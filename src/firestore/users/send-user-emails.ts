@@ -1,4 +1,3 @@
-import { MailDataRequired } from '@sendgrid/helpers/classes/mail';
 import * as functions from 'firebase-functions';
 import { _SendEmail } from '../../utils/mailing-utils';
 
@@ -14,7 +13,8 @@ import { _SendEmail } from '../../utils/mailing-utils';
  */
 export const SendUserMails = functions.firestore
     .document('users/{username}/mails/{mailId}')
-    .onCreate(async (payload, _) => {
-        const mail = payload.data() as MailDataRequired;
-        await _SendEmail(mail);
+    .onCreate(async (payload, { params }) => {
+        const { username, mailId } = params;
+        const mail = payload.data();
+        await _SendEmail(username, mailId, mail);
     });

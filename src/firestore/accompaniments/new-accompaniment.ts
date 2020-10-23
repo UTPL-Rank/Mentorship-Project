@@ -1,6 +1,7 @@
 import * as functions from 'firebase-functions';
+import { MailData } from '../../mail/mail-templates';
 import { Accompaniment } from '../../utils/accompaniments-utils';
-import { DEFAULT_EMAIL_SEND, ProgramSendEmail } from '../../utils/mailing-utils';
+import { ProgramSendEmail, SendMailDTO } from '../../utils/mailing-utils';
 import { Notification, SendNotification } from '../../utils/notifiactions-utils';
 import { UsernameFromEmail } from '../../utils/users-utils';
 import { BASE_URL } from '../../utils/variables';
@@ -8,11 +9,11 @@ import { BASE_URL } from '../../utils/variables';
 async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKey }: Accompaniment): Promise<void> {
   const studentUsername = UsernameFromEmail(student.email);
 
-  const email = {
+  const email: SendMailDTO<MailData.ValidateAccompaniment> = {
     to: student.email,
-    from: DEFAULT_EMAIL_SEND,
-    templateId: 'd-db5d5d6bfb6649c1afcb97151da70051',
-    dynamic_template_data: {
+    templateId: 'validateAccompaniment',
+    subject: 'Validación del seguimiento realizado',
+    templateData: {
       redirectUrl: `${BASE_URL}/panel-control/${period.reference.id}/calificar-acompañamiento/${student.id}/${id}/${reviewKey}`,
       accompanimentId: id,
       studentName: student.displayName.toUpperCase(),
