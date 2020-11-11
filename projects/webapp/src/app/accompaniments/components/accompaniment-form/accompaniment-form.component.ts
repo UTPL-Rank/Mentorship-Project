@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, shareReplay, startWith } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { Students } from '../../../models/models';
 
 export interface AccompanimentFormValue {
@@ -32,7 +32,9 @@ export interface AccompanimentFormValue {
   templateUrl: './accompaniment-form.component.html'
 })
 export class AccompanimentFormComponent implements OnInit {
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private readonly fb: FormBuilder,
+  ) { }
 
   @Input()
   students: Students;
@@ -51,6 +53,8 @@ export class AccompanimentFormComponent implements OnInit {
     }
   }
 
+  private noProblemsAccompaniment: FormControl = this.fb.control(false);
+
   public accompanimentForm: FormGroup = this.fb.group({
     studentId: [this.selectedStudentId, Validators.required],
 
@@ -62,30 +66,38 @@ export class AccompanimentFormComponent implements OnInit {
     important: [false],
 
     problems: this.fb.group({
-      none: [false],
+      none: this.noProblemsAccompaniment,
       academic: [false],
       administrative: [false],
       economic: [false],
       psychosocial: [false],
       otherDescription: [null]
-    })
+    }),
   });
 
   private validated = false;
   private files: File[] = [];
 
-  public readonly showProblemsOptions$ = this.accompanimentForm.valueChanges.pipe(
-    map((form: AccompanimentFormValue) => !form.problems.none),
+  public readonly showProblemsOptions$ = this.noProblemsAccompaniment.valueChanges.pipe(
+    map(noProblemsFound => !noProblemsFound),
+    tap(hasProblems => {
+      if (hasProblems) {
+        this.accompanimentForm.addControl('problemDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.addControl('solutionDescription', this.fb.control(null, Validators.required));
+      } else {
+        this.accompanimentForm.removeControl('problemDescription');
+        this.accompanimentForm.removeControl('topicDescription');
+        this.accompanimentForm.removeControl('solutionDescription');
+      }
+    }),
     shareReplay(1),
     startWith(true),
   );
 
-  @Output() public submitAccompaniment: EventEmitter<
-    AccompanimentFormValue
-  > = new EventEmitter();
+  @Output() public submitAccompaniment: EventEmitter<AccompanimentFormValue> = new EventEmitter();
 
   ngOnInit(): void { }
-
 
   save(): void {
     this.validated = true;
@@ -132,10 +144,10 @@ export class AccompanimentFormComponent implements OnInit {
         problemCount
       },
       important: value.important,
-      problemDescription: (value.problemDescription as string).trim(),
+      problemDescription: (value.problemDescription ?? 'Sin problemas' as string).trim(),
       semesterKind: value.semesterKind,
-      solutionDescription: (value.solutionDescription as string).trim(),
-      topicDescription: (value.topicDescription as string).trim(),
+      solutionDescription: (value.solutionDescription ?? 'Sin problemas' as string).trim(),
+      topicDescription: (value.topicDescription ?? 'Sin problemas' as string).trim(),
       studentId: value.studentId
     });
   }

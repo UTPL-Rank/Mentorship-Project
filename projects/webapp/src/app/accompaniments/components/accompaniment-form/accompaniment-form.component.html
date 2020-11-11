@@ -153,6 +153,7 @@
         </div>
       </div>
 
+      <ng-container *ngIf="accompanimentForm.controls.topicDescription">
       <div class="row">
         <div class="col-12">
           <div class="mb-5 form-group">
@@ -167,7 +168,9 @@
           </div>
         </div>
       </div>
-
+      </ng-container>
+      
+      <ng-container *ngIf="accompanimentForm.controls.problemDescription">
       <div class="row">
         <div class="col-12">
           <div class="mb-5 form-group">
@@ -182,7 +185,9 @@
           </div>
         </div>
       </div>
+    </ng-container>
 
+      <ng-container *ngIf="accompanimentForm.controls.solutionDescription">
       <div class="row">
         <div class="col-12">
           <div class="mb-5 form-group">
@@ -197,6 +202,7 @@
           </div>
         </div>
       </div>
+    </ng-container>
 
       <div class="row">
         <div class="col-12">
@@ -204,6 +210,7 @@
             <!-- label -->
             <label for="solutions">
               Archivos anexos
+              <small class="text-muted">(Opcional)</small>
             </label>
 
             <!-- upload file -->
