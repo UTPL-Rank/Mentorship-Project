@@ -1,41 +1,36 @@
-import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { ListMentorsWithNoAccompaniments, ListMentorsWithNoRecentAccompaniment } from '../utils/mentors-utils';
-import { dbFirestore as dbFirestore } from '../utils/utils';
+import { MailData } from '../mail/mail-templates';
+import { ProgramSendEmailSync, SendMailDTO } from '../utils/mailing-utils';
+import { ListMentorsWithNoRecentAccompaniments, ListMentorsWithNoRegisteredAccompaniments } from '../utils/mentors-utils';
+import { CurrentPeriod } from '../utils/period-utils';
+import { dbFirestore } from '../utils/utils';
+import { BASE_URL } from '../utils/variables';
 
-async function notifyMentors(mentors: Array<any>) {
+/**
+ * At 00:00 on day-of-month 10 and 25 in January, February, May, June, July, August, November, and December.
+ */
+const CRON_EVERY_MONTH = '0 0 10,25 1,2,5,6,7,8,11,12 *';
+
+export const notifyMentorsAccompaniments = functions.pubsub.schedule(CRON_EVERY_MONTH).onRun(async _ => {
+    const [noRegisteredAccompaniments, noAccompaniments] = await Promise.all([ListMentorsWithNoRegisteredAccompaniments(), ListMentorsWithNoRecentAccompaniments()]);
+    const { id: periodId } = await CurrentPeriod();
+    const mentors = [...noRegisteredAccompaniments, ...noAccompaniments];
     const batch = dbFirestore.batch();
-    mentors.forEach(mentor => {
-        const username = mentor.email.split('@')[0];
-        const collection = dbFirestore.collection('users').doc(username).collection('notifications')
-        const id = collection.doc().id;
 
-        const notificationRef = collection.doc(id);
-        const notification = {
-            id,
-            name: 'Realiza el acompañamiento',
-            message: `${(mentor.displayName as string).toUpperCase()} no te olvides realizar el acompañamiento con tus estudiantes.`,
-            read: false,
-            redirect: `/panel-control/abr20-ago20/acompañamientos/nuevo/${mentor.id}`,
-            time: firestore.FieldValue.serverTimestamp()
+    mentors.forEach(mentor => {
+        const username = mentor.email;
+        const email: SendMailDTO<MailData.RememberToRegisterAccompaniment> = {
+            to: mentor.email,
+            templateId: 'rememberToRegisterAccompaniment',
+            subject: 'Recuerda registrar el acompañamiento mentorial',
+            templateData: {
+                redirectUrl: `${BASE_URL}/panel-control/${periodId}/acompañamientos/nuevo/${mentor.id}`,
+                mentorName: mentor.displayName.toUpperCase(),
+            },
         };
 
-        batch.set(notificationRef, notification);
-    })
+        ProgramSendEmailSync<MailData.RememberToRegisterAccompaniment>(username, email, batch);
+    });
 
     return await batch.commit();
-}
-
-
-export const notifyMentorsAccompaniments = functions.pubsub.schedule('30 1 1,15 * *').onRun(async _ => {
-    try {
-        const sources = [ListMentorsWithNoAccompaniments(), ListMentorsWithNoRecentAccompaniment()];
-        const [mentors1, mentors2] = await Promise.all(sources);
-        const mentors = [...mentors1, ...mentors2];
-        return await notifyMentors(mentors);
-    } catch (err) {
-        console.error(err);
-        throw new Error('Error ocurred while sending mentors notifications');
-    };
-
 });

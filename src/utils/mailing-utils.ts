@@ -16,7 +16,7 @@ const client = createTransport({
     tls: { ciphers: 'SSLv3' }
 });
 
-export interface SendMailDTO<T = { [key: string]: any }> {
+export interface SendMailDTO<T> {
     subject: string;
     to: string;
     templateId: keyof typeof MailTemplates;
@@ -37,7 +37,7 @@ function MailingDocument(username: string, mailId: string): firestore.DocumentRe
     return mailCollection
 }
 
-export async function ProgramSendEmail(username: string, data: SendMailDTO): Promise<void> {
+function CreateSaveMailDTO<T>(username: string, data: SendMailDTO<T>) {
     const mailingCollection = MailingCollection(username);
     const id = mailingCollection.doc().id;
     const html = MailTemplates[data.templateId](data.templateData as any);
@@ -50,11 +50,24 @@ export async function ProgramSendEmail(username: string, data: SendMailDTO): Pro
         html,
     };
 
+    return mail;
+}
+
+export async function ProgramSendEmail<T>(username: string, data: SendMailDTO<T>): Promise<void> {
+    const mailingCollection = MailingCollection(username);
+    const mail = CreateSaveMailDTO<T>(username, data);
+
     await mailingCollection.add(mail);
 }
 
-export const SendEmail = ProgramSendEmail;
+export function ProgramSendEmailSync<T>(username: string, data: SendMailDTO<T>, batch: firestore.WriteBatch): void {
+    const mailingCollection = MailingCollection(username);
+    const mail = CreateSaveMailDTO<T>(username, data);
 
+    batch.set(mailingCollection.doc(), mail, { merge: false });
+}
+
+export const SendEmail = ProgramSendEmail;
 
 /**
  * (DO NOT USE) Send Mail

@@ -38,7 +38,6 @@ export interface Mentor {
     };
 }
 
-
 /**
  * Mentor Firestore Collection
  * ==========================
@@ -144,9 +143,9 @@ function TimeTravelDate(days: number): Date {
  * 
  * Get a list of mentors that hasn't registered an accompaniment in the last two weeks
  */
-export async function ListMentorsWithNoRecentAccompaniment(): Promise<Array<Mentor>> {
+export async function ListMentorsWithNoRecentAccompaniments(): Promise<Array<Mentor>> {
     const periodRef = await CurrentPeriodReference();
-    const twoWeeksAgo = TimeTravelDate(-14);
+    const twoWeeksAgo = TimeTravelDate(-21);
 
     const collection = dbFirestore.collection('mentors')
         .where('period.reference', '==', periodRef)
@@ -166,12 +165,12 @@ export async function ListMentorsWithNoRecentAccompaniment(): Promise<Array<Ment
  * 
  * Get a list of mentors that doesn't have registered an accompaniment yet
  */
-export async function ListMentorsWithNoAccompaniments(): Promise<Array<Mentor>> {
+export async function ListMentorsWithNoRegisteredAccompaniments(): Promise<Array<Mentor>> {
     const periodRef = await CurrentPeriodReference();
 
     const collection = dbFirestore.collection('mentors')
         .where('period.reference', '==', periodRef)
-        .where('stats.lastAccompaniment', '==', null);
+        .where('stats.accompanimentsCount', '==', 0);   
 
     const snap = await collection.get();
     const mentors = snap.docs.map(doc => doc.data() as Mentor);
