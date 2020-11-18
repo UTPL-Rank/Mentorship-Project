@@ -85,10 +85,12 @@ export class AccompanimentFormComponent implements OnInit {
         this.accompanimentForm.addControl('problemDescription', this.fb.control(null, Validators.required));
         this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
         this.accompanimentForm.addControl('solutionDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.addControl('important', this.fb.control(false));
       } else {
         this.accompanimentForm.removeControl('problemDescription');
         this.accompanimentForm.removeControl('topicDescription');
         this.accompanimentForm.removeControl('solutionDescription');
+        this.accompanimentForm.removeControl('important');
       }
     }),
     shareReplay(1),
@@ -128,7 +130,7 @@ export class AccompanimentFormComponent implements OnInit {
       value.problems.otherDescription = '';
     }
 
-    this.submitAccompaniment.emit({
+    const accompaniment = ({
       assets: this.files,
       followingKind: value.followingKind,
       problems: {
@@ -143,13 +145,14 @@ export class AccompanimentFormComponent implements OnInit {
         other: !!value.problems.otherDescription,
         problemCount
       },
-      important: value.important,
+      important: value.important ?? false,
       problemDescription: (value.problemDescription ?? 'Sin problemas' as string).trim(),
       semesterKind: value.semesterKind,
       solutionDescription: (value.solutionDescription ?? 'Sin problemas' as string).trim(),
       topicDescription: (value.topicDescription ?? 'Sin problemas' as string).trim(),
       studentId: value.studentId
     });
+    this.submitAccompaniment.emit(accompaniment);
   }
 
   onFileChange(event) {
