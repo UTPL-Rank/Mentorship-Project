@@ -246,8 +246,13 @@
       <div class="row align-items-center">
         <div class="col-12 col-md">
           <!-- Submit button -->
-          <button type="submit" class="mb-3 shadow btn btn-primary mb-lg-0 lift">
-            Guardar
+          <button type="submit" class="mb-3 shadow btn btn-primary mb-lg-0 lift" [disabled]="disableButton">
+            <ng-container *ngIf="disableButton; else canSaveTemplate">
+              Guardando...
+            </ng-container>
+            <ng-template #canSaveTemplate>
+              Guardar
+            </ng-template>
           </button>
         </div>
 

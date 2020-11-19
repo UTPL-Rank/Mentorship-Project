@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
-import { AngularFireStorage } from '@angular/fire/storage';
 import { firestore } from 'firebase/app';
 import { forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
-import { AccompanimentFormValue } from '../../accompaniments/components/accompaniment-form/accompaniment-form.component';
-import { Accompaniment, AccompanimentAsset, AccompanimentAssets, CreateFirestoreAccompaniment, FirestoreAccompaniments, FollowingKind, SemesterKind } from '../../models/models';
+import { Accompaniment, FirestoreAccompanimentReference, FirestoreAccompaniments, SemesterKind } from '../../models/models';
 import { ReviewFormValue } from '../../models/review-form.model';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { BrowserLoggerService } from './browser-logger.service';
@@ -46,10 +44,13 @@ export class AccompanimentsService {
     private readonly periodsService: AcademicPeriodsService,
     private readonly mentorsService: MentorsService,
     private readonly studentsService: StudentsService,
-    private readonly storage: AngularFireStorage,
     private readonly reportsService: ReportsService,
     private readonly logger: BrowserLoggerService,
   ) { }
+
+  public accompanimentRef(studentId: string): FirestoreAccompanimentReference {
+    return this.accompanimentDocument(studentId).ref as FirestoreAccompanimentReference;
+  }
 
   public readonly importantAccompaniments$: Observable<Accompaniment[]>
     = this.accompaniments({ where: { isImportant: true }, limit: 10, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
@@ -169,82 +170,6 @@ export class AccompanimentsService {
     return this.accompanimentsCollection({ where, accompanimentId }).get().pipe(
       map(snap => !snap.empty)
     );
-  }
-
-  public async saveAccompaniment(mentorId: string, data: AccompanimentFormValue): Promise<Accompaniment> {
-    console.log('TODO: add docs');
-    const mentorReference = this.mentorsService.mentorRef(mentorId);
-    const mentorSnap = await mentorReference.get();
-    const mentorData = mentorSnap.data();
-
-    const studentReference = this.studentsService.studentRef(data.studentId);
-    const studentSnap = await studentReference.get();
-    const studentData = studentSnap.data();
-
-    const accompaniment: CreateFirestoreAccompaniment = {
-      id: this.firestoreDB.createId(),
-      mentor: { ...mentorData, reference: mentorReference, },
-      student: { ...studentData, reference: studentReference, },
-      period: studentData.period,
-      degree: studentData.degree,
-      area: studentData.area,
-
-      timeCreated: firestore.FieldValue.serverTimestamp(),
-      assets: await this.uploadFiles(data.assets),
-
-      // accompaniment data
-      important: data.important,
-      followingKind: data.followingKind as FollowingKind,
-      semesterKind: data.semesterKind as SemesterKind,
-      problemDescription: data.problemDescription,
-      problems: data.problems,
-      reviewKey: Math.random().toString(36).substring(7),
-      solutionDescription: data.solutionDescription,
-      topicDescription: data.topicDescription
-    };
-
-    // ---------------------------------
-    // save on firestore
-    // ---------------------------------
-    const accompanimentRef = this.accompanimentsCollection().doc(accompaniment.id).ref;
-    const batch = this.firestoreDB.firestore.batch();
-
-    batch.set(accompanimentRef, accompaniment);
-    batch.update(mentorReference, 'stats.accompanimentsCount', firestore.FieldValue.increment(1));
-    batch.update(mentorReference, 'stats.lastAccompaniment', firestore.FieldValue.serverTimestamp());
-    batch.update(mentorReference, 'students.withAccompaniments', firestore.FieldValue.arrayUnion(studentData.displayName));
-    batch.update(mentorReference, 'students.withoutAccompaniments', firestore.FieldValue.arrayRemove(studentData.displayName));
-    batch.update(studentReference, 'stats.accompanimentsCount', firestore.FieldValue.increment(1));
-    batch.update(studentReference, 'stats.lastAccompaniment', firestore.FieldValue.serverTimestamp());
-
-    await batch.commit();
-    return accompaniment as Accompaniment;
-  }
-
-
-  private async uploadFiles(files: File[]): Promise<AccompanimentAssets> {
-    console.log('TODO: add docs');
-
-    const now = Date.now();
-    const uploadTasks = files.map(async file => {
-      const path = `/accompaniments/assets/${now}/${file.name}`;
-      await this.storage.upload(path, file);
-      return path;
-    });
-    const paths = await Promise.all(uploadTasks);
-
-    const assetsData = paths.map(async path => {
-      const ref = this.storage.storage.ref(path);
-      const data: AccompanimentAsset = {
-        name: ref.name,
-        path,
-        downloadUrl: await ref.getDownloadURL(),
-      };
-
-      return data;
-    });
-
-    return Promise.all(assetsData);
   }
 
   /**

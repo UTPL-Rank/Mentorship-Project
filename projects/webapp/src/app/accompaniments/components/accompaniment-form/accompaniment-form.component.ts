@@ -1,39 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { Students } from '../../../models/models';
-
-export interface AccompanimentFormValue {
-  studentId: string;
-
-  semesterKind: string;
-  followingKind: string;
-  problemDescription: string;
-  solutionDescription: string;
-  topicDescription: string;
-  important: boolean;
-
-  problems: {
-    none: boolean;
-    academic: boolean;
-    administrative: boolean;
-    economic: boolean;
-    psychosocial: boolean;
-    other: boolean;
-    otherDescription: string;
-    problemCount: number;
-  };
-
-  assets: File[];
-}
+import { SaveAccompanimentService } from '../services/save-accompaniment.service';
 
 @Component({
   selector: 'sgm-accompaniment-form',
   templateUrl: './accompaniment-form.component.html'
 })
-export class AccompanimentFormComponent implements OnInit {
+export class AccompanimentFormComponent implements OnDestroy {
   constructor(
     private readonly fb: FormBuilder,
+    private readonly saveAccompaniment: SaveAccompanimentService,
+    private readonly router: Router,
   ) { }
 
   @Input()
@@ -43,6 +24,8 @@ export class AccompanimentFormComponent implements OnInit {
   mentorId: string;
 
   private selectedStudentId: string = null;
+
+  private savingSubscription: Subscription | null;
 
   // before setting `selectedStudentId`, validate it exist within the students
   @Input('selectedStudentId')
@@ -97,62 +80,43 @@ export class AccompanimentFormComponent implements OnInit {
     startWith(true),
   );
 
-  @Output() public submitAccompaniment: EventEmitter<AccompanimentFormValue> = new EventEmitter();
-
-  ngOnInit(): void { }
+  ngOnDestroy(): void {
+    this.savingSubscription?.unsubscribe();
+  }
 
   save(): void {
     this.validated = true;
 
-    if (!this.valid)
-      return null;
+    if (!!this.savingSubscription)
+      return;
 
+
+    if (!this.valid) {
+      alert('El formulario es invalido');
+      return null;
+    }
     const { value } = this.accompanimentForm;
 
-    let problemCount = 0;
-    if (!!value.problems.academic)
-      problemCount++;
-    if (!!value.problems.administrative)
-      problemCount++;
-    if (!!value.problems.economic)
-      problemCount++;
-    if (!!value.problems.otherDescription)
-      problemCount++;
-    if (!!value.problems.psychosocial)
-      problemCount++;
-    if (!!value.problems.none) {
-      problemCount = 0;
-      value.problems.academic = false;
-      value.problems.administrative = false;
-      value.problems.economic = false;
-      value.problems.psychosocial = false;
-      value.important = false;
-      value.problems.otherDescription = '';
-    }
+    this.savingSubscription = this.saveAccompaniment.save(this.mentorId, value, this.files).subscribe(
+      async createdAccompaniment => {
+        if (createdAccompaniment) {
+          alert('Todos los cambios están guardados');
 
-    const accompaniment = ({
-      assets: this.files,
-      followingKind: value.followingKind,
-      problems: {
-        none: value.problems.none,
-        academic: value.problems.academic,
-        administrative: value.problems.administrative,
-        economic: value.problems.economic,
-        otherDescription: !!value.problems.otherDescription
-          ? (value.problems.otherDescription as string).trim()
-          : null,
-        psychosocial: value.problems.psychosocial,
-        other: !!value.problems.otherDescription,
-        problemCount
-      },
-      important: value.important ?? false,
-      problemDescription: (value.problemDescription ?? 'Sin problemas' as string).trim(),
-      semesterKind: value.semesterKind,
-      solutionDescription: (value.solutionDescription ?? 'Sin problemas' as string).trim(),
-      topicDescription: (value.topicDescription ?? 'Sin problemas' as string).trim(),
-      studentId: value.studentId
-    });
-    this.submitAccompaniment.emit(accompaniment);
+          await this.router.navigate([
+            'panel-control',
+            createdAccompaniment.period.reference.id,
+            'ver-acompañamiento',
+            createdAccompaniment.mentor.reference.id,
+            createdAccompaniment.id
+          ]);
+
+        } else
+          alert('Ocurrió un error al guardar la información');
+
+        this.savingSubscription.unsubscribe();
+        this.savingSubscription = null;
+      }
+    );
   }
 
   onFileChange(event) {
@@ -162,6 +126,10 @@ export class AccompanimentFormComponent implements OnInit {
     for (let i = 0; i < files.length; i++) {
       this.files.push(files[i]);
     }
+  }
+
+  get disableButton() {
+    return !!this.savingSubscription;
   }
 
   get valid() {

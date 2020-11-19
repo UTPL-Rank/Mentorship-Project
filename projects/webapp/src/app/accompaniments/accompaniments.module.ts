@@ -7,6 +7,7 @@ import { AccompanimentFormComponent } from './components/accompaniment-form/acco
 import { InfoAccompanimentComponent } from './components/info-accompaniment/info-accompaniment.component';
 import { InfoStudentComponent } from './components/info-student/info-student.component';
 import { ReviewFormCardComponent } from './components/review-form-card/review-form-card.component';
+import { SaveAccompanimentService } from './components/services/save-accompaniment.service';
 
 @NgModule({
   imports: [
@@ -25,6 +26,7 @@ import { ReviewFormCardComponent } from './components/review-form-card/review-fo
   providers: [
     AccompanimentsRoutingModule.resolvers,
     AccompanimentsRoutingModule.guards,
+    SaveAccompanimentService,
   ],
 })
 export class AccompanimentsModule { }

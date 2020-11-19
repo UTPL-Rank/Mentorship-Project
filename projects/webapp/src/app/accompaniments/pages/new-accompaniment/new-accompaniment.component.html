@@ -22,13 +22,12 @@
 <section class="py-6 py-md-9">
   <div class="container">
     <div class="row">
-      <div class="col-12 col-md-7 mb-6">
-        <sgm-accompaniment-form [students]="students" [mentorId]="mentor.id" [selectedStudentId]="selectedStudentId"
-          (submitAccompaniment)="save($event)">
+      <div class="mb-6 col-12 col-md-7">
+        <sgm-accompaniment-form [students]="students" [mentorId]="mentor.id" [selectedStudentId]="selectedStudentId">
         </sgm-accompaniment-form>
       </div>
 
-      <div class="col-12 col-md-5 mb-6">
+      <div class="mb-6 col-12 col-md-5">
         <div class="mb-5">
           <ng-container *ngTemplateOutlet="faqs"> </ng-container>
         </div>
@@ -39,7 +38,7 @@
 
 <!-- FAQ's -->
 <ng-template #faqs>
-  <div class="card shadow">
+  <div class="shadow card">
     <div class="card-body">
       <!-- heading -->
       <h4 class="mb-3">
@@ -47,7 +46,7 @@
       </h4>
 
       <!-- text -->
-      <p class="text-muted mb-5">
+      <p class="mb-5 text-muted">
         Registra un nuevo acompañamiento a traves del siguiente formulario, <a
           routerLink="/articulos/registrar-acompañamiento" target="_black">
           visita la guiá de como registrar un acompañamiento.
@@ -55,12 +54,12 @@
       </p>
 
       <!-- Heading -->
-      <h6 class="font-weight-bold text-uppercase mb-1">
+      <h6 class="mb-1 font-weight-bold text-uppercase">
         Selecciona un estudiante.
       </h6>
 
       <!-- text -->
-      <p class="text-muted mb-5 small">
+      <p class="mb-5 text-muted small">
         Seleccione un estudiante de la lista.
         <br />
         Si no encuentras a un estudiante, llena la siguiente <a target="_blank"
@@ -69,23 +68,23 @@
       </p>
 
       <!-- Heading -->
-      <h6 class="font-weight-bold text-uppercase mb-1">
+      <h6 class="mb-1 font-weight-bold text-uppercase">
         Seguimiento.
       </h6>
 
       <!-- text -->
-      <p class="text-muted mb-5 small">
+      <p class="mb-5 text-muted small">
         Marcar el tipo de seguimiento que se mantuvo con el estudiante de nuevo
         ingreso.
       </p>
 
       <!-- Heading -->
-      <h6 class="font-weight-bold text-uppercase mb-1">
+      <h6 class="mb-1 font-weight-bold text-uppercase">
         Problemáticas.
       </h6>
 
       <!-- text -->
-      <p class="text-muted mb-5 small">
+      <p class="mb-5 text-muted small">
         Selecciona una o varias problemáticas dependiendo del acompañamiento
         realizado.
         <br />
@@ -93,23 +92,23 @@
       </p>
 
       <!-- Heading -->
-      <h6 class="font-weight-bold text-uppercase mb-1">
+      <h6 class="mb-1 font-weight-bold text-uppercase">
         Subir archivos.
       </h6>
 
       <!-- text -->
-      <p class="text-muted mb-5 small">
+      <p class="mb-5 text-muted small">
         Puedes seleccionar uno o varios archivos a la vez. Estos anexos son la evidencia de haber realizado el
         acompañamiento.
       </p>
 
       <!-- Heading -->
-      <h6 class="font-weight-bold text-uppercase mb-1">
+      <h6 class="mb-1 font-weight-bold text-uppercase">
         Problemas?
       </h6>
 
       <!-- text -->
-      <p class="text-muted mb-0">
+      <p class="mb-0 text-muted">
         Llena la siguiente <a target="_blank" href="https://forms.gle/CpNp5XHPeJBBaGaK6">
           ficha </a>
       </p>
