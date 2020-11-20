@@ -159,9 +159,4 @@ export class MentorsService {
     return saveReport;
   }
 
-  generateCSV(): Observable<string> {
-    const fn = this.functions.httpsCallable<{}, string>('CSVMentors');
-    const csv = fn({});
-    return csv;
-  }
 }

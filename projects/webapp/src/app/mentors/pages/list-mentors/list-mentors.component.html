@@ -8,7 +8,7 @@
         </h1>
 
         <!-- page lead -->
-        <p class="text-muted mb-0">
+        <p class="mb-0 text-muted">
           Esta es una lista de todos los estudiantes mentores que se encuentran
           registrados en la plataforma.
         </p>
@@ -16,7 +16,7 @@
 
       <ng-container *ngIf="auth.isAdmin|async">
         <div class="col-auto mt-5">
-          <button class="btn btn-primary shadow lift" (click)="exportCSV()">
+          <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
             Exportar Mentores
           </button>
         </div>
@@ -35,7 +35,7 @@
     <div class="container-fluid">
       <!-- table of students -->
       <div class="row">
-        <div class="col-md-4 mb-6">
+        <div class="mb-6 col-md-4">
           <!-- Table of best mentors -->
           <sgm-best-mentors [mentors]="bestMentors|async"></sgm-best-mentors>
         </div>
@@ -49,10 +49,10 @@
 </ng-container>
 
 <ng-template #areasCards>
-  <div class="row mb-6">
+  <div class="mb-6 row">
     <ng-container *ngFor="let area of areaStats | async ">
-      <div class="col-12 col-sm-6 col-xl mb-3 mb-md-6">
-        <div class="card bg-light lift shadow">
+      <div class="mb-3 col-12 col-sm-6 col-xl mb-md-6">
+        <div class="shadow card bg-light lift">
           <div class="card-body" [ngClass]="{
             'badge-secondary': area.id === 'administrativa',
             'badge-success': area.id === 'biologica',
@@ -64,7 +64,7 @@
             </h6>
 
             <!-- mentors count -->
-            <p class="small mb-0">
+            <p class="mb-0 small">
               <b>{{area.mentors.length}}</b> Mentores
               <br />
               <b>{{area.studentsCount}}</b> Estudiantes nuevos
@@ -81,7 +81,7 @@
 
 
 <ng-template #navTemplate>
-  <ul class="nav nav-tabs flex-nowrap mb-0" id="myTab" role="tablist" style="overflow: auto hidden;">
+  <ul class="mb-0 nav nav-tabs flex-nowrap" id="myTab" role="tablist" style="overflow: auto hidden;">
     <li class="nav-item">
       <a id="all-tab" aria-controls="all" role="tab" class="nav-link active text-nowrap" data-toggle="tab" href="#all"
         aria-selected="true">

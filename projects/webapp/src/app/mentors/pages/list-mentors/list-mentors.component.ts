@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { UserService } from '../../../core/services/user.service';
 import { AreasIds, Mentor, Mentors } from '../../../models/models';
+import { ExportMentorsCSVService } from '../../services/export-mentors-csv.service';
 
 interface AreaStat {
   id: AreasIds;
@@ -19,13 +20,16 @@ interface AreaStat {
   selector: 'sgm-list-mentors',
   templateUrl: './list-mentors.component.html'
 })
-export class ListMentorsComponent implements OnInit {
+export class ListMentorsComponent implements OnInit, OnDestroy {
   constructor(
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
     private readonly mentorsService: MentorsService,
     public readonly auth: UserService,
+    private readonly csvMentors: ExportMentorsCSVService,
   ) { }
+
+  private exportSub: Subscription | null = null;
 
   public allMentors: Observable<Mentors> = this.route.params.pipe(
     mergeMap(params => this.mentorsService.getAllMentorsAndShare(params.periodId))
@@ -83,20 +87,27 @@ export class ListMentorsComponent implements OnInit {
     this.title.setTitle('Estudiantes Mentores');
   }
 
-  exportCSV() {
-    const source = this.mentorsService.generateCSV();
+  ngOnDestroy() {
+    this.exportSub?.unsubscribe();
+  }
 
-    source.subscribe(content => {
-      console.log(content);
+  async exportCSV() {
+    const exportTask = this.allMentors.pipe(
+      take(1),
+      switchMap(mentors => this.csvMentors.export(mentors)),
+    );
 
-      const downloadElement = document.createElement('a') as HTMLAnchorElement;
-      downloadElement.style.display = 'none';
-      downloadElement.setAttribute('href', 'data:text/csv;charset=utf-8' + content);
-      downloadElement.setAttribute('download', 'mentores.csv');
-      document.body.appendChild(downloadElement);
-      downloadElement.click();
-      document.removeChild(downloadElement);
+    this.exportSub = exportTask.subscribe(async saved => {
+      if (!saved)
+        alert('Ocurrió un error al exportar los mentores')
+
+      this.exportSub.unsubscribe();
+      this.exportSub = null;
     });
+  }
+
+  get disabledButton() {
+    return !!this.exportSub;
   }
 
 }
