@@ -1,29 +1,17 @@
-<header class="py-6 py-md-9 bg-light border-bottom">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-12 col-md">
-        <!-- page title -->
-        <h1 class="mb-2">
-          Estudiantes mentores
-        </h1>
-
-        <!-- page lead -->
-        <p class="mb-0 text-muted">
-          Esta es una lista de todos los estudiantes mentores que se encuentran
-          registrados en la plataforma.
-        </p>
-      </div>
-
-      <ng-container *ngIf="auth.isAdmin|async">
-        <div class="col-auto mt-5">
-          <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
-            Exportar Mentores
-          </button>
-        </div>
-      </ng-container>
-    </div>
-  </div>
-</header>
+<sgm-page-header>
+  <sgm-page-header-title>
+    Estudiantes mentores
+  </sgm-page-header-title>
+  <sgm-page-header-controls>
+    <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
+      Exportar Mentores
+    </button>
+  </sgm-page-header-controls>
+  <p class="mb-0 ">
+    Esta es una lista de todos los estudiantes mentores que se encuentran
+    registrados en la plataforma.
+  </p>
+</sgm-page-header>
 
 <ng-container *ngIf="areaStats | async">
   <section class="py-6 py-md-9">
@@ -32,18 +20,9 @@
       <ng-container *ngTemplateOutlet="areasCards"></ng-container>
     </div>
 
-    <div class="container-fluid">
+    <div class="container">
       <!-- table of students -->
-      <div class="row">
-        <div class="mb-6 col-md-4">
-          <!-- Table of best mentors -->
-          <sgm-best-mentors [mentors]="bestMentors|async"></sgm-best-mentors>
-        </div>
-        <div class="col-md-8">
-          <!-- main content of the page -->
-          <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
-        </div>
-      </div>
+      <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
     </div>
   </section>
 </ng-container>

@@ -35,12 +35,6 @@ export class ListMentorsComponent implements OnInit, OnDestroy {
     mergeMap(params => this.mentorsService.getAllMentorsAndShare(params.periodId))
   );
 
-  public bestMentors: Observable<Mentors> = this.allMentors
-    .pipe(
-      map(mentors => mentors.sort((m1, m2) => m2.stats.accompanimentsCount - m1.stats.accompanimentsCount)),
-      map(mentors => mentors.slice(0, 5)),
-    );
-
   public areaStats: Observable<Array<AreaStat>> = this.allMentors
     .pipe(
       map(mentors => {
@@ -99,7 +93,7 @@ export class ListMentorsComponent implements OnInit, OnDestroy {
 
     this.exportSub = exportTask.subscribe(async saved => {
       if (!saved)
-        alert('Ocurrió un error al exportar los mentores')
+        alert('Ocurrió un error al exportar los mentores');
 
       this.exportSub.unsubscribe();
       this.exportSub = null;

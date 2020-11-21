@@ -1,6 +1,6 @@
 <div class="card">
   <div class="table-responsive">
-    <table class="table text-nowrap card-table mb-0">
+    <table class="table mb-0 text-nowrap card-table">
       <!-- head of table -->
       <thead>
         <tr>
@@ -33,9 +33,6 @@
           <th class="font-weight-bold text-muted small">
             Estudiantes
           </th>
-
-          <!-- options header -->
-          <th></th>
         </tr>
       </thead>
 
@@ -84,35 +81,6 @@
                 {{ mentor.stats.assignedStudentCount }}
               </div>
             </a>
-          </td>
-
-          <!-- options cell -->
-          <td>
-            <div class="dropdown">
-              <button class="btn btn-sm dropdown-toggle font-weight-bold text-muted small" type="button"
-                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <!-- dropdown header -->
-                <h6 class="dropdown-header font-weight-bold">
-                  Opciones
-                </h6>
-
-                <!-- email student -->
-                <a class="dropdown-item small" [href]="'mailto:' + mentor.email" target="_blank">
-                  {{ mentor.email }}
-                </a>
-
-                <!-- see students -->
-                <a class="dropdown-item small" [routerLink]="[
-                    '/panel-control',
-                    mentor.period.reference.id,
-                    'mentores',
-                    mentor.id
-                  ]">
-                  Ver estudiantes
-                </a>
-              </div>
-            </div>
           </td>
         </tr>
       </tbody>
