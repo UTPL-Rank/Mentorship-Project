@@ -54,7 +54,7 @@
 
     <ng-container *ngIf="claims && claims.isMentor">
       <a class="navbar--item tooltip tooltip-right" data-tooltip="Mis Estudiantes"
-        [routerLink]="['/panel-control', activePeriod.id, 'mentores', claims.mentorId]" routerLinkActive="active"
+        [routerLink]="['/panel-control', activePeriod.id, 'estudiantes' ]" [queryParams]="{mentorId:claims.mentorId}" routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
         <div class="item--icon">
           <i class="fas fa-users"></i>
