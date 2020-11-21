@@ -1,6 +1,6 @@
 <div class="card">
   <div class="table-responsive">
-    <table class="table text-nowrap card-table mb-0">
+    <table class="table mb-0 text-nowrap card-table">
       <!-- head of table -->
       <thead>
         <tr>
@@ -31,55 +31,56 @@
       </thead>
 
       <tbody>
-        <tr *ngFor="let accompaniment of accompaniments; let i = index">
-          <th class="font-weight-bold text-muted small" scope="row">
-            {{ i + 1 }}
-          </th>
-          <td class="font-weight-bold text-muted small">
-            {{ accompaniment.timeCreated.toMillis() | date }}
-          </td>
-          <ng-container *ngIf="mentorName">
+        <ng-container *ngIf="!!accompaniments?.length; else emptyMessage">
+          <tr *ngFor="let accompaniment of accompaniments; let i = index">
+            <th class="font-weight-bold text-muted small" scope="row">
+              {{ i + 1 }}
+            </th>
             <td class="font-weight-bold text-muted small">
-              {{accompaniment.mentor.displayName | titlecase}}
+              {{ accompaniment.timeCreated.toMillis() | date }}
             </td>
-          </ng-container>
-          <ng-container *ngIf="showStudentName">
+            <ng-container *ngIf="mentorName">
+              <td class="font-weight-bold text-muted small">
+                {{accompaniment.mentor.displayName | titlecase}}
+              </td>
+            </ng-container>
+            <ng-container *ngIf="showStudentName">
+              <td class="font-weight-bold text-muted small">
+                {{accompaniment.student.displayName | titlecase}}
+              </td>
+            </ng-container>
             <td class="font-weight-bold text-muted small">
-              {{accompaniment.student.displayName | titlecase}}
+              {{ accompaniment.problems.problemCount }}
+              <span *ngIf="accompaniment.problems.problemCount === 1">
+                problemática
+              </span>
+              <span *ngIf="accompaniment.problems.problemCount !== 1">
+                problemáticas
+              </span>
             </td>
-          </ng-container>
-          <td class="font-weight-bold text-muted small">
-            {{ accompaniment.problems.problemCount }}
-            <span *ngIf="accompaniment.problems.problemCount === 1">
-              problemática
-            </span>
-            <span *ngIf="accompaniment.problems.problemCount !== 1">
-              problemáticas
-            </span>
-          </td>
-          <td>
-            <span *ngIf="!accompaniment.reviewKey" class="badge badge-success">
-              Validado
-            </span>
-            <span *ngIf="!!accompaniment.reviewKey" class="badge badge-warning">
-              Sin Validar
-            </span>
-          </td>
-          <td>
-            <a class="btn btn-primary btn-sm small lift" [routerLink]="[
+            <td>
+              <span *ngIf="!accompaniment.reviewKey" class="badge badge-success">
+                Validado
+              </span>
+              <span *ngIf="!!accompaniment.reviewKey" class="badge badge-warning">
+                Sin Validar
+              </span>
+            </td>
+            <td>
+              <a class="btn btn-primary btn-sm small lift" [routerLink]="[
                 '/panel-control',
                 accompaniment.period.reference.id,
                 'ver-acompañamiento',
                 accompaniment.mentor.reference.id,
                 accompaniment.id
               ]">
-              Visualizar
-            </a>
+                Visualizar
+              </a>
 
-            <!-- show options in each row -->
-            <ng-container *ngIf="showValidate">
-              <a class="btn btn-success btn-sm small lift ml-3" [ngClass]="{disabled:!accompaniment.reviewKey}"
-                [routerLink]="[
+              <!-- show options in each row -->
+              <ng-container *ngIf="showValidate">
+                <a class="ml-3 btn btn-success btn-sm small lift" [ngClass]="{disabled:!accompaniment.reviewKey}"
+                  [routerLink]="[
               '/panel-control',
               accompaniment.period.reference.id,
               'acompañamientos',
@@ -88,11 +89,21 @@
               accompaniment.id,
               accompaniment.reviewKey
               ]">
-                Validar
-              </a>
-            </ng-container>
-          </td>
-        </tr>
+                  Validar
+                </a>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+        
+        <!-- no students message -->
+        <ng-template #emptyMessage>
+          <tr>
+            <td colspan="100%" class="text-center font-weight-bold text-muted small">
+              No hay acompañamientos para visualizar.
+            </td>
+          </tr>
+        </ng-template>
       </tbody>
     </table>
   </div>

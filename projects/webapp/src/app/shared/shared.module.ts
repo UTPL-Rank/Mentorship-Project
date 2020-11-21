@@ -10,6 +10,7 @@ import { PageHeaderSubtitleComponent } from './components/page-header/page-heade
 import { PageHeaderTitleComponent } from './components/page-header/page-header-title.component';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { SigCanvasComponent } from './components/sig-canvas/sig-canvas.component';
+import { StudentsTableComponent } from './components/students-table/students-table.component';
 import { AcademicCycleNamePipe } from './pipes/academic-cycle-name.pipe';
 import { FollowingNamePipe } from './pipes/following-name.pipe';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
@@ -20,7 +21,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
   declarations: [
     AcademicCycleNamePipe,
     InfoMentorComponent,
-    AccompanimentsTableComponent,
+    [AccompanimentsTableComponent, StudentsTableComponent],
     FollowingNamePipe,
     SemesterNamePipe,
     SigCanvasComponent,
@@ -35,7 +36,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
   exports: [
     AcademicCycleNamePipe,
     InfoMentorComponent,
-    AccompanimentsTableComponent,
+    [AccompanimentsTableComponent, StudentsTableComponent],
     FollowingNamePipe,
     SemesterNamePipe,
     SigCanvasComponent,
