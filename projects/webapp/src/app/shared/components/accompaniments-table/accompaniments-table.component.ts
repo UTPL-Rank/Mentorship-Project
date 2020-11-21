@@ -6,10 +6,10 @@ import { Accompaniment } from '../../../models/models';
   templateUrl: './accompaniments-table.component.html'
 })
 export class AccompanimentsTableComponent {
-  public accompaniments: Accompaniment;
+  public accompaniments: Accompaniment[];
 
   @Input('accompaniments')
-  public set setAccompaniments(accompaniments: Accompaniment) {
+  public set setAccompaniments(accompaniments: Accompaniment[]) {
     this.accompaniments = accompaniments;
   }
 
