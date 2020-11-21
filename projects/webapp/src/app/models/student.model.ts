@@ -41,5 +41,5 @@ export interface Student {
   stats: {
     accompanimentsCount: number;
     lastAccompaniment?: firestore.Timestamp;
-  }
+  };
 }

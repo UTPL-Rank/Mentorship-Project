@@ -29,12 +29,9 @@
 
         <sgm-page-header-controls>
             <ng-container *ngIf="auth.isAdmin|async">
-                <button class="shadow btn btn-primary lift">
+                <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
                     Exportar Estudiantes
                 </button>
-                <!-- <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
-                    Exportar Mentores
-                </button> -->
             </ng-container>
         </sgm-page-header-controls>
 
