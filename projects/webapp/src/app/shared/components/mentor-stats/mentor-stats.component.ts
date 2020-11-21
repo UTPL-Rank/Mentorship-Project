@@ -7,7 +7,7 @@ import { Mentor } from '../../../models/models';
 })
 export class MentorStatsComponent {
 
-  mentor: Mentor | null;
+  mentor: Mentor;
 
   @Input('mentor')
   set mentorData(mentor: Mentor) {
