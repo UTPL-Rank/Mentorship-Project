@@ -42,17 +42,12 @@
 
 <ng-container *ngIf="mentor$ | async as mentor">
     <sgm-mentor-navbar [mentor]="mentor$ | async"></sgm-mentor-navbar>
-    </ng-container>
+</ng-container>
 
 <ng-container *ngIf="auth.isAdmin|async">
-    <section class="pt-3 pt-md-5">
+    <section class="pt-6 pt-md-9">
         <div class="container">
-            <select [formControl]="selectMentorControl" class="custom-select">
-                <option [value]="null" default>Filtrar por mentor</option>
-                <ng-container *ngFor="let mentor of mentors$|async">
-                    <option [value]="mentor.id">{{mentor.displayName | titlecase}}</option>
-                </ng-container>
-            </select>
+            <sgm-mentor-filter-selector> </sgm-mentor-filter-selector>
         </div>
     </section>
 </ng-container>
