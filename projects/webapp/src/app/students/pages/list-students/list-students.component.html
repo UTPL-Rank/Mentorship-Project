@@ -41,12 +41,26 @@
 </ng-template>
 
 <ng-container *ngIf="mentor$ | async as mentor">
+    <sgm-mentor-navbar [mentor]="mentor$ | async"></sgm-mentor-navbar>
+    </ng-container>
 
-    <sgm-mentor-navbar [mentor]="mentor"></sgm-mentor-navbar>
+<ng-container *ngIf="auth.isAdmin|async">
+    <section class="pt-3 pt-md-5">
+        <div class="container">
+            <select [formControl]="selectMentorControl" class="custom-select">
+                <option [value]="null" default>Filtrar por mentor</option>
+                <ng-container *ngFor="let mentor of mentors$|async">
+                    <option [value]="mentor.id">{{mentor.displayName | titlecase}}</option>
+                </ng-container>
+            </select>
+        </div>
+    </section>
+</ng-container>
 
+<ng-container *ngIf="mentor$ | async as mentor">
     <section class="pt-6 pt-md-9">
         <div class="container">
-            <sgm-mentor-stats [mentor]="mentor"></sgm-mentor-stats>
+            <sgm-mentor-stats [mentor]="mentor$ | async"></sgm-mentor-stats>
         </div>
     </section>
 </ng-container>

@@ -1,11 +1,12 @@
-import { Component, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { UserService } from '../../../core/services/user.service';
-import { AcademicPeriod, Mentor, Students } from '../../../models/models';
+import { AcademicPeriod, Mentor, Mentors, Students } from '../../../models/models';
 import { ExportStudentsCSVService } from '../../services/export-students-csv.service';
 import { ListStudentsQuery } from './list-students-query.interface';
 
@@ -13,19 +14,27 @@ import { ListStudentsQuery } from './list-students-query.interface';
     selector: 'sgm-list-students',
     templateUrl: './list-students.component.html'
 })
-export class ListStudentsComponent implements OnDestroy {
+export class ListStudentsComponent implements OnInit, OnDestroy {
     constructor(
         private readonly route: ActivatedRoute,
+        private readonly router: Router,
         private readonly mentorsService: MentorsService,
         private readonly studentsService: StudentsService,
         public readonly auth: UserService,
         public readonly csv: ExportStudentsCSVService,
+        public readonly fb: FormBuilder,
     ) { }
 
     private exportSub: Subscription | null = null;
+    private filterSub: Subscription = null;
 
     private params: Observable<{ periodId?: string }> = this.route.params;
     private query: Observable<ListStudentsQuery> = this.route.queryParams;
+
+    public readonly mentors$: Observable<Mentors> = this.params.pipe(
+        switchMap(({ periodId }) => this.mentorsService.getAllMentorsAndShare(periodId)),
+        shareReplay(1),
+    );
 
     public readonly mentor$: Observable<Mentor | null> = this.query.pipe(
         switchMap(({ mentorId }) => !!mentorId ? this.mentorsService.mentorStream(mentorId) : of(null)),
@@ -37,7 +46,7 @@ export class ListStudentsComponent implements OnDestroy {
     );
 
     public readonly students$: Observable<Students> = combineLatest([this.query, this.params]).pipe(
-        switchMap(([query, params]) => this.studentsService.list$({ periodId: params.periodId, mentorId: query.mentorId, limit: 20 })),
+        switchMap(([query, params]) => this.studentsService.list$({ periodId: params.periodId, mentorId: query.mentorId, limit: 50 })),
         shareReplay(1),
     );
 
@@ -49,8 +58,26 @@ export class ListStudentsComponent implements OnDestroy {
         return !!this.exportSub;
     }
 
+    public selectMentorControl: FormControl;
+
+    ngOnInit() {
+        const { mentorId = null } = this.route.snapshot.queryParams as ListStudentsQuery;
+        this.selectMentorControl = this.fb.control([mentorId]);
+
+        this.filterSub = this.selectMentorControl.valueChanges.subscribe(async id => {
+
+            const queryParams: ListStudentsQuery = id === 'null' ? {} : { mentorId: id };
+
+            await this.router.navigate([], {
+                queryParams,
+                relativeTo: this.route
+            });
+        });
+    }
+
     ngOnDestroy() {
         this.exportSub?.unsubscribe();
+        this.filterSub.unsubscribe();
     }
 
     public exportCSV() {
