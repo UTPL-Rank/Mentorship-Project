@@ -4,9 +4,11 @@ import { IsAdminGuard } from '../core/guards/is-admin.guard';
 import { StudentOfMentorGuard } from './guards/student-of-mentor.guard';
 import { ConfigureStudentComponent } from './pages/configure-student/configure-student.component';
 import { GenerateStudentReportComponent } from './pages/generate-student-report/generate-student-report.component';
+import { ListStudentsComponent } from './pages/list-students/list-students.components';
 import { ViewStudentComponent } from './pages/view-student/view-student.component';
 
 const ROUTES: Routes = [
+  { path: '', component: ListStudentsComponent, },
   {
     path: ':studentId', canActivate: [StudentOfMentorGuard],
     children: [
@@ -25,9 +27,11 @@ const ROUTES: Routes = [
 export class StudentsRoutingModule {
 
   static pages = [
+    ListStudentsComponent,
     ViewStudentComponent,
     GenerateStudentReportComponent,
     ConfigureStudentComponent,
+
   ];
 
   static resolvers = [];

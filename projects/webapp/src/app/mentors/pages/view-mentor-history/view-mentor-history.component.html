@@ -1,5 +1,18 @@
 <ng-container *ngIf="mentorObs | async as mentor">
-  <sgm-mentor-header [mentor]="mentor"></sgm-mentor-header>
+  <sgm-page-header>
+    <sgm-page-header-title>
+      {{mentor.displayName|titlecase}}
+    </sgm-page-header-title>
+  
+    <sgm-page-header-subtitle>
+      Estudiante Mentor
+    </sgm-page-header-subtitle>
+  
+    <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+  </sgm-page-header>
+  </ng-container>
+  
+  <ng-container *ngIf="mentorObs | async as mentor">
 
   <sgm-mentor-navbar [mentor]="mentor"></sgm-mentor-navbar>
 

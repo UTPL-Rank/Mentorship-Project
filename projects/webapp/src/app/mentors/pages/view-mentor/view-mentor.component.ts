@@ -1,30 +1,21 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { MentorsService } from '../../../core/services/mentors.service';
-import { StudentsService } from '../../../core/services/students.service';
-import { TitleService } from '../../../core/services/title.service';
-import { Mentor, Students } from '../../../models/models';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'sgm-view-mentor',
-  templateUrl: './view-mentor.component.html'
+  template: '',
 })
-export class ViewMentorComponent {
+export class ViewMentorComponent implements OnInit {
 
   constructor(
-    private readonly title: TitleService,
     private readonly route: ActivatedRoute,
-    private readonly mentorsService: MentorsService,
-    private readonly studentsService: StudentsService,
+    private readonly router: Router,
   ) { }
 
-  public readonly mentorObs: Observable<Mentor> = this.route.params.pipe(
-    switchMap(params => this.mentorsService.mentorStream(params.mentorId)),
-    tap(mentor => this.title.setTitle(mentor.displayName.toUpperCase())),
-  );
+  async ngOnInit() {
+    console.log('remove component');
 
-  public readonly studentsObs: Observable<Students> = this.route.params
-    .pipe(switchMap(p => this.studentsService.getStudentsOfMentorAndShare(p.mentorId, p.periodId)));
+    const params = this.route.snapshot.params;
+    await this.router.navigate(['/panel-control', params.periodId, 'estudiantes'], { queryParams: { mentorId: params.mentorId } });
+  }
 }

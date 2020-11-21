@@ -79,6 +79,35 @@ export class StudentsService {
         this.perf.trace('List mentor assigned students'),
         shareReplay(1)
       );
+
+  }
+
+  public list$(options: { periodId?: string, mentorId?: string, limit: number }): Observable<Students> {
+    return this.angularFirestore.collection<Student>(
+      STUDENTS_COLLECTION_NAME,
+      q => {
+        let query = q.orderBy('displayName');
+
+        if (options.periodId) {
+          const periodRef = this.periodsService.periodDocument(options.periodId).ref;
+          query = query.where('period.reference', '==', periodRef);
+        }
+
+        if (options.mentorId) {
+          const mentorRef = this.mentorsService.mentorRef(options.mentorId);
+          query = query.where('mentor.reference', '==', mentorRef);
+        }
+
+        query = query.limit(options.limit);
+
+        return query;
+      }
+    )
+      .valueChanges()
+      .pipe(
+        this.perf.trace('List mentor assigned students'),
+        shareReplay(1)
+      );
   }
 
   public transferStudent$(data: TransferStudentDTO): Observable<boolean> {

@@ -39,6 +39,19 @@
       </a>
     </ng-container>
 
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Todos los Estudiantes"
+        [routerLink]="['/panel-control', activePeriod.id, 'estudiantes']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-users"></i>
+        </div>
+        <span class="item--text">
+          Todos los Estudiantes
+        </span>
+      </a>
+    </ng-container>
+
     <ng-container *ngIf="claims && claims.isMentor">
       <a class="navbar--item tooltip tooltip-right" data-tooltip="Mis Estudiantes"
         [routerLink]="['/panel-control', activePeriod.id, 'mentores', claims.mentorId]" routerLinkActive="active"

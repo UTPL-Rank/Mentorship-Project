@@ -1,0 +1,122 @@
+<ng-container *ngIf="mentor$ | async as mentor; else defaultTempate">
+    <sgm-page-header>
+        <sgm-page-header-title>
+            {{mentor.displayName|titlecase}}
+        </sgm-page-header-title>
+
+        <sgm-page-header-subtitle>
+            Estudiante Mentor
+        </sgm-page-header-subtitle>
+
+        <sgm-page-header-controls>
+            <ng-container *ngIf="isPeriodActiveObs | async">
+                <a class="mt-4 shadow btn btn-primary lift mt-md-0"
+                    [routerLink]="['/panel-control',mentor.period.reference.id,'registrar-acompañamiento', mentor.id]">
+                    Nuevo acompañamiento
+                </a>
+            </ng-container>
+        </sgm-page-header-controls>
+
+        <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+    </sgm-page-header>
+</ng-container>
+
+<ng-template #defaultTempate>
+    <sgm-page-header>
+        <sgm-page-header-title>
+            Estudiantes de nuevo ingreso
+        </sgm-page-header-title>
+
+        <sgm-page-header-controls>
+            <ng-container *ngIf="auth.isAdmin|async">
+                <button class="shadow btn btn-primary lift">
+                    Exportar Estudiantes
+                </button>
+                <!-- <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
+                    Exportar Mentores
+                </button> -->
+            </ng-container>
+        </sgm-page-header-controls>
+
+        Esta es una lista de todos los estudiantes de nuevo ingreso que se encuentran
+        registrados en la plataforma.
+    </sgm-page-header>
+</ng-template>
+
+<ng-container *ngIf="mentor$ | async as mentor">
+
+    <sgm-mentor-navbar [mentor]="mentor"></sgm-mentor-navbar>
+
+    <section class="pt-6 pt-md-9">
+        <div class="container">
+            <sgm-mentor-stats [mentor]="mentor"></sgm-mentor-stats>
+        </div>
+    </section>
+</ng-container>
+
+<section class="container py-6">
+    <div class="card">
+        <div class="table-responsive">
+            <table class="table mb-0 text-nowrap">
+                <!-- head of table -->
+                <thead>
+                    <tr>
+                        <th class="font-weight-bold text-muted small">
+                            #
+                        </th>
+                        <th class="font-weight-bold text-muted small">
+                            Nombre Estudiante
+                        </th>
+                        <th class="text-center font-weight-bold text-muted small">
+                            Nro. Acompañamientos
+                        </th>
+                        <th class="text-center font-weight-bold text-muted small">
+                            Ultimo Registrado
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let student of students$|async; let i = index">
+                        <th class="font-weight-bold text-muted small" scope="row">
+                            {{ i + 1 }}
+                        </th>
+                        <td class="font-weight-bold text-muted small">
+                            {{ student.displayName|titlecase }}
+                        </td>
+                        <td class="text-center font-weight-bold text-muted small">
+                            <span class="badge" [ngClass]="{
+                    'badge-danger': student.stats.accompanimentsCount === 0,
+                    'badge-warning': student.stats.accompanimentsCount < 4,
+                    'badge-success': student.stats.accompanimentsCount >= 4
+                   }">
+                                {{student.stats.accompanimentsCount}}
+                                <span *ngIf="student.stats.accompanimentsCount === 1">
+                                    acompañamiento
+                                </span>
+                                <span *ngIf="student.stats.accompanimentsCount !== 1">
+                                    acompañamientos
+                                </span>
+                            </span>
+                        </td>
+                        <td class="text-center font-weight-bold text-muted small">
+                            <ng-container *ngIf="student.stats.lastAccompaniment; else defaultDate">
+                                {{student.stats.lastAccompaniment.toDate() | date:'shortDate'}}
+                            </ng-container>
+                            <ng-template #defaultDate>
+                                --/--/--
+                            </ng-template>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary btn-sm small lift"
+                                [routerLink]="['/panel-control',student.period.reference.id,'historial-acompañamientos',student.mentor.reference.id,student.id]">
+                                Ver Estudiante
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
