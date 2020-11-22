@@ -35,7 +35,7 @@
             <sgm-page-header-controls>
                 <ng-container *ngIf="isPeriodActiveObs | async">
                     <a class="mt-4 shadow btn btn-primary lift mt-md-0"
-                        [routerLink]="['/panel-control',student.period.reference.id,'registrar-acompañamiento', student.mentor.id]">
+                        [routerLink]="['/panel-control',student.period.reference.id,'registrar-acompañamiento', student.mentor.reference.id]">
                         Nuevo acompañamiento
                     </a>
                 </ng-container>
