@@ -40,27 +40,53 @@
     </ng-container>
 
     <ng-container *ngIf="claims && claims.isAdmin">
-      <a class="navbar--item tooltip tooltip-right" data-tooltip="Todos los Estudiantes"
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Estudiantes"
         [routerLink]="['/panel-control', activePeriod.id, 'estudiantes']" routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
         <div class="item--icon">
           <i class="fas fa-users"></i>
         </div>
         <span class="item--text">
-          Todos los Estudiantes
+          Estudiantes
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Acompañamientos"
+        [routerLink]="['/panel-control', activePeriod.id, 'acompañamientos']" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-clipboard"></i>
+        </div>
+        <span class="item--text">
+          Acompañamientos
         </span>
       </a>
     </ng-container>
 
     <ng-container *ngIf="claims && claims.isMentor">
       <a class="navbar--item tooltip tooltip-right" data-tooltip="Mis Estudiantes"
-        [routerLink]="['/panel-control', activePeriod.id, 'estudiantes' ]" [queryParams]="{mentorId:claims.mentorId}" routerLinkActive="active"
-        [routerLinkActiveOptions]="{exact: true}">
+        [routerLink]="['/panel-control', activePeriod.id, 'estudiantes' ]" [queryParams]="{mentorId:claims.mentorId}"
+        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         <div class="item--icon">
           <i class="fas fa-users"></i>
         </div>
         <span class="item--text">
           Mis Estudiantes
+        </span>
+      </a>
+    </ng-container>
+
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a class="navbar--item tooltip tooltip-right" data-tooltip="Historial Acompañamientos"
+        [routerLink]="['/panel-control', activePeriod.id, 'acompañamientos']" [queryParams]="{mentorId:claims.mentorId}"
+        routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+        <div class="item--icon">
+          <i class="fas fa-clipboard"></i>
+        </div>
+        <span class="item--text">
+          Historial Acompañamientos
         </span>
       </a>
     </ng-container>

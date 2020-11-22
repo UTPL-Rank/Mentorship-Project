@@ -1,0 +1,88 @@
+<ng-container *ngIf="mentor$ | async as mentor; else studentHeader">
+    <sgm-page-header>
+        <sgm-page-header-title>
+            {{mentor.displayName|titlecase}}
+        </sgm-page-header-title>
+
+        <sgm-page-header-subtitle>
+            Historial del Mentor
+        </sgm-page-header-subtitle>
+
+        <sgm-page-header-controls>
+            <ng-container *ngIf="isPeriodActiveObs | async">
+                <a class="mt-4 shadow btn btn-primary lift mt-md-0"
+                    [routerLink]="['/panel-control',mentor.period.reference.id,'registrar-acompañamiento', mentor.id]">
+                    Nuevo acompañamiento
+                </a>
+            </ng-container>
+        </sgm-page-header-controls>
+
+        <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+    </sgm-page-header>
+</ng-container>
+
+<ng-template #studentHeader>
+    <ng-container *ngIf="student$ | async as student; else defaultTempate">
+        <sgm-page-header>
+            <sgm-page-header-title>
+                {{student.displayName|titlecase}}
+            </sgm-page-header-title>
+
+            <sgm-page-header-subtitle>
+                Estudiante de nuevo ingreso
+            </sgm-page-header-subtitle>
+
+            <sgm-page-header-controls>
+                <ng-container *ngIf="isPeriodActiveObs | async">
+                    <a class="mt-4 shadow btn btn-primary lift mt-md-0"
+                        [routerLink]="['/panel-control',student.period.reference.id,'registrar-acompañamiento', student.mentor.id]">
+                        Nuevo acompañamiento
+                    </a>
+                </ng-container>
+            </sgm-page-header-controls>
+
+            <b>Periodo Académico:</b> {{student.period.name | titlecase}}
+        </sgm-page-header>
+    </ng-container>
+</ng-template>
+
+<ng-template #defaultTempate>
+    <sgm-page-header>
+        <sgm-page-header-title>
+            Acompañamientos
+        </sgm-page-header-title>
+
+        <sgm-page-header-controls>
+            <ng-container *ngIf="auth.isAdmin|async">
+                <button [disabled]="disabledButton" class="shadow btn btn-primary lift">
+                    Exportar Acompañamientos
+                </button>
+
+                <!-- <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
+                    Exportar Acompañamientos
+                </button> -->
+            </ng-container>
+        </sgm-page-header-controls>
+
+        Esta es una lista de todos los acompañamientos que ha sido registrados en la plataforma.
+    </sgm-page-header>
+</ng-template>
+
+<ng-container *ngIf="mentor$ | async as mentor">
+    <sgm-mentor-navbar [mentor]="mentor$ | async"></sgm-mentor-navbar>
+</ng-container>
+
+<ng-container *ngIf="mentor$ | async as mentor">
+    <section class="pt-6 pt-md-9">
+        <div class="container">
+            <sgm-mentor-stats [mentor]="mentor$ | async"></sgm-mentor-stats>
+        </div>
+    </section>
+</ng-container>
+
+<section class="container py-6">
+
+    <sgm-accompaniments-table [accompaniments]="accompaniments$ | async" [showStudentName]="true"
+        [showMentorName]="showMentorName$|async">
+    </sgm-accompaniments-table>
+</section>

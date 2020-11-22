@@ -1,33 +1,23 @@
-import { Component } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
-import { AccompanimentsService } from '../../../core/services/accompaniments.service';
-import { MentorsService } from '../../../core/services/mentors.service';
-import { TitleService } from '../../../core/services/title.service';
-import { FirestoreAccompaniments, Mentor } from '../../../models/models';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'sgm-view-mentor-history',
-  templateUrl: 'view-mentor-history.component.html'
+  template: ''
 })
 
-export class ViewMentorHistoryComponent {
+export class ViewMentorHistoryComponent implements OnInit {
 
   constructor(
-    private readonly title: TitleService,
     private readonly route: ActivatedRoute,
-    private readonly mentorsService: MentorsService,
-    private readonly accompanimentsService: AccompanimentsService,
+    private readonly router: Router,
   ) { }
 
-  public readonly mentorObs: Observable<Mentor> = this.route.params
-    .pipe(
-      switchMap(params => this.mentorsService.mentorStream(params.mentorId)),
-      tap(mentor => this.title.setTitle(`Historial | ${mentor.displayName.toUpperCase()}`)),
-    );
+  async ngOnInit() {
+    console.log('remove component');
 
-  public readonly accompanimentsObs: Observable<FirestoreAccompaniments> = this.route.params
-    .pipe(switchMap(p => this.accompanimentsService.accompanimentsStream({ where: p, limit: 10 })));
+    const params = this.route.snapshot.params;
+    await this.router.navigate(['/panel-control', params.periodId, 'acompañamientos'], { queryParams: { mentorId: params.mentorId } });
+  }
 
 }

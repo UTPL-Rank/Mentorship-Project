@@ -10,7 +10,7 @@
           <th class="font-weight-bold text-muted small">
             Fecha
           </th>
-          <ng-container *ngIf="mentorName">
+          <ng-container *ngIf="showMentorName">
             <th class="font-weight-bold text-muted small">
               Mentor
             </th>
@@ -39,7 +39,7 @@
             <td class="font-weight-bold text-muted small">
               {{ accompaniment.timeCreated.toMillis() | date }}
             </td>
-            <ng-container *ngIf="mentorName">
+            <ng-container *ngIf="showMentorName">
               <td class="font-weight-bold text-muted small">
                 {{accompaniment.mentor.displayName | titlecase}}
               </td>
@@ -50,6 +50,12 @@
               </td>
             </ng-container>
             <td class="font-weight-bold text-muted small">
+              <ng-container *ngIf="accompaniment.important">
+                <span class="tooltip tooltip-top" data-tooltip="Marcado como importante">
+                  <i class="fas fa-exclamation-circle"></i>
+                </span>
+              </ng-container>
+
               {{ accompaniment.problems.problemCount }}
               <span *ngIf="accompaniment.problems.problemCount === 1">
                 problemática

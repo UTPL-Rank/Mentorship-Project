@@ -8,12 +8,14 @@ import { IsStudentGuard } from '../dashboard/guards/is-student.guard';
 import { UnconfirmedAccompanimentExistsGuard } from './guards/unconfirmed-accompaniment-exists.guard';
 import { ValidAccompanimentGuard } from './guards/valid-accompaniment.guard';
 import { ValidPeriodOfStudentGuard } from './guards/valid-period-of-student.guard';
+import { ListAccompanimentsComponent } from './pages/list-accompaniments/list-accompaniments.components';
 import { NewAccompanimentComponent } from './pages/new-accompaniment/new-accompaniment.component';
 import { ReviewAccompanimentComponent } from './pages/review-accompaniment/review-accompaniment.component';
 import { ViewAccompanimentComponent } from './pages/view-accompaniment/view-accompaniment.component';
 import { PreloadStudentsOfMentor } from './resolvers/preload-students-of-mentor.resolver';
 
 const routes: Routes = [
+  { path: '', component: ListAccompanimentsComponent, },
   {
     path: 'ver/:mentorId/:accompanimentId',
     component: ViewAccompanimentComponent,
@@ -56,6 +58,7 @@ const routes: Routes = [
 })
 export class AccompanimentsRoutingModule {
   static pages = [
+    ListAccompanimentsComponent,
     NewAccompanimentComponent,
     ViewAccompanimentComponent,
     ReviewAccompanimentComponent,

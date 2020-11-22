@@ -14,7 +14,7 @@ export class AccompanimentsTableComponent {
   }
 
   @Input()
-  public mentorName = false;
+  public showMentorName = false;
 
   @Input()
   public showStudentName = false;
