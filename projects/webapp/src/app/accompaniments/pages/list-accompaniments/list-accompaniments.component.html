@@ -54,13 +54,9 @@
 
         <sgm-page-header-controls>
             <ng-container *ngIf="auth.isAdmin|async">
-                <button [disabled]="disabledButton" class="shadow btn btn-primary lift">
+                <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
                     Exportar Acompañamientos
                 </button>
-
-                <!-- <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
-                    Exportar Acompañamientos
-                </button> -->
             </ng-container>
         </sgm-page-header-controls>
 

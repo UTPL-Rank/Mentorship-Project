@@ -72,9 +72,9 @@ export interface FirestoreAccompanimentProblems {
   administrative: boolean;
   economic: boolean;
   psychosocial: boolean;
+  otherDescription: string;
   other: boolean;
   none: boolean;
-  otherDescription: string;
 }
 
 export interface AccompanimentAsset {

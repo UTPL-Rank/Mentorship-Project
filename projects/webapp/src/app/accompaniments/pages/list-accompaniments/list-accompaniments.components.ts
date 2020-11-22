@@ -6,7 +6,8 @@ import { AccompanimentsService } from '../../../core/services/accompaniments.ser
 import { MentorsService } from '../../../core/services/mentors.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { UserService } from '../../../core/services/user.service';
-import { AcademicPeriod, FirestoreAccompaniments, Mentor, Student } from '../../../models/models';
+import { AcademicPeriod, Accompaniment, Mentor, Student } from '../../../models/models';
+import { ExportAccompanimentsCSVService } from '../../services/export-accompaniments-csv.service';
 import { ListAccompanimentsQuery } from './list-accompaniments-query.interface';
 
 @Component({
@@ -20,6 +21,7 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
         private readonly studentsService: StudentsService,
         private readonly accompanimentsService: AccompanimentsService,
         public readonly auth: UserService,
+        private readonly csv: ExportAccompanimentsCSVService,
     ) { }
 
     private exportSub: Subscription | null = null;
@@ -41,9 +43,11 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
         map(d => (d.activePeriod as AcademicPeriod).current)
     );
 
-    public readonly accompaniments$: Observable<FirestoreAccompaniments> = combineLatest([this.query, this.params]).pipe(
+    public readonly accompaniments$: Observable<Accompaniment[]> = combineLatest([this.query, this.params]).pipe(
         switchMap(([query, params]) =>
-            this.accompanimentsService.accompanimentsStream({ where: { periodId: params.periodId, mentorId: query.mentorId }, limit: 30, orderBy: { timeCreated: "desc" } })),
+            this.accompanimentsService.accompanimentsStream({
+                where: { periodId: params.periodId, mentorId: query.mentorId }, limit: 30, orderBy: { timeCreated: "desc" }
+            }) as Observable<Accompaniment[]>),
         shareReplay(1),
     );
 
@@ -64,16 +68,16 @@ export class ListAccompanimentsComponent implements OnInit, OnDestroy {
         this.exportSub?.unsubscribe();
     }
 
-    // public exportCSV() {
-    //     const exportTask = this.students$.pipe(
-    //         switchMap(students => this.csv.export$(students)),
-    //     );
-    //     this.exportSub = exportTask.subscribe(completed => {
-    //         if (!completed)
-    //             alert('Ocurrió un error al exportar los estudiantes');
+    public exportCSV() {
+        const exportTask = this.accompaniments$.pipe(
+            switchMap(accompaniments => this.csv.export$(accompaniments)),
+        );
+        this.exportSub = exportTask.subscribe(completed => {
+            if (!completed)
+                alert('Ocurrió un error al exportar los estudiantes');
 
-    //         this.exportSub.unsubscribe();
-    //         this.exportSub = null;
-    //     });
-    // }
+            this.exportSub.unsubscribe();
+            this.exportSub = null;
+        });
+    }
 }

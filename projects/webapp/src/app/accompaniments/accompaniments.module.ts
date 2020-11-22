@@ -8,6 +8,7 @@ import { InfoAccompanimentComponent } from './components/info-accompaniment/info
 import { InfoStudentComponent } from './components/info-student/info-student.component';
 import { ReviewFormCardComponent } from './components/review-form-card/review-form-card.component';
 import { SaveAccompanimentService } from './components/services/save-accompaniment.service';
+import { ExportAccompanimentsCSVService } from './services/export-accompaniments-csv.service';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { SaveAccompanimentService } from './components/services/save-accompanime
     AccompanimentsRoutingModule.resolvers,
     AccompanimentsRoutingModule.guards,
     SaveAccompanimentService,
+    ExportAccompanimentsCSVService,
   ],
 })
 export class AccompanimentsModule { }
