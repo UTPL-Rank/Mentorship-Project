@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { Mentors } from '../../../models/models';
-import { ListStudentsQuery } from '../../pages/list-students/list-students-query.interface';
+import { ListStudentsQuery } from '../../../students/pages/list-students/list-students-query.interface';
 
 @Component({
     selector: 'sgm-mentor-filter-selector',

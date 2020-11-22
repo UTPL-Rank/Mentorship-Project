@@ -72,6 +72,14 @@
     <sgm-mentor-navbar [mentor]="mentor$ | async"></sgm-mentor-navbar>
 </ng-container>
 
+<ng-container *ngIf="auth.isAdmin|async">
+    <section class="pt-6 pt-md-9">
+        <div class="container">
+            <sgm-mentor-filter-selector> </sgm-mentor-filter-selector>
+        </div>
+    </section>
+</ng-container>
+
 <ng-container *ngIf="mentor$ | async as mentor">
     <section class="pt-6 pt-md-9">
         <div class="container">

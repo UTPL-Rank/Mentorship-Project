@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AccompanimentsTableComponent } from './components/accompaniments-table/accompaniments-table.component';
 import { InfoMentorComponent } from './components/info-mentor/info-mentor.component';
+import { MentorFilterSelectorComponent } from './components/mentor-filter-selector/mentor-filter-selector.component';
 import { MentorNavbarComponent } from './components/mentor-navbar/mentor-navbar.component';
 import { MentorStatsComponent } from './components/mentor-stats/mentor-stats.component';
 import { PageHeaderControlsComponent } from './components/page-header/page-header-controls.component';
@@ -17,7 +19,7 @@ import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
 
 @NgModule({
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule],
   declarations: [
     AcademicCycleNamePipe,
     InfoMentorComponent,
@@ -32,6 +34,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     PageHeaderControlsComponent,
     PageHeaderSubtitleComponent,
     PageHeaderTitleComponent,
+    MentorFilterSelectorComponent,
   ],
   exports: [
     AcademicCycleNamePipe,
@@ -47,6 +50,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     PageHeaderControlsComponent,
     PageHeaderSubtitleComponent,
     PageHeaderTitleComponent,
+    MentorFilterSelectorComponent,
   ]
 })
 export class SharedModule { }
