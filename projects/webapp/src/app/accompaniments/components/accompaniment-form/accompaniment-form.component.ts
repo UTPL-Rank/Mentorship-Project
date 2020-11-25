@@ -65,14 +65,14 @@ export class AccompanimentFormComponent implements OnDestroy {
     map(noProblemsFound => !noProblemsFound),
     tap(hasProblems => {
       if (hasProblems) {
-        this.accompanimentForm.addControl('problemDescription', this.fb.control(null, Validators.required));
-        this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
-        this.accompanimentForm.addControl('solutionDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.controls.problemDescription.setValidators([Validators.required]);
+        this.accompanimentForm.controls.topicDescription.setValidators([Validators.required]);
+        this.accompanimentForm.controls.solutionDescription.setValidators([Validators.required]);
         this.accompanimentForm.addControl('important', this.fb.control(false));
       } else {
-        this.accompanimentForm.removeControl('problemDescription');
-        this.accompanimentForm.removeControl('topicDescription');
-        this.accompanimentForm.removeControl('solutionDescription');
+        this.accompanimentForm.controls.problemDescription.setValidators([]);
+        this.accompanimentForm.controls.topicDescription.setValidators([]);
+        this.accompanimentForm.controls.solutionDescription.setValidators([]);
         this.accompanimentForm.removeControl('important');
       }
     }),
