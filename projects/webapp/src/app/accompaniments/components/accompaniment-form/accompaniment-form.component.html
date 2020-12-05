@@ -136,73 +136,69 @@
               </label>
             </div>
           </div>
-
-
-          <!-- input -->
-          <ng-container *ngIf="showProblemsOptions$ |async">
-            <div class="col-12">
-              <input class="mt-2 form-control" formControlName="otherDescription"
-                placeholder="Agrega tu propia temática" />
-              <small id="otherDescription" class="form-text text-muted">
-                En el espacio de mentoria puede que no exista ningún problema, pero puedes utilizar el espacio para
-                explicar
-                algún tema diferente a los que nosotros proponemos, si es el caso llena tu propia temática.
-              </small>
-            </div>
-          </ng-container>
         </div>
-      </div>
+        </div>
+
+      <ng-container *ngIf="accompanimentForm.controls.topic">
+        <div class="mb-5">
+          <input class="mt-2 form-control" formControlName="topic" placeholder="Agrega tu propia temática" />
+          <small id="topic" class="form-text text-muted">
+            En el espacio de mentoria puede que no exista ningún problema, pero puedes utilizar el espacio para
+            explicar algún tema diferente a los que nosotros proponemos.
+          </small>
+        </div>
+      </ng-container>
 
       <ng-container *ngIf="accompanimentForm.controls.topicDescription">
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-5 form-group">
-            <!-- label -->
-            <label for="topicDescription">
-              Temas Desarrollados
-            </label>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-5 form-group">
+              <!-- label -->
+              <label for="topicDescription">
+                Temas Desarrollados
+              </label>
 
-            <!-- textarea -->
-            <textarea formControlName="topicDescription" class="form-control" id="topicDescription" rows="4"
-              [ngClass]="{ 'is-invalid': isTopicDescriptionInvalid }"></textarea>
+              <!-- textarea -->
+              <textarea formControlName="topicDescription" class="form-control" id="topicDescription" rows="4"
+                [ngClass]="{ 'is-invalid': isTopicDescriptionInvalid }"></textarea>
+            </div>
           </div>
         </div>
-      </div>
       </ng-container>
-      
-      <ng-container *ngIf="accompanimentForm.controls.problemDescription">
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-5 form-group">
-            <!-- label -->
-            <label for="problemDescription">
-              Descripción del Problema
-            </label>
 
-            <!-- textarea -->
-            <textarea class="form-control" id="problemDescription" formControlName="problemDescription" rows="4"
-              [ngClass]="{ 'is-invalid': isProblemDescriptionInvalid }"></textarea>
+      <ng-container *ngIf="accompanimentForm.controls.problemDescription">
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-5 form-group">
+              <!-- label -->
+              <label for="problemDescription">
+                Descripción del Problema
+              </label>
+
+              <!-- textarea -->
+              <textarea class="form-control" id="problemDescription" formControlName="problemDescription" rows="4"
+                [ngClass]="{ 'is-invalid': isProblemDescriptionInvalid }"></textarea>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
       <ng-container *ngIf="accompanimentForm.controls.solutionDescription">
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-5 form-group">
-            <!-- label -->
-            <label for="solutionDescription">
-              Soluciones
-            </label>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-5 form-group">
+              <!-- label -->
+              <label for="solutionDescription">
+                Soluciones
+              </label>
 
-            <!-- textarea -->
-            <textarea class="form-control" formControlName="solutionDescription" id="solutionDescription" rows="4"
-              [ngClass]="{ 'is-invalid': isSolutionDescriptionInvalid }"></textarea>
+              <!-- textarea -->
+              <textarea class="form-control" formControlName="solutionDescription" id="solutionDescription" rows="4"
+                [ngClass]="{ 'is-invalid': isSolutionDescriptionInvalid }"></textarea>
+            </div>
           </div>
         </div>
-      </div>
-    </ng-container>
+      </ng-container>
 
       <div class="row">
         <div class="col-12">
@@ -224,23 +220,24 @@
           </div>
         </div>
       </div>
-      
+
       <ng-container *ngIf="accompanimentForm.controls.important">
-      <div class="row">
-        <div class="col-12">
-          <div class="mb-5 form-group">
-            <div class="custom-control custom-checkbox">
-              <!-- label -->
-              <input type="checkbox" class="custom-control-input" id="importantCheck" formControlName="important">
-              <!-- check box -->
-              <label class="custom-control-label" for="importantCheck">
-                Marca este acompañamiento como importante en caso de que necesite un revision por la parte del Proyecto
-                Mentores.
-              </label>
+        <div class="row">
+          <div class="col-12">
+            <div class="mb-5 form-group">
+              <div class="custom-control custom-checkbox">
+                <!-- label -->
+                <input type="checkbox" class="custom-control-input" id="importantCheck" formControlName="important">
+                <!-- check box -->
+                <label class="custom-control-label" for="importantCheck">
+                  Marca este acompañamiento como importante en caso de que necesite un revision por la parte del
+                  Proyecto
+                  Mentores.
+                </label>
+              </div>
             </div>
           </div>
         </div>
-      </div>
       </ng-container>
 
       <div class="row align-items-center">

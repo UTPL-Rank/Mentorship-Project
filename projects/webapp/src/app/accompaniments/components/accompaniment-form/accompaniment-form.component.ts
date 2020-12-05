@@ -23,17 +23,16 @@ export class AccompanimentFormComponent implements OnDestroy {
   @Input()
   mentorId: string;
 
-  private selectedStudentId: string = null;
+  private selectedStudentId: string | null = null;
 
   private savingSubscription: Subscription | null;
 
   // before setting `selectedStudentId`, validate it exist within the students
   @Input('selectedStudentId')
-  set setSelectedStudentId(selectedStudentId: string) {
+  set setSelectedStudentId(selectedStudentId: string | null) {
     const valid = this.students.map(s => s.id).includes(selectedStudentId);
-    if (valid) {
+    if (valid)
       this.selectedStudentId = selectedStudentId;
-    }
   }
 
   private noProblemsAccompaniment: FormControl = this.fb.control(false);
@@ -45,7 +44,6 @@ export class AccompanimentFormComponent implements OnDestroy {
     followingKind: [null, Validators.required],
     problemDescription: [null, Validators.required],
     solutionDescription: [null, Validators.required],
-    topicDescription: [null, Validators.required],
     important: [false],
 
     problems: this.fb.group({
@@ -54,7 +52,6 @@ export class AccompanimentFormComponent implements OnDestroy {
       administrative: [false],
       economic: [false],
       psychosocial: [false],
-      otherDescription: [null]
     }),
   });
 
@@ -65,15 +62,15 @@ export class AccompanimentFormComponent implements OnDestroy {
     map(noProblemsFound => !noProblemsFound),
     tap(hasProblems => {
       if (hasProblems) {
-        this.accompanimentForm.controls.problemDescription.setValidators([Validators.required]);
-        this.accompanimentForm.controls.topicDescription.setValidators([Validators.required]);
-        this.accompanimentForm.controls.solutionDescription.setValidators([Validators.required]);
-        this.accompanimentForm.addControl('important', this.fb.control(false));
+        this.accompanimentForm.addControl('problemDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.addControl('solutionDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.removeControl('topicDescription');
+        this.accompanimentForm.removeControl('topic');
       } else {
-        this.accompanimentForm.controls.problemDescription.setValidators([]);
-        this.accompanimentForm.controls.topicDescription.setValidators([]);
-        this.accompanimentForm.controls.solutionDescription.setValidators([]);
-        this.accompanimentForm.removeControl('important');
+        this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.addControl('topic', this.fb.control(null, Validators.required));
+        this.accompanimentForm.removeControl('problemDescription');
+        this.accompanimentForm.removeControl('solutionDescription');
       }
     }),
     shareReplay(1),

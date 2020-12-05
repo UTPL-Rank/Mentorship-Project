@@ -90,6 +90,8 @@ export class SaveAccompanimentService {
             topicDescription: (value.topicDescription ?? 'Sin problemas' as string).trim(),
             studentId: value.studentId
         });
+        console.log(accompaniment);
+        return of(null);
 
         const saveTask = this.saveAccompanimentInDb(mentorId, accompaniment);
         return saveTask;
