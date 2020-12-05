@@ -1,0 +1,1 @@
+export type IExportCallback<T> = (value: T, index: number, array: T[]) => Array<string>;
