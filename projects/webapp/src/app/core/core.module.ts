@@ -21,7 +21,6 @@ import { UserService } from './services/user.service';
 @NgModule({
   imports: [FirebaseModule, LocateModule, SaveFileModule],
   exports: [FirebaseModule, LocateModule, SaveFileModule],
-  declarations: [],
   providers: [
     // Guards
     [IsAdminGuard, IsMentorGuard, ValidPeriodOfMentorGuard],

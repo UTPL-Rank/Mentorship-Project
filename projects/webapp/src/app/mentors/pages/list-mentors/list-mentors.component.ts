@@ -87,7 +87,7 @@ export class ListMentorsComponent implements OnInit, OnDestroy {
 
   async exportCSV() {
 
-    this.exportSub = this.csvMentors.export().subscribe(async saved => {
+    this.exportSub = this.csvMentors.export$().subscribe(async saved => {
       if (!saved)
         alert('Ocurrió un error al exportar los mentores');
 

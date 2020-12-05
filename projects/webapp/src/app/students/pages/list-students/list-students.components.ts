@@ -59,10 +59,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
     }
 
     public exportCSV() {
-        const exportTask = this.students$.pipe(
-            switchMap(students => this.csv.export$(students)),
-        );
-        this.exportSub = exportTask.subscribe(completed => {
+      this.exportSub = this.csv.export$().subscribe(completed => {
             if (!completed)
                 alert('Ocurrió un error al exportar los estudiantes');
 

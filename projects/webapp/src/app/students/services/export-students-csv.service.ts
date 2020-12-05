@@ -1,47 +1,31 @@
 import { Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { CSVGeneratorService } from '../../core/modules/export-formats/csv-generator.service';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { SaveFileService } from '../../core/modules/save-file/save-file.service';
 import { BrowserLoggerService } from '../../core/services/browser-logger.service';
-import { Student } from '../../models/models';
+import { IExport } from '../../shared/interfaces/i-export';
 
 @Injectable({ providedIn: 'root' })
-export class ExportStudentsCSVService {
-    constructor(
-        private readonly csv: CSVGeneratorService,
-        private readonly logger: BrowserLoggerService,
-        private readonly saveFile: SaveFileService,
-    ) { }
+export class ExportStudentsCSVService implements IExport {
+  constructor(
+    private readonly logger: BrowserLoggerService,
+    private readonly saveFile: SaveFileService,
+    private readonly functions: AngularFireFunctions,
+  ) { }
 
-    export$(students: Student[]): Observable<boolean> {
-        const columnsNames = [
-            'Nombre Estudiante',
-            'Nombre Mentor',
-            'Correo Electrónico',
-            'Área Académica',
-            'Titulación',
-            'Acompañamientos Realizados',
-        ];
+  export$(): Observable<boolean> {
 
-        const columnsKeys = [
-            'displayName',
-            'mentor.displayName',
-            'email',
-            'area.name',
-            'degree.name',
-            'stats.accompanimentsCount',
-        ];
+    const csvMentors = this.functions.httpsCallable('CSVStudents');
 
-        const payload = this.csv.generate({ columnsKeys, columnsNames, objects: students });
-
-        const saveTask = from(this.saveFile.save('estudiantes.csv', payload)).pipe(
-            map(() => true),
-            catchError(err => {
-                this.logger.error('Error exporting students', err);
-                return of(false);
-            })
-        );
-        return saveTask;
-    }
+    const saveTask = csvMentors({}).pipe(
+      mergeMap(async payload => await this.saveFile.save('estudiantes - sgm.csv', payload)),
+      map(() => true),
+      catchError(err => {
+        this.logger.error('Error exporting students', err);
+        return of(false);
+      })
+    );
+    return saveTask;
+  }
 }

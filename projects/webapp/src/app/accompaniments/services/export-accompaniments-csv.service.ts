@@ -1,61 +1,31 @@
 import { Injectable } from '@angular/core';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-import { CSVGeneratorService } from '../../core/modules/export-formats/csv-generator.service';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { Observable, of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 import { SaveFileService } from '../../core/modules/save-file/save-file.service';
 import { BrowserLoggerService } from '../../core/services/browser-logger.service';
-import { Accompaniment } from '../../models/models';
+import { IExport } from '../../shared/interfaces/i-export';
 
 @Injectable({ providedIn: 'root' })
-export class ExportAccompanimentsCSVService {
-    constructor(
-        private readonly csv: CSVGeneratorService,
-        private readonly logger: BrowserLoggerService,
-        private readonly saveFile: SaveFileService,
-    ) { }
+export class ExportAccompanimentsCSVService implements IExport {
+  constructor(
+    private readonly logger: BrowserLoggerService,
+    private readonly saveFile: SaveFileService,
+    private readonly functions: AngularFireFunctions,
+  ) { }
 
-    export$(accompaniments: Accompaniment[]): Observable<boolean> {
-        const columnsNames = [
-            'Nombre Estudiante',
-            'Nombre Mentor',
-            'Seguimiento',
-            'Problemas Académicos',
-            'Problemas Administrativos',
-            'Problemas Económicos',
-            'Problema Psicosocial',
-            'Ningún Problema',
-            'Otro',
-            'Temas Desarrollados',
-            'Descripción del Problema',
-            'Solución del Problema',
-            'Importante',
-        ];
+  export$(): Observable<boolean> {
+    const csvMentors = this.functions.httpsCallable('CSVAccompaniments');
 
-        const columnsKeys = [
-            'mentor.displayName',
-            'student.displayName',
-            'followingKind',
-            'problems.academic',
-            'problems.administrative',
-            'problems.economic',
-            'problems.psychosocial',
-            'problems.otherDescription',
-            'problems.other',
-            'topicDescription',
-            'problemDescription',
-            'solutionDescription',
-            'important',
-        ];
+    const saveTask = csvMentors({}).pipe(
+      mergeMap(async payload => await this.saveFile.save('acompañamientos - sgm.csv', payload)),
+      map(() => true),
+      catchError(err => {
+        this.logger.error('Error exporting accompaniments', err);
+        return of(false);
+      })
+    );
 
-        const payload = this.csv.generate({ columnsKeys, columnsNames, objects: accompaniments });
-
-        const saveTask = from(this.saveFile.save('acompañamientos.csv', payload)).pipe(
-            map(() => true),
-            catchError(err => {
-                this.logger.error('Error exporting accompaniments', err);
-                return of(false);
-            })
-        );
-        return saveTask;
-    }
+    return saveTask;
+  }
 }
