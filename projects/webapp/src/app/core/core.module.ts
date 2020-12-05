@@ -3,7 +3,6 @@ import { CurrentPeriodActiveGuard } from './guards/current-period-active.guard';
 import { IsAdminGuard } from './guards/is-admin.guard';
 import { IsMentorGuard } from './guards/is-mentor.guard';
 import { ValidPeriodOfMentorGuard } from './guards/valid-period-of-mentor.guard';
-import { ExportFormatsModule } from './modules/export-formats/export-formats.module';
 import { FirebaseModule } from './modules/firebase.module';
 import { LocateModule } from './modules/locate.module';
 import { SaveFileModule } from './modules/save-file/save-file.module';
@@ -20,8 +19,8 @@ import { TitleService } from './services/title.service';
 import { UserService } from './services/user.service';
 
 @NgModule({
-  imports: [FirebaseModule, LocateModule, SaveFileModule, ExportFormatsModule],
-  exports: [FirebaseModule, LocateModule, SaveFileModule, ExportFormatsModule],
+  imports: [FirebaseModule, LocateModule, SaveFileModule],
+  exports: [FirebaseModule, LocateModule, SaveFileModule],
   declarations: [],
   providers: [
     // Guards
