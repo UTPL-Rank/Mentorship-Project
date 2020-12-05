@@ -5,7 +5,26 @@ import { dbFirestore } from "./utils";
 export type FollowingKind = 'sgm#virtual' | 'sgm#presencial';
 export type SemesterKind = 'sgm#firstSemester' | 'sgm#secondSemester';
 export interface Accompaniment {
-    problems: any;
+    timeCreated: firestore.Timestamp;
+    problems: {
+        problemCount: number;
+
+        academic: boolean;
+        administrative: boolean;
+        economic: boolean;
+        psychosocial: boolean;
+        none: boolean;
+
+        /** @deprecated */
+        otherDescription: string;
+        /** @deprecated */
+        other: boolean;
+    };
+    problemDescription?: string;
+    solutionDescription?: string;
+
+    topic?: string;
+    topicDescription?: string;
     semesterKind: SemesterKind;
     followingKind: FollowingKind;
     important: boolean;

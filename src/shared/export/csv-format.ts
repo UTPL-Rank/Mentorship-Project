@@ -6,7 +6,7 @@ export class CSVFormat<T> implements IExport<T> {
     constructor(
         private readonly columnNames: Array<string>,
         private readonly exportable: Array<T>,
-        private readonly separator: ';' | ',' = ',',
+        private readonly separator: ';' | ',' = ';',
     ) { }
 
     private readonly header = 'data:text/csv;charset=utf-8,';
@@ -31,7 +31,7 @@ export class CSVFormat<T> implements IExport<T> {
         return this.header + encodeURIComponent(this.universalBOM + csv);
     }
 
-    private validateItemsHaveSameLength(rows: Array<Array<string>>) {
+    private validateItemsHaveSameLength(rows: Array<Array<string | number>>) {
 
         // validate length of all rows is the same
         const allRowSameItems = rows

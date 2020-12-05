@@ -1,6 +1,7 @@
 export * from './auth/create-new-user';
 // callable
 export * from './callable/analytics';
+export * from './callable/csv-accompaniments';
 export * from './callable/csv-mentors';
 export * from './callable/csv-student';
 export * from './callable/export-accompaniment';
