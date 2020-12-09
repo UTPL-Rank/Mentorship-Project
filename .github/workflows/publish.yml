@@ -1,7 +1,8 @@
-name: Publish SGM Helpers to Registry
+name: Publish SGM Helpers to NPM
 
 on:
-  push: [main]
+  release:
+    types: [created]
 
 jobs:
   build:
