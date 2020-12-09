@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { Student, Students } from '../../models/student.model';
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,10 @@ export class PreloadStudentsOfMentor implements Resolve<Students> {
       })
       .get()
       .pipe(
-        this.perf.trace('list students'),
+        mergeMap(async doc => {
+          await this.perf.trace('info students');
+          return doc;
+        }),
         map(({ docs }) => docs.map(doc => doc.data() as Student))
       );
   }

@@ -72,11 +72,11 @@ export class UserService {
         });
 
         await this.eventLog.logEvent('sign_an_action', { username });
-        return await this.afAuth.auth.signInWithRedirect(microsoftProvider);
+      return await this.afAuth.signInWithRedirect(microsoftProvider);
     }
 
     async signOut(redirect?: Array<string>) {
-        await this.afAuth.auth.signOut();
+      await this.afAuth.signOut();
         // this.claims.next(null);
 
         if (redirect)
@@ -129,9 +129,9 @@ export class UserService {
 
     /**
      * Toggle the read status to `read: true` on a specific notification
-     * 
-     * TODO: create own service for notifications 
-     * 
+     *
+     * TODO: create own service for notifications
+     *
      * @param username identifier of the user
      * @param notificationId identifier of the notification
      */

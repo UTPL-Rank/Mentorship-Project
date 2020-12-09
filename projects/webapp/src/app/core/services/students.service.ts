@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable, of } from 'rxjs';
-import { catchError, map, shareReplay } from 'rxjs/operators';
+import { catchError, map, mergeMap, shareReplay } from 'rxjs/operators';
 import { Student, StudentReference, Students } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { BrowserLoggerService } from './browser-logger.service';
@@ -57,7 +57,10 @@ export class StudentsService {
   public studentStream(studentId: string): Observable<Student> {
     return this.studentDocument(studentId).valueChanges()
       .pipe(
-        this.perf.trace('stream student'),
+        mergeMap(async doc => {
+          await this.perf.trace('stream-student');
+          return doc;
+        }),
         shareReplay(1)
       );
   }
@@ -76,7 +79,10 @@ export class StudentsService {
     )
       .valueChanges()
       .pipe(
-        this.perf.trace('List mentor assigned students'),
+        mergeMap(async doc => {
+          await this.perf.trace('list-mentor-assigned-students');
+          return doc;
+        }),
         shareReplay(1)
       );
 
@@ -105,7 +111,10 @@ export class StudentsService {
     )
       .valueChanges()
       .pipe(
-        this.perf.trace('List mentor assigned students'),
+        mergeMap(async doc => {
+          await this.perf.trace('list-mentor-assigned-students');
+          return doc;
+        }),
         shareReplay(1)
       );
   }

@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { firestore } from 'firebase/app';
 import { forkJoin, from, Observable, of } from 'rxjs';
-import { catchError, map, shareReplay, switchMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, shareReplay, switchMap } from 'rxjs/operators';
 import { Accompaniment, FirestoreAccompanimentReference, FirestoreAccompaniments, SemesterKind } from '../../models/models';
 import { ReviewFormValue } from '../../models/review-form.model';
 import { AcademicPeriodsService } from './academic-periods.service';
@@ -129,7 +129,10 @@ export class AccompanimentsService {
    */
   public accompanimentStream(accompanimentId: string): Observable<Accompaniment> {
     return this.accompanimentDocument(accompanimentId).valueChanges().pipe(
-      this.perf.trace('get accompaniment stream')
+      mergeMap(async doc => {
+        await this.perf.trace('get-accompaniment-stream');
+        return doc;
+      }),
     );
   }
 
@@ -139,7 +142,10 @@ export class AccompanimentsService {
    */
   public accompanimentsStream(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
     return this.accompanimentsCollection(query).valueChanges().pipe(
-      this.perf.trace('List accompaniments'),
+      mergeMap(async doc => {
+        await this.perf.trace('list-accompaniments');
+        return doc;
+      }),
       shareReplay(1)
     );
   }
@@ -155,7 +161,7 @@ export class AccompanimentsService {
 
     batch.set(
       accompanimentRef,
-      { timeConfirmed: firestore.FieldValue.serverTimestamp(), reviewKey: null, confirmation },
+      { timeConfirmed: firestore.FieldValue.serverTimestamp(), reviewKey: null, confirmation } as any,
       { merge: true }
     );
 

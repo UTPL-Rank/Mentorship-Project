@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { forkJoin, Observable } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
@@ -41,7 +41,10 @@ export class MentorsService {
     return this.getMentorsCollection(periodId)
       .valueChanges()
       .pipe(
-        this.perf.trace('list mentors'),
+        mergeMap(async doc => {
+          await this.perf.trace('list-mentors');
+          return doc;
+        }),
         shareReplay(1),
         map(mentors => [...mentors]),
       );
@@ -69,7 +72,10 @@ export class MentorsService {
     return this.mentorDocument(mentorId)
       .valueChanges()
       .pipe(
-        this.perf.trace('load mentor information'),
+        mergeMap(async doc => {
+          await this.perf.trace('load-mentor-information');
+          return doc;
+        }),
         shareReplay(1)
       );
   }
@@ -80,7 +86,10 @@ export class MentorsService {
 
   public evaluationActivities(mentorId: string): Observable<MentorEvaluationActivities | null> {
     return this.evaluationActivitiesDocument(mentorId).get().pipe(
-      this.perf.trace('load mentor activities evaluation'),
+      mergeMap(async doc => {
+        await this.perf.trace('load-mentor-activities-evaluation');
+        return doc;
+      }),
       map(snap => snap.exists ? snap.data() : null),
     );
   }
@@ -95,7 +104,10 @@ export class MentorsService {
 
   public evaluationDependencies(mentorId: string): Observable<MentorEvaluationDependencies | null> {
     return this.evaluationDependenciesReference(mentorId).get().pipe(
-      this.perf.trace('load mentor dependencies evaluation'),
+      mergeMap(async doc => {
+        await this.perf.trace('load-mentor-dependencies-evaluation');
+        return doc;
+      }),
       map(snap => snap.exists ? snap.data() : null),
     );
   }
@@ -110,7 +122,10 @@ export class MentorsService {
 
   public evaluationObservations(mentorId: string): Observable<MentorEvaluationObservations | null> {
     return this.evaluationObservationsReference(mentorId).get().pipe(
-      this.perf.trace('load mentor observations evaluation'),
+      mergeMap(async doc => {
+        await this.perf.trace('load-mentor-observations-evaluation');
+        return doc;
+      }),
       map(snap => snap.exists ? snap.data() : null),
     );
   }
@@ -125,7 +140,10 @@ export class MentorsService {
 
   public evaluationDetails(mentorId: string): Observable<MentorEvaluationDetails | null> {
     return this.evaluationDetailsReference(mentorId).get().pipe(
-      this.perf.trace('load mentor Details evaluation'),
+      mergeMap(async doc => {
+        await this.perf.trace('load-mentor-details-evaluation');
+        return doc;
+      }),
       map(snap => snap.exists ? snap.data() : null),
     );
   }

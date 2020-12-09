@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { mergeMap, shareReplay } from 'rxjs/operators';
 
 type AccompanimentAnalytics = any;
 
@@ -23,7 +23,10 @@ export class AnalyticsService {
   public accompaniments$(periodId: string): Observable<AccompanimentAnalytics> {
     const doc = this._collection.doc(`${periodId}-accompaniments`);
     const analytics = doc.valueChanges().pipe(
-      this.perf.trace('analytics-get-accompaniments'),
+      mergeMap(async doc => {
+        await this.perf.trace('analytics-get-accompaniments');
+        return doc;
+      }),
       shareReplay(1),
     );
 
@@ -33,7 +36,10 @@ export class AnalyticsService {
   public mentors$(periodId: string): Observable<any> {
     const doc = this._collection.doc(`${periodId}-mentors`);
     const analytics = doc.valueChanges().pipe(
-      this.perf.trace('analytics-get-mentors'),
+      mergeMap(async doc => {
+        await this.perf.trace('analytics-get-mentors');
+        return doc;
+      }),
       shareReplay(1),
     );
 
@@ -49,7 +55,10 @@ export class AnalyticsService {
   public updateAccompaniments(): Observable<boolean> {
     const callable = this.aff.httpsCallable<{}, boolean>('AnalyticsAccompaniments');
     const task = callable({}).pipe(
-      this.perf.trace('analytics-update-accompaniments'),
+      mergeMap(async doc => {
+        await this.perf.trace('analytics-update-accompaniments');
+        return doc;
+      }),
     );
     return task;
   }
@@ -63,7 +72,10 @@ export class AnalyticsService {
   public updateMentors(): Observable<boolean> {
     const callable = this.aff.httpsCallable<{}, boolean>('AnalyticsMentors');
     const task = callable({}).pipe(
-      this.perf.trace('analytics-update-Mentors'),
+      mergeMap(async doc => {
+        await this.perf.trace('analytics-update-Mentors');
+        return doc;
+      }),
     );
     return task;
   }

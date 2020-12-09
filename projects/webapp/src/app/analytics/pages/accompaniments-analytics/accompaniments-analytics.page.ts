@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { firestore } from 'firebase/app';
 import { AcademicPeriod, Accompaniment, FirestoreAccompaniments } from 'projects/webapp/src/app/models/models';
 import { Observable, Subscription } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { TitleService } from '../../../core/services/title.service';
 import { AnalyticsService } from '../../analytics.service';
 
@@ -60,7 +60,10 @@ export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
       })
       .valueChanges()
       .pipe(
-        this.perf.trace('list accompaniments')
+        mergeMap(async doc => {
+          await this.perf.trace('list accompaniments');
+          return doc;
+        }),
         // map(docs => docs.map(async doc => AccompanimentParser(doc))),
         // mergeMap(async tasks => await Promise.all(tasks)),
         // tap(data => console.log(data))

@@ -160,7 +160,7 @@ interface BaseAccompaniment {
   important: boolean;
 
   // confirmation
-  timeConfirmed?: firestore.Timestamp;
+  timeConfirmed?: firestore.Timestamp | firestore.FieldValue;
   reviewKey?: string;
   confirmation?: {
     qualification: QualificationKind;
