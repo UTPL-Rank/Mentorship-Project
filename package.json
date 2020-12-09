@@ -1,0 +1,30 @@
+{
+  "name": "@utpl-rank/sgm-helpers",
+  "version": "1.0.0",
+  "description": "A library with helpers included for the Mentorship project",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "./node_modules/typescript/bin/tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UTPL-Rank/SGM-helpers.git"
+  },
+  "keywords": [
+    "sgm"
+  ],
+  "author": "Bruno Esparza",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UTPL-Rank/SGM-helpers/issues"
+  },
+  "homepage": "https://github.com/UTPL-Rank/SGM-helpers#readme",
+  "devDependencies": {
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "firebase": "^8.1.2"
+  }
+}
