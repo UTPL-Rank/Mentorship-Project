@@ -1,11 +1,12 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
-import { AcademicPeriod, SemesterKind, Student } from '../../../models/models';
+import { AcademicPeriod, Student } from '../../../models/models';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
 @Component({
@@ -34,7 +35,7 @@ export class GenerateStudentReportComponent {
   @ViewChild(SigCanvasComponent)
   public readonly sigCanvas: SigCanvasComponent;
 
-  export(mentorId: string, studentId: string, semesterId: SemesterKind) {
+  export(mentorId: string, studentId: string, semesterId: SGMAccompaniment.SemesterType) {
     this.accompanimentsService.generateReport(mentorId, studentId, semesterId, this.sigCanvas.getDataURL())
       .subscribe(console.log);
     const url =
@@ -47,7 +48,7 @@ export class GenerateStudentReportComponent {
     window.open(url, '_blank');
   }
 
-  navigate(mentorId: string, studentId: string, semesterId: SemesterKind) {
+  navigate(mentorId: string, studentId: string, semesterId: SGMAccompaniment.SemesterType) {
     this.accompanimentsService.generateReport(mentorId, studentId, semesterId, this.sigCanvas.getDataURL())
       .subscribe(console.log);
 

@@ -6,6 +6,8 @@ import { map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { Students } from '../../../models/models';
 import { SaveAccompanimentService } from '../services/save-accompaniment.service';
 
+
+
 @Component({
   selector: 'sgm-accompaniment-form',
   templateUrl: './accompaniment-form.component.html'
@@ -42,8 +44,10 @@ export class AccompanimentFormComponent implements OnDestroy {
 
     semesterKind: [null, Validators.required],
     followingKind: [null, Validators.required],
+
     problemDescription: [null, Validators.required],
     solutionDescription: [null, Validators.required],
+
     important: [false],
 
     problems: this.fb.group({
@@ -54,6 +58,8 @@ export class AccompanimentFormComponent implements OnDestroy {
       psychosocial: [false],
     }),
   });
+
+
 
   private validated = false;
   private files: File[] = [];
@@ -67,10 +73,10 @@ export class AccompanimentFormComponent implements OnDestroy {
         this.accompanimentForm.removeControl('topicDescription');
         this.accompanimentForm.removeControl('topic');
       } else {
-        this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
-        this.accompanimentForm.addControl('topic', this.fb.control(null, Validators.required));
         this.accompanimentForm.removeControl('problemDescription');
         this.accompanimentForm.removeControl('solutionDescription');
+        this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
+        this.accompanimentForm.addControl('topic', this.fb.control(null, Validators.required));
       }
     }),
     shareReplay(1),

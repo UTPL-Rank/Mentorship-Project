@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
 import * as pluginDataLabels from "chartjs-plugin-datalabels";
 import { Label } from "ng2-charts";
-import { FirestoreAccompaniments } from "../../../models/models";
 
 @Component({
   selector: "sgm-degrees-chart",
@@ -30,7 +30,7 @@ import { FirestoreAccompaniments } from "../../../models/models";
 })
 export class DegreesChartComponent {
   @Input("data")
-  set accompaniments(accompaniments: FirestoreAccompaniments) {
+  set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const degreesMap = new Map<string, number>([]);
     accompaniments.forEach(({ degree: { reference: { id } } }) => {
       const count = degreesMap.has(id) ? degreesMap.get(id) : 0;

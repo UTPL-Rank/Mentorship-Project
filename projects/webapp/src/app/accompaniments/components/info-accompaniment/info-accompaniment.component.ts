@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';
-import { Accompaniment } from '../../../models/models';
 
 @Component({
   selector: 'sgm-info-accompaniment',
@@ -13,7 +13,7 @@ export class InfoAccompanimentComponent implements OnInit, OnDestroy {
   ) { }
 
   @Input()
-  public accompaniment: Accompaniment;
+  public accompaniment: SGMAccompaniment.readDTO;
   public isAdmin = false;
   private sub: Subscription;
 

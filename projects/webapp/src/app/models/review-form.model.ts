@@ -1,7 +1,7 @@
-import { QualificationKind } from './accompaniment.model';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 
 export interface ReviewFormValue {
-  qualification: QualificationKind;
+  qualification: SGMAccompaniment.QualificationType;
   comment?: string;
   digitalSignature: string;
 }

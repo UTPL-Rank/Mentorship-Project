@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ChartDataSets, RadialChartOptions } from "chart.js";
-import { FirestoreAccompaniments } from "../../../models/models";
 
 @Component({
   selector: "sgm-problems-area-chart",
@@ -26,7 +26,7 @@ import { FirestoreAccompaniments } from "../../../models/models";
 })
 export class ProblemsAreaChartComponent {
   @Input("data")
-  set accompaniments(accompaniments: FirestoreAccompaniments) {
+  set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const problemsAreaMap = new Map<
       string,
       { label: string;[area: string]: any }

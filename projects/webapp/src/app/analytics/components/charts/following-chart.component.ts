@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ChartOptions } from "chart.js";
-import { FirestoreAccompaniments, FollowingKind } from "../../../models/models";
 
 @Component({
   selector: "sgm-following-chart",
@@ -31,8 +31,8 @@ export class FollowingChartComponent {
   public data: Array<number>;
 
   @Input("data")
-  set accompaniments(accompaniments: FirestoreAccompaniments) {
-    let followingsMap: Map<FollowingKind, { label: string; count: number }>;
+  set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
+    let followingsMap: Map<SGMAccompaniment.FollowingType, { label: string; count: number }>;
     let presencial = 0;
     let virtual = 0;
 

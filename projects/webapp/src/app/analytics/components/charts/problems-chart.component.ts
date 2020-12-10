@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ChartOptions } from "chart.js";
-import { FirestoreAccompaniments } from "../../../models/models";
 
 @Component({
   selector: "sgm-problems-chart",
@@ -30,7 +30,7 @@ export class ProblemsChartComponent {
   public data: Array<number>;
 
   @Input("data")
-  set accompaniments(accompaniments: FirestoreAccompaniments) {
+  set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const problemsMap = new Map([
       ["academic", { count: 0, label: "Académico" }],
       ["administrative", { count: 0, label: "Administrativo" }],

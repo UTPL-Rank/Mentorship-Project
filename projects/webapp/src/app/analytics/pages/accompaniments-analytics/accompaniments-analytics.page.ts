@@ -2,8 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
-import { AcademicPeriod, Accompaniment, FirestoreAccompaniments } from 'projects/webapp/src/app/models/models';
+import { AcademicPeriod } from 'projects/webapp/src/app/models/models';
 import { Observable, Subscription } from 'rxjs';
 import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { TitleService } from '../../../core/services/title.service';
@@ -40,8 +41,8 @@ export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
   // public accompanimentsCount$: Observable<Analitycs.>/
 
   private sub: Subscription;
-  private $accompaniments: FirestoreAccompaniments;
-  public accompaniments: FirestoreAccompaniments;
+  private $accompaniments: Array<SGMAccompaniment.readDTO>;
+  public accompaniments: Array<SGMAccompaniment.readDTO>;
   loaded = false;
 
   public selectedArea: string = null;
@@ -50,8 +51,7 @@ export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.title.setTitle('Analíticas Acompañamientos');
 
-    this.sub = this.db
-      .collection<Accompaniment>('accompaniments', q => {
+    this.sub = this.db.collection<SGMAccompaniment.readDTO>('accompaniments', q => {
         const query = q;
         // TODO: fix this
         // const query = q.where("periodReference", "==", this.period.currentRef);

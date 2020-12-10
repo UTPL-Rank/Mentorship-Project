@@ -1,6 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ChartOptions } from "chart.js";
-import { FirestoreAccompaniments } from "../../../models/models";
 
 @Component({
   selector: "sgm-areas-chart",
@@ -30,7 +30,7 @@ export class AreasChartComponent {
   public data: Array<number>;
 
   @Input("data")
-  set accompaniments(accompaniments: FirestoreAccompaniments) {
+  set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const areasMap = new Map<string, number>([]);
 
     accompaniments.forEach(({ area: { reference: { id } } }) => {

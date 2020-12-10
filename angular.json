@@ -41,6 +41,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "@utpl-rank/sgm-helpers",
+              "firebase/app",
+              "chart.js",
+              "lodash",
+              "chartjs-plugin-datalabels",
+              "zone.js/dist/zone-error",
+              "@firebase/functions",
+              "@firebase/performance"
+            ],
             "outputPath": "./dist/webapp",
             "index": "projects/webapp/src/index.html",
             "main": "projects/webapp/src/main.ts",

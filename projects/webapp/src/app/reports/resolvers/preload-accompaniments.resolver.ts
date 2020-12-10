@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
 import { AccompanimentsService } from '../../core/services/accompaniments.service';
-import { FirestoreAccompaniments } from '../../models/models';
-
 
 @Injectable({ providedIn: 'root' })
-export class PreloadAccompanimentsResolver implements Resolve<FirestoreAccompaniments> {
+export class PreloadAccompanimentsResolver implements Resolve<Array<SGMAccompaniment.readDTO>> {
 
   constructor(private readonly accompanimentsService: AccompanimentsService) { }
 
-  resolve({ params }: ActivatedRouteSnapshot): Observable<FirestoreAccompaniments> {
+  resolve({ params }: ActivatedRouteSnapshot): Observable<Array<SGMAccompaniment.readDTO>> {
     return this.accompanimentsService.accompaniments(
       {
         orderBy:

@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { switchMap } from 'rxjs/internal/operators/switchMap';
-import { debounceTime } from 'rxjs/operators';
+import { debounceTime, switchMap } from 'rxjs/operators';
 import { BrowserLoggerService } from '../../../core/services/browser-logger.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 

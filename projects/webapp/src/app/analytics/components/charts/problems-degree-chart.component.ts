@@ -1,8 +1,8 @@
 import { Component, Input } from "@angular/core";
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
 import * as pluginDataLabels from "chartjs-plugin-datalabels";
 import { Label } from "ng2-charts";
-import { FirestoreAccompaniments } from "../../../models/models";
 
 @Component({
   selector: "sgm-problems-degree-chart",
@@ -29,8 +29,9 @@ import { FirestoreAccompaniments } from "../../../models/models";
   `
 })
 export class ProblemsDegreeChartComponent {
+
   @Input("data")
-  set accompaniments(accompaniments: FirestoreAccompaniments) {
+  set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const problemsMap = new Map<string, { label: string; data: number[] }>([
       ["academic", { label: "Académico", data: [] }],
       ["administrative", { label: "Administrativo", data: [] }],

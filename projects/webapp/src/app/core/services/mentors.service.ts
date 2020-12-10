@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, MentorReference, Mentors } from '../../models/models';
+import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, Mentors } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
 
@@ -60,8 +61,8 @@ export class MentorsService {
     );
   }
 
-  public mentorRef(mentorId: string): MentorReference {
-    return this.getMentorsCollection().doc(mentorId).ref as MentorReference;
+  public mentorRef(mentorId: string): SGMMentor.reference {
+    return this.getMentorsCollection().doc(mentorId).ref as SGMMentor.reference;
   }
 
   /**

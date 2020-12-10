@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Accompaniment, Mentor, SemesterKind, Student } from '../../../models/models';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
+import { Mentor, Student } from '../../../models/models';
 
 @Component({
   selector: 'sgm-accompaniments-report',
@@ -9,10 +10,10 @@ import { Accompaniment, Mentor, SemesterKind, Student } from '../../../models/mo
 export class AccompanimentsReportComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
-  public accompaniments: Accompaniment[];
+  public accompaniments: SGMAccompaniment.readDTO[];
   public student: Student;
   public mentor: Mentor;
-  public semesterKind: SemesterKind;
+  public semesterKind: SGMAccompaniment.SemesterType;
 
   public signature: string;
 

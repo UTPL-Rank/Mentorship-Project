@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
 import { forkJoin, from, Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, shareReplay, switchMap } from 'rxjs/operators';
-import { Accompaniment, FirestoreAccompanimentReference, FirestoreAccompaniments, SemesterKind } from '../../models/models';
 import { ReviewFormValue } from '../../models/review-form.model';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { BrowserLoggerService } from './browser-logger.service';
@@ -48,29 +48,29 @@ export class AccompanimentsService {
     private readonly logger: BrowserLoggerService,
   ) { }
 
-  public accompanimentRef(studentId: string): FirestoreAccompanimentReference {
-    return this.accompanimentDocument(studentId).ref as FirestoreAccompanimentReference;
+  public accompanimentRef(studentId: string): SGMAccompaniment.reference {
+    return this.accompanimentDocument(studentId).ref;
   }
 
-  public readonly importantAccompaniments$: Observable<Accompaniment[]>
-    = this.accompaniments({ where: { isImportant: true }, limit: 10, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
+  public readonly importantAccompaniments$: Observable<Array<SGMAccompaniment.readDTO>>
+    = this.accompaniments({ where: { isImportant: true }, limit: 10, orderBy: { timeCreated: 'desc' } });
 
-  public validateAccompaniments$(studentId: string): Observable<Accompaniment[]> {
-    return this.accompaniments({ where: { studentId }, orderBy: { timeCreated: 'desc' } }) as Observable<Accompaniment[]>;
+  public validateAccompaniments$(studentId: string): Observable<Array<SGMAccompaniment.readDTO>> {
+    return this.accompaniments({ where: { studentId }, orderBy: { timeCreated: 'desc' } });
   }
 
-  public recentAccompaniments$(mentorId: string): Observable<Accompaniment[]> {
-    return this.accompaniments({ where: { mentorId }, orderBy: { timeCreated: 'desc' }, limit: 10 }) as Observable<Accompaniment[]>;
+  public recentAccompaniments$(mentorId: string): Observable<Array<SGMAccompaniment.readDTO>> {
+    return this.accompaniments({ where: { mentorId }, orderBy: { timeCreated: 'desc' }, limit: 10 });
   }
 
   /** @internal query accompaniments collection */
-  private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<Accompaniment> {
+  private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<SGMAccompaniment.readDTO> {
     // query-less collection, only get a reference to the collection
     if (!queryAccompaniment)
-      return this.firestoreDB.collection<Accompaniment>(ACCOMPANIMENTS_COLLECTION_NAME);
+      return this.firestoreDB.collection<SGMAccompaniment.readDTO>(ACCOMPANIMENTS_COLLECTION_NAME);
 
     // accompaniment with query
-    return this.firestoreDB.collection<Accompaniment>(ACCOMPANIMENTS_COLLECTION_NAME, query => {
+    return this.firestoreDB.collection<SGMAccompaniment.readDTO>(ACCOMPANIMENTS_COLLECTION_NAME, query => {
       const { orderBy, where, limit, accompanimentId } = queryAccompaniment;
 
       let q = query.orderBy('timeCreated', orderBy?.timeCreated);
@@ -112,22 +112,22 @@ export class AccompanimentsService {
    * Get a list of accompaniments, single emitting
    * @param query to fetch accompaniments
    */
-  public accompaniments(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
+  public accompaniments(query: QueryAccompaniments): Observable<Array<SGMAccompaniment.readDTO>> {
     return this.accompanimentsCollection(query).get().pipe(
-      map(snap => snap.docs.map(d => (d.data() as Accompaniment)))
+      map(snap => snap.docs.map(d => (d.data())))
     );
   }
 
   /** @internal get the firestore document of an accompaniment */
-  private accompanimentDocument(accompanimentId: string): AngularFirestoreDocument<Accompaniment> {
-    return this.accompanimentsCollection().doc<Accompaniment>(accompanimentId);
+  private accompanimentDocument(accompanimentId: string): AngularFirestoreDocument<SGMAccompaniment.readDTO> {
+    return this.accompanimentsCollection().doc(accompanimentId);
   }
 
   /**
    * get an stream of accompaniments
    * @param accompanimentId identifier of the required accompaniment
    */
-  public accompanimentStream(accompanimentId: string): Observable<Accompaniment> {
+  public accompanimentStream(accompanimentId: string): Observable<SGMAccompaniment.readDTO> {
     return this.accompanimentDocument(accompanimentId).valueChanges().pipe(
       mergeMap(async doc => {
         await this.perf.trace('get-accompaniment-stream');
@@ -140,7 +140,7 @@ export class AccompanimentsService {
    * Get a stream list of accompaniments, single emitting
    * @param query to fetch accompaniments
    */
-  public accompanimentsStream(query: QueryAccompaniments): Observable<FirestoreAccompaniments> {
+  public accompanimentsStream(query: QueryAccompaniments): Observable<Array<SGMAccompaniment.readDTO>> {
     return this.accompanimentsCollection(query).valueChanges().pipe(
       mergeMap(async doc => {
         await this.perf.trace('list-accompaniments');
@@ -185,7 +185,7 @@ export class AccompanimentsService {
    * @param semesterKind identifier of the semester to export
    * @param signature student signature
    */
-  public generateReport(mentorId: string, studentId: string, semesterKind: SemesterKind, signature: string): Observable<string> {
+  public generateReport(mentorId: string, studentId: string, semesterKind: SGMAccompaniment.SemesterType, signature: string): Observable<string> {
     const reportData = forkJoin({
       mentor: this.mentorsService.mentor(mentorId),
       student: this.studentsService.student(studentId),

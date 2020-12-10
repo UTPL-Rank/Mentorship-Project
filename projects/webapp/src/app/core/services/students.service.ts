@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
+import { SGMStudent } from '@utpl-rank/sgm-helpers';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, shareReplay } from 'rxjs/operators';
-import { Student, StudentReference, Students } from '../../models/models';
+import { Student, Students } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { BrowserLoggerService } from './browser-logger.service';
 import { MentorsService } from './mentors.service';
@@ -46,8 +47,8 @@ export class StudentsService {
     );
   }
 
-  public studentRef(studentId: string): StudentReference {
-    return this.studentDocument(studentId).ref as StudentReference;
+  public studentRef(studentId: string): SGMStudent.reference {
+    return this.studentDocument(studentId).ref as SGMStudent.reference;
   }
 
   /**
