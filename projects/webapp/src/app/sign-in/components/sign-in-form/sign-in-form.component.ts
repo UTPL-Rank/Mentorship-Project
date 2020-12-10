@@ -8,19 +8,17 @@ import { UserService } from '../../../core/services/user.service';
 })
 
 export class SignInFormComponent implements OnInit {
+
   constructor(
     private readonly fb: FormBuilder,
     private readonly auth: UserService,
   ) { }
 
-  public signInForm: FormGroup;
+  public readonly signInForm: FormGroup = this.fb.group({
+    username: [null, [Validators.required]]
+  });
 
-
-  ngOnInit() {
-    this.signInForm = this.fb.group({
-      username: [null, Validators.required]
-    });
-  }
+  ngOnInit() { }
 
   async login() {
     const { invalid, value } = this.signInForm;
@@ -28,7 +26,9 @@ export class SignInFormComponent implements OnInit {
 
     if (invalid) return;
 
-    await this.auth.UTPLSignWithUsername(value.username);
+    const username = (value.username as string).split('@')[0];
+
+    await this.auth.UTPLSignWithUsername(username);
   }
 
   get usernameControl() {

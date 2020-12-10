@@ -8,8 +8,8 @@
   Inicia sesión para continuar a la pagina solicitada.
 </p>
 
-<form [formGroup]="signInForm" (ngSubmit)="login()">
-  <!-- Input username -->
+<form [formGroup]="signInForm" (ngSubmit)="login()" class="d-flex flex-column">
+  <!-- Input group -->
   <div class="input-group mb-3">
     <!-- UTPL username -->
     <input formControlName="username"
@@ -24,6 +24,16 @@
       </span>
     </div>
   </div>
+
+  <!-- only email error -->
+  <ng-container *ngIf="usernameControl.invalid && usernameControl.touched">
+    <small class="text-danger">
+      <!-- required message -->
+      <ng-container *ngIf="usernameControl.errors.required">
+        Debes ingresar tu usuario para continuar.
+      </ng-container>
+    </small>
+  </ng-container>
 
   <!-- sign-in button -->
   <button class="btn btn-primary lift btn-sm my-4" type="submit">
