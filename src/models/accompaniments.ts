@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { firestore } from "firebase";
 import { SGMAcademicArea } from "./academic-area";
 import { SGMAcademicDegree } from "./academic-degree";
 import { SGMAcademicPeriod } from "./academic-period";
@@ -34,7 +34,7 @@ export namespace SGMAccompaniment {
 
         kind?: AccompanimentKind;
 
-        timeCreated: firebase.firestore.Timestamp;
+        timeCreated: firestore.Timestamp;
 
         mentor: { displayName: string; reference: SGMMentor.reference; email: string };
 
@@ -74,7 +74,7 @@ export namespace SGMAccompaniment {
         important?: boolean;
 
         // confirmation
-        timeConfirmed: firebase.firestore.Timestamp | null;
+        timeConfirmed: firestore.Timestamp | null;
 
         reviewKey: string | null;
 
@@ -141,28 +141,28 @@ export namespace SGMAccompaniment {
     type _Base = _AnyKindAccompaniment & (_Legacy | _ProblemBase | _NoProblemBase);
 
     export type createDTO = _Base & {
-        timeCreated: firebase.firestore.FieldValue,
+        timeCreated: firestore.FieldValue,
         timeConfirmed: null;
         reviewKey: string,
         confirmation?: null
     };
 
     export type readDTO = _Base & {
-        timeCreated: firebase.firestore.Timestamp,
-        timeConfirmed: firebase.firestore.Timestamp | null;
+        timeCreated: firestore.Timestamp,
+        timeConfirmed: firestore.Timestamp | null;
     };
 
     export interface updateConfirmationDTO {
-        timeConfirmed: firebase.firestore.FieldValue;
+        timeConfirmed: firestore.FieldValue;
         reviewKey: null,
         'confirmation/qualification': QualificationType,
         'confirmation/comment'?: string | null,
         'confirmation/digitalSignature': string,
     }
 
-    export type collection = firebase.firestore.CollectionReference<_Base>
+    export type collection = firestore.CollectionReference<_Base>
 
-    export type reference = firebase.firestore.DocumentReference<_Base>
+    export type reference = firestore.DocumentReference<_Base>
 
     export function translateFollowing(condition: FollowingType): string {
 

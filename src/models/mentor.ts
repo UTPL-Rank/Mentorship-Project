@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { firestore } from "firebase";
 import { SGMAcademicArea } from "./academic-area";
 import { SGMAcademicDegree } from "./academic-degree";
 import { SGMAcademicPeriod } from "./academic-period";
@@ -21,7 +21,7 @@ export namespace SGMMentor {
         stats: {
             assignedStudentCount: number;
             accompanimentsCount: number;
-            lastAccompaniment: firebase.firestore.Timestamp | null;
+            lastAccompaniment: firestore.Timestamp | null;
         };
 
         students: {
@@ -50,18 +50,18 @@ export namespace SGMMentor {
     }
 
     export interface updateDTO extends Partial<_Base> {
-        'stats/assignedStudentCount'?: firebase.firestore.FieldValue;
-        'stats/accompanimentsCount'?: firebase.firestore.FieldValue;
-        'stats/lastAccompaniment'?: firebase.firestore.FieldValue;
-        'students/withAccompaniments'?: firebase.firestore.FieldValue;
-        'students/withoutAccompaniments'?: firebase.firestore.FieldValue;
-        'students/degrees'?: firebase.firestore.FieldValue;
-        'students/cycles'?: firebase.firestore.FieldValue;
+        'stats/assignedStudentCount'?: firestore.FieldValue;
+        'stats/accompanimentsCount'?: firestore.FieldValue;
+        'stats/lastAccompaniment'?: firestore.FieldValue;
+        'students/withAccompaniments'?: firestore.FieldValue;
+        'students/withoutAccompaniments'?: firestore.FieldValue;
+        'students/degrees'?: firestore.FieldValue;
+        'students/cycles'?: firestore.FieldValue;
     }
 
-    export type reference = firebase.firestore.DocumentReference<_Base>;
+    export type reference = firestore.DocumentReference<_Base>;
 
-    export function fromFirestore(snapshot: firebase.firestore.DocumentSnapshot<_Base>): readDTO | null {
+    export function fromFirestore(snapshot: firestore.DocumentSnapshot<_Base>): readDTO | null {
         if (!snapshot.exists)
             return null;
 

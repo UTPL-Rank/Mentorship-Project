@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { firestore } from "firebase";
 
 export namespace SGMAcademicArea {
 
@@ -13,7 +13,7 @@ export namespace SGMAcademicArea {
 
     export type readDTO = _Base;
 
-    export type reference = firebase.firestore.DocumentReference<_Base>;
+    export type reference = firestore.DocumentReference<_Base>;
 
     export function validArea(id: AreaType): boolean {
         return areas.includes(id);

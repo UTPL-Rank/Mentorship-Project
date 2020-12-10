@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { firestore } from "firebase";
 import { SGMAcademicArea } from "./academic-area";
 
 export namespace SGMAcademicDegree {
@@ -14,5 +14,5 @@ export namespace SGMAcademicDegree {
 
     export type readDTO = base;
 
-    export type reference = firebase.firestore.DocumentReference<base>;
+    export type reference = firestore.DocumentReference<base>;
 }

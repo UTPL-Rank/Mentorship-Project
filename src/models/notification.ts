@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { firestore } from "firebase";
 
 export namespace SGMNotification {
 
@@ -8,22 +8,22 @@ export namespace SGMNotification {
         name: string;
         redirect: string;
         read: boolean;
-        time: firebase.firestore.Timestamp | firebase.firestore.FieldValue;
+        time: firestore.Timestamp | firestore.FieldValue;
     }
 
 
     export interface readDTO extends base {
-        time: firebase.firestore.Timestamp;
+        time: firestore.Timestamp;
     }
 
     export interface createDTO extends base {
-        time: firebase.firestore.FieldValue;
+        time: firestore.FieldValue;
     }
 
     export interface updateDTO {
         read: true;
     }
 
-    export type collection = firebase.firestore.CollectionReference<base>
-    export type reference = firebase.firestore.DocumentReference<base>
+    export type collection = firestore.CollectionReference<base>
+    export type reference = firestore.DocumentReference<base>
 }

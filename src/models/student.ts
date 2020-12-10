@@ -1,4 +1,4 @@
-import firebase from 'firebase/app';
+import { firestore } from "firebase";
 import { SGMAcademicArea } from "./academic-area";
 import { SGMAcademicDegree } from "./academic-degree";
 import { SGMAcademicPeriod } from "./academic-period";
@@ -29,7 +29,7 @@ export namespace SGMStudent {
 
         stats: {
             accompanimentsCount: number;
-            lastAccompaniment?: firebase.firestore.Timestamp | null;
+            lastAccompaniment?: firestore.Timestamp | null;
         };
     }
 
@@ -43,11 +43,11 @@ export namespace SGMStudent {
     }
 
     export interface updateDTO {
-        'stats/accompanimentsCount': firebase.firestore.FieldValue;
-        'stats/lastAccompaniment': firebase.firestore.FieldValue;
+        'stats/accompanimentsCount': firestore.FieldValue;
+        'stats/lastAccompaniment': firestore.FieldValue;
     }
 
-    export type reference = firebase.firestore.DocumentReference<base>;
+    export type reference = firestore.DocumentReference<base>;
 
     export function translateCycle(condition: AcademicCycle): string {
 
