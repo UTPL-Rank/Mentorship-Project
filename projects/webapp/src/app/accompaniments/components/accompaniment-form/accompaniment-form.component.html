@@ -44,7 +44,7 @@
           <div class="form-group">
             <!-- label -->
             <label id="following">
-              Tipo de Seguimiento
+              Tipo de seguimiento
             </label>
 
             <!-- follow select -->
@@ -141,7 +141,11 @@
 
       <ng-container *ngIf="accompanimentForm.controls.topic">
         <div class="mb-5">
-          <input class="mt-2 form-control" formControlName="topic" placeholder="Agrega tu propia temática" />
+          <label for="topicDescription">
+            Temática desarrollada
+          </label>
+          <input class="form-control" formControlName="topic" placeholder="Agrega tu temática"
+            [ngClass]="{ 'is-invalid': isTopicInvalid }" />
           <small id="topic" class="form-text text-muted">
             En el espacio de mentoria puede que no exista ningún problema, pero puedes utilizar el espacio para
             explicar algún tema diferente a los que nosotros proponemos.
@@ -155,7 +159,7 @@
             <div class="mb-5 form-group">
               <!-- label -->
               <label for="topicDescription">
-                Temas Desarrollados
+                Descripción de los temas desarrollados
               </label>
 
               <!-- textarea -->

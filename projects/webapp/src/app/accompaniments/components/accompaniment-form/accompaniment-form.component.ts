@@ -6,8 +6,6 @@ import { map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { Students } from '../../../models/models';
 import { SaveAccompanimentService } from '../services/save-accompaniment.service';
 
-
-
 @Component({
   selector: 'sgm-accompaniment-form',
   templateUrl: './accompaniment-form.component.html'
@@ -152,6 +150,10 @@ export class AccompanimentFormComponent implements OnDestroy {
       invalid,
       touched
     } = this.accompanimentForm.controls.topicDescription;
+    return invalid && (touched || this.validated);
+  }
+  get isTopicInvalid() {
+    const { invalid, touched } = this.accompanimentForm.controls.topic;
     return invalid && (touched || this.validated);
   }
 
