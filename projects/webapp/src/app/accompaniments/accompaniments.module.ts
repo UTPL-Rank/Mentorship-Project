@@ -8,6 +8,7 @@ import { InfoAccompanimentComponent } from './components/info-accompaniment/info
 import { InfoStudentComponent } from './components/info-student/info-student.component';
 import { ReviewFormCardComponent } from './components/review-form-card/review-form-card.component';
 import { SaveAccompanimentService } from './components/services/save-accompaniment.service';
+import { AccompanimentKindPipe } from './pipes/accompaniment-kind.pipe';
 import { ExportAccompanimentsCSVService } from './services/export-accompaniments-csv.service';
 
 @NgModule({
@@ -22,7 +23,8 @@ import { ExportAccompanimentsCSVService } from './services/export-accompaniments
     InfoStudentComponent,
     ReviewFormCardComponent,
     InfoAccompanimentComponent,
-    AccompanimentFormComponent
+    AccompanimentFormComponent,
+    AccompanimentKindPipe,
   ],
   providers: [
     AccompanimentsRoutingModule.resolvers,

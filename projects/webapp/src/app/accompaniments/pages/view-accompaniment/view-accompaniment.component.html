@@ -41,11 +41,14 @@
             <span class="badge badge-info mr-1">
               Seguimiento {{accompaniment.followingKind | followingName}}
             </span>
-            <span class="badge badge-success" *ngIf="!accompaniment.reviewKey">
+            <span class="badge badge-success mr-1" *ngIf="!accompaniment.reviewKey">
               Validado
             </span>
-            <span class="badge badge-warning" *ngIf="!!accompaniment.reviewKey">
+            <span class="badge badge-warning mr-1" *ngIf="!!accompaniment.reviewKey">
               Sin Validar
+            </span>
+            <span class="badge badge-primary ">
+              Formato {{accompaniment.kind|transformAccompanimentKind}}
             </span>
           </p>
         </div>

@@ -31,17 +31,9 @@
   </div>
 
   <!-- none -->
-  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.none">
+  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.none || accompaniment.problems.other">
     <div class="badge badge-lg badge-success mr-4">+</div>
     <p class="mb-0">Ningún problema</p>
-  </div>
-
-  <!-- other -->
-  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.other">
-    <div class="badge badge-lg badge-success mr-4">+</div>
-    <p class="mb-0">
-      {{ accompaniment.problems.otherDescription | titlecase }}
-    </p>
   </div>
 </div>
 
@@ -49,28 +41,45 @@
 <!--  -->
 <!--  -->
 
-<h3>Temas Desarrollados</h3>
-<p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
-  <span>{{ accompaniment.topicDescription }}</span>
-</p>
+<ng-container *ngIf="accompaniment.problems.other">
+  <h3>Otro Tema</h3>
+  <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
+    <span>{{ accompaniment.problems.otherDescription | titlecase }}</span>
+  </p>
+</ng-container>
 
 <!--  -->
 <!--  -->
 <!--  -->
 
-<h3>Descripción del Problema</h3>
-<p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
-  <span>{{ accompaniment.problemDescription }}</span>
-</p>
+<ng-container *ngIf="accompaniment.topicDescription">
+  <h3>Temas Desarrollados</h3>
+  <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
+    <span>{{ accompaniment.topicDescription }}</span>
+  </p>
+</ng-container>
 
 <!--  -->
 <!--  -->
 <!--  -->
 
-<h3>Soluciones</h3>
-<p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
-  <span>{{ accompaniment.solutionDescription }}</span>
-</p>
+<ng-container *ngIf="accompaniment.problemDescription">
+  <h3>Descripción del Problema</h3>
+  <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
+    <span>{{ accompaniment.problemDescription }}</span>
+  </p>
+</ng-container>
+
+<!--  -->
+<!--  -->
+<!--  -->
+
+<ng-container *ngIf="accompaniment.solutionDescription">
+  <h3>Soluciones</h3>
+  <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
+    <span>{{ accompaniment.solutionDescription }}</span>
+  </p>
+</ng-container>
 
 <!--  -->
 <!--  -->
@@ -85,6 +94,7 @@
   <!--  -->
   <!--  -->
   <!--  -->
+
   <ng-container *ngIf="!!accompaniment.confirmation.comment">
     <h3>Sugerencias y Comentarios</h3>
     <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">

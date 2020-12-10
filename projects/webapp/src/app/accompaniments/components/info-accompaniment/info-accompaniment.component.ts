@@ -8,13 +8,20 @@ import { UserService } from '../../../core/services/user.service';
   templateUrl: './info-accompaniment.component.html'
 })
 export class InfoAccompanimentComponent implements OnInit, OnDestroy {
+
   constructor(
     private readonly auth: UserService,
   ) { }
 
-  @Input()
   public accompaniment: SGMAccompaniment.readDTO;
+
+  @Input('accompaniment')
+  public set _setAccompaniment(accompaniment: SGMAccompaniment.readDTO) {
+    this.accompaniment = accompaniment;
+  };
+
   public isAdmin = false;
+
   private sub: Subscription;
 
   ngOnInit(): void {

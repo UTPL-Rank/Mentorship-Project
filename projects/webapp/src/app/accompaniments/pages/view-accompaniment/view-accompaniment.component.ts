@@ -11,16 +11,16 @@ import { UserService } from '../../../core/services/user.service';
 })
 export class ViewAccompanimentComponent {
 
-  public accompanimentObs = this.route.params.pipe(
-    switchMap(params => this.accompanimentsService.accompanimentStream(params.accompanimentId)),
-    shareReplay(1),
-  );
-
   constructor(
     private readonly user: UserService,
     private readonly route: ActivatedRoute,
     private readonly accompanimentsService: AccompanimentsService,
-  ) { }
+    ) { }
+
+  public accompanimentObs = this.route.params.pipe(
+    switchMap(params => this.accompanimentsService.accompanimentStream(params.accompanimentId)),
+    shareReplay(1),
+  );
 
   public readonly showImportantSwitch$: Observable<boolean> = this.user.isAdmin;
 
