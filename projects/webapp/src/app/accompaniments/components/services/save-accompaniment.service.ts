@@ -4,7 +4,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
 import { from, Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { BrowserLoggerService } from '../../../core/services/browser-logger.service';
 import { MentorsService } from '../../../core/services/mentors.service';
@@ -26,7 +26,7 @@ export class SaveAccompanimentService {
 
     const saveProcess = from(this.createAccompanimentFromForm(mentorId, value, files)).pipe(
       tap(console.log),
-      // mergeMap(async acc => await this.saveInDB(acc)),
+      mergeMap(async acc => await this.saveInDB(acc)),
       catchError((err) => {
         this.logger.error('Error saving accompaniment', err);
         return of(null);
