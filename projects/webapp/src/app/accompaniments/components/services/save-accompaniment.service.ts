@@ -100,12 +100,12 @@ export class SaveAccompanimentService {
       mentor: {
         reference: mentorReference,
         displayName: mentorData.displayName,
-        email: mentorData.displayName,
+        email: mentorData.email,
       },
       student: {
         reference: studentReference,
         displayName: studentData.displayName,
-        email: studentData.displayName,
+        email: studentData.email,
       },
       period: studentData.period,
       degree: studentData.degree,

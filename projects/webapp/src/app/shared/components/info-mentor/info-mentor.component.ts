@@ -18,37 +18,42 @@ import { Mentor } from '../../../models/models';
           </small>
         </p>
 
-        <!-- Heading -->
-        <h6 class="font-weight-bold text-uppercase mb-1">
-          Información Académica
-        </h6>
+        <ng-container *ngIf="mentor.degree && mentor.area">
+          <!-- Heading -->
+          <h6 class="font-weight-bold text-uppercase mb-1">
+            Información Académica
+          </h6>
 
-        <!-- Text -->
-        <p class="text-muted mb-5">
-          <small class="mb-5">
-            {{ mentor.degree.name | titlecase }} ·
-            {{ mentor.area.name | titlecase }}
-          </small>
-        </p>
+          <!-- Text -->
+          <p class="text-muted mb-5">
+            <small class="mb-5">
+              {{ mentor.degree.name | titlecase }} ·
+              {{ mentor.area.name | titlecase }}
+            </small>
+          </p>
+        </ng-container>
 
-        <!-- Heading -->
-        <h6 class="font-weight-bold text-uppercase mb-1">
-          Correo Electrónico
-        </h6>
+        <!-- email -->
+        <ng-container *ngIf="mentor.email">
+          <!-- Heading -->
+          <h6 class="font-weight-bold text-uppercase mb-1">
+            Correo Electrónico
+          </h6>
 
-        <!-- Text -->
-        <p class="text-muted mb-4">
-          <small>
-            <a [href]="'mailto:' + mentor.email" class="text-reset">
-              {{ mentor.email }}
-            </a>
-          </small>
-        </p>
-      </div>
+          <!-- Text -->
+          <p class="text-muted mb-4">
+            <small>
+              <a [href]="'mailto:' + mentor.email" class="text-reset">
+                {{ mentor.email }}
+              </a>
+            </small>
+          </p>
+        </ng-container>
+        </div>
     </div>
   `
 })
 export class InfoMentorComponent {
   @Input()
-  mentor: Mentor;
+  mentor: Partial<Mentor>;
 }

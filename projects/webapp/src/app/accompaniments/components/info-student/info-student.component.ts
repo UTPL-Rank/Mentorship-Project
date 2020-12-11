@@ -18,36 +18,40 @@ import { Student } from '../../../models/models';
           </small>
         </p>
 
-        <!-- Heading -->
-        <h6 class="font-weight-bold text-uppercase mb-1">
-          Información Académica
-        </h6>
+        <ng-container *ngIf="student.degree && student.area">
+          <!-- Heading -->
+          <h6 class="font-weight-bold text-uppercase mb-1">
+            Información Académica
+          </h6>
 
-        <!-- Text -->
-        <p class="text-muted mb-5">
-          <small class="mb-5">
-            Estudiante de {{ student.cycle | academicCycleName }}
-          </small>
-          <br />
-          <small class="mb-5">
-            {{ student.degree.name | titlecase }} ·
-            {{ student.area.name | titlecase }}
-          </small>
-        </p>
+          <!-- Text -->
+          <p class="text-muted mb-5">
+            <small class="mb-5">
+              Estudiante de {{ student.cycle | academicCycleName }}
+            </small>
+            <br />
+            <small class="mb-5">
+              {{ student.degree.name | titlecase }} ·
+              {{ student.area.name | titlecase }}
+            </small>
+          </p>
+        </ng-container>
 
-        <!-- Heading -->
-        <h6 class="font-weight-bold text-uppercase mb-1">
-          Correo Electrónico
-        </h6>
+        <ng-container *ngIf="student.email">
+          <!-- Heading -->
+          <h6 class="font-weight-bold text-uppercase mb-1">
+            Correo Electrónico
+          </h6>
 
-        <!-- Text -->
-        <p class="text-muted mb-0">
-          <small>
-            <a [href]="'mailto:' + student.email" class="text-reset">
-              {{ student.email }}
-            </a>
-          </small>
-        </p>
+          <!-- Text -->
+          <p class="text-muted mb-0">
+            <small>
+              <a [href]="'mailto:' + student.email" class="text-reset">
+                {{ student.email }}
+              </a>
+            </small>
+          </p>
+        </ng-container>
       </div>
     </div>
   `
@@ -56,5 +60,5 @@ export class InfoStudentComponent {
   constructor() { }
 
   @Input()
-  student: Student;
+  student: Partial<Student>;
 }
