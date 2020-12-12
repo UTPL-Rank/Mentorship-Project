@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { Students } from '../../../models/models';
+import { IAccompanimentForm } from '../../models/i-accompaniment-form';
 import { SaveAccompanimentService } from '../services/save-accompaniment.service';
 
 @Component({
@@ -96,9 +97,10 @@ export class AccompanimentFormComponent implements OnDestroy {
       alert('El formulario es invalido');
       return null;
     }
-    const { value } = this.accompanimentForm;
 
-    this.savingSubscription = this.saveAccompaniment.save(this.mentorId, value, this.files).subscribe(
+    const formValue: IAccompanimentForm = this.accompanimentForm.value;
+
+    this.savingSubscription = this.saveAccompaniment.save(this.mentorId, formValue, this.files).subscribe(
       async createdAccompaniment => {
         if (createdAccompaniment) {
           alert('Todos los cambios están guardados');
