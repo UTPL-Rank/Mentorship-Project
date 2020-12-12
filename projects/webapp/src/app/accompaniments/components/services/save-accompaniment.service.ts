@@ -127,15 +127,15 @@ export class SaveAccompanimentService {
         economic: form.problems.economic,
         none: form.problems.none,
         other: !!form.topic ? true : false,
-        otherDescription: form.topic ? form.topic.trim() : undefined,
+        otherDescription: form.topic ? form.topic.trim() : null,
         problemCount,
       },
 
       reviewKey: Math.random().toString(36).substring(7),
 
-      problemDescription: form.problemDescription ? form.problemDescription.trim() : undefined,
-      solutionDescription: form.solutionDescription ? form.solutionDescription.trim() : undefined,
-      topicDescription: form.topicDescription ? form.topicDescription.trim() : undefined,
+      problemDescription: form.problemDescription ? form.problemDescription.trim() : null,
+      solutionDescription: form.solutionDescription ? form.solutionDescription.trim() : null,
+      topicDescription: form.topicDescription ? form.topicDescription.trim() : null,
     };
 
     Object.keys(accompaniment).forEach(key => accompaniment[key] === undefined && delete accompaniment[key])
