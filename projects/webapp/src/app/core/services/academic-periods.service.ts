@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
-import { shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { AcademicPeriod, AcademicPeriods } from '../../models/academic-period.model';
 import { BrowserLoggerService } from './browser-logger.service';
 
@@ -28,6 +28,14 @@ export class AcademicPeriodsService {
    * State of the service to keep track if academic periods have loaded or not
    */
   private loaded = false;
+
+  /**
+   * List all periods ordered by date
+   */
+  public readonly periods$: Observable<AcademicPeriod[]> = this.periodsCollection().valueChanges().pipe(
+    shareReplay(1),
+    map(acc => [...acc]),
+  );
 
   /**
    * start loading academic periods, and update internal service code
@@ -66,7 +74,7 @@ export class AcademicPeriodsService {
    * Get firestore collection of academic periods
    */
   public periodsCollection(): AngularFirestoreCollection<AcademicPeriod> {
-    return this.angularFirestore.collection<AcademicPeriod>(ACADEMIC_PERIODS_COLLECTION_NAME);
+    return this.angularFirestore.collection<AcademicPeriod>(ACADEMIC_PERIODS_COLLECTION_NAME, ref => ref.orderBy('date', 'desc'));
   }
 
   /**

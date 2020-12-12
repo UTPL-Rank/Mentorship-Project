@@ -7,6 +7,7 @@ import { DashboardNavbarComponent } from './components/dashboard-navbar/dashboar
 import { DashboardTopbarComponent } from './components/dashboard-topbar/dashboard-topbar.component';
 import { LoadingBarComponent } from './components/loading-bar/loading-bar.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
+import { SelectedPeriodBadgeComponent } from './components/selected-period-badge/selected-period-badge.component';
 import { DashboardModuleRoutingModule } from './dashboard-routing.module';
 import { IsStudentGuard } from './guards/is-student.guard';
 import { RedirectCurrentGuard } from './guards/redirect-current-period.guard';
@@ -23,9 +24,7 @@ const COMPONENTS = [
   DashboardTopbarComponent,
   LoadingBarComponent,
   NotificationsComponent,
-  ...[
-
-  ]
+  SelectedPeriodBadgeComponent
 ];
 
 // Pages
