@@ -1,22 +1,12 @@
-<header class="py-6 py-md-9 bg-light border-bottom">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-12 col-md">
-        <!-- page title -->
-        <h1 class="mb-2">
-          Registrar Acompañamiento
-        </h1>
+<sgm-page-header>
+  <sgm-page-header-title>
+    Registrar Acompañamiento
+  </sgm-page-header-title>
 
-        <!-- page lead -->
-        <p class="mb-0 text-muted">
-          <b>Periodo: </b> {{period.name |titlecase}}
-          <br />
-          <b>Mentor compañero: </b> {{mentor.displayName|titlecase}}
-        </p>
-      </div>
-    </div>
-  </div>
-</header>
+  <b>Periodo: </b> {{period.name |titlecase}}
+  <br />
+  <b>Mentor compañero: </b> {{mentor.displayName|titlecase}}
+</sgm-page-header>
 
 <!-- accompaniment content -->
 <section class="py-6 py-md-9">
