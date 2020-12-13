@@ -1,7 +1,4 @@
-import { firestore } from "firebase";
-import { SGMAcademicArea } from "./academic-area";
-import { SGMAcademicDegree } from "./academic-degree";
-import { SGMAcademicPeriod } from "./academic-period";
+import { firestore } from "firebase/app";
 import { SGMStudent } from "./student";
 
 export namespace SGMMentor {
@@ -12,11 +9,11 @@ export namespace SGMMentor {
         email: string;
         ci: string;
 
-        period: { reference: SGMAcademicPeriod.reference; name: string; };
+        period: { reference: firestore.DocumentReference; name: string; };
 
-        area: { reference: SGMAcademicArea.reference; name: string; };
+        area: { reference: firestore.DocumentReference; name: string; };
 
-        degree: { reference: SGMAcademicDegree.reference; name: string; };
+        degree: { reference: firestore.DocumentReference; name: string; };
 
         stats: {
             assignedStudentCount: number;
@@ -58,8 +55,6 @@ export namespace SGMMentor {
         'students/degrees'?: firestore.FieldValue;
         'students/cycles'?: firestore.FieldValue;
     }
-
-    export type reference = firestore.DocumentReference<_Base>;
 
     export function fromFirestore(snapshot: firestore.DocumentSnapshot<_Base>): readDTO | null {
         if (!snapshot.exists)

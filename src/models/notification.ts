@@ -1,4 +1,4 @@
-import { firestore } from "firebase";
+import { firestore } from "firebase/app";
 
 export namespace SGMNotification {
 
@@ -24,6 +24,4 @@ export namespace SGMNotification {
         read: true;
     }
 
-    export type collection = firestore.CollectionReference<base>
-    export type reference = firestore.DocumentReference<base>
 }

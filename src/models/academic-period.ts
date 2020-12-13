@@ -1,4 +1,4 @@
-import { firestore } from "firebase";
+import { firestore } from "firebase/app";
 
 export namespace SGMAcademicPeriod {
 
@@ -8,8 +8,6 @@ export namespace SGMAcademicPeriod {
         date: firestore.Timestamp;
         current: boolean;
     }
-
-    export type reference = firestore.DocumentReference<base>;
 
     export type readDTO = base;
 

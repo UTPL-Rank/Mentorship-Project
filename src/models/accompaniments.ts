@@ -1,9 +1,4 @@
-import { firestore } from "firebase";
-import { SGMAcademicArea } from "./academic-area";
-import { SGMAcademicDegree } from "./academic-degree";
-import { SGMAcademicPeriod } from "./academic-period";
-import { SGMMentor } from "./mentor";
-import { SGMStudent } from "./student";
+import { firestore } from "firebase/app";
 
 export namespace SGMAccompaniment {
 
@@ -36,15 +31,15 @@ export namespace SGMAccompaniment {
 
         timeCreated: firestore.Timestamp;
 
-        mentor: { displayName: string; reference: SGMMentor.reference; email: string };
+        mentor: { displayName: string; reference: firestore.DocumentReference; email: string };
 
-        student: { displayName: string; reference: SGMStudent.reference; email: string };
+        student: { displayName: string; reference: firestore.DocumentReference; email: string };
 
-        period: { name: string; reference: SGMAcademicPeriod.reference; };
+        period: { name: string; reference: firestore.DocumentReference; };
 
-        degree: { name: string; reference: SGMAcademicDegree.reference; };
+        degree: { name: string; reference: firestore.DocumentReference; };
 
-        area: { name: string; reference: SGMAcademicArea.reference; };
+        area: { name: string; reference: firestore.DocumentReference; };
 
         semesterKind: SemesterType;
 
@@ -158,10 +153,6 @@ export namespace SGMAccompaniment {
         'confirmation/comment'?: string | null,
         'confirmation/digitalSignature': string,
     }
-
-    export type collection = firestore.CollectionReference<_Base>
-
-    export type reference = firestore.DocumentReference<_Base>
 
     export function translateFollowing(condition: FollowingType): string {
 

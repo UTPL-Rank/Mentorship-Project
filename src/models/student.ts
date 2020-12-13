@@ -1,8 +1,4 @@
-import { firestore } from "firebase";
-import { SGMAcademicArea } from "./academic-area";
-import { SGMAcademicDegree } from "./academic-degree";
-import { SGMAcademicPeriod } from "./academic-period";
-import { SGMMentor } from "./mentor";
+import { firestore } from "firebase/app";
 
 export namespace SGMStudent {
 
@@ -19,13 +15,13 @@ export namespace SGMStudent {
 
         cycle: AcademicCycle;
 
-        area: { reference: SGMAcademicArea.reference; name: string; };
+        area: { reference: firestore.DocumentReference; name: string; };
 
-        degree: { reference: SGMAcademicDegree.reference; name: string; };
+        degree: { reference: firestore.DocumentReference; name: string; };
 
-        period: { reference: SGMAcademicPeriod.reference; name: string; };
+        period: { reference: firestore.DocumentReference; name: string; };
 
-        mentor: { reference: SGMMentor.reference; displayName: string; email: string; };
+        mentor: { reference: firestore.DocumentReference; displayName: string; email: string; };
 
         stats: {
             accompanimentsCount: number;
@@ -46,8 +42,6 @@ export namespace SGMStudent {
         'stats/accompanimentsCount': firestore.FieldValue;
         'stats/lastAccompaniment': firestore.FieldValue;
     }
-
-    export type reference = firestore.DocumentReference<base>;
 
     export function translateCycle(condition: AcademicCycle): string {
 

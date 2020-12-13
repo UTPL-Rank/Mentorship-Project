@@ -1,18 +1,16 @@
-import { firestore } from "firebase";
-import { SGMAcademicArea } from "./academic-area";
+import { firestore } from "firebase/app";
 
 export namespace SGMAcademicDegree {
 
-    interface base {
+    interface _base {
         id: string;
         name: string;
         area: {
-            reference: SGMAcademicArea.reference;
+            reference: firestore.DocumentReference;
             name: string
         };
     }
 
-    export type readDTO = base;
+    export type readDTO = _base;
 
-    export type reference = firestore.DocumentReference<base>;
 }
