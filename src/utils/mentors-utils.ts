@@ -2,6 +2,9 @@ import { firestore } from "firebase-admin";
 import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
 
+/**
+ * @deprecated
+ */
 export interface Mentor {
     id: string;
     displayName: string;

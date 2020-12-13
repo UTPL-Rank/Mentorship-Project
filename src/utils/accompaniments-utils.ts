@@ -1,74 +1,7 @@
+import { SGMAccompaniment } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
 import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
-
-export type FollowingKind = 'sgm#virtual' | 'sgm#presencial';
-export type SemesterKind = 'sgm#firstSemester' | 'sgm#secondSemester';
-export interface Accompaniment {
-    timeCreated: firestore.Timestamp;
-    problems: {
-        problemCount: number;
-
-        academic: boolean;
-        administrative: boolean;
-        economic: boolean;
-        psychosocial: boolean;
-        none: boolean;
-
-        /** @deprecated */
-        otherDescription: string;
-        /** @deprecated */
-        other: boolean;
-    };
-    problemDescription?: string;
-    solutionDescription?: string;
-
-    topic?: string;
-    topicDescription?: string;
-    semesterKind: SemesterKind;
-    followingKind: FollowingKind;
-    important: boolean;
-    id: string;
-    student: {
-        id: string;
-        email: string;
-        displayName: string;
-        reference: firestore.DocumentReference,
-    }
-    mentor: {
-        id: string;
-        email: string;
-        displayName: string;
-        reference: firestore.DocumentReference,
-    }
-    period: {
-        reference: firestore.DocumentReference,
-        name: string;
-        date: firestore.Timestamp
-    }
-    reviewKey?: string;
-
-    degree: {
-        reference: firestore.DocumentReference;
-        name: string;
-    };
-
-    area: {
-        reference: firestore.DocumentReference;
-        name: string;
-    };
-}
-
-export interface FirestoreAccompanimentProblems {
-    problemCount: number;
-    academic: boolean;
-    administrative: boolean;
-    economic: boolean;
-    psychosocial: boolean;
-    other: boolean;
-    none: boolean;
-    otherDescription: string;
-}
 
 /**
  * Accompaniments Firestore Collection
@@ -78,8 +11,8 @@ export interface FirestoreAccompanimentProblems {
  * 
  * Get the accompaniments firestore collection
  */
-function AccompanimentsCollection(): firestore.CollectionReference<Accompaniment> {
-    return dbFirestore.collection('accompaniments') as firestore.CollectionReference<Accompaniment>;
+function AccompanimentsCollection(): firestore.CollectionReference<SGMAccompaniment.readDTO> {
+    return dbFirestore.collection('accompaniments') as firestore.CollectionReference<SGMAccompaniment.readDTO>;
 }
 
 // /**
@@ -106,7 +39,7 @@ function AccompanimentsCollection(): firestore.CollectionReference<Accompaniment
  * 
  * @param periodId identifier of the required academic period
  */
-export async function ListAccompanimentsPeriod(periodId: string): Promise<Array<Accompaniment>> {
+export async function ListAccompanimentsPeriod(periodId: string): Promise<Array<SGMAccompaniment.readDTO>> {
     const periodRef = PeriodDocument(periodId);
     const query = AccompanimentsCollection().where('period.reference', '==', periodRef)
     const { docs } = await query.get();
@@ -123,7 +56,7 @@ export async function ListAccompanimentsPeriod(periodId: string): Promise<Array<
  * 
  * list all the accompaniments of the current academic period
  */
-export async function ListAccompanimentsCurrentPeriod(): Promise<Array<Accompaniment>> {
+export async function ListAccompanimentsCurrentPeriod(): Promise<Array<SGMAccompaniment.readDTO>> {
     const periodRef = await CurrentPeriodReference();
     const accompaniments = ListAccompanimentsPeriod(periodRef.id);
 

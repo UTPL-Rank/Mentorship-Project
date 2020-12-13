@@ -1,12 +1,13 @@
+import { SGMAccompaniment, SGMNotification } from '@utpl-rank/sgm-helpers';
 import * as functions from 'firebase-functions';
 import { MailData } from '../../mail/mail-templates';
-import { Accompaniment } from '../../utils/accompaniments-utils';
 import { ProgramSendEmail, SendMailDTO } from '../../utils/mailing-utils';
-import { Notification, SendNotification } from '../../utils/notifiactions-utils';
+import { SendNotification } from '../../utils/notifiactions-utils';
 import { UsernameFromEmail } from '../../utils/users-utils';
 import { BASE_URL } from '../../utils/variables';
 
-async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKey }: Accompaniment): Promise<void> {
+
+async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKey }: SGMAccompaniment.readDTO): Promise<void> {
   const studentUsername = UsernameFromEmail(student.email);
 
   const email: SendMailDTO<MailData.ValidateAccompaniment> = {
@@ -14,7 +15,7 @@ async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKe
     templateId: 'validateAccompaniment',
     subject: 'Validación del seguimiento realizado',
     templateData: {
-      redirectUrl: `${BASE_URL}/panel-control/${period.reference.id}/calificar-acompañamiento/${student.id}/${id}/${reviewKey}`,
+      redirectUrl: `${BASE_URL}/panel-control/${period.reference.id}/calificar-acompañamiento/${student.reference.id}/${id}/${reviewKey}`,
       accompanimentId: id,
       studentName: student.displayName.toUpperCase(),
       mentorName: mentor.displayName.toUpperCase(),
@@ -22,10 +23,10 @@ async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKe
   };
 
   // send notification
-  const notification: Partial<Notification> = {
+  const notification: Partial<SGMNotification.createDTO> = {
     name: 'Validación de Acompañamiento',
     message: `${mentor?.displayName?.toUpperCase()} ha registrado un nuevo acompañamiento, ayudanos validando.`,
-    redirect: `/panel-control/${period?.reference?.id}/calificar-acompañamiento/${student?.id}/${id}/${reviewKey}`,
+    redirect: `/panel-control/${period?.reference?.id}/calificar-acompañamiento/${student.reference.id}/${id}/${reviewKey}`,
   }
 
   const tasks: Array<Promise<void>> = [ProgramSendEmail(studentUsername, email), SendNotification(studentUsername, notification)];
@@ -33,33 +34,10 @@ async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKe
   await Promise.all(tasks);
 }
 
-// async function notifyAdminImportantAccompaniment(accompaniment: Accompaniment) {
-//   // get administrators
-//   const snaps = await firestore().collection('claims').where('isAdmin', '==', true).get();
-//   const emails = snaps.docs.map(s => s.id);
-
-//   const tasks = emails.map(async email => {
-//     const username = UsernameFromEmail(email)
-//     const id = firestore().collection('users').doc(username).collection('notifications').doc().id;
-//     const notification: Partial<Notification> = {
-//       id,
-//       name: 'Acompañamiento Importante',
-//       message: `${accompaniment.mentor.displayName.toUpperCase()} ha marcado un acompañamiento como importante.`,
-//       read: false,
-//       redirect: `/panel-control/abr20-ago20/acompañamientos/ver/${accompaniment.mentor.reference.id}/${accompaniment.id}`,
-//       time: firestore.FieldValue.serverTimestamp()
-//     };
-
-//     await SendNotification(username, notification);
-//   })
-
-//   await Promise.all(tasks);
-// }
-
 export const mailAccompanimentReview = functions.firestore
   .document('accompaniments/{accompanimentId}')
   .onCreate(async (document, _) => {
-    const accompaniment = (document.exists) ? document.data() as Accompaniment : null;
+    const accompaniment = (document.exists) ? document.data() as SGMAccompaniment.readDTO : null;
 
     if (!accompaniment)
       return;
@@ -68,7 +46,7 @@ export const mailAccompanimentReview = functions.firestore
 
     tasks.push(notifyUserOfAccompaniment(accompaniment));
 
-    // accompaniment tagged as important 
+    // TODO: accompaniment tagged as important 
     // send notification to administrators
     // if (accompaniment.important)
     //   tasks.push(notifyAdminImportantAccompaniment(accompaniment));
