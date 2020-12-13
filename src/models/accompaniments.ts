@@ -5,25 +5,25 @@ import { SGMAcademicPeriod } from "./academic-period";
 import { SGMMentor } from "./mentor";
 import { SGMStudent } from "./student";
 
-
 export namespace SGMAccompaniment {
-    const followingKind = ['sgm#virtual', 'sgm#presencial'] as const;
 
-    export type FollowingType = typeof followingKind[number];
+    export const FollowingKindOptions = ['sgm#virtual', 'sgm#presencial'] as const;
 
-    const semesterKind = ['sgm#firstSemester', 'sgm#secondSemester'] as const;
+    export type FollowingType = typeof FollowingKindOptions[number];
 
-    export type SemesterType = typeof semesterKind[number];
+    export const SemesterKindOptions = ['sgm#firstSemester', 'sgm#secondSemester'] as const;
 
-    const qualificationKind = ['sgm#1', 'sgm#2', 'sgm#3', 'sgm#4', 'sgm#5'] as const;
+    export type SemesterType = typeof SemesterKindOptions[number];
 
-    export type QualificationType = typeof qualificationKind[number];
+    export const QualificationKindOptions = ['sgm#1', 'sgm#2', 'sgm#3', 'sgm#4', 'sgm#5'] as const;
 
-    const accompanimentKind = ['SGM#NO_PROBLEM_ACCOMPANIMENT', 'SGM#PROBLEM_ACCOMPANIMENT'] as const;
+    export type QualificationType = typeof QualificationKindOptions[number];
 
-    export type AccompanimentKind = typeof accompanimentKind[number];
+    export const AccompanimentKindOptions = ['SGM#NO_PROBLEM_ACCOMPANIMENT', 'SGM#PROBLEM_ACCOMPANIMENT'] as const;
 
-    interface _Asset {
+    export type AccompanimentKind = typeof AccompanimentKindOptions[number];
+
+    export interface Asset {
         name: string;
         path: string;
         downloadUrl: string;
@@ -69,7 +69,7 @@ export namespace SGMAccompaniment {
 
         topicDescription?: string | null;
 
-        assets: Array<_Asset>;
+        assets: Array<Asset>;
 
         important?: boolean;
 
@@ -87,7 +87,6 @@ export namespace SGMAccompaniment {
 
     /** @deprecated */
     interface _Legacy extends _AnyKindAccompaniment {
-        kind: undefined;
         problemDescription: string;
         solutionDescription: string;
         topicDescription: string;
