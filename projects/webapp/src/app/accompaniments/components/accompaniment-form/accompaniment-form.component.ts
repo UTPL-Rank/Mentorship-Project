@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { Subscription } from 'rxjs';
 import { map, shareReplay, startWith, tap } from 'rxjs/operators';
 import { Students } from '../../../models/models';
@@ -23,6 +24,10 @@ export class AccompanimentFormComponent implements OnDestroy {
 
   @Input()
   mentorId: string;
+
+  public readonly followingKindOptions = SGMAccompaniment.FollowingKindOptions;
+
+  public readonly semesterKindOptions = SGMAccompaniment.SemesterKindOptions;
 
   private selectedStudentId: string | null = null;
 

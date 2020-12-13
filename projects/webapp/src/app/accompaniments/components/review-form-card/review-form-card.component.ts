@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { ReviewFormValue } from '../../../models/review-form.model';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
@@ -8,6 +9,10 @@ import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-ca
   templateUrl: './review-form-card.component.html'
 })
 export class ReviewFormCardComponent implements OnInit {
+
+  constructor(
+    private readonly fb: FormBuilder,
+  ) { }
 
   @ViewChild(SigCanvasComponent)
   public sigCanvas: SigCanvasComponent;
@@ -18,9 +23,7 @@ export class ReviewFormCardComponent implements OnInit {
   @Output()
   public submitReview = new EventEmitter<ReviewFormValue>();
 
-  constructor(
-    private readonly fb: FormBuilder,
-  ) { }
+  public readonly qualificationOptions = SGMAccompaniment.QualificationKindOptions;
 
   ngOnInit(): void {
     this.confirmationForm = this.fb.group({

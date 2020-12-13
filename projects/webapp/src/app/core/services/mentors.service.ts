@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { SGMMentor } from '@utpl-rank/sgm-helpers';
+import { firestore } from 'firebase';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, Mentors } from '../../models/models';
@@ -61,8 +62,8 @@ export class MentorsService {
     );
   }
 
-  public mentorRef(mentorId: string): SGMMentor.reference {
-    return this.getMentorsCollection().doc(mentorId).ref as SGMMentor.reference;
+  public mentorRef(mentorId: string): firestore.DocumentReference<SGMMentor.readDTO> {
+    return this.getMentorsCollection().doc(mentorId).ref as firestore.DocumentReference<SGMMentor.readDTO>;
   }
 
   /**

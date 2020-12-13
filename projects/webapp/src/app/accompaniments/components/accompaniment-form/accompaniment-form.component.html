@@ -31,12 +31,11 @@
             <!-- bimester select -->
             <select id="bimesterSelect" class="custom-select" formControlName="semesterKind"
               [ngClass]="{ 'is-invalid': isSemesterKindInvalid }">
-              <option value="sgm#firstSemester">
-                {{ "sgm#firstSemester" | semesterName }}
-              </option>
-              <option value="sgm#secondSemester">
-                {{ "sgm#secondSemester" | semesterName }}
-              </option>
+              <ng-container *ngFor="let semester of semesterKindOptions">
+                <option [value]="semester">
+                  {{ semester | semesterName }}
+                </option>
+              </ng-container>
             </select>
           </div>
         </div>
@@ -48,14 +47,12 @@
             </label>
 
             <!-- follow select -->
-            <select class="custom-select" formControlName="followingKind"
-              [ngClass]="{ 'is-invalid': isTypeOfFollowInvalid }">
-              <option value="sgm#presencial">
-                {{ "sgm#presencial" | followingName }}
-              </option>
-              <option value="sgm#virtual">
-                {{ "sgm#virtual" | followingName }}
-              </option>
+            <select class="custom-select" formControlName="followingKind" [ngClass]="{ 'is-invalid': isTypeOfFollowInvalid }">
+              <ng-container *ngFor="let option of followingKindOptions">
+                <option [value]="option">
+                  {{ option | followingName }}
+                </option>
+              </ng-container>
             </select>
           </div>
         </div>

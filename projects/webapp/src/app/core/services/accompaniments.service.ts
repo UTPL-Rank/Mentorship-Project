@@ -48,7 +48,7 @@ export class AccompanimentsService {
     private readonly logger: BrowserLoggerService,
   ) { }
 
-  public accompanimentRef(studentId: string): SGMAccompaniment.reference {
+  public accompanimentRef(studentId: string): firestore.DocumentReference<SGMAccompaniment.readDTO> {
     return this.accompanimentDocument(studentId).ref;
   }
 

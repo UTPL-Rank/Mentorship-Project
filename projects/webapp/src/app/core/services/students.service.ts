@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { SGMStudent } from '@utpl-rank/sgm-helpers';
+import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, shareReplay } from 'rxjs/operators';
 import { Student, Students } from '../../models/models';
@@ -47,8 +48,8 @@ export class StudentsService {
     );
   }
 
-  public studentRef(studentId: string): SGMStudent.reference {
-    return this.studentDocument(studentId).ref as SGMStudent.reference;
+  public studentRef(studentId: string): firestore.DocumentReference<SGMStudent.readDTO> {
+    return this.studentDocument(studentId).ref as firestore.DocumentReference<SGMStudent.readDTO>;
   }
 
   /**
