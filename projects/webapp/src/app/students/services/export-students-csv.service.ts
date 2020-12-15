@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireFunctions } from '@angular/fire/functions';
+import { SGMFunctionsCsvStudents } from '@utpl-rank/sgm-helpers';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { SaveFileService } from '../../core/modules/save-file/save-file.service';
@@ -14,11 +15,11 @@ export class ExportStudentsCSVService implements IExport {
     private readonly functions: AngularFireFunctions,
   ) { }
 
-  export$(): Observable<boolean> {
+  export$(options: SGMFunctionsCsvStudents.requestDTO): Observable<boolean> {
 
-    const csvMentors = this.functions.httpsCallable('CSVStudents');
+    const csvMentors = this.functions.httpsCallable<SGMFunctionsCsvStudents.requestDTO, SGMFunctionsCsvStudents.responseDTO>('CSVStudents');
 
-    const saveTask = csvMentors({}).pipe(
+    const saveTask = csvMentors(options).pipe(
       mergeMap(async payload => await this.saveFile.save('estudiantes - sgm.csv', payload)),
       map(() => true),
       catchError(err => {

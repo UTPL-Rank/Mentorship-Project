@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { UserService } from '../../../core/services/user.service';
@@ -87,7 +87,15 @@ export class ListMentorsComponent implements OnInit, OnDestroy {
 
   async exportCSV() {
 
-    this.exportSub = this.csvMentors.export$().subscribe(async saved => {
+    if (!!this.exportSub)
+      return;
+
+    const exportTask = this.route.params.pipe(
+      take(1),
+      switchMap(params => this.csvMentors.export$({ periodId: params.periodId }))
+    );
+
+    this.exportSub = exportTask.subscribe(async saved => {
       if (!saved)
         alert('Ocurrió un error al exportar los mentores');
 
