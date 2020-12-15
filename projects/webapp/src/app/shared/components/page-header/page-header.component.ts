@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'sgm-page-header',
   template: `
-    <header class="pt-6 pb-4 pt-md-8 pb-md-6 bg-light">
+    <header class="pt-6 pb-4 p-md-9 pb-md-8 bg-light">
       <div class="container">
         <div class="row align-items-center">
           <div class="col-12 col-md">
