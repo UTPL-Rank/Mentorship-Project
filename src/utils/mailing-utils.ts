@@ -1,20 +1,9 @@
 import { firestore } from "firebase-admin";
-import * as functions from 'firebase-functions';
-import { createTransport } from 'nodemailer';
 import { MailTemplates } from "../mail/mail-templates";
+import { Mailer } from "../shared/mail/mail";
+import { MailConfig } from "../shared/mail/mail-config";
 import { UserDocument } from "./users-utils";
-import Mail = require("nodemailer/lib/mailer");
-
-const user = functions.config().nodemail.user;
-const pass = functions.config().nodemail.pass;
-
-const client = createTransport({
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
-    auth: { user, pass },
-    tls: { ciphers: 'SSLv3' }
-});
+import nodemailer = require("nodemailer/lib/mailer");
 
 export interface SendMailDTO<T> {
     subject: string;
@@ -22,7 +11,7 @@ export interface SendMailDTO<T> {
     templateId: keyof typeof MailTemplates;
     templateData: T;
 }
-export type CreateEmailDTO = Mail.Options & {
+export type CreateEmailDTO = nodemailer.Options & {
     id: string,
     sended: false,
 }
@@ -44,7 +33,7 @@ function CreateSaveMailDTO<T>(username: string, data: SendMailDTO<T>) {
     const mail: CreateEmailDTO = {
         id,
         sended: false,
-        from: user,
+        from: MailConfig.mentorshipEmail,
         to: data.to,
         subject: data.subject,
         html,
@@ -83,9 +72,9 @@ export const SendEmail = ProgramSendEmail;
  * @param mail email content, and configuration
  * 
  */
-export async function _SendEmail(username: string, mailId: string, mail: Mail.Options): Promise<void> {
+export async function _SendEmail(username: string, mailId: string, mail: CreateEmailDTO): Promise<void> {
     // send email
-    await client.sendMail(mail);
+    await Mailer.instance.send(mail);
 
     // update mail since it has been already sended
     const mailDoc = MailingDocument(username, mailId);

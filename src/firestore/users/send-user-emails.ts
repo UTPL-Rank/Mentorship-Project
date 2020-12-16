@@ -16,5 +16,5 @@ export const SendUserMails = functions.firestore
     .onCreate(async (payload, { params }) => {
         const { username, mailId } = params;
         const mail = payload.data();
-        await _SendEmail(username, mailId, mail);
+        await _SendEmail(username, mailId, mail as any);
     });
