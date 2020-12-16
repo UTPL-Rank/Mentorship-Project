@@ -1,5 +1,6 @@
+import { SGMMentor } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
-import { Mentor, _MentorDocument } from "./mentors-utils";
+import { _MentorDocument } from "./mentors-utils";
 import { AcademicPeriod, CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
 
@@ -32,7 +33,7 @@ export interface Student {
     };
 
     mentor: {
-        reference: firestore.DocumentReference<Mentor>;
+        reference: firestore.DocumentReference<SGMMentor.readDTO>;
         displayName: string;
         email: string;
     };

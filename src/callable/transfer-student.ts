@@ -1,5 +1,7 @@
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
+import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { Mentor, OneMentor, _MentorDocument } from '../utils/mentors-utils';
+import { OneMentor, _MentorDocument } from '../utils/mentors-utils';
 import { CurrentPeriod } from '../utils/period-utils';
 import { OneStudent, Student, _StudentDocument } from '../utils/student-utils';
 import { dbFirestore } from '../utils/utils';
@@ -36,30 +38,15 @@ export const TransferStudent = functions.https.onCall(async (data: TransferStude
             reference: _MentorDocument(newMentor.id),
         }
     };
-    const oldMentorUpdateData: Partial<Mentor> = {
-        students: {
-            degrees: oldMentor.students.degrees,
-            withAccompaniments: oldMentor.students.withAccompaniments.filter(s => s !== student.displayName),
-            withoutAccompaniments: oldMentor.students.withoutAccompaniments.filter(s => s !== student.displayName),
-        },
-        stats: {
-            accompanimentsCount: oldMentor.stats.accompanimentsCount,
-            assignedStudentCount: oldMentor.stats.assignedStudentCount - 1,
-            lastAccompaniment: oldMentor.stats.lastAccompaniment,
-        },
+    const oldMentorUpdateData: Partial<SGMMentor.updateDTO> = {
+        'students/withAccompaniments': firestore.FieldValue.arrayRemove(student.displayName),
+        'students/withoutAccompaniments': firestore.FieldValue.arrayRemove(student.displayName),
+        'stats/assignedStudentCount': firestore.FieldValue.increment(-1),
     };
 
-    const newMentorUpdateData: Partial<Mentor> = {
-        students: {
-            degrees: newMentor.students.degrees,
-            withAccompaniments: newMentor.students.withAccompaniments.concat(student.displayName),
-            withoutAccompaniments: newMentor.students.withoutAccompaniments,
-        },
-        stats: {
-            accompanimentsCount: newMentor.stats.accompanimentsCount,
-            assignedStudentCount: newMentor.stats.assignedStudentCount + 1,
-            lastAccompaniment: newMentor.stats.lastAccompaniment,
-        },
+    const newMentorUpdateData: Partial<SGMMentor.updateDTO> = {
+        'students/withoutAccompaniments': firestore.FieldValue.arrayUnion(student.displayName),
+        'stats/assignedStudentCount': firestore.FieldValue.increment(-1),
     };
 
     const batch = dbFirestore.batch();

@@ -1,3 +1,10 @@
+import { SGMFunctionsCsvMentors, SGMMentor } from '@utpl-rank/sgm-helpers';
+import * as functions from 'firebase-functions';
+import { CallableContext } from 'firebase-functions/lib/providers/https';
+import { CSVFormat } from '../shared/export/csv-format';
+import { IExportCallback } from '../shared/export/i-export-callback';
+import { ListMentorsPeriod } from '../utils/mentors-utils';
+
 /**
  * CSV Mentors
  * ============================================================================
@@ -11,17 +18,13 @@
  * 
  * Return the generated CSV content
  */
+const _CSVMentors = async (data: SGMFunctionsCsvMentors.requestDTO, _: CallableContext): Promise<SGMFunctionsCsvMentors.responseDTO> => {
+    const { periodId } = data;
 
-import * as functions from 'firebase-functions';
-import { CSVFormat } from '../shared/export/csv-format';
-import { IExportCallback } from '../shared/export/i-export-callback';
-import { ListMentorsCurrentPeriod, Mentor } from '../utils/mentors-utils';
-
-export const CSVMentors = functions.https.onCall(async (data, context) => {
-    const mentors = await ListMentorsCurrentPeriod();
+    const mentors = await ListMentorsPeriod(periodId);
     const headers = ['Index', 'Nombre del Mentor', 'Correo Electrónico', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Estudiantes Asignados'];
 
-    const callback: IExportCallback<Mentor> = (mentor, i, arr) => {
+    const callback: IExportCallback<SGMMentor.readDTO> = (mentor, i, arr) => {
         return [
             `Nro. ${i + 1} de ${arr.length}`,
             mentor.displayName,
@@ -33,7 +36,9 @@ export const CSVMentors = functions.https.onCall(async (data, context) => {
         ];
     }
 
-    const exporter = new CSVFormat<Mentor>(headers, mentors);
+    const exporter = new CSVFormat<SGMMentor.readDTO>(headers, mentors);
 
     return exporter.export(callback);
-});
+};
+
+export const CSVMentors = functions.https.onCall(_CSVMentors);

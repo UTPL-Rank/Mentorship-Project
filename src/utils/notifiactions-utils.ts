@@ -1,5 +1,6 @@
 import { SGMNotification } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
+import { SaveNotifications } from "../shared/notifications/save-notification";
 import { UserDocument } from "./users-utils";
 import { fcm } from "./utils";
 import admin = require("firebase-admin");
@@ -66,30 +67,20 @@ export async function UnsubscribeToUserNotifications(username: string, token: st
     ]);
 }
 
-function UserNotificationsCollection(username: string): SGMNotification.collection {
+/**
+ * @deprecated
+ * @param username 
+ */
+export function UserNotificationsCollection(username: string): firestore.CollectionReference<SGMNotification.readDTO> {
     const userDoc = UserDocument(username);
-    const mailCollection = userDoc.collection('notifications') as unknown as SGMNotification.collection;
+    const mailCollection = userDoc.collection('notifications') as firestore.CollectionReference<SGMNotification.readDTO>;
     return mailCollection
 }
 
+/** @deprecated */
 export async function ProgramNotification(username: string, data: Partial<SGMNotification.createDTO>): Promise<void> {
-    const notificationCollection = UserNotificationsCollection(username);
-    const id = notificationCollection.doc().id;
-    const { message, name, read, redirect, time } = data;
-
-    if (!message || !name || !redirect)
-        throw new Error("Missing attributes in notification");
-
-    const notification: SGMNotification.createDTO = {
-        id,
-        message,
-        name,
-        redirect,
-        read: read ?? false,
-        time: time ?? firestore.FieldValue.serverTimestamp(),
-    };
-
-    await notificationCollection.add(notification);
+    const saver = new SaveNotifications(username, data);
+    await saver.save();
 }
 
 export const SendNotification = ProgramNotification;
