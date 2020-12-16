@@ -1,7 +1,7 @@
 import { firestore } from "firebase-admin";
 import { MailTemplates } from "../mail/mail-templates";
-import { Mailer } from "../shared/mail/mail";
 import { MailConfig } from "../shared/mail/mail-config";
+import { Mailer } from "../shared/mail/mailer";
 import { UserDocument } from "./users-utils";
 import nodemailer = require("nodemailer/lib/mailer");
 

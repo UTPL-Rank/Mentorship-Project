@@ -3,16 +3,30 @@ import * as functions from 'firebase-functions';
 /**
  * Expose mail configuration from the current running env
  */
-export namespace MailConfig {
+export class MailConfig {
+
+    /**
+     * Cache value of user
+     */
+    private static _user: string | null = null;
 
     /**
      * Default mail account to send emails 
      */
-    export const mentorshipEmail: string = functions.config().nodemail.user;
+    static get mentorshipEmail(): string {
+        return this._user || (this._user = functions.config().nodemail.user);
+    }
 
+    /**
+     * Cache value of password
+     */
+    private static _pass: string | null = null;
+    
     /**
      * Password used to access the default mail account
      */
-    export const mentorshipPassword: string = functions.config().nodemail.pass;
+    static get mentorshipPassword(): string {
+        return this._pass || (this._pass = functions.config().nodemail.pass);
+    }
 
 }
