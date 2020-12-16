@@ -1,9 +1,9 @@
-import { SGMMentor } from '@utpl-rank/sgm-helpers';
+import { SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { OneMentor, _MentorDocument } from '../utils/mentors-utils';
 import { CurrentPeriod } from '../utils/period-utils';
-import { OneStudent, Student, _StudentDocument } from '../utils/student-utils';
+import { OneStudent, _StudentDocument } from '../utils/student-utils';
 import { dbFirestore } from '../utils/utils';
 
 interface TransferStudentDTO {
@@ -31,11 +31,11 @@ export const TransferStudent = functions.https.onCall(async (data: TransferStude
     if (!everybodyIsIncurrentPeriod)
         return false;
 
-    const studentUpdateData: Partial<Student> = {
+    const studentUpdateData: Partial<SGMStudent.readDTO> = {
         mentor: {
             displayName: newMentor.displayName,
             email: newMentor.email,
-            reference: _MentorDocument(newMentor.id),
+            reference: _MentorDocument(newMentor.id) as any,
         }
     };
     const oldMentorUpdateData: Partial<SGMMentor.updateDTO> = {

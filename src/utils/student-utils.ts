@@ -1,48 +1,8 @@
-import { SGMMentor } from "@utpl-rank/sgm-helpers";
+import { SGMStudent } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
 import { _MentorDocument } from "./mentors-utils";
-import { AcademicPeriod, CurrentPeriodReference, PeriodDocument } from "./period-utils";
+import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
-
-export type AcademicCycleKind = 'sgm#first' | 'sgm#second' | 'sgm#third';
-
-export type StudentReference = firestore.DocumentReference<Student>;
-
-export type Students = Array<Student>;
-
-export interface Student {
-    id: string;
-    displayName: string;
-    email: string;
-    cycle: AcademicCycleKind;
-
-    area: {
-        reference: firestore.DocumentReference;
-        name: string;
-    };
-
-    degree: {
-        reference: firestore.DocumentReference;
-        name: string;
-    };
-
-    period: {
-        reference: firestore.DocumentReference<AcademicPeriod>;
-        name: string;
-        date: firestore.Timestamp
-    };
-
-    mentor: {
-        reference: firestore.DocumentReference<SGMMentor.readDTO>;
-        displayName: string;
-        email: string;
-    };
-
-    stats: {
-        accompanimentsCount: number;
-        lastAccompaniment?: firestore.Timestamp;
-    }
-}
 
 /**
  * Students Firestore Collection
@@ -56,8 +16,8 @@ function StudentCollection() {
     return dbFirestore.collection('students');
 }
 
-export function _StudentDocument(studentId: string): firestore.DocumentReference<Student> {
-    const document = StudentCollection().doc(studentId) as firestore.DocumentReference<Student>;
+export function _StudentDocument(studentId: string): firestore.DocumentReference<SGMStudent.readDTO> {
+    const document = StudentCollection().doc(studentId) as firestore.DocumentReference<SGMStudent.readDTO>;
 
     return document;
 }
@@ -70,12 +30,12 @@ export function _StudentDocument(studentId: string): firestore.DocumentReference
  * 
  * @returns students in the current academic period 
  */
-export async function ListStudentsCurrentPeriod(): Promise<Array<Student>> {
+export async function ListStudentsCurrentPeriod(): Promise<Array<SGMStudent.readDTO>> {
     const periodRef = await CurrentPeriodReference();
     const collection = StudentCollection().where('period.reference', '==', periodRef);
 
     const snap = await collection.get();
-    const students = snap.docs.map(doc => doc.data() as Student);
+    const students = snap.docs.map(doc => doc.data() as SGMStudent.readDTO);
 
     return students;
 }
@@ -90,12 +50,12 @@ export async function ListStudentsCurrentPeriod(): Promise<Array<Student>> {
  * 
  * @returns students in the academic period 
  */
-export async function ListStudentsPeriod(periodId: string): Promise<Array<Student>> {
+export async function ListStudentsPeriod(periodId: string): Promise<Array<SGMStudent.readDTO>> {
     const periodRef = PeriodDocument(periodId);
     const collection = StudentCollection().where('period.reference', '==', periodRef);
 
     const snap = await collection.get();
-    const students = snap.docs.map(doc => doc.data() as Student);
+    const students = snap.docs.map(doc => doc.data() as SGMStudent.readDTO);
 
     return students;
 }
@@ -110,10 +70,10 @@ export async function ListStudentsPeriod(periodId: string): Promise<Array<Studen
  * 
  * @returns student data if exists 
  */
-export async function OneStudent(studentId: string): Promise<Student | null> {
+export async function OneStudent(studentId: string): Promise<SGMStudent.readDTO | null> {
     const document = StudentCollection().doc(studentId);
     const snap = await document.get();
-    const student = snap.exists ? snap.data() as Student : null;
+    const student = snap.exists ? snap.data() as SGMStudent.readDTO : null;
 
     return student;
 }
@@ -128,7 +88,7 @@ export async function OneStudent(studentId: string): Promise<Student | null> {
  * 
  * @param mentorId identifier of the mentor
  */
-export async function ListStudentsOfMentor(mentorId: string): Promise<Array<Student>> {
+export async function ListStudentsOfMentor(mentorId: string): Promise<Array<SGMStudent.readDTO>> {
     const periodRef = await CurrentPeriodReference();
     const mentorRef = _MentorDocument(mentorId);
 
@@ -137,7 +97,7 @@ export async function ListStudentsOfMentor(mentorId: string): Promise<Array<Stud
         .where('mentor.reference', '==', mentorRef);
 
     const snap = await collection.get();
-    const students = snap.docs.map(doc => doc.data() as Student);
+    const students = snap.docs.map(doc => doc.data() as SGMStudent.readDTO);
 
     return students;
 }
