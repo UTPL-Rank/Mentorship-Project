@@ -1,7 +1,8 @@
 import { SGMAccompaniment, SGMNotification } from '@utpl-rank/sgm-helpers';
 import * as functions from 'firebase-functions';
-import { MailData } from '../../mail/mail-templates';
-import { ProgramSendEmail, SendMailDTO } from '../../utils/mailing-utils';
+import { GeneralEmail } from '../../shared/mail/general-email';
+import { SaveEmail } from '../../shared/mail/save-email';
+import { ValidateAccompanimentEmail } from '../../shared/mail/templates/validate-accompaniment-email/validate-accompanimet-email';
 import { SendNotification } from '../../utils/notifiactions-utils';
 import { UsernameFromEmail } from '../../utils/users-utils';
 import { BASE_URL } from '../../utils/variables';
@@ -10,17 +11,16 @@ import { BASE_URL } from '../../utils/variables';
 async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKey }: SGMAccompaniment.readDTO): Promise<void> {
   const studentUsername = UsernameFromEmail(student.email);
 
-  const email: SendMailDTO<MailData.ValidateAccompaniment> = {
-    to: student.email,
-    templateId: 'validateAccompaniment',
-    subject: 'Validación del seguimiento realizado',
-    templateData: {
-      redirectUrl: `${BASE_URL}/panel-control/${period.reference.id}/calificar-acompañamiento/${student.reference.id}/${id}/${reviewKey}`,
-      accompanimentId: id,
-      studentName: student.displayName.toUpperCase(),
-      mentorName: mentor.displayName.toUpperCase(),
-    },
-  };
+  const template = new ValidateAccompanimentEmail({
+    redirectUrl: `${BASE_URL}/panel-control/${period.reference.id}/calificar-acompañamiento/${student.reference.id}/${id}/${reviewKey}`,
+    accompanimentId: id,
+    studentName: student.displayName.toUpperCase(),
+    mentorName: mentor.displayName.toUpperCase(),
+  });
+
+  const generalEmail = new GeneralEmail(student.email, 'Validación del seguimiento realizado', template);
+  const saver = new SaveEmail(studentUsername, generalEmail);
+
 
   // send notification
   const notification: Partial<SGMNotification.createDTO> = {
@@ -29,7 +29,7 @@ async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKe
     redirect: `/panel-control/${period?.reference?.id}/calificar-acompañamiento/${student.reference.id}/${id}/${reviewKey}`,
   }
 
-  const tasks: Array<Promise<void>> = [ProgramSendEmail(studentUsername, email), SendNotification(studentUsername, notification)];
+  const tasks: Array<Promise<void>> = [saver.save(), SendNotification(studentUsername, notification)];
 
   await Promise.all(tasks);
 }

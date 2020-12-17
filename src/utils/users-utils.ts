@@ -1,6 +1,7 @@
 import { firestore } from "firebase-admin";
-import { MailData } from "../mail/mail-templates";
-import { SendEmail, SendMailDTO } from "./mailing-utils";
+import { GeneralEmail } from "../shared/mail/general-email";
+import { SaveEmail } from "../shared/mail/save-email";
+import { WelcomeEmail } from "../shared/mail/templates/welcome-email/welcome-email";
 import { authentication, dbFirestore } from "./utils";
 import { BASE_URL } from "./variables";
 
@@ -50,11 +51,6 @@ function UserClaimsDocument(username: string): firestore.DocumentReference<UserC
     return claimsDocument
 }
 
-
-
-
-
-
 export async function DisableAccount(account: { uid?: string, username?: string, email?: string }): Promise<void> {
 
     if (!account.uid && !account.email && !account.username)
@@ -85,20 +81,23 @@ export async function AssignCustomClaimsToUser(username: string, claims: UserCla
 export async function CreateNewUser(username: string, data: User): Promise<void> {
     const userDoc = UserDocument(username);
     const claimsDoc = UserClaimsDocument(username);
-    const welcomeEmail: SendMailDTO<MailData.Welcome> = {
-        to: data.email,
-        templateId: 'welcome',
-        subject: 'Bienvenido Sistema de Gestión de Mentores - Proyecto Mentores',
-        templateData: {
-            displayName: data.displayName,
-            url: BASE_URL,
-        },
-    };
-    console.log('TODO: make function batch');
-    await SendEmail(username, welcomeEmail)
+
+    const welcomeTemplate = new WelcomeEmail({
+        displayName: data.displayName,
+        url: BASE_URL,
+    });
+
+    const email = new GeneralEmail(
+        data.email,
+        'Bienvenido Sistema de Gestión de Mentores - Proyecto Mentores',
+        welcomeTemplate
+    );
+
+    const saver = new SaveEmail(username, email);
 
     const batch = dbFirestore.batch();
 
+    saver.saveSynced(batch);
     batch.set(userDoc, data, { merge: false });
     batch.set(claimsDoc, { uid: data.uid }, { merge: true });
 

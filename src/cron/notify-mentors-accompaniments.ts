@@ -1,8 +1,10 @@
 import * as functions from 'firebase-functions';
-import { MailData } from '../mail/mail-templates';
-import { ProgramSendEmailSync, SendMailDTO } from '../utils/mailing-utils';
+import { GeneralEmail } from '../shared/mail/general-email';
+import { SaveEmail } from '../shared/mail/save-email';
+import { RememberRegisterAccompanimentEmail } from '../shared/mail/templates/remember-register-accompaniment-email/remember-register-accompaniment-email';
 import { ListMentorsWithNoRecentAccompaniments, ListMentorsWithNoRegisteredAccompaniments } from '../utils/mentors-utils';
 import { CurrentPeriod } from '../utils/period-utils';
+import { UsernameFromEmail } from '../utils/users-utils';
 import { dbFirestore } from '../utils/utils';
 import { BASE_URL } from '../utils/variables';
 
@@ -18,18 +20,21 @@ export const notifyMentorsAccompaniments = functions.pubsub.schedule(CRON_EVERY_
     const batch = dbFirestore.batch();
 
     mentors.forEach(mentor => {
-        const username = mentor.email;
-        const email: SendMailDTO<MailData.RememberToRegisterAccompaniment> = {
-            to: mentor.email,
-            templateId: 'rememberToRegisterAccompaniment',
-            subject: 'Recuerda registrar el acompañamiento mentorial',
-            templateData: {
-                redirectUrl: `${BASE_URL}/panel-control/${periodId}/acompañamientos/nuevo/${mentor.id}`,
-                mentorName: mentor.displayName.toUpperCase(),
-            },
-        };
 
-        ProgramSendEmailSync<MailData.RememberToRegisterAccompaniment>(username, email, batch);
+        const username = UsernameFromEmail(mentor.email);
+
+        const emailTemplate = new RememberRegisterAccompanimentEmail({
+            redirectUrl: `${BASE_URL}/panel-control/${periodId}/acompañamientos/nuevo/${mentor.id}`,
+            mentorName: mentor.displayName.toUpperCase(),
+        });
+
+        const genericEmail = new GeneralEmail(
+            mentor.email,
+            'Recuerda registrar el acompañamiento mentorial',
+            emailTemplate,
+        );
+        const saver = new SaveEmail(username, genericEmail);
+        saver.saveSynced(batch);
     });
 
     return await batch.commit();

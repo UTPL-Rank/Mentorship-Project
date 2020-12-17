@@ -1,8 +1,21 @@
 import { createTransport } from 'nodemailer';
 import * as nodemailer from "nodemailer/lib/mailer";
-import { CreateEmailDTO } from '../../utils/mailing-utils';
+import { EmailDTO } from './email-dto';
 import { MailConfig } from './mail-config';
 
+/**
+ * (DO NOT USE) Mailer
+ * ========================================
+ *
+ * This class sends email using nodemailer.
+ *
+ * @internal this method should be used only by the mail trigger, be careful not to send emails
+ * through this method
+ *
+ * @author Bruno Esparza
+ *
+ * @param mail email content, and configuration
+ */
 export class Mailer {
 
     private static _instance: Mailer | null = null;
@@ -29,7 +42,7 @@ export class Mailer {
         return this._instance;
     }
 
-    public async send(mail: CreateEmailDTO): Promise<void> {
+    public async send(mail: EmailDTO): Promise<void> {
         await this._client.sendMail(mail);
     }
 

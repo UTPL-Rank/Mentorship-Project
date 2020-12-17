@@ -1,5 +1,8 @@
 import * as functions from 'firebase-functions';
-import { _SendEmail } from '../../utils/mailing-utils';
+import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+import { EmailDTO } from '../../shared/mail/email-dto';
+import { Mailer } from '../../shared/mail/mailer';
+import { UpdateEmail } from '../../shared/mail/update-email';
 
 /**
  * Send user mails
@@ -11,10 +14,15 @@ import { _SendEmail } from '../../utils/mailing-utils';
  * in the mails collection
  * 
  */
-export const SendUserMails = functions.firestore
-    .document('users/{username}/mails/{mailId}')
-    .onCreate(async (payload, { params }) => {
-        const { username, mailId } = params;
-        const mail = payload.data();
-        await _SendEmail(username, mailId, mail as any);
-    });
+const _SendUserMails = async (payload: QueryDocumentSnapshot, { params }: functions.EventContext) => {
+    const mail = payload.data() as EmailDTO;
+    const { username, mailId } = params;
+
+    const transport = Mailer.instance;
+    const updater = new UpdateEmail(username, { id: mailId, sended: true });
+
+    await transport.send(mail);
+    await updater.save();
+};
+
+export const SendUserMails = functions.firestore.document('users/{username}/mails/{mailId}').onCreate(_SendUserMails);
