@@ -1,0 +1,135 @@
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Link</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+        </li>
+      </ul>
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+
+<nav class="navbar navbar-expand-sm navbar-light py-3 py-md-5">
+  <div class="container">
+    <!-- brand logo -->
+    <span class="navbar-brand font-weight-bold text-nowrap">
+      Proyecto <span class="text-primary">Mentores</span>
+    </span>
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- nav items -->
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <!-- goto home -->
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" routerLinkActive="active">
+            Inicio
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" id="guidesDropdown" role="button" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+            Guiás
+          </a>
+          <div class="dropdown-menu mb-4" aria-labelledby="guidesDropdown">
+            <a class="dropdown-item" [routerLink]="['/articulo/iniciar-sesion']" routerLinkActive="active">
+              Iniciar Sesión
+            </a>
+            <a class="dropdown-item" [routerLink]="['/articulo/registrar-acompañamiento']" routerLinkActive="active">
+              Registrar Acompañamiento
+            </a>
+            <a class="dropdown-item" [routerLink]="['/articulo/validar-acompañamiento']" routerLinkActive="active">
+              Validar Acompañamiento
+            </a>
+            <a class="dropdown-item" [routerLink]="['/articulo/descargar-ficha-estudiante']" routerLinkActive="active">
+              Descargar Ficha de Estudiante
+            </a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" [routerLink]="['/articulo/reportar-problema']" routerLinkActive="active">
+              Reportar un Problema
+            </a>
+          </div>
+        </li>
+
+        <!-- goto other -->
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled">
+            Abril Agosto 2020
+          </a>
+        </li> -->
+      </ul>
+
+      <!--  goto dashboard -->
+      <a class="navbar-btn btn btn-sm btn-primary lift ml-auto" [routerLink]="['/panel-control']">
+        Panel de control
+      </a>
+    </div>
+  </div>
+</nav>
+
+<nav class="navbar navbar-expand-lg navbar-light ">
+  <a class="navbar-brand" href="{{ " /" | relURL}}">{{.Site.Title}}</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav ml-auto">
+      {{ $currentPage := . }}
+      {{ range .Site.Menus.main }}
+      {{ if not (eq .Identifier "tags") }}
+      <li class="navbar-item {{if or ($currentPage.IsMenuCurrent " main" .) ($currentPage.HasMenuCurrent "main" .) }}
+        active{{end}}">
+        <a class="nav-link" href="{{ .URL | relURL }}" title="{{ .Title }}">{{ .Name }}</a>
+      </li>
+      {{ else }}
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="{{ .URL | relURL }}" id="navbarDropdown" role="button"
+          data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          {{ .Name }}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          {{ range $name, $taxonomy := $currentPage.Site.Taxonomies.tags }}
+          {{ with $.Site.GetPage (printf "/tags/%s" $name) }}
+          <a class="dropdown-item" href="{{ .URL | relURL }}">{{ $name }}</a>
+          {{ end }}
+          {{ end }}
+        </div>
+      </li>
+      {{ end }}
+      {{ end }}
+    </ul>
+  </div>
+</nav>
