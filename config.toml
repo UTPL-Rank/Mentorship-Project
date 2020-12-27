@@ -1,7 +1,7 @@
 baseURL = "http://example.org/"
+defaultContentLanguage = "es"
 languageCode = "en-us"
-title = "My New Hugo Site"
-theme = "sgm-landing"
+title = "Proyecto Mentores"
 relativeURLs = true
 
 [menu]

@@ -1,0 +1,54 @@
+{{ $data := index site.Data }}
+
+<!--  -->
+<!-- Project objective -->
+<!--  -->
+{{ with $data.analytics }}
+<section class="py-8 py-md-12 bg-light">
+    <div class="container">
+        <div class="row align-items-center">
+            <!-- Illustration side  -->
+            <div class="col-12 col-md-5 col-lg-6 order-md-2">
+                <img class="img-fluid mb-6 mb-md-0" src="{{ .illustration | absURL }}" alt="Mentor Ilustración" />
+            </div>
+
+            <!-- Left side -->
+            <div class="col-12 col-md-7 col-lg-6 order-md-1">
+                <!-- Objetive title -->
+                <h2 class="mb-5">
+                    {{ .title | markdownify }}
+                </h2>
+                
+                <!-- Objective paragraph -->
+                <p class="font-size-lg text-muted mb-6">
+                    {{ .content | markdownify }}
+                </p>
+
+                <!-- Project Stats -->
+                <div class="d-flex flex-nowrap" style="overflow: auto hidden;">
+                    {{ range .statistics }}
+                    <div class="px-3 border-end border-gray-300 border-3 rounded-full stat-item">
+                        <h3 class="mb-0">
+                        {{ .stats }}
+                        </h3>
+                        <small class="text-muted mb-0">
+                            {{ .name | markdownify }}
+                        </small>
+                    </div>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   
+{{ end }}
+
+<style>
+    /**
+     * Remove the left border on the las stat item
+     */
+    .stat-item:last-child{
+        border: none !important;
+    }
+</style>

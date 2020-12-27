@@ -1,0 +1,62 @@
+{{ $data := index site.Data }}
+{{ with $data.dashboard }}
+
+<section class="py-8 py-md-11 bg-dark" style="background-image: url(/images/patterns/background-pattern.svg);">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 text-center">
+                <!-- SGM Badge -->
+                <div class="badge badge-pill bg-light mb-6 text-dark">
+                    <small class="h6 font-weight-bold ">
+                        #{{ .badge }}
+                    </small>
+                </div>
+
+                <!-- SGM Title -->
+                <h1 class="display-4 text-white">
+                    {{ .title | markdownify }}
+                </h1>
+
+                <!-- SGM Paragraph -->
+                <p class="font-size-lg text-white-50 mb-4 mb-md-6">
+                    {{ .content | markdownify }}
+                </p>
+
+                <!-- SGM main action -->
+                <a class="btn btn-success lift mb-7 mb-md-9 btn-lg" href="/panel-control">
+                    Ir al panel
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            {{ range .faqs }}
+            <div class="col-12 col-md-6">
+                <!-- Item -->
+                <div class="d-flex align-items-baseline">
+                    <!-- Badge -->
+                    <div class="badge badge-lg bg-success">
+                        <span>?</span>
+                    </div>
+
+                    <div class="ms-5">
+                        <!-- Heading -->
+                        <h4 class="text-white">
+                            {{ .name | markdownify }}
+                        </h4>
+
+                        <!-- Text -->
+                        <p class="text-white-50 mb-6 mb-md-8">
+                            {{ .description | markdownify }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {{end}}
+        </div>
+        <!-- / .row -->
+    </div>
+<!-- / .container -->
+</section>
+
+{{ end }}

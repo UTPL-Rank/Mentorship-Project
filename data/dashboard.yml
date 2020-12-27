@@ -1,0 +1,19 @@
+enable: true
+
+illustration: images/illustrations/mentor-analytics.png
+
+badge: SGMDashboard
+
+title: Sistema de Gestión de Mentores
+
+content: El Sistema de Gestión de Mentores, es la **digitalización del Proyecto Mentores** en un sistema de gestión para llevar el registro de los acompañamientos que realices con los estudiantes de nuevo ingreso, generar las fichas de los estudiantes y desarrollar la evaluación final de una forma digital, automática, y más confiable.
+
+faqs:
+  - name: Quien puede acceder?
+    description: El panel esta disponible para el uso de estudiantes mentores y estudiantes de nuevo ingreso que se encuentren registrados dentro del periodo académico actual.
+  - name: Estudiante mentor?
+    description: Si eres un estudiante mentor puedes registrar los acompañamientos que realices y puedes exportar las fichas de seguimiento mentorial con tu firma.
+  - name: Como ingresar al panel?
+    description: Para ingresar debes constar como mentor, y con tus credenciales UTPL debes iniciar sesión, posteriormente te aparecerán tus opciones de mentor.
+  - name: Estudiante de nuevo ingreso?
+    description: Si eres estudiante de nuevo ingreso puedes calificar, firmar y validar el acompañamiento que se realizó. Te llegará un correo cada vez que tengas calificar un acompañamiento.
