@@ -1,28 +1,30 @@
 import * as functions from 'firebase-functions';
-import { UpdateAccompanimentsAnalytics, UpdateMentorsAnalytics, UpdateStudentsAnalytics } from '../utils/analytics-utils';
+import { AnalyticsAccompanimentsUseCase } from '../shared/analytics/accompaniments/accompaniments-analytics-use-case';
+import { AnalyticsMentorsUseCase } from '../shared/analytics/mentors/mentors-analytics-use-case';
+import { AnalyticsStudentsUseCase } from '../shared/analytics/students/students-analytics-use-case';
 
 /**
- * Analytics Calculator
- * ==========================================================
+ * Run every day at 23h00
+ */
+const cronSchedule = '0 23 * * *';
+
+/**
+ * # Analytics Calculator Cron
  * 
  * @author Bruno Esparza
- * 
- * @name AnalyticsCalculator cron function name
- * 
- * Function Fires every day at 23h00
- * 
- * Firebase function that update the analytics of the page.
- * 
+ *
+ * Function to calculate the analytics of the page every time.
+ *
  * The data that the function calculate is:
  * - Mentors analytics
  * - Students analytics
  * - Accompaniments analytics
  */
-export const AnalyticsCalculator = functions.pubsub.schedule('0 23 * * *').onRun(async () => {
+async function _AnalyticsCalculatorCron() {
     const tasks = [
-        UpdateMentorsAnalytics(),
-        UpdateStudentsAnalytics(),
-        UpdateAccompanimentsAnalytics(),
+        AnalyticsMentorsUseCase(),
+        AnalyticsStudentsUseCase(),
+        AnalyticsAccompanimentsUseCase(),
     ];
 
     try {
@@ -30,4 +32,6 @@ export const AnalyticsCalculator = functions.pubsub.schedule('0 23 * * *').onRun
     } catch (err) {
         console.error(err);
     }
-});
+};
+
+export const AnalyticsCalculatorCron = functions.pubsub.schedule(cronSchedule).onRun(_AnalyticsCalculatorCron);

@@ -1,68 +1,74 @@
 import * as functions from 'firebase-functions';
-import { UpdateAccompanimentsAnalytics, UpdateMentorsAnalytics, UpdateStudentsAnalytics } from '../utils/analytics-utils';
+import { AnalyticsAccompanimentsUseCase } from '../shared/analytics/accompaniments/accompaniments-analytics-use-case';
+import { AnalyticsMentorsUseCase } from '../shared/analytics/mentors/mentors-analytics-use-case';
+import { AnalyticsStudentsUseCase } from '../shared/analytics/students/students-analytics-use-case';
 
 /**
- * Analytics Mentor
- * ============================================================================
+ * TODO: move to lib
+ */
+type RequestDTO = {
+    periodId: string;
+}
+
+type ResponseDTO = boolean;
+
+/**
+ * # Analytics Mentors Use Case Caller
  * 
  * @author Bruno Esparza
- * 
- * @name AnalyticsMentors callable function name
- * 
+ *
  * Firebase callable function to update the analytics of the mentors.
  * 
  * return boolean if task completed successfully
  */
-export const AnalyticsMentors = functions.https.onCall(async _ => {
+async function _AnalyticsMentorsUseCaseCaller(data: RequestDTO): Promise<ResponseDTO> {
     try {
-        await UpdateMentorsAnalytics()
+        await AnalyticsMentorsUseCase(data.periodId)
         return true;
     } catch (err) {
         console.error(err);
         return false;
     }
-});
+}
 
 /**
- * Analytics Student
- * ============================================================================
+ * # Analytics Students Use Case Caller
  * 
  * @author Bruno Esparza
- * 
- * @name AnalyticsStudents callable function name
- * 
+ *
  * Firebase callable function to update the analytics of the Students.
  * 
  * return boolean if task completed successfully
  */
-export const AnalyticsStudents = functions.https.onCall(async _ => {
+async function _AnalyticsStudentsUseCaseCaller(data: RequestDTO): Promise<ResponseDTO> {
     try {
-        await UpdateStudentsAnalytics()
+        await AnalyticsStudentsUseCase(data.periodId)
         return true;
     } catch (err) {
         console.error(err);
         return false;
     }
-});
+}
 
 /**
- * Analytics Accompaniment
- * ============================================================================
+ * # Analytics Accompaniments Use Case Caller
  * 
  * @author Bruno Esparza
- * 
- * @name AnalyticsAccompaniments callable function name
- * 
+ *
  * Firebase callable function to update the analytics of the Accompaniments.
  * 
  * return boolean if task completed successfully
  */
-export const AnalyticsAccompaniments = functions.https.onCall(async _ => {
+async function _AnalyticsAccompanimentsUseCaseCaller(data: RequestDTO): Promise<ResponseDTO> {
     try {
-        await UpdateAccompanimentsAnalytics()
+        await AnalyticsAccompanimentsUseCase(data.periodId)
         return true;
     } catch (err) {
         console.error(err);
         return false;
     }
-});
+}
+
+export const AnalyticsMentorsUseCaseCaller = functions.https.onCall(_AnalyticsMentorsUseCaseCaller);
+export const AnalyticsAccompanimentsUseCaseCaller = functions.https.onCall(_AnalyticsAccompanimentsUseCaseCaller);
+export const AnalyticsStudentsUseCaseCaller = functions.https.onCall(_AnalyticsStudentsUseCaseCaller);

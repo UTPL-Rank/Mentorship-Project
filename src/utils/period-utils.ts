@@ -1,3 +1,4 @@
+import { SGMAcademicPeriod } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
 import { dbFirestore } from "./utils";
 
@@ -31,6 +32,24 @@ function PeriodsCollection(): firestore.CollectionReference<AcademicPeriod> {
 export function PeriodDocument(id: string): firestore.DocumentReference<AcademicPeriod> {
     const doc = PeriodsCollection().doc(id)
     return doc;
+}
+
+/**
+ * Academic Period Document Reference
+ * =========================================================
+ * @author Bruno Esparza
+ * 
+ * Get the firestore document of an academic period 
+ * 
+ * @param id identifier of the required period
+ */
+export async function GetAcademicPeriod(id: string): Promise<AcademicPeriod | null> {
+    const doc = await PeriodDocument(id).get();
+
+    if (doc.exists)
+        return doc.data() as AcademicPeriod;
+
+    return null;
 }
 
 /**
@@ -85,4 +104,11 @@ export async function CurrentPeriod(): Promise<AcademicPeriod> {
     const periodSnap = await CurrentPeriodQuerySnapshot();
 
     return periodSnap.data();
+}
+
+export function ValidPeriod(maybe: SGMAcademicPeriod.readDTO | null | undefined): SGMAcademicPeriod.readDTO {
+    if (!!maybe)
+        return maybe;
+    throw new Error("Invalid Academic Period");
+
 }
