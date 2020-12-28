@@ -9,7 +9,6 @@ export * from './callable/messaging-token';
 // cron tasks
 export * from './cron/analytics-calculator';
 export * from './cron/backup-firestore';
-export * from './cron/calculate-home-statistics';
 export * from './cron/notify-mentors-accompaniments';
 // firestore
 export * from './firestore/accompaniments/new-accompaniment';
