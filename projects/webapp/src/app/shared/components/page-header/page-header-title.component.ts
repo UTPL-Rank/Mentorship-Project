@@ -12,14 +12,14 @@ import { TitleService } from '../../../core/services/title.service';
 export class PageHeaderTitleComponent implements AfterViewInit {
 
   @ViewChild('title', { static: true })
-  nativeTitle: ElementRef<HTMLTitleElement>;
+  nativeTitle: ElementRef<HTMLTitleElement> | undefined;
 
   constructor(
     private readonly title: TitleService
   ) { }
 
   ngAfterViewInit() {
-    const text = this.nativeTitle.nativeElement.textContent;
+    const text = this.nativeTitle?.nativeElement.textContent;
 
     if (!!text)
       this.title.setTitle(text);

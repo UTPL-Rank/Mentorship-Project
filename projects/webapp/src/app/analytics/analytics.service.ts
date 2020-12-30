@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 import { mergeMap, shareReplay } from 'rxjs/operators';
 
 type AccompanimentAnalytics = any;
-
 @Injectable({ providedIn: 'root' })
 export class AnalyticsService {
 

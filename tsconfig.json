@@ -18,10 +18,12 @@
       "es2018",
       "dom"
     ],
-    "noImplicitAny": false,
-    "noImplicitThis": false,
-    "strictNullChecks": false,
-    "strictPropertyInitialization": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+    "strictBindCallApply": true,
     "allowSyntheticDefaultImports": true
   },
   "angularCompilerOptions": {
