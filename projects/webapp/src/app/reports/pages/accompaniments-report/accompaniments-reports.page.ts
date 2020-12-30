@@ -8,14 +8,16 @@ import { Mentor, Student } from '../../../models/models';
   templateUrl: './accompaniments-report.page.html'
 })
 export class AccompanimentsReportComponent implements OnInit {
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute) {
+    console.log('remove component');
+  }
 
-  public accompaniments: SGMAccompaniment.readDTO[];
-  public student: Student;
-  public mentor: Mentor;
-  public semesterKind: SGMAccompaniment.SemesterType;
+  public accompaniments: SGMAccompaniment.readDTO[] | undefined;
+  public student: Student | undefined;
+  public mentor: Mentor | undefined;
+  public semesterKind: SGMAccompaniment.SemesterType | undefined;
 
-  public signature: string;
+  public signature: string | undefined;
 
   ngOnInit() {
     const {
@@ -32,9 +34,9 @@ export class AccompanimentsReportComponent implements OnInit {
   }
 
   get academicPeriod() {
-    if (!!this.accompaniments && this.accompaniments.length > 0) {
+    if (!!this.accompaniments && this.accompaniments.length > 0)
       return this.accompaniments[0].period.name;
-    }
+
     return '';
   }
 }
