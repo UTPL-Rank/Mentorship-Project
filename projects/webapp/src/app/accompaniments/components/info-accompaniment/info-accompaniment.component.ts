@@ -13,23 +13,22 @@ export class InfoAccompanimentComponent implements OnInit, OnDestroy {
     private readonly auth: UserService,
   ) { }
 
-  public accompaniment: SGMAccompaniment.readDTO;
+  public accompaniment!: SGMAccompaniment.readDTO;
 
   @Input('accompaniment')
   public set _setAccompaniment(accompaniment: SGMAccompaniment.readDTO) {
     this.accompaniment = accompaniment;
-  };
+  }
 
   public isAdmin = false;
 
-  private sub: Subscription;
+  private sub: Subscription | null = null;
 
   ngOnInit(): void {
-    this.sub = this.auth.claims
-      .subscribe(claims => this.isAdmin = claims.isAdmin);
+    this.sub = this.auth.isAdmin.subscribe(isAdmin => this.isAdmin = isAdmin);
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 }

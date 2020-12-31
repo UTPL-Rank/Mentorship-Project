@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Mentor } from '../../../models/models';
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-mentor-navbar',
@@ -8,9 +8,9 @@ import { Mentor } from '../../../models/models';
 
 export class MentorNavbarComponent {
 
-  public mentor: Mentor;
+  public mentor!: SGMMentor.readDTO;
 
   @Input('mentor')
-  set mentorData(m: Mentor) { this.mentor = m; }
+  set mentorData(m: SGMMentor.readDTO) { this.mentor = m; }
 
 }

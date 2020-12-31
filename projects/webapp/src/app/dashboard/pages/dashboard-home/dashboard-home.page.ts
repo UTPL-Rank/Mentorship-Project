@@ -18,7 +18,7 @@ export class DashboardHomePage implements OnInit {
     private readonly accompanimentsService: AccompanimentsService,
   ) { }
 
-  user: Observable<User> = this.auth.currentUser;
+  user: Observable<User | null> = this.auth.currentUser;
 
   public importantAccompaniments$: Observable<Array<SGMAccompaniment.readDTO> | null> = this.auth.isAdmin.pipe(
     mergeMap(isAdmin => iif(() => isAdmin, this.accompanimentsService.importantAccompaniments$, of(null))),
@@ -26,12 +26,12 @@ export class DashboardHomePage implements OnInit {
   );
 
   public recentAccompaniments$: Observable<Array<SGMAccompaniment.readDTO> | null> = this.auth.claims.pipe(
-    mergeMap(({ isMentor, mentorId }) => iif(() => isMentor, this.accompanimentsService.recentAccompaniments$(mentorId), of(null))),
+    mergeMap(claims => iif(() => !!claims && claims.isMentor, this.accompanimentsService.recentAccompaniments$(claims?.mentorId as string), of(null))),
     shareReplay(1),
   );
 
   public validateAccompaniments$: Observable<Array<SGMAccompaniment.readDTO> | null> = this.auth.claims.pipe(
-    mergeMap(({ isStudent, studentId }) => iif(() => isStudent, this.accompanimentsService.validateAccompaniments$(studentId), of(null))),
+    mergeMap(claims => iif(() => !!claims && claims.isStudent, this.accompanimentsService.validateAccompaniments$(claims?.studentId as string), of(null))),
     shareReplay(1),
   );
 

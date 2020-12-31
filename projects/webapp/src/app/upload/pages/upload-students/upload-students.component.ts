@@ -1,16 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';
-import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, MentorQuery, Student, StudentClaims, UploadData } from '../../../models/models';
+import { UploadData } from '../../../models/upload-data.interface';
+import { StudentClaims } from '../../../models/user-claims';
 
 @Component({
   selector: 'sgm-upload-students',
   templateUrl: './upload-students.component.html'
 })
-export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnDestroy {
+export class UploadStudentsComponent implements UploadData<SGMStudent.readDTO>, OnInit, OnDestroy {
 
   constructor(
     private readonly db: AngularFirestore,
@@ -18,19 +20,19 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
     private readonly usersService: UserService,
   ) { }
 
-  private sub: Subscription;
-  public period: AcademicPeriod;
+  private sub: Subscription | null = null;
+  public period!: SGMAcademicPeriod.readDTO;
 
   isSaving = false;
 
-  data: Student[];
+  data: Array<SGMStudent.readDTO> | null = null;
 
   ngOnInit(): void {
     this.sub = this.route.data.subscribe(data => this.period = data.activePeriod);
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
   async save(): Promise<void> {
@@ -44,18 +46,18 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
     try {
       this.isSaving = true;
       const chunks = this.data.reduce((acc, curr, idx) => {
-        const currentchunk = idx % 10;
-        if (!!acc[currentchunk])
-          acc[currentchunk].push(curr);
+        const currentChunk = idx % 10;
+        if (!!acc[currentChunk])
+          acc[currentChunk].push(curr);
         else
-          acc[currentchunk] = [curr];
+          acc[currentChunk] = [curr];
         return acc;
-      }, [[]]);
+      }, [[]] as Array<Array<SGMStudent.readDTO>>);
 
       await Promise.all(chunks.map(async chunk => {
         const batch = this.db.firestore.batch();
 
-        await Promise.all(chunk.map(async (student: Student) => {
+        await Promise.all(chunk.map(async (student: SGMStudent.readDTO) => {
           const username = student.email.split('@')[0];
           const studentRef = this.db.collection('students').doc(student.id).ref;
           const mentorRef = student.mentor.reference;
@@ -66,7 +68,7 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
 
           const studentExistSnap = await studentRef.get();
           const studentExist = studentExistSnap.exists;
-          const existingStudent = studentExistSnap.data() as Student;
+          const existingStudent = studentExistSnap.data() as SGMStudent.readDTO;
 
           if (studentExist)
             student.stats = existingStudent.stats;
@@ -100,7 +102,7 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
     }
   }
 
-  async transformer(rawData: string[]): Promise<Student> {
+  async transformer(rawData: string[]): Promise<SGMStudent.createDTO> {
 
     // trim all data data and lowercase it, and get variables
     const data = rawData.map(s => s.trim().toLocaleLowerCase());
@@ -115,11 +117,14 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
     const cycle = rawCiclo.includes('primero') ? 'sgm#first' : rawCiclo.includes('segundo') ? 'sgm#second' : 'sgm#third';
 
     // references
-    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as AcademicAreaReference;
-    const degreeReference = this.db.collection('academic-degrees').doc(degreeId).ref as FirestoreAcademicDegreeReference;
-    const periodReference = this.db.collection('academic-periods').doc(this.period.id).ref as AcademicPeriodReference;
+    const areaReference = this.db.collection('academic-areas')
+      .doc(areaId).ref as firestore.DocumentReference<SGMAcademicArea.readDTO>;
+    const degreeReference = this.db.collection('academic-degrees')
+      .doc(degreeId).ref as firestore.DocumentReference<SGMAcademicDegree.readDTO>;
+    const periodReference = this.db.collection('academic-periods')
+      .doc(this.period.id).ref as firestore.DocumentReference<SGMAcademicPeriod.readDTO>;
     const mentorsReference = this.db.collection('mentors').ref.where('email', '==', mentorEmail)
-      .where('period.reference', '==', periodReference) as MentorQuery;
+      .where('period.reference', '==', periodReference) as firestore.CollectionReference<SGMMentor.readDTO>;
 
     // get all data in parallel
     const [areaSnap, degreeSnap, periodSnap, mentorsSnap] =
@@ -142,11 +147,14 @@ export class UploadStudentsComponent implements UploadData<Student>, OnInit, OnD
     const mentorReference = mentorDoc.ref;
     const mentorData = mentorDoc.data();
 
+    if (!areaData || !periodData || !degreeData)
+      throw new Error('data not found');
+
     // create user
     return {
       displayName, email, id, cycle,
       area: { reference: areaReference, name: areaData.name },
-      period: { reference: periodReference, name: periodData.name, date: periodData.date },
+      period: { reference: periodReference, name: periodData.name },
       degree: { reference: degreeReference, name: degreeData.name },
       mentor: { reference: mentorReference, displayName: mentorData.displayName, email: mentorData.email },
       stats: { accompanimentsCount: 0 }

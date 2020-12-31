@@ -19,14 +19,14 @@ export class HomePage implements OnInit, OnDestroy {
     private db: AngularFirestore,
   ) { }
 
-  homeData: HomeData;
-  private sub: Subscription;
+  homeData: HomeData | null = null;
+  private sub!: Subscription;
 
   ngOnInit() {
     this.sub = this.db
       .doc<HomeData>('pages/home')
       .valueChanges()
-      .subscribe(data => this.homeData = data);
+      .subscribe(data => this.homeData = data ?? null);
   }
 
   ngOnDestroy() {

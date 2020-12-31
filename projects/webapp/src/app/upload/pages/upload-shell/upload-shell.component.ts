@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicPeriod } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AcademicPeriod } from '../../../models/models';
 
 @Component({
   selector: 'sgm-upload-shell',
@@ -14,6 +14,6 @@ export class UploadShellComponent {
     private readonly route: ActivatedRoute
   ) { }
 
-  public periodObs: Observable<AcademicPeriod> = this.route.data
+  public periodObs: Observable<SGMAcademicPeriod.readDTO> = this.route.data
     .pipe(map(data => data.activePeriod));
 }

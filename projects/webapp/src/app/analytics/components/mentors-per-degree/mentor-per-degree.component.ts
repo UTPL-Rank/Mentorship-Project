@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
+import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 import { Label } from 'ng2-charts';
-import { Analytics } from '../../../models/analytics';
 
 @Component({
   selector: 'sgm-mentors-per-degree',
@@ -17,11 +17,11 @@ export class MentorsPerDegreeComponent {
   /**
    * mentors data from the parent component
    */
-  private sourceMentors: null | Array<Analytics.Mentor>;
+  private sourceMentors: null | Array<SGMAnalytics.MentorEntry> = null;
 
-  public chartLabels: Label[] | null;
+  public chartLabels!: Label[];
 
-  public chartData: ChartDataSets[];
+  public chartData!: ChartDataSets[];
 
   /**
    * chart options
@@ -50,7 +50,7 @@ export class MentorsPerDegreeComponent {
    * input mentors data to the component and transform
    */
   @Input('data')
-  set setDataMentors(mentors: null | Array<Analytics.Mentor>) {
+  set setDataMentors(mentors: null | Array<SGMAnalytics.MentorEntry>) {
 
     // validate incoming data
     if (!mentors)
@@ -66,7 +66,7 @@ export class MentorsPerDegreeComponent {
    * group the mentors by degree and set the data for the chart
    */
   private groupMentorsByDegree(): void {
-    const groupsMap = this.sourceMentors.reduce((acc, mentor) => {
+    const groupsMap = (this.sourceMentors as Array<SGMAnalytics.MentorEntry>).reduce((acc, mentor) => {
       const degreeId = mentor.degree.id;
 
       if (!(degreeId in acc))

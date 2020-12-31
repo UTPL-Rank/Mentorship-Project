@@ -18,11 +18,12 @@ export class StudentOfMentorGuard implements CanActivate {
   canActivate({ params }: ActivatedRouteSnapshot) {
 
     return this.auth.claims.pipe(
-      mergeMap(async ({ isAdmin = false, mentorId, isMentor }) => {
+      mergeMap(async (claims) => {
+        const { isAdmin = false, mentorId, isMentor } = claims ?? {};
         // User is admin, and can enter the route
         if (isAdmin) return true;
 
-        if (!isMentor) return false;
+        if (!isMentor || !mentorId) return false;
 
         const periodRef = this.periodsService.periodDocument(params.periodId).ref;
         const mentorRef = this.mentorsService.mentorRef(mentorId);

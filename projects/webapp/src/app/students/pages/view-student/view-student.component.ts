@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
+import { SGMAcademicPeriod, SGMAccompaniment, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
 import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
-import { AcademicPeriod, Student } from '../../../models/models';
 
 @Component({
   selector: 'sgm-view-student',
@@ -21,16 +20,16 @@ export class ViewStudentComponent {
     private readonly accompanimentsService: AccompanimentsService,
   ) { }
 
-  public readonly period: Observable<AcademicPeriod> = this.route.data
+  public readonly period: Observable<SGMAcademicPeriod.readDTO> = this.route.data
     .pipe(map(d => d.activePeriod));
 
-  public readonly studentObs: Observable<Student> = this.route.params
+  public readonly studentObs: Observable<SGMStudent.readDTO> = this.route.params
     .pipe(
       switchMap(params => this.studentsService.studentStream(params.studentId)),
       tap(student => this.title.setTitle(`Estudiante ${student.displayName.toUpperCase()}`)),
     );
 
-  public readonly periodObs: Observable<AcademicPeriod> = this.route.data
+  public readonly periodObs: Observable<SGMAcademicPeriod.readDTO> = this.route.data
     .pipe(map(d => d.activePeriod));
 
 

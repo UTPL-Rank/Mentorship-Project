@@ -90,6 +90,9 @@ export class SaveAccompanimentService {
     const studentSnap = await studentReference.get();
     const studentData = studentSnap.data();
 
+    if (!mentorData || !studentData)
+      throw new Error('Mentor or Student not found');
+
     const kind: SGMAccompaniment.AccompanimentKind = problemCount === 0 ? 'SGM#NO_PROBLEM_ACCOMPANIMENT' : 'SGM#PROBLEM_ACCOMPANIMENT';
 
     const accompaniment: SGMAccompaniment.createDTO = {
@@ -136,10 +139,14 @@ export class SaveAccompanimentService {
       problemDescription: form.problemDescription ? form.problemDescription.trim() : null,
       solutionDescription: form.solutionDescription ? form.solutionDescription.trim() : null,
       topicDescription: form.topicDescription ? form.topicDescription.trim() : null,
-    };
+    } as any;
 
-    Object.keys(accompaniment).forEach(key => accompaniment[key] === undefined && delete accompaniment[key])
-    Object.keys(accompaniment.problems).forEach(key => accompaniment.problems[key] === undefined && delete accompaniment.problems[key])
+    /**
+     * TODO: rewrite functionality
+     */
+    Object.keys(accompaniment).forEach(key => (accompaniment as any)[key] === undefined && delete (accompaniment as any)[key])
+    Object.keys(accompaniment.problems)
+      .forEach(key => ((accompaniment).problems as any)[key] === undefined && delete (accompaniment.problems as any)[key])
 
     return accompaniment;
   }

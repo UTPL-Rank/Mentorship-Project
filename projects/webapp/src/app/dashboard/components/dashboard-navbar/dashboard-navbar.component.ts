@@ -1,10 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicPeriod } from '@utpl-rank/sgm-helpers';
 import { User } from 'firebase/app';
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { UserService } from '../../../core/services/user.service';
-import { AcademicPeriod, UserClaims } from '../../../models/models';
+import { UserClaims } from '../../../models/user-claims';
 
 @Component({
   selector: 'sgm-dashboard-navbar',
@@ -14,11 +15,11 @@ import { AcademicPeriod, UserClaims } from '../../../models/models';
 
 export class DashboardNavbarComponent implements OnInit, OnDestroy {
 
-  public user: User;
-  public claims: UserClaims;
-  public activePeriod: AcademicPeriod;
+  public user!: User;
+  public claims!: UserClaims;
+  public activePeriod!: SGMAcademicPeriod.readDTO;
 
-  private sub: Subscription;
+  private sub!: Subscription;
 
   constructor(
     private readonly auth: UserService,
@@ -29,12 +30,12 @@ export class DashboardNavbarComponent implements OnInit, OnDestroy {
     const dataStream = combineLatest([
       this.auth.currentUser,
       this.auth.claims,
-      this.route.data.pipe(map(d => d.activePeriod as AcademicPeriod)),
+      this.route.data.pipe(map(d => d.activePeriod as SGMAcademicPeriod.readDTO)),
     ]);
 
     this.sub = dataStream.subscribe(([user, claims, period]) => {
-      this.user = user;
-      this.claims = claims;
+      this.user = user as any;
+      this.claims = claims as any;
       this.activePeriod = period;
     });
   }

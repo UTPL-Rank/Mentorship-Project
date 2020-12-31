@@ -1,12 +1,12 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicPeriod, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
-import { AcademicPeriod, Mentor, Student } from '../../../models/models';
 
 @Component({
   selector: 'sgm-configure-student',
@@ -28,17 +28,17 @@ export class ConfigureStudentComponent implements OnDestroy {
     newMentor: [null, Validators.required]
   });
 
-  public readonly student$: Observable<Student> = this.route.params
+  public readonly student$: Observable<SGMStudent.readDTO> = this.route.params
     .pipe(
       switchMap(params => this.studentsService.studentStream(params.studentId)),
       tap(student => this.title.setTitle(`Ficha del Estudiante | ${student.displayName.toUpperCase()}`)),
     );
 
-  public readonly periodObs: Observable<AcademicPeriod> = this.route.data.pipe(
+  public readonly periodObs: Observable<SGMAcademicPeriod.readDTO> = this.route.data.pipe(
     map(d => d.activePeriod),
   );
 
-  public readonly mentors$: Observable<Array<Mentor>> = this.periodObs.pipe(
+  public readonly mentors$: Observable<Array<SGMMentor.readDTO>> = this.periodObs.pipe(
     switchMap(period => combineLatest([this.student$, this.mentorsService.getAllMentorsAndShare(period.id)])),
     map(([student, mentors]) => mentors.filter(m => m.id !== student.mentor.reference.id)),
     shareReplay(1),

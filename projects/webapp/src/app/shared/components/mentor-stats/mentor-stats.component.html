@@ -18,7 +18,7 @@
             <!-- date -->
             <h3 class=" font-weight-bold">
               <ng-container *ngIf="mentor?.stats.lastAccompaniment; else defaultDate">
-                {{mentor.stats.lastAccompaniment.toDate() |date:'shortDate'}}
+                {{mentor.stats.lastAccompaniment?.toDate() |date:'shortDate'}}
               </ng-container>
               <ng-template #defaultDate>
                 --/--/--

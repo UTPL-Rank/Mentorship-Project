@@ -1,9 +1,9 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
-import { ChartDataSets, RadialChartOptions } from "chart.js";
+import { ChartDataSets, RadialChartOptions } from 'chart.js';
 
 @Component({
-  selector: "sgm-problems-area-chart",
+  selector: 'sgm-problems-area-chart',
   template: `
     <div class="jumbotron">
       <h5>Problemáticas Encontradas por Área</h5>
@@ -25,17 +25,17 @@ import { ChartDataSets, RadialChartOptions } from "chart.js";
   `
 })
 export class ProblemsAreaChartComponent {
-  @Input("data")
+  @Input('data')
   set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const problemsAreaMap = new Map<
       string,
       { label: string;[area: string]: any }
     >([
-      ["academic", { label: "Académico" }],
-      ["administrative", { label: "Administrativo" }],
-      ["economic", { label: "Económico" }],
-      ["psychosocial", { label: "Psicosocial" }],
-      ["other", { label: "Otro" }]
+      ['academic', { label: 'Académico' }],
+      ['administrative', { label: 'Administrativo' }],
+      ['economic', { label: 'Económico' }],
+      ['psychosocial', { label: 'Psicosocial' }],
+      ['other', { label: 'Otro' }]
     ]);
 
     const areasMap = new Map<string, number>([]);
@@ -44,29 +44,29 @@ export class ProblemsAreaChartComponent {
       areasMap.set(id, 0);
 
       if (problems.academic) {
-        const data = problemsAreaMap.get("academic");
+        const data = problemsAreaMap.get('academic') as any;
         data[id] = (data.hasOwnProperty(id) ? data[id] : 0) + 1;
-        problemsAreaMap.set("academic", data);
+        problemsAreaMap.set('academic', data);
       }
       if (problems.administrative) {
-        const data = problemsAreaMap.get("administrative");
+        const data = problemsAreaMap.get('administrative') as any;
         data[id] = (data.hasOwnProperty(id) ? data[id] : 0) + 1;
-        problemsAreaMap.set("administrative", data);
+        problemsAreaMap.set('administrative', data);
       }
       if (problems.economic) {
-        const data = problemsAreaMap.get("economic");
+        const data = problemsAreaMap.get('economic') as any;
         data[id] = (data.hasOwnProperty(id) ? data[id] : 0) + 1;
-        problemsAreaMap.set("economic", data);
+        problemsAreaMap.set('economic', data);
       }
       if (problems.psychosocial) {
-        const data = problemsAreaMap.get("psychosocial");
+        const data = problemsAreaMap.get('psychosocial') as any;
         data[id] = (data.hasOwnProperty(id) ? data[id] : 0) + 1;
-        problemsAreaMap.set("psychosocial", data);
+        problemsAreaMap.set('psychosocial', data);
       }
       if (problems.other) {
-        const data = problemsAreaMap.get("other");
+        const data = problemsAreaMap.get('other') as any;
         data[id] = (data.hasOwnProperty(id) ? data[id] : 0) + 1;
-        problemsAreaMap.set("other", data);
+        problemsAreaMap.set('other', data);
       }
     });
 
@@ -75,7 +75,7 @@ export class ProblemsAreaChartComponent {
     const problems = Array.from(problemsAreaMap.values());
 
     areas.forEach(area => {
-      const data = [];
+      const data: Array<any> = [];
       problems.forEach(problem => {
         data.push(problem[area] || null);
       });
@@ -91,6 +91,6 @@ export class ProblemsAreaChartComponent {
     responsive: true
   };
 
-  public radarChartLabels: Array<string>;
-  public radarChartData: ChartDataSets[];
+  public radarChartLabels!: Array<string>;
+  public radarChartData!: ChartDataSets[];
 }

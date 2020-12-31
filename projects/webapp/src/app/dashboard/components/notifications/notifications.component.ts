@@ -4,7 +4,7 @@ import { Subscription } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { PwaService } from '../../../core/services/pwa.service';
 import { UserService } from '../../../core/services/user.service';
-import { Notification } from '../../../models/models';
+import { Notification } from '../../../models/notification.model';
 
 @Component({
   selector: 'sgm-notifications',
@@ -13,13 +13,13 @@ import { Notification } from '../../../models/models';
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
 
-  public notifications: Array<Notification>;
+  public notifications!: Array<Notification>;
 
   public showEnableNotifications = this.pwa.isPushEnabled.pipe(
     map(enabled => !enabled)
   );
 
-  private notificationsSub: Subscription;
+  private notificationsSub!: Subscription;
 
   private messagingRequestSub: Subscription | null = null;
 
@@ -59,7 +59,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.messagingRequestSub = this.pwa.requestPushAccess().subscribe((saved) => {
       alert(saved ? 'A partir de ahora recibirás notificaciones.' : 'Ocurrió un error, vuelve a intentarlo.');
 
-      this.messagingRequestSub.unsubscribe();
+      this.messagingRequestSub?.unsubscribe();
       this.messagingRequestSub = null;
     });
   }

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Student } from '../../../models/models';
+import { SGMStudent } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-info-student',
@@ -26,13 +26,15 @@ import { Student } from '../../../models/models';
 
           <!-- Text -->
           <p class="text-muted mb-5">
-            <small class="mb-5">
-              Estudiante de {{ student.cycle | academicCycleName }}
-            </small>
+            <ng-container *ngIf="student.cycle">
+              <small class="mb-5">
+                Estudiante de {{ student.cycle | academicCycleName }}
+              </small>
+            </ng-container>
             <br />
             <small class="mb-5">
-              {{ student.degree.name | titlecase }} ·
-              {{ student.area.name | titlecase }}
+              {{ student.degree?.name | titlecase }} ·
+              {{ student.area?.name | titlecase }}
             </small>
           </p>
         </ng-container>
@@ -44,13 +46,15 @@ import { Student } from '../../../models/models';
           </h6>
 
           <!-- Text -->
-          <p class="text-muted mb-0">
-            <small>
-              <a [href]="'mailto:' + student.email" class="text-reset">
-                {{ student.email }}
-              </a>
-            </small>
-          </p>
+          <ng-container *ngIf="student.email">
+            <p class="text-muted mb-0">
+              <small>
+                <a [href]="'mailto:' + (student.email || '')" class="text-reset">
+                  {{ student.email }}
+                </a>
+              </small>
+            </p>
+          </ng-container>
         </ng-container>
       </div>
     </div>
@@ -60,5 +64,5 @@ export class InfoStudentComponent {
   constructor() { }
 
   @Input()
-  student: Partial<Student>;
+  student!: Partial<SGMStudent.readDTO>;
 }

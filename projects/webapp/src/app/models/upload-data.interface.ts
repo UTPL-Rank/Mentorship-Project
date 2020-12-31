@@ -1,7 +1,7 @@
 export interface UploadData<T> {
   isSaving: boolean;
 
-  data: Array<T>;
+  data: Array<T> | null;
 
   save(): Promise<void>;
 

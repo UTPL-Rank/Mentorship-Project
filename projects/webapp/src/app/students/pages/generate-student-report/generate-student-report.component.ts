@@ -1,12 +1,11 @@
 import { Component, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
+import { SGMAcademicPeriod, SGMAccompaniment, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { TitleService } from '../../../core/services/title.service';
-import { AcademicPeriod, Student } from '../../../models/models';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';
 
 @Component({
@@ -23,17 +22,17 @@ export class GenerateStudentReportComponent {
     private readonly router: Router,
   ) { }
 
-  public readonly studentObs: Observable<Student> = this.route.params
+  public readonly studentObs: Observable<SGMStudent.readDTO> = this.route.params
     .pipe(
       switchMap(params => this.studentsService.studentStream(params.studentId)),
       tap(student => this.title.setTitle(`Ficha del Estudiante | ${student.displayName.toUpperCase()}`)),
     );
 
-  public readonly periodObs: Observable<AcademicPeriod> = this.route.data
+  public readonly periodObs: Observable<SGMAcademicPeriod.readDTO> = this.route.data
     .pipe(map(d => d.activePeriod));
 
   @ViewChild(SigCanvasComponent)
-  public readonly sigCanvas: SigCanvasComponent;
+  public readonly sigCanvas!: SigCanvasComponent;
 
   export(mentorId: string, studentId: string, semesterId: SGMAccompaniment.SemesterType) {
     this.accompanimentsService.generateReport(mentorId, studentId, semesterId, this.sigCanvas.getDataURL())

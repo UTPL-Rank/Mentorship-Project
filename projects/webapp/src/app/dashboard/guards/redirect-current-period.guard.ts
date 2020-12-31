@@ -22,6 +22,8 @@ export class RedirectCurrentGuard implements CanActivate {
 
     // just redirect to current period
     const active = this.period.loadedPeriods.find(p => p.current);
-    return this.router.createUrlTree(['/panel-control', active.id]);
+    if (active)
+      return this.router.createUrlTree(['/panel-control', active.id]);
+    return this.router.createUrlTree(['/']);
   }
 }

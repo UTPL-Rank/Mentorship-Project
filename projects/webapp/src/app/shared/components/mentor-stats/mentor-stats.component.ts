@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Mentor } from '../../../models/models';
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-mentor-stats',
@@ -7,10 +7,10 @@ import { Mentor } from '../../../models/models';
 })
 export class MentorStatsComponent {
 
-  mentor: Mentor;
+  mentor!: SGMMentor.readDTO;
 
   @Input('mentor')
-  set mentorData(mentor: Mentor) {
+  set mentorData(mentor: SGMMentor.readDTO) {
     this.mentor = mentor;
   }
 }

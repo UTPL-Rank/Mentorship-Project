@@ -14,7 +14,7 @@ export class SignIn implements OnInit, OnDestroy {
     private readonly route: Router,
   ) { }
 
-  private isUserSignInSub: Subscription;
+  private isUserSignInSub!: Subscription;
 
   public showSignInAlert = false;
 

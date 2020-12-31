@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicArea, SGMMentor } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
 import { map, mergeMap, switchMap, take } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { UserService } from '../../../core/services/user.service';
-import { AreasIds, Mentor, Mentors } from '../../../models/models';
 import { ExportMentorsCSVService } from '../../services/export-mentors-csv.service';
 
 interface AreaStat {
-  id: AreasIds;
+  id: SGMAcademicArea.AreaType;
   name: string;
   studentsCount: number;
   accompanimentsCount: number;
-  mentors: Array<Mentor>;
+  mentors: Array<SGMMentor.readDTO>;
 }
 
 @Component({
@@ -31,24 +31,24 @@ export class ListMentorsComponent implements OnInit, OnDestroy {
 
   private exportSub: Subscription | null = null;
 
-  public allMentors: Observable<Mentors> = this.route.params.pipe(
+  public allMentors: Observable<Array<SGMMentor.readDTO>> = this.route.params.pipe(
     mergeMap(params => this.mentorsService.getAllMentorsAndShare(params.periodId))
   );
 
   public areaStats: Observable<Array<AreaStat>> = this.allMentors
     .pipe(
       map(mentors => {
-        const mentorPerArea: Map<AreasIds, AreaStat> = new Map();
+        const mentorPerArea: Map<SGMAcademicArea.AreaType, AreaStat> = new Map();
 
         // for each mentor, store it in corresponding area entry
         mentors.forEach(mentor => {
-          const areaId = mentor.area.reference.id as AreasIds;
+          const areaId = mentor.area.reference.id as SGMAcademicArea.AreaType;
 
 
           // Increment the data already stored
           if (mentorPerArea.has(areaId)) {
             // get entry
-            const entry = mentorPerArea.get(areaId);
+            const entry = mentorPerArea.get(areaId) as AreaStat;
 
             // update the data of the entry
             entry.studentsCount += mentor.stats.assignedStudentCount;
@@ -99,7 +99,7 @@ export class ListMentorsComponent implements OnInit, OnDestroy {
       if (!saved)
         alert('Ocurrió un error al exportar los mentores');
 
-      this.exportSub.unsubscribe();
+      this.exportSub?.unsubscribe();
       this.exportSub = null;
     });
   }

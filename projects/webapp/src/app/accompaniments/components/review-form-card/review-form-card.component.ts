@@ -15,9 +15,12 @@ export class ReviewFormCardComponent implements OnInit {
   ) { }
 
   @ViewChild(SigCanvasComponent)
-  public sigCanvas: SigCanvasComponent;
+  public sigCanvas!: SigCanvasComponent;
 
-  public confirmationForm: FormGroup;
+  public confirmationForm: FormGroup = this.fb.group({
+    qualification: [null, Validators.required],
+    comment: [null]
+  });
   private validated = false;
 
   @Output()
@@ -26,10 +29,6 @@ export class ReviewFormCardComponent implements OnInit {
   public readonly qualificationOptions = SGMAccompaniment.QualificationKindOptions;
 
   ngOnInit(): void {
-    this.confirmationForm = this.fb.group({
-      qualification: [null, Validators.required],
-      comment: [null]
-    });
   }
 
   save() {

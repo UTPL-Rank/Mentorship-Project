@@ -2,9 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { ActivatedRoute } from '@angular/router';
-import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
+import { SGMAcademicPeriod, SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
-import { AcademicPeriod } from 'projects/webapp/src/app/models/models';
 import { Observable, Subscription } from 'rxjs';
 import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { TitleService } from '../../../core/services/title.service';
@@ -30,7 +29,7 @@ export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
     shareReplay(1),
   );
 
-  public period$: Observable<AcademicPeriod> = this.accompanimentsAnalytics$.pipe(
+  public period$: Observable<SGMAcademicPeriod.readDTO> = this.accompanimentsAnalytics$.pipe(
     map(data => data.period),
   );
 
@@ -40,13 +39,13 @@ export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
 
   // public accompanimentsCount$: Observable<Analitycs.>/
 
-  private sub: Subscription;
-  private $accompaniments: Array<SGMAccompaniment.readDTO>;
-  public accompaniments: Array<SGMAccompaniment.readDTO>;
+  private sub!: Subscription;
+  private $accompaniments!: Array<SGMAccompaniment.readDTO>;
+  public accompaniments!: Array<SGMAccompaniment.readDTO>;
   loaded = false;
 
-  public selectedArea: string = null;
-  public selectedDegree: string = null;
+  public selectedArea: string | null = null;
+  public selectedDegree: string | null = null;
 
   ngOnInit() {
     this.title.setTitle('Analíticas Acompañamientos');

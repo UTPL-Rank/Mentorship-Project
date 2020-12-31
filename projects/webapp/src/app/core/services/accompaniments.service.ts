@@ -78,26 +78,26 @@ export class AccompanimentsService {
       if (accompanimentId)
         q = q.where('id', '==', accompanimentId);
 
-      if (where.periodId) {
+      if (!!where?.periodId) {
         const periodRef = this.periodsService.periodDocument(where.periodId).ref;
         q = q.where('period.reference', '==', periodRef);
       }
 
-      if (where.mentorId) {
+      if (!!where?.mentorId) {
         const mentorRef = this.mentorsService.mentorRef(where.mentorId);
         q = q.where('mentor.reference', '==', mentorRef);
       }
 
-      if (where.studentId) {
+      if (!!where?.studentId) {
         const studentRef = this.studentsService.studentRef(where.studentId);
         q = q.where('student.reference', '==', studentRef);
       }
 
-      if (where.isImportant) {
+      if (!!where?.isImportant) {
         q = q.where('important', '==', true);
       }
 
-      if (where.semesterKind) {
+      if (!!where?.semesterKind) {
         q = q.where('semesterKind', '==', where.semesterKind);
       }
 
@@ -127,11 +127,11 @@ export class AccompanimentsService {
    * get an stream of accompaniments
    * @param accompanimentId identifier of the required accompaniment
    */
-  public accompanimentStream(accompanimentId: string): Observable<SGMAccompaniment.readDTO> {
+  public accompanimentStream(accompanimentId: string): Observable<SGMAccompaniment.readDTO | null> {
     return this.accompanimentDocument(accompanimentId).valueChanges().pipe(
       mergeMap(async doc => {
         await this.perf.trace('get-accompaniment-stream');
-        return doc;
+        return doc ?? null;
       }),
     );
   }

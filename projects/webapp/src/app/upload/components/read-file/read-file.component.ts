@@ -9,15 +9,15 @@ export class ReadFileComponent {
   @Output()
   public upload: EventEmitter<string> = new EventEmitter();
 
-  private file: File;
+  private file: File | null = null;
 
-  public async fileChange(event) {
+  public async fileChange(event: any) {
     // reset variables
     this.upload.emit('');
     this.file = null;
 
     // read file
-    this.file = event.target.files[0];
+    this.file = event?.target?.files[0];
 
     // read if file
     if (this.file) {
@@ -37,6 +37,10 @@ export class ReadFileComponent {
     }
 
     return new Promise((resolve, reject) => {
+
+      if (!this.file)
+        return reject('Error');
+
       const reader = new FileReader();
 
       reader.readAsText(this.file);

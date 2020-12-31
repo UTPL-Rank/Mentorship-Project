@@ -13,11 +13,11 @@ import { MentorsService } from '../../../core/services/mentors.service';
 })
 export class EvaluationActivitiesComponent implements OnInit, OnDestroy {
 
-  public activitiesForm: FormGroup;
+  public activitiesForm!: FormGroup;
   public saved = false;
 
-  private dataSubscription: Subscription;
-  private valueSubscription: Subscription;
+  private dataSubscription!: Subscription;
+  private valueSubscription!: Subscription;
 
   constructor(
     private readonly fb: FormBuilder,

@@ -6,7 +6,7 @@ import { SGMMentor } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase';
 import { forkJoin, Observable } from 'rxjs';
 import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { Mentor, MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations, Mentors } from '../../models/models';
+import { MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations } from '../../models/mentor.model';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
 
@@ -22,24 +22,24 @@ export class MentorsService {
     private readonly reportsService: ReportsService,
   ) { }
 
-  public getMentorsCollection(periodId?: string): AngularFirestoreCollection<Mentor> {
+  public getMentorsCollection(periodId?: string): AngularFirestoreCollection<SGMMentor.readDTO> {
     if (periodId) {
       const { ref } = this.periodsService.periodDocument(periodId);
 
-      return this.angularFirestore.collection<Mentor>(MENTORS_COLLECTION_NAME, q => q
+      return this.angularFirestore.collection<SGMMentor.readDTO>(MENTORS_COLLECTION_NAME, q => q
         .where('period.reference', '==', ref)
         .orderBy('displayName')
       );
     }
 
-    return this.angularFirestore.collection<Mentor>(MENTORS_COLLECTION_NAME);
+    return this.angularFirestore.collection<SGMMentor.readDTO>(MENTORS_COLLECTION_NAME);
   }
 
   /**
    * Get mentors of an specific academic period
    * @param periodId period to get the mentors from
    */
-  public getAllMentorsAndShare(periodId: string): Observable<Mentors> {
+  public getAllMentorsAndShare(periodId: string): Observable<Array<SGMMentor.readDTO>> {
     return this.getMentorsCollection(periodId)
       .valueChanges()
       .pipe(
@@ -52,13 +52,13 @@ export class MentorsService {
       );
   }
 
-  private mentorDocument(mentorId: string): AngularFirestoreDocument<Mentor> {
+  private mentorDocument(mentorId: string): AngularFirestoreDocument<SGMMentor.readDTO> {
     return this.getMentorsCollection().doc(mentorId);
   }
 
-  public mentor(mentorId: string): Observable<Mentor> {
+  public mentor(mentorId: string): Observable<SGMMentor.readDTO> {
     return this.getMentorsCollection().doc(mentorId).get().pipe(
-      map(snap => (snap.data() as Mentor))
+      map(snap => (snap.data() as SGMMentor.readDTO))
     );
   }
 
@@ -70,13 +70,13 @@ export class MentorsService {
    * get information about an specific mentor
    * @param mentorId identifier of requested mentor
    */
-  public mentorStream(mentorId: string): Observable<Mentor> {
+  public mentorStream(mentorId: string): Observable<SGMMentor.readDTO | null> {
     return this.mentorDocument(mentorId)
       .valueChanges()
       .pipe(
         mergeMap(async doc => {
           await this.perf.trace('load-mentor-information');
-          return doc;
+          return doc ?? null;
         }),
         shareReplay(1)
       );
@@ -92,7 +92,7 @@ export class MentorsService {
         await this.perf.trace('load-mentor-activities-evaluation');
         return doc;
       }),
-      map(snap => snap.exists ? snap.data() : null),
+      map(snap => snap.exists ? snap.data() as MentorEvaluationActivities : null),
     );
   }
 
@@ -110,7 +110,7 @@ export class MentorsService {
         await this.perf.trace('load-mentor-dependencies-evaluation');
         return doc;
       }),
-      map(snap => snap.exists ? snap.data() : null),
+      map(snap => snap.exists ? snap.data() as MentorEvaluationDependencies : null),
     );
   }
 
@@ -128,7 +128,7 @@ export class MentorsService {
         await this.perf.trace('load-mentor-observations-evaluation');
         return doc;
       }),
-      map(snap => snap.exists ? snap.data() : null),
+      map(snap => snap.exists ? snap.data() as MentorEvaluationObservations : null),
     );
   }
 
@@ -146,7 +146,7 @@ export class MentorsService {
         await this.perf.trace('load-mentor-details-evaluation');
         return doc;
       }),
-      map(snap => snap.exists ? snap.data() : null),
+      map(snap => snap.exists ? snap.data() as MentorEvaluationDetails : null),
     );
   }
 

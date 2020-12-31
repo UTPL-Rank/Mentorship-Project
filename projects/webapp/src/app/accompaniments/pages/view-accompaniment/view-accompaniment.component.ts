@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
+import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
+import { Observable, of, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { UserService } from '../../../core/services/user.service';
@@ -17,7 +18,7 @@ export class ViewAccompanimentComponent {
     private readonly accompanimentsService: AccompanimentsService,
     ) { }
 
-  public accompanimentObs = this.route.params.pipe(
+  public accompanimentObs: Observable<SGMAccompaniment.readDTO | null> = this.route.params.pipe(
     switchMap(params => this.accompanimentsService.accompanimentStream(params.accompanimentId)),
     shareReplay(1),
   );
@@ -25,7 +26,7 @@ export class ViewAccompanimentComponent {
   public readonly showImportantSwitch$: Observable<boolean> = this.user.isAdmin;
 
   public readonly importantSwitchText$: Observable<string> = this.accompanimentObs.pipe(
-    map(acc => !!acc.important ? 'Marcar como NO Importante' : 'Marcar como Importante'),
+    map(acc => !!acc?.important ? 'Marcar como NO Importante' : 'Marcar como Importante'),
   );
 
   private changeImportantSub: Subscription | null = null;
@@ -36,7 +37,7 @@ export class ViewAccompanimentComponent {
 
     const updateTask = this.accompanimentObs.pipe(
       take(1),
-      switchMap(acc => this.accompanimentsService.changeImportant$(acc.id, !acc.important)),
+      switchMap(acc => !!acc ? this.accompanimentsService.changeImportant$(acc.id, !acc.important) : of(false)),
     );
 
     this.changeImportantSub = updateTask.subscribe(updated => {

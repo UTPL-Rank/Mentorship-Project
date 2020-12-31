@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { shareReplay, switchMap } from 'rxjs/operators';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { ReviewFormValue } from '../../../models/review-form.model';
 
@@ -12,8 +12,9 @@ import { ReviewFormValue } from '../../../models/review-form.model';
 })
 export class ReviewAccompanimentComponent {
 
-  public readonly accompanimentObs: Observable<SGMAccompaniment.readDTO> = this.route.params.pipe(
-    switchMap(params => this.accompanimentService.accompanimentStream(params.accompanimentId))
+  public readonly accompanimentObs: Observable<SGMAccompaniment.readDTO | null> = this.route.params.pipe(
+    switchMap(params => this.accompanimentService.accompanimentStream(params.accompanimentId)),
+    shareReplay(1),
   );
 
   private isSaving = false;

@@ -6,7 +6,6 @@ import { SGMStudent } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, shareReplay } from 'rxjs/operators';
-import { Student, Students } from '../../models/models';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { BrowserLoggerService } from './browser-logger.service';
 import { MentorsService } from './mentors.service';
@@ -27,24 +26,24 @@ export class StudentsService {
   /**
    * Get the firestore collection of students
    */
-  public getStudentsCollection(): AngularFirestoreCollection<Student> {
+  public getStudentsCollection(): AngularFirestoreCollection<SGMStudent.readDTO> {
     return this.angularFirestore
-      .collection<Student>(STUDENTS_COLLECTION_NAME);
+      .collection<SGMStudent.readDTO>(STUDENTS_COLLECTION_NAME);
   }
 
   /**
    * Get the firestore document of a student
    * @param studentId Identifier of the student
    */
-  private studentDocument(studentId: string): AngularFirestoreDocument<Student> {
+  private studentDocument(studentId: string): AngularFirestoreDocument<SGMStudent.readDTO> {
     return this.angularFirestore
       .collection(STUDENTS_COLLECTION_NAME)
-      .doc<Student>(studentId);
+      .doc<SGMStudent.readDTO>(studentId);
   }
 
-  public student(studentId: string): Observable<Student> {
+  public student(studentId: string): Observable<SGMStudent.readDTO> {
     return this.studentDocument(studentId).get().pipe(
-      map(snap => (snap.data() as Student))
+      map(snap => (snap.data() as SGMStudent.readDTO))
     );
   }
 
@@ -56,19 +55,19 @@ export class StudentsService {
    * Get an observable of the student and share the response
    * @param studentId Identifier of the student
    */
-  public studentStream(studentId: string): Observable<Student> {
+  public studentStream(studentId: string): Observable<SGMStudent.readDTO> {
     return this.studentDocument(studentId).valueChanges()
       .pipe(
         mergeMap(async doc => {
           await this.perf.trace('stream-student');
-          return doc;
+          return doc as any;
         }),
         shareReplay(1)
       );
   }
 
-  public getStudentsOfMentorAndShare(mentorId: string, periodId: string): Observable<Students> {
-    return this.angularFirestore.collection<Student>(
+  public getStudentsOfMentorAndShare(mentorId: string, periodId: string): Observable<Array<SGMStudent.readDTO>> {
+    return this.angularFirestore.collection<SGMStudent.readDTO>(
       STUDENTS_COLLECTION_NAME,
       query => {
         const periodRef = this.periodsService.periodDocument(periodId).ref;
@@ -90,8 +89,8 @@ export class StudentsService {
 
   }
 
-  public list$(options: { periodId?: string, mentorId?: string, limit: number }): Observable<Students> {
-    return this.angularFirestore.collection<Student>(
+  public list$(options: { periodId?: string, mentorId?: string, limit: number }): Observable<Array<SGMStudent.readDTO>> {
+    return this.angularFirestore.collection<SGMStudent.readDTO>(
       STUDENTS_COLLECTION_NAME,
       q => {
         let query = q.orderBy('displayName');

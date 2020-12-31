@@ -4,9 +4,13 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { SwUpdate } from '@angular/service-worker';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
-import { SaveMessagingToken } from '../../models/models';
 import { BrowserLoggerService } from './browser-logger.service';
 import { UserService } from './user.service';
+
+export interface SaveMessagingToken {
+  username: string;
+  token: string;
+}
 
 /**
  * @author Bruno Esparza
@@ -66,8 +70,8 @@ export class PwaService {
    * start the service to listen for incoming push notifications
    */
   initPushNotifications(): void {
-    this.notificationsSub = this.messaging.messages.subscribe(payload => {
-      const notification = new Notification(payload['title']);
+    this.notificationsSub = this.messaging.messages.subscribe((payload: any) => {
+      const notification = new Notification(payload.title);
       console.log(notification);
     });
   }
@@ -87,7 +91,7 @@ export class PwaService {
    */
   requestPushAccess(): Observable<boolean> {
     const requestAndSave = this.messaging.requestToken.pipe(
-      switchMap(token => this.saveToken(token)),
+      switchMap(token => this.saveToken(token as string)),
       switchMap(saved => this.logger.info$(saved ? 'request-push-access-accepted' : 'request-push-access-denied', saved)),
       catchError((err) => {
         console.log('TODO: other scenarios');
@@ -110,7 +114,7 @@ export class PwaService {
     const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('SaveMessagingToken');
 
     const tokenSaved = this.user.username.pipe(
-      switchMap(username => action({ username, token })),
+      switchMap(username => username ? action({ username, token }) : of(false)),
       tap(console.log),
       take(1),
     );
@@ -125,7 +129,7 @@ export class PwaService {
    */
   removePushAccess(): Observable<boolean> {
     const removeAction = this.messaging.getToken.pipe(
-      switchMap(token => this.removeToken(token)),
+      switchMap(token => this.removeToken(token as string)),
       catchError(_ => of(false)),
       switchMap(saved => this.logger.info$(saved ? 'remove-push-access-success' : 'remove-push-access-fail', saved)),
     );
@@ -146,7 +150,7 @@ export class PwaService {
 
     const tokenRemoved = this.messaging.deleteToken(token).pipe(
       switchMap(() => user),
-      switchMap(username => action({ username, token })),
+      switchMap(username => username ? action({ username, token }) : of(false)),
       take(1),
     );
 

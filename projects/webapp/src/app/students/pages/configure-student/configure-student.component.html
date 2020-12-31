@@ -1,5 +1,5 @@
 <ng-container *ngIf="student$ | async as student">
-  <sgm-students-header [student]="student" [showCreateAccompaniment]="(periodObs|async).current"></sgm-students-header>
+  <sgm-students-header [student]="student" [showCreateAccompaniment]="(periodObs|async)?.current"></sgm-students-header>
 
   <sgm-students-navbar [student]="student"></sgm-students-navbar>
 

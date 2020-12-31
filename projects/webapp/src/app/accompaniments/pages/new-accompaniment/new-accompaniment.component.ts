@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { AcademicPeriod, Mentor, Student } from '../../../models/models';
+import { SGMAcademicPeriod, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-new-accompaniment',
@@ -11,10 +11,10 @@ export class NewAccompanimentComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
-  public students: Student[];
-  public mentor: Mentor;
-  public period: AcademicPeriod;
-  public selectedStudentId: string;
+  public students!: Array<SGMStudent.readDTO>;
+  public mentor!: SGMMentor.readDTO;
+  public period!: SGMAcademicPeriod.readDTO;
+  public selectedStudentId!: string;
 
   ngOnInit() {
     const { students, mentor, activePeriod } = this.route.snapshot.data;

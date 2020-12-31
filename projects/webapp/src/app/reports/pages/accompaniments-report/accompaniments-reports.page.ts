@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
-import { Mentor, Student } from '../../../models/models';
+import { SGMAccompaniment, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-accompaniments-report',
@@ -12,10 +11,10 @@ export class AccompanimentsReportComponent implements OnInit {
     console.log('remove component');
   }
 
-  public accompaniments: SGMAccompaniment.readDTO[] | undefined;
-  public student: Student | undefined;
-  public mentor: Mentor | undefined;
-  public semesterKind: SGMAccompaniment.SemesterType | undefined;
+  public accompaniments!: SGMAccompaniment.readDTO[];
+  public student!: SGMStudent.readDTO;
+  public mentor!: SGMMentor.readDTO;
+  public semesterKind!: SGMAccompaniment.SemesterType;
 
   public signature: string | undefined;
 

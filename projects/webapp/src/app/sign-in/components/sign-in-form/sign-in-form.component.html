@@ -29,7 +29,7 @@
   <ng-container *ngIf="usernameControl.invalid && usernameControl.touched">
     <small class="text-danger">
       <!-- required message -->
-      <ng-container *ngIf="usernameControl.errors.required">
+      <ng-container *ngIf="usernameControl.errors?.required">
         Debes ingresar tu usuario para continuar.
       </ng-container>
     </small>

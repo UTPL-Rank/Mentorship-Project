@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { Student } from '../../../models/models';
+import { SGMStudent } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-students-header',
@@ -12,10 +12,10 @@ export class StudentsHeaderComponent {
     public readonly location: Location,
   ) { }
 
-  student: Student;
+  student!: SGMStudent.readDTO;
 
   @Input('student')
-  set studentData(s: Student) {
+  set studentData(s: SGMStudent.readDTO) {
     this.student = s;
   }
 

@@ -18,11 +18,11 @@ export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
   ) { }
 
   @ViewChild('sigCanvas')
-  private canvasRef: ElementRef;
-  private canvas: HTMLCanvasElement;
-  private ctx: CanvasRenderingContext2D;
+  private canvasRef!: ElementRef;
+  private canvas!: HTMLCanvasElement;
+  private ctx!: CanvasRenderingContext2D;
 
-  private requestAnimFrame;
+  private requestAnimFrame: any;
 
   private drawing = false;
   private mousePos: MousePosition = {
@@ -51,7 +51,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     this.canvas = this.canvasRef.nativeElement;
-    this.ctx = this.canvas.getContext('2d');
+    this.ctx = this.canvas.getContext('2d') as any;
     this.ctx.strokeStyle = '#222222';
 
     // ---------------------------------------------
@@ -92,7 +92,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
     this.canvas.addEventListener(
       'touchmove',
       (event: TouchEvent) => {
-        const { clientX, clientY } = event.touches.item(0);
+        const { clientX, clientY } = event.touches.item(0) as any;
         const me = new MouseEvent('mousemove', { clientX, clientY });
         self.canvas.dispatchEvent(me);
       },
@@ -102,7 +102,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
       'touchstart',
       (event: TouchEvent) => {
         self.mousePos = self.getTouchPos(event);
-        const { clientX, clientY } = event.touches.item(0);
+        const { clientX, clientY } = event.touches.item(0) as any;
         const me = new MouseEvent('mousedown', { clientX, clientY });
         self.canvas.dispatchEvent(me);
       },
@@ -180,7 +180,7 @@ export class SigCanvasComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private getTouchPos(event: TouchEvent) {
     const { left, top } = this.canvas.getBoundingClientRect();
-    const { clientX, clientY } = event.touches.item(0);
+    const { clientX, clientY } = event.touches.item(0) as any;
     return {
       x: clientX - left,
       y: clientY - top

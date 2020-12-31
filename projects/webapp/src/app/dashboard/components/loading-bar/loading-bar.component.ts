@@ -1,23 +1,16 @@
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import {
-  Event,
-  NavigationCancel,
-  NavigationEnd,
-  NavigationError,
-  NavigationStart,
-  Router
-} from "@angular/router";
-import { Subscription } from "rxjs";
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Event, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
-  selector: "sgm-loading-bar",
-  templateUrl: "./loading-bar.component.html"
+  selector: 'sgm-loading-bar',
+  templateUrl: './loading-bar.component.html'
 })
 export class LoadingBarComponent implements OnInit, OnDestroy {
   constructor(private router: Router) {}
 
   public loading = false;
-  private routerSub: Subscription;
+  private routerSub!: Subscription;
 
   ngOnInit(): void {
     this.routerSub = this.router.events.subscribe((event: Event) => {

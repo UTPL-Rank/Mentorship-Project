@@ -15,6 +15,6 @@ export class CurrentPeriodActiveGuard implements CanActivate {
       await this.period.loadAcademicPeriods();
 
     // validate active period is current period
-    return this.period.loadedPeriods.find(p => p.id === params.periodId).current;
+    return !!this.period.loadedPeriods.find(p => p.id === params.periodId)?.current;
   }
 }

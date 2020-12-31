@@ -1,11 +1,11 @@
-import { Component, Input } from "@angular/core";
+import { Component, Input } from '@angular/core';
 import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
-import { ChartDataSets, ChartOptions, ChartType } from "chart.js";
-import * as pluginDataLabels from "chartjs-plugin-datalabels";
-import { Label } from "ng2-charts";
+import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
+import { Label } from 'ng2-charts';
 
 @Component({
-  selector: "sgm-degrees-chart",
+  selector: 'sgm-degrees-chart',
   template: `
     <div class="jumbotron">
       <h5>Número de Seguimientos por Carrera</h5>
@@ -29,18 +29,18 @@ import { Label } from "ng2-charts";
   `
 })
 export class DegreesChartComponent {
-  @Input("data")
+  @Input('data')
   set accompaniments(accompaniments: Array<SGMAccompaniment.readDTO>) {
     const degreesMap = new Map<string, number>([]);
     accompaniments.forEach(({ degree: { reference: { id } } }) => {
-      const count = degreesMap.has(id) ? degreesMap.get(id) : 0;
+      const count = degreesMap.has(id) ? degreesMap.get(id) as number : 0;
       degreesMap.set(id, count + 1);
     });
     this.barChartLabels = Array.from(degreesMap.keys());
     this.barChartData = [
       {
         data: Array.from(degreesMap.values()),
-        label: "Series A"
+        label: 'Series A'
       }
     ];
   }
@@ -51,15 +51,15 @@ export class DegreesChartComponent {
 
     plugins: {
       datalabels: {
-        anchor: "end",
-        align: "end"
+        anchor: 'end',
+        align: 'end'
       }
     }
   };
-  public barChartLabels: Label[];
-  public barChartType: ChartType = "bar";
+  public barChartLabels!: Label[];
+  public barChartType: ChartType = 'bar';
   public barChartLegend = false;
   public barChartPlugins = [pluginDataLabels];
 
-  public barChartData: ChartDataSets[];
+  public barChartData!: ChartDataSets[];
 }

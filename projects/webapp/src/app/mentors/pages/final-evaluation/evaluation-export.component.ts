@@ -14,7 +14,7 @@ import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-ca
 export class EvaluationExportComponent implements OnInit {
 
   @ViewChild(SigCanvasComponent)
-  public readonly sigCanvas: SigCanvasComponent;
+  public readonly sigCanvas!: SigCanvasComponent;
 
   constructor(
     private readonly title: TitleService,

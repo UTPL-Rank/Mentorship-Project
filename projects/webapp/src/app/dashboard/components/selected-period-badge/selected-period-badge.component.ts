@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicPeriod } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { AcademicPeriod } from '../../../models/models';
 
 @Component({
   selector: 'sgm-selected-period-badge',
@@ -16,7 +16,7 @@ export class SelectedPeriodBadgeComponent {
   ) { }
 
   public readonly isCurrentPeriodActive$: Observable<boolean> = this.route.data.pipe(
-    map(data => data.activePeriod as AcademicPeriod),
+    map(data => data.activePeriod as SGMAcademicPeriod.readDTO),
     map(period => period.current)
   );
 }

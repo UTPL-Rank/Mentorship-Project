@@ -1,10 +1,9 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
+import { SGMAccompaniment, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { Subscription } from 'rxjs';
 import { map, shareReplay, startWith, tap } from 'rxjs/operators';
-import { Students } from '../../../models/models';
 import { IAccompanimentForm } from '../../models/i-accompaniment-form';
 import { SaveAccompanimentService } from '../services/save-accompaniment.service';
 
@@ -20,10 +19,10 @@ export class AccompanimentFormComponent implements OnDestroy {
   ) { }
 
   @Input()
-  students: Students;
+  students!: Array<SGMStudent.readDTO>;
 
   @Input()
-  mentorId: string;
+  mentorId!: string;
 
   public readonly followingKindOptions = SGMAccompaniment.FollowingKindOptions;
 
@@ -31,12 +30,16 @@ export class AccompanimentFormComponent implements OnDestroy {
 
   private selectedStudentId: string | null = null;
 
-  private savingSubscription: Subscription | null;
+  private savingSubscription: Subscription | null = null;
 
   // before setting `selectedStudentId`, validate it exist within the students
   @Input('selectedStudentId')
   set setSelectedStudentId(selectedStudentId: string | null) {
+    if (!selectedStudentId)
+      return;
+
     const valid = this.students.map(s => s.id).includes(selectedStudentId);
+
     if (valid)
       this.selectedStudentId = selectedStudentId;
   }
@@ -100,7 +103,7 @@ export class AccompanimentFormComponent implements OnDestroy {
 
     if (!this.valid) {
       alert('El formulario es invalido');
-      return null;
+      return;
     }
 
     const formValue: IAccompanimentForm = this.accompanimentForm.value;
@@ -121,19 +124,19 @@ export class AccompanimentFormComponent implements OnDestroy {
         } else
           alert('Ocurrió un error al guardar la información');
 
-        this.savingSubscription.unsubscribe();
+        this.savingSubscription?.unsubscribe();
         this.savingSubscription = null;
       }
     );
   }
 
-  onFileChange(event) {
-    const files: FileList = event.target.files;
+  onFileChange(event: HTMLElementEventMap['change']) {
+    const files: FileList | null = (event?.target as HTMLInputElement)?.files;
     this.files = [];
-    // tslint:disable-next-line: prefer-for-of
-    for (let i = 0; i < files.length; i++) {
-      this.files.push(files[i]);
-    }
+    if (files)
+      // tslint:disable-next-line: prefer-for-of
+      for (let i = 0; i < files.length; i++)
+        this.files.push(files[i]);
   }
 
   get disableButton() {

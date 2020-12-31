@@ -8,7 +8,7 @@ import { BrowserLoggerService } from '../../core/services/browser-logger.service
 import { IExport } from '../../shared/interfaces/i-export';
 
 @Injectable({ providedIn: 'root' })
-export class ExportMentorsCSVService implements IExport {
+export class ExportMentorsCSVService implements IExport<SGMFunctionsCsvMentors.requestDTO> {
   constructor(
     private readonly logger: BrowserLoggerService,
     private readonly saveFile: SaveFileService,

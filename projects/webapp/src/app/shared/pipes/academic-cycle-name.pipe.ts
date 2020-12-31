@@ -1,19 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { AcademicCycleKind } from '../../models/student.model';
+import { SGMStudent } from '@utpl-rank/sgm-helpers';
 
 @Pipe({
   name: 'academicCycleName'
 })
 export class AcademicCycleNamePipe implements PipeTransform {
-  transform(value: AcademicCycleKind): string {
-    if (value === 'sgm#first') {
-      return 'Primer Ciclo';
-    }
-    if (value === 'sgm#second') {
-      return 'Segundo Ciclo';
-    }
-    if (value === 'sgm#third') {
-      return 'Tercero';
-    }
+  transform(value: SGMStudent.AcademicCycle): string {
+    return SGMStudent.translateCycle(value);
   }
 }

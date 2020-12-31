@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
 import { Subscription } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
 import { BrowserLoggerService } from '../../../core/services/browser-logger.service';
 import { MentorsService } from '../../../core/services/mentors.service';
-import { Mentor } from '../../../models/models';
 
 @Component({
   selector: 'sgm-evaluation-details',
@@ -14,13 +14,13 @@ import { Mentor } from '../../../models/models';
 })
 export class EvaluationDetailsComponent implements OnInit, OnDestroy {
 
-  public detailsForm: FormGroup;
+  public detailsForm!: FormGroup;
   public saved = false;
-  public mentor: Mentor;
+  public mentor!: SGMMentor.readDTO;
 
-  private mentorSubscription: Subscription;
-  private dataSubscription: Subscription;
-  private valueSubscription: Subscription;
+  private mentorSubscription!: Subscription;
+  private dataSubscription!: Subscription;
+  private valueSubscription!: Subscription;
 
   constructor(
     private readonly fb: FormBuilder,

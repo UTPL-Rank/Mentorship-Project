@@ -1,15 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { AcademicAreaReference, AcademicPeriod, AcademicPeriodReference, FirestoreAcademicDegreeReference, Mentor, MentorClaims, UploadData } from 'projects/webapp/src/app/models/models';
+import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMMentor } from '@utpl-rank/sgm-helpers';
+import { firestore } from 'firebase';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';
+import { UploadData } from '../../../models/upload-data.interface';
+import { MentorClaims } from '../../../models/user-claims';
 
 @Component({
   selector: 'sgm-upload-mentors',
   templateUrl: './upload-mentors.component.html'
 })
-export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDestroy {
+export class UploadMentorsComponent implements UploadData<SGMMentor.createDTO>, OnInit, OnDestroy {
   constructor(
     private db: AngularFirestore,
     private route: ActivatedRoute,
@@ -17,10 +20,10 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
   ) { }
 
   isSaving = false;
-  data: Mentor[];
+  data: Array<SGMMentor.createDTO> | null = null;
 
-  private sub: Subscription;
-  public period: AcademicPeriod;
+  private sub: Subscription | null = null;
+  public period!: SGMAcademicPeriod.readDTO;
 
   ngOnInit(): void {
     this.sub = this.route.data.subscribe(data => {
@@ -29,7 +32,7 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.sub?.unsubscribe();
   }
 
   async save(): Promise<void> {
@@ -71,7 +74,7 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
     }
   }
 
-  async transformer(rawData: string[]): Promise<Mentor> {
+  async transformer(rawData: string[]): Promise<SGMMentor.createDTO> {
     // create an id for this mentor
     const id = this.db.createId();
 
@@ -82,30 +85,35 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
     const [displayName, email, ci, areaId, degreeId] = data;
 
     // get the data for the academic area if exists, otherwise throw an error
-    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as AcademicAreaReference;
+    const areaReference = this.db.collection('academic-areas').doc(areaId).ref as firestore.DocumentReference<SGMAcademicArea.readDTO>;
     const areaSnap = await areaReference.get();
     if (!areaSnap.exists) throw new Error(`El área ${areaReference.id} no existe.`);
     const areaData = areaSnap.data();
 
     // get the data for the academic degree if exists, otherwise throw an error
-    const degreeReference = this.db.collection('academic-degrees').doc(degreeId).ref as FirestoreAcademicDegreeReference;
+    const degreeReference = this.db.collection('academic-degrees')
+      .doc(degreeId).ref as firestore.DocumentReference<SGMAcademicDegree.readDTO>;
     const degreeSnap = await degreeReference.get();
     if (!degreeSnap.exists) throw new Error(`La titulación ${degreeReference.id} no existe.`);
     const degreeData = degreeSnap.data();
 
     // get the data for the academic period if exists, otherwise throw an error
-    const periodReference = this.db.collection('academic-periods').doc(this.period.id).ref as AcademicPeriodReference;
+    const periodReference = this.db.collection('academic-periods')
+      .doc(this.period.id).ref as firestore.DocumentReference<SGMAcademicPeriod.readDTO>;
     const periodSnap = await periodReference.get();
     if (!periodSnap.exists) throw new Error(`El periodo académico ${periodReference.id} no fue encontrado.`);
     const periodData = periodSnap.data();
+
+    if (!areaData || !periodData || !degreeData)
+      throw new Error('Missing data');
 
     // construct a mentor with the obtained data
     return {
       id, email, displayName, ci,
       area: { reference: areaReference, name: areaData.name },
-      period: { reference: periodReference, name: periodData.name, date: periodData.date },
+      period: { reference: periodReference, name: periodData.name },
       degree: { reference: degreeReference, name: degreeData.name },
-      stats: { accompanimentsCount: 0, assignedStudentCount: 0 },
+      stats: { accompanimentsCount: 0, assignedStudentCount: 0, lastAccompaniment: null },
       students: { cycles: [], degrees: [], withAccompaniments: [], withoutAccompaniments: [] }
     };
   }
@@ -120,7 +128,7 @@ export class UploadMentorsComponent implements UploadData<Mentor>, OnInit, OnDes
       .map(v => this.transformer(v));
 
     this.data = await Promise.all(data);
-  } catch(error) {
+  } catch(error: Error) {
     alert(error.message);
     this.data = [];
   }

@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { SGMAcademicPeriod, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { StudentsService } from '../../../core/services/students.service';
 import { UserService } from '../../../core/services/user.service';
-import { AcademicPeriod, Mentor, Students } from '../../../models/models';
 import { ExportStudentsCSVService } from '../../services/export-students-csv.service';
 import { ListStudentsQuery } from './list-students-query.interface';
 
@@ -25,20 +25,20 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
 
   private exportSub: Subscription | null = null;
 
-  private params: Observable<{ periodId?: string }> = this.route.params;
+  private params: Observable<{ periodId: string }> = this.route.params as any;
 
   private query: Observable<ListStudentsQuery> = this.route.queryParams;
 
-  public readonly mentor$: Observable<Mentor | null> = this.query.pipe(
+  public readonly mentor$: Observable<SGMMentor.readDTO | null> = this.query.pipe(
     switchMap(({ mentorId }) => !!mentorId ? this.mentorsService.mentorStream(mentorId) : of(null)),
     shareReplay(1),
   );
 
   public isPeriodActiveObs = this.route.data.pipe(
-    map(d => (d.activePeriod as AcademicPeriod).current)
+    map(d => (d.activePeriod as SGMAcademicPeriod.readDTO).current)
   );
 
-  public readonly students$: Observable<Students> = combineLatest([this.query, this.params]).pipe(
+  public readonly students$: Observable<Array<SGMStudent.readDTO>> = combineLatest([this.query, this.params]).pipe(
     switchMap(([query, params]) => this.studentsService.list$({ periodId: params.periodId, mentorId: query.mentorId, limit: 50 })),
     shareReplay(1),
   );
@@ -73,7 +73,7 @@ export class ListStudentsComponent implements OnInit, OnDestroy {
       if (!completed)
         alert('Ocurrió un error al exportar los estudiantes');
 
-      this.exportSub.unsubscribe();
+      this.exportSub?.unsubscribe();
       this.exportSub = null;
     });
   }

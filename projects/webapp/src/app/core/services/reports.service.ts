@@ -35,8 +35,8 @@ export class ReportsService {
     const createdAt = firestore.FieldValue.serverTimestamp();
 
     const createReport = this.auth.currentUser.pipe(
-      map(({ displayName, email }) => Object.assign(data, { id, creator: { displayName, email }, createdAt })),
-      mergeMap(async report => await this.angularFirestore.collection(REPORTS_COLLECTION).doc<T & CreateReport>(id).set(report)),
+      map(user => Object.assign(data, { id, creator: { displayName: user?.displayName, email: user?.displayName }, createdAt })),
+      mergeMap(async (report: any) => await this.angularFirestore.collection(REPORTS_COLLECTION).doc<T & CreateReport>(id).set(report)),
       map(() => id)
     );
 

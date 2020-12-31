@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
+import { SGMStudent } from '@utpl-rank/sgm-helpers';
 import { UserService } from '../../../core/services/user.service';
-import { Student } from '../../../models/models';
 
 @Component({
   selector: 'sgm-students-navbar',
@@ -10,10 +10,10 @@ export class StudentsNavbarComponent {
 
   constructor(public readonly user: UserService) { }
 
-  student: Student;
+  student!: SGMStudent.readDTO;
 
   @Input('student')
-  set studentData(s: Student) {
+  set studentData(s: SGMStudent.readDTO) {
     this.student = s;
   }
 }

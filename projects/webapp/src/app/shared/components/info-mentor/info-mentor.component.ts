@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Mentor } from '../../../models/models';
-
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
 @Component({
   selector: 'sgm-info-mentor',
   template: `
@@ -43,7 +42,7 @@ import { Mentor } from '../../../models/models';
           <!-- Text -->
           <p class="text-muted mb-4">
             <small>
-              <a [href]="'mailto:' + mentor.email" class="text-reset">
+              <a [href]="'mailto:' + (mentor?.email || '')" class="text-reset">
                 {{ mentor.email }}
               </a>
             </small>
@@ -55,5 +54,5 @@ import { Mentor } from '../../../models/models';
 })
 export class InfoMentorComponent {
   @Input()
-  mentor: Partial<Mentor>;
+  mentor!: Partial<SGMMentor.readDTO>;
 }
