@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from '../shared/shared.module';
 import { AnalyticsRoutingModule } from './analytics-routing.module';
-import { AnalyticsService } from './analytics.service';
 import { AreasChartComponent } from './components/charts/areas-chart.component';
 import { DegreesChartComponent } from './components/charts/degrees-chart.component';
 import { FollowingChartComponent } from './components/charts/following-chart.component';
@@ -34,7 +33,6 @@ import { MentorsWithAccompanimentsComponent } from './components/mentors-with-ac
   providers: [
     AnalyticsRoutingModule.resolvers,
     AnalyticsRoutingModule.guards,
-    AnalyticsService,
   ],
 })
 export class AnalyticsModule { }

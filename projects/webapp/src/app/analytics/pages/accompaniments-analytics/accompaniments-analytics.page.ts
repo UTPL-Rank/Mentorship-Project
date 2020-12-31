@@ -1,141 +1,78 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { AngularFirePerformance } from '@angular/fire/performance';
 import { ActivatedRoute } from '@angular/router';
-import { SGMAcademicPeriod, SGMAccompaniment } from '@utpl-rank/sgm-helpers';
-import { firestore } from 'firebase/app';
+import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
-import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
-import { TitleService } from '../../../core/services/title.service';
-import { AnalyticsService } from '../../analytics.service';
+import { map, shareReplay, switchMap, take } from 'rxjs/operators';
+import { DashboardService } from '../../../core/services/dashboard.service';
+import { IAnalyticsService } from '../../models/i-analytics-service';
+import { IStatusData } from '../../models/i-status-data';
+import { AccompanimentsAnalyticsService } from './accompaniments-analytics.service';
 
 @Component({
   selector: 'sgm-accompaniments-analytics',
-  templateUrl: './accompaniments-analytics.page.html'
+  templateUrl: './accompaniments-analytics.page.html',
+  providers: [
+    { provide: IAnalyticsService, useClass: AccompanimentsAnalyticsService }
+  ]
 })
 export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
 
   constructor(
-    private readonly analytics: AnalyticsService,
-    private readonly db: AngularFirestore,
-    private readonly perf: AngularFirePerformance,
-    private readonly title: TitleService,
     private readonly route: ActivatedRoute,
+    private readonly accompanimentsAnalytics: IAnalyticsService<SGMAnalytics.AccompanimentsAnalytics>,
+    private readonly dashboard: DashboardService,
   ) { }
 
-  private accompanimentsAnalytics$: Observable<any> = this.route.params.pipe(
-    switchMap(params => this.analytics.accompaniments$(params.periodId)),
-    tap(console.log),
+  private updatingDataSub: Subscription | null = null;
+
+  private response$: Observable<IStatusData<SGMAnalytics.AccompanimentsAnalytics>> = this.route.params.pipe(
+    switchMap(params => this.accompanimentsAnalytics.get$(params.periodId)),
     shareReplay(1),
   );
 
-  public period$: Observable<SGMAcademicPeriod.readDTO> = this.accompanimentsAnalytics$.pipe(
-    map(data => data.period),
+  public analytics$: Observable<SGMAnalytics.AccompanimentsAnalytics | null> = this.response$.pipe(
+    map(response => response.status === 'READY' ? response.data : null)
   );
 
-  public lastUpdated$: Observable<firestore.Timestamp> = this.accompanimentsAnalytics$.pipe(
-    map(data => data.lastUpdated),
+  public ready$: Observable<boolean> = this.response$.pipe(
+    map(response => response.status === 'READY'),
   );
 
-  // public accompanimentsCount$: Observable<Analitycs.>/
+  public loading$: Observable<boolean> = this.response$.pipe(
+    map(response => response.status === 'LOADING'),
+  );
 
-  private sub!: Subscription;
-  private $accompaniments!: Array<SGMAccompaniment.readDTO>;
-  public accompaniments!: Array<SGMAccompaniment.readDTO>;
-  loaded = false;
+  public error$: Observable<boolean> = this.response$.pipe(
+    map(response => response.status === 'ERROR'),
+  );
 
   public selectedArea: string | null = null;
   public selectedDegree: string | null = null;
 
   ngOnInit() {
-    this.title.setTitle('Analíticas Acompañamientos');
-
-    this.sub = this.db.collection<SGMAccompaniment.readDTO>('accompaniments', q => {
-        const query = q;
-        // TODO: fix this
-        // const query = q.where("periodReference", "==", this.period.currentRef);
-
-        return query;
-      })
-      .valueChanges()
-      .pipe(
-        mergeMap(async doc => {
-          await this.perf.trace('list accompaniments');
-          return doc;
-        }),
-        // map(docs => docs.map(async doc => AccompanimentParser(doc))),
-        // mergeMap(async tasks => await Promise.all(tasks)),
-        // tap(data => console.log(data))
-      )
-      .subscribe(accompaniments => {
-        this.$accompaniments = accompaniments;
-        this.calculateAccompaniments();
-        this.loaded = true;
-      });
+    this.dashboard.setTitle('SGM Analíticas');
   }
 
   ngOnDestroy(): void {
-    this.sub.unsubscribe();
+    this.updatingDataSub?.unsubscribe();
   }
 
-  public updateAccompanimentsAnalytics(): void {
-    const task = this.analytics.updateAccompaniments();
-    task.subscribe(console.log);
-  }
+  public updateAnalytics(): void {
+    const task = this.route.params.pipe(
+      take(1),
+      switchMap(params => this.accompanimentsAnalytics.update$(params.periodId)),
+    );
 
-  calculateAccompaniments() {
-    this.accompaniments = this.$accompaniments.filter(accompaniment => {
-      if (!!this.selectedArea) {
-        if (this.selectedArea !== accompaniment.area.reference.id) {
-          return false;
-        }
-      }
-      if (!!this.selectedDegree) {
-        if (this.selectedDegree !== accompaniment.degree.reference.id) {
-          return false;
-        }
-      }
+    this.updatingDataSub = task.subscribe(updated => {
+      if (!updated)
+        alert('No se pudo actualizar la información');
 
-      return true;
+      this.updatingDataSub?.unsubscribe();
+      this.updatingDataSub = null;
     });
   }
 
-  private onlyUnique(value: string, index: number, self: string[]) {
-    return self.indexOf(value) === index;
-  }
-
-  get areas() {
-    if (!this.$accompaniments) {
-      return [];
-    }
-    return this.$accompaniments
-      .map(acc => acc.area.reference.id)
-      .filter(this.onlyUnique);
-  }
-
-  get degrees() {
-    if (!this.$accompaniments) {
-      return [];
-    }
-
-    if (!!this.selectedArea) {
-      return this.accompaniments
-        .map(acc => acc.degree.reference.id)
-        .filter(this.onlyUnique);
-    }
-
-    return this.$accompaniments
-      .map(acc => acc.degree.reference.id)
-      .filter(this.onlyUnique);
-  }
-
-  filterArea(area: string) {
-    this.selectedArea = area;
-    this.calculateAccompaniments();
-  }
-
-  filterDegree(degree: string) {
-    this.selectedDegree = degree;
-    this.calculateAccompaniments();
+  get isUpdating(): boolean {
+    return !!this.updatingDataSub;
   }
 }

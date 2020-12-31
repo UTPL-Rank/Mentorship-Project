@@ -1,17 +1,18 @@
 <sgm-page-header>
   <sgm-page-header-title>
-    Analíticas Mentores
+    Analíticas Estudiantes
   </sgm-page-header-title>
 
   <sgm-page-header-controls>
-    <button class="btn btn-primary" (click)="updateMentorsAnalytics()" [disabled]="isUpdating">
+    <button class="btn btn-primary" (click)="updateAnalytics()" [disabled]="isUpdating">
       {{isUpdating ? 'Actualizando...':'Generar ahora'}}
     </button>
   </sgm-page-header-controls>
+
   <ng-container *ngIf="ready$|async ">
     <ng-container *ngIf="analytics$ |async as  data; else showFirstTimeGenerating">
       <p>
-        Datos de los mentores registrados durante el periodo académico <b>{{data.period.name |titlecase}}</b>.
+        Datos de los estudiantes registrados durante el periodo académico <b>{{data.period.name |titlecase}}</b>.
         Última actualización <b>{{ data.lastUpdated | date:'long' }}</b>
       </p>
     </ng-container>
@@ -21,20 +22,20 @@
 <!-- Generate data message -->
 <ng-template #showFirstTimeGenerating>
   No hay datos generados anteriormente, dale click en <code style="cursor: pointer;"
-    (click)="updateMentorsAnalytics()">Generar ahora</code>
-  para generar los datos de los mentores.
+    (click)="updateAnalytics()">Generar ahora</code>
+  para generar los datos de los estudiantes.
 </ng-template>
 
 <div class="container-fluid my-4 my-md-6">
   <ul class="nav justify-content-center">
     <li class="nav-item">
       <a routerLink="../acompañamientos" class="nav-link text-center">
-        Estudiantes
+        Acompañamientos
       </a>
     </li>
     <li class="nav-item">
-      <a routerLink="../acompañamientos" class="nav-link text-center">
-        Acompañamientos
+      <a routerLink="../mentores" class="nav-link text-center">
+        Mentores
       </a>
     </li>
     <li class="nav-item">
@@ -44,6 +45,7 @@
     </li>
   </ul>
 </div>
+
 
 <!-- Loading alert -->
 <ng-container *ngIf="loading$|async">
@@ -66,6 +68,5 @@
 <!-- Loaded data, swap to content -->
 <ng-container *ngIf="analytics$|async as analytics">
   <section class="container-fluid my-4">
-    <sgm-mentors-with-accompaniments [data]="analytics.mentors"></sgm-mentors-with-accompaniments>
   </section>
 </ng-container>

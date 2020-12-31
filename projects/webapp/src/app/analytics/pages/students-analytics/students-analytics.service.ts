@@ -10,7 +10,7 @@ import { IAnalyticsService } from '../../models/i-analytics-service';
 import { IStatusData } from '../../models/i-status-data';
 
 @Injectable({ providedIn: 'root', })
-export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.MentorsAnalytics> {
+export class StudentsAnalyticsService extends IAnalyticsService<SGMAnalytics.StudentsAnalytics> {
 
   constructor(
     private readonly database: AngularFireDatabase,
@@ -18,13 +18,13 @@ export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.Ment
     private readonly logger: BrowserLoggerService,
   ) { super(); }
 
-  get$(periodId: string): Observable<IStatusData<SGMAnalytics.MentorsAnalytics>> {
-    const id = `analytics/${periodId}-mentor`;
+  get$(periodId: string): Observable<IStatusData<SGMAnalytics.StudentsAnalytics>> {
+    const id = `analytics/${periodId}-students`;
 
-    return this.database.object<SGMAnalytics.MentorsAnalytics>(id).valueChanges().pipe(
-      trace('analytics-get-mentors'),
+    return this.database.object<SGMAnalytics.StudentsAnalytics>(id).valueChanges().pipe(
+      trace('analytics-get-students'),
       map(data => {
-        const res: IStatusData<SGMAnalytics.MentorsAnalytics> = {
+        const res: IStatusData<SGMAnalytics.StudentsAnalytics> = {
           data,
           status: 'READY'
         };
@@ -33,18 +33,18 @@ export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.Ment
       }),
       catchError(err => {
         this.logger.error('Error fetching data', err);
-        const res: IStatusData<SGMAnalytics.MentorsAnalytics> = { status: 'ERROR' };
+        const res: IStatusData<SGMAnalytics.StudentsAnalytics> = { status: 'ERROR' };
         return of(res);
       }),
-      startWith({ status: 'LOADING' } as IStatusData<SGMAnalytics.MentorsAnalytics>),
-      tap(data => this.logger.log('Analytics: mentor data retrieve', data)),
+      startWith({ status: 'LOADING' } as IStatusData<SGMAnalytics.StudentsAnalytics>),
+      tap(data => this.logger.log('Analytics: students data retrieve', data)),
     );
   }
 
   update$(periodId: string): Observable<boolean> {
-    const callable = this.aff.httpsCallable<{}, boolean>('AnalyticsMentorsUseCaseCaller');
+    const callable = this.aff.httpsCallable<{}, boolean>('AnalyticsStudentsUseCaseCaller');
     const task = callable({ periodId }).pipe(
-      trace('analytics-mentors-use-case-caller'),
+      trace('analytics-students-use-case-caller'),
     );
     return task;
   }

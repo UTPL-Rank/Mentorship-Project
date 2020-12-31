@@ -10,7 +10,7 @@ import { IAnalyticsService } from '../../models/i-analytics-service';
 import { IStatusData } from '../../models/i-status-data';
 
 @Injectable({ providedIn: 'root', })
-export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.MentorsAnalytics> {
+export class AccompanimentsAnalyticsService extends IAnalyticsService<SGMAnalytics.AccompanimentsAnalytics> {
 
   constructor(
     private readonly database: AngularFireDatabase,
@@ -18,13 +18,13 @@ export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.Ment
     private readonly logger: BrowserLoggerService,
   ) { super(); }
 
-  get$(periodId: string): Observable<IStatusData<SGMAnalytics.MentorsAnalytics>> {
-    const id = `analytics/${periodId}-mentor`;
+  get$(periodId: string): Observable<IStatusData<SGMAnalytics.AccompanimentsAnalytics>> {
+    const id = `analytics/${periodId}-accompaniments`;
 
-    return this.database.object<SGMAnalytics.MentorsAnalytics>(id).valueChanges().pipe(
-      trace('analytics-get-mentors'),
+    return this.database.object<SGMAnalytics.AccompanimentsAnalytics>(id).valueChanges().pipe(
+      trace('analytics-get-accompaniments'),
       map(data => {
-        const res: IStatusData<SGMAnalytics.MentorsAnalytics> = {
+        const res: IStatusData<SGMAnalytics.AccompanimentsAnalytics> = {
           data,
           status: 'READY'
         };
@@ -33,18 +33,18 @@ export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.Ment
       }),
       catchError(err => {
         this.logger.error('Error fetching data', err);
-        const res: IStatusData<SGMAnalytics.MentorsAnalytics> = { status: 'ERROR' };
+        const res: IStatusData<SGMAnalytics.AccompanimentsAnalytics> = { status: 'ERROR' };
         return of(res);
       }),
-      startWith({ status: 'LOADING' } as IStatusData<SGMAnalytics.MentorsAnalytics>),
-      tap(data => this.logger.log('Analytics: mentor data retrieve', data)),
+      startWith({ status: 'LOADING' } as IStatusData<SGMAnalytics.AccompanimentsAnalytics>),
+      tap(data => this.logger.log('Analytics: accompaniments data retrieve', data)),
     );
   }
 
   update$(periodId: string): Observable<boolean> {
-    const callable = this.aff.httpsCallable<{}, boolean>('AnalyticsMentorsUseCaseCaller');
+    const callable = this.aff.httpsCallable<{}, boolean>('AnalyticsAccompanimentsUseCaseCaller');
     const task = callable({ periodId }).pipe(
-      trace('analytics-mentors-use-case-caller'),
+      trace('analytics-accompaniments-use-case-caller'),
     );
     return task;
   }

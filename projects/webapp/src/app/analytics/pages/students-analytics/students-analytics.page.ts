@@ -6,29 +6,31 @@ import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { DashboardService } from '../../../core/services/dashboard.service';
 import { IAnalyticsService } from '../../models/i-analytics-service';
 import { IStatusData } from '../../models/i-status-data';
-import { MentorsAnalyticsService } from './mentors-analytics.service';
+import { StudentsAnalyticsService } from './students-analytics.service';
 
 @Component({
-  selector: 'sgm-mentors-analytics',
-  templateUrl: './mentors-analytics.page.html',
-  providers: [{ provide: IAnalyticsService, useClass: MentorsAnalyticsService }]
+  selector: 'sgm-students-analytics',
+  templateUrl: './students-analytics.page.html',
+  providers: [
+    { provide: IAnalyticsService, useClass: StudentsAnalyticsService }
+  ]
 })
-export class MentorsAnalyticsPage implements OnInit, OnDestroy {
+export class StudentsAnalyticsComponent implements OnInit, OnDestroy {
 
   constructor(
-    private readonly mentorAnalytics: IAnalyticsService<SGMAnalytics.MentorsAnalytics>,
     private readonly route: ActivatedRoute,
+    private readonly studentAnalytics: IAnalyticsService<SGMAnalytics.StudentsAnalytics>,
     private readonly dashboard: DashboardService,
   ) { }
 
   private updatingDataSub: Subscription | null = null;
 
-  private response$: Observable<IStatusData<SGMAnalytics.MentorsAnalytics>> = this.route.params.pipe(
-    switchMap(params => this.mentorAnalytics.get$(params.periodId)),
+  private response$: Observable<IStatusData<SGMAnalytics.StudentsAnalytics>> = this.route.params.pipe(
+    switchMap(params => this.studentAnalytics.get$(params.periodId)),
     shareReplay(1),
   );
 
-  public analytics$: Observable<SGMAnalytics.MentorsAnalytics | null> = this.response$.pipe(
+  public analytics$: Observable<SGMAnalytics.StudentsAnalytics | null> = this.response$.pipe(
     map(response => response.status === 'READY' ? response.data : null)
   );
 
@@ -44,7 +46,10 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
     map(response => response.status === 'ERROR'),
   );
 
-  ngOnInit(): void {
+  public selectedArea: string | null = null;
+  public selectedDegree: string | null = null;
+
+  ngOnInit() {
     this.dashboard.setTitle('SGM Analíticas');
   }
 
@@ -52,10 +57,10 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
     this.updatingDataSub?.unsubscribe();
   }
 
-  public updateMentorsAnalytics(): void {
+  public updateAnalytics(): void {
     const task = this.route.params.pipe(
       take(1),
-      switchMap(params => this.mentorAnalytics.update$(params.periodId)),
+      switchMap(params => this.studentAnalytics.update$(params.periodId)),
     );
 
     this.updatingDataSub = task.subscribe(updated => {
