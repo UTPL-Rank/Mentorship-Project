@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAnalytics } from '@angular/fire/analytics';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { auth, User } from 'firebase/app';
+import { User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, shareReplay, switchMap, take } from 'rxjs/operators';
 import { Notification } from '../../models/notification.model';
@@ -17,7 +16,6 @@ export class UserService {
     private readonly firestore: AngularFirestore,
     private readonly afAuth: AngularFireAuth,
     private readonly logger: BrowserLoggerService,
-    private readonly eventLog: AngularFireAnalytics,
     private readonly router: Router,
   ) { }
 
@@ -59,19 +57,6 @@ export class UserService {
     map(data => data ?? null),
     shareReplay(1),
   );
-
-  async UTPLSignWithUsername(username: string) {
-    // proceed to create a new UTPL provider
-    const microsoftProvider = new auth.OAuthProvider('microsoft.com');
-    microsoftProvider.setCustomParameters({
-      prompt: 'login',
-      login_hint: `${username}@utpl.edu.ec`,
-      tenant: '6eeb49aa-436d-43e6-becd-bbdf79e5077d'
-    });
-
-    await this.eventLog.logEvent('sign_an_action', { username });
-    return await this.afAuth.signInWithRedirect(microsoftProvider);
-  }
 
   async signOut(redirect?: Array<string>) {
     await this.afAuth.signOut();

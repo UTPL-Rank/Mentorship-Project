@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
+import { MicrosoftSignInComponent } from './components/microsoft-sign-in/microsoft-sign-in.component';
 import { SingInRoutingModule } from './sign-in-routing.module';
 
 @NgModule({
@@ -12,7 +12,7 @@ import { SingInRoutingModule } from './sign-in-routing.module';
   ],
   declarations: [
     SingInRoutingModule.pages,
-    SignInFormComponent,
+    MicrosoftSignInComponent,
   ],
 })
 export class SignInModule { }
