@@ -4,8 +4,8 @@ import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { DashboardService } from '../../../core/services/dashboard.service';
+import { IStatusData } from '../../../shared/modules/i-status-data';
 import { IAnalyticsService } from '../../models/i-analytics-service';
-import { IStatusData } from '../../models/i-status-data';
 import { AccompanimentsAnalyticsService } from './accompaniments-analytics.service';
 
 @Component({

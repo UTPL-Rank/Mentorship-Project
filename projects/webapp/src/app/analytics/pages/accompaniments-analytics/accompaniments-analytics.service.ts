@@ -6,8 +6,8 @@ import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
 import { Observable, of } from 'rxjs';
 import { catchError, map, startWith, tap } from 'rxjs/operators';
 import { BrowserLoggerService } from '../../../core/services/browser-logger.service';
+import { IStatusData } from '../../../shared/modules/i-status-data';
 import { IAnalyticsService } from '../../models/i-analytics-service';
-import { IStatusData } from '../../models/i-status-data';
 
 @Injectable({ providedIn: 'root', })
 export class AccompanimentsAnalyticsService extends IAnalyticsService<SGMAnalytics.AccompanimentsAnalytics> {

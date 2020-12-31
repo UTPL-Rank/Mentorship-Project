@@ -4,9 +4,9 @@
  */
 export abstract class ISignIn<T> {
 
-/**
- * function called to sign in using this provider
- * @param options parameter that are required to implement an specific option
- */
+  /**
+   * function called to sign in using this provider
+   * @param options parameter that are required to implement an specific option
+   */
   abstract signIn(options?: T): Promise<void>;
 }

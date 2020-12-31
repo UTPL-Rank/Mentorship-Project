@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { IStatusData } from './i-status-data';
+import { IStatusData } from '../../shared/modules/i-status-data';
 
 /**
  * ## Interface Analytics Service
