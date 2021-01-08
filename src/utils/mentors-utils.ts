@@ -135,7 +135,7 @@ export async function ListMentorsWithNoRegisteredAccompaniments(): Promise<Array
 
     const collection = dbFirestore.collection('mentors')
         .where('period.reference', '==', periodRef)
-        .where('stats.accompanimentsCount', '==', 0);   
+        .where('stats.accompanimentsCount', '==', 0);
 
     const snap = await collection.get();
     const mentors = snap.docs.map(doc => doc.data() as SGMMentor.readDTO);
@@ -168,4 +168,16 @@ export async function OneMentor(mentorId: string): Promise<SGMMentor.readDTO | n
     const mentor = snapshot.exists ? snapshot.data() as SGMMentor.readDTO : null;
 
     return mentor;
+}
+export async function FindOneMentorFromPeriod(mentorId: string, periodId: string): Promise<SGMMentor.readDTO | null> {
+    console.log('cant return a boolean');
+
+    const periodRef = PeriodDocument(periodId)
+    const mentorsQuery = MentorCollection().where('id', '==', mentorId).where('period.reference', '==', periodRef) as firestore.CollectionReference<SGMMentor.readDTO>;
+    const snaps = await mentorsQuery.get();
+
+    if (snaps.size !== 1)
+        return null
+
+    return snaps.docs[0].data();
 }

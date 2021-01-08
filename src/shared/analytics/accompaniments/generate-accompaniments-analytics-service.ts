@@ -1,5 +1,4 @@
 import { SGMAcademicPeriod, SGMAccompaniment, SGMAnalytics } from "@utpl-rank/sgm-helpers";
-import { UndefinedCleaner } from "../../utils/undefined-cleaner";
 
 /**
  * Turn a complete accompaniment into an analytics entry and remove un-used values in the process
@@ -7,36 +6,21 @@ import { UndefinedCleaner } from "../../utils/undefined-cleaner";
  */
 function TransformAccompanimentToAnEntry(accompaniment: SGMAccompaniment.readDTO): SGMAnalytics.AccompanimentEntry {
     const newAcc: SGMAnalytics.AccompanimentEntry = {
-        area: {
-            name: accompaniment.area.name,
-            id: accompaniment.area.reference.id
-        },
-        period: {
-            name: accompaniment.period.name,
-            id: accompaniment.period.reference.id
-        },
-        degree: {
-            name: accompaniment.degree.name,
-            id: accompaniment.degree.reference.id
-        },
-        mentor: {
-            displayName: accompaniment.mentor.displayName,
-            id: accompaniment.mentor.reference.id,
-        },
-        student: {
-            displayName: accompaniment.student.displayName,
-            id: accompaniment.student.reference.id,
-        },
+        kind: accompaniment.kind || null,
+        area: { name: accompaniment.area.name, id: accompaniment.area.reference.id },
+        period: { name: accompaniment.period.name, id: accompaniment.period.reference.id },
+        degree: { name: accompaniment.degree.name, id: accompaniment.degree.reference.id },
+        mentor: { displayName: accompaniment.mentor.displayName, id: accompaniment.mentor.reference.id, },
+        student: { displayName: accompaniment.student.displayName, id: accompaniment.student.reference.id, },
         followingKind: accompaniment.followingKind,
         important: !!accompaniment.important,
         id: accompaniment.id,
         problems: accompaniment.problems,
         reviewed: !accompaniment.reviewKey,
         semesterKind: accompaniment.semesterKind,
-        kind: accompaniment.kind,
     };
 
-    return UndefinedCleaner(newAcc);
+    return newAcc;
 }
 
 /**

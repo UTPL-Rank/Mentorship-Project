@@ -1,13 +1,33 @@
 import { SGMAcademicPeriod, SGMAnalytics, SGMMentor } from "@utpl-rank/sgm-helpers";
-import { GetMentorDetailsEvaluation } from "../../../utils/mentors-utils";
+import { FindOneMentorFromPeriod } from "../../../utils/mentors-utils";
 import { UndefinedCleaner } from "../../utils/undefined-cleaner";
 
 /**
- * Turn a complete mentor into an analytics entry and remove un-used values in the process
- * @param mentor data to be transformed
+ * To find whether the mentor has being in other periods, first search for one entry of the mentor email in the
+ * mentors collection, but with the last period id, also limit the response to one mentor
+
+ * @param mentor to find if first time
+ * @param currentPeriod data of the academic periuod
  */
-async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO): Promise<SGMAnalytics.MentorEntry> {
-    const evaluationDetails = await GetMentorDetailsEvaluation(mentor.id);
+async function FindIfMentorFirstTime(mentor: SGMMentor.readDTO, currentPeriod: SGMAcademicPeriod.readDTO): Promise<boolean> {
+
+    if (!currentPeriod.prevPeriodId)
+        return false;
+
+    const lastPeriodMentor = await FindOneMentorFromPeriod(mentor.id, currentPeriod.prevPeriodId);
+
+    return !!lastPeriodMentor;
+}
+
+/**
+ * Turn a complete mentor into an analytics entry and remove un-used values in the process
+ *
+ * @param mentor data to be transformed
+ * @param currentPeriod data of the current period
+ */
+async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO, currentPeriod: SGMAcademicPeriod.readDTO): Promise<SGMAnalytics.MentorEntry> {
+
+    const mentorFirstTime = await FindIfMentorFirstTime(mentor, currentPeriod)
 
     const newMentor: SGMAnalytics.MentorEntry = {
         area: {
@@ -25,7 +45,7 @@ async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO): Promise<SGMA
         id: mentor.id,
         accompanimentsCount: mentor.stats.accompanimentsCount,
         assignedStudentCount: mentor.stats.assignedStudentCount,
-        mentorFirstTime: !!(evaluationDetails && evaluationDetails.mentorFirstTime),
+        mentorFirstTime,
         withAccompaniments: mentor.students.withAccompaniments.length,
         withoutAccompaniments: mentor.students.withoutAccompaniments.length,
         displayName: mentor.displayName,
@@ -39,7 +59,7 @@ async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO): Promise<SGMA
  * @param periodData academic witch correspond to the analytics being generated
  */
 function GenerateAnalyticsIdentifier(periodData: SGMAcademicPeriod.readDTO): string {
-    return `${periodData.id}-mentor`;
+    return `${periodData.id}-mentors`;
 }
 
 /**
@@ -55,7 +75,7 @@ export async function GenerateMentorsAnalyticsService(period: SGMAcademicPeriod.
 
     const id = GenerateAnalyticsIdentifier(period);
 
-    const analyticsMentorsPromise: Array<Promise<SGMAnalytics.MentorEntry>> = mentors.map(async m => await TransformMentorToAnEntry(m));
+    const analyticsMentorsPromise: Array<Promise<SGMAnalytics.MentorEntry>> = mentors.map(async m => await TransformMentorToAnEntry(m, period));
     const analyticsMentors: Array<SGMAnalytics.MentorEntry> = await Promise.all(analyticsMentorsPromise);
 
     const response: SGMAnalytics.MentorsAnalytics = {

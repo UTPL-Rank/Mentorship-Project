@@ -2,13 +2,6 @@ import { SGMAcademicPeriod } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
 import { dbFirestore } from "./utils";
 
-export interface AcademicPeriod {
-    id: string;
-    name: string;
-    date: firestore.Timestamp;
-    current: boolean;
-};
-
 /**
  * Academic Periods Collection Reference
  * =========================================================
@@ -16,8 +9,8 @@ export interface AcademicPeriod {
  * 
  * Get the firestore collection of academic periods 
  */
-function PeriodsCollection(): firestore.CollectionReference<AcademicPeriod> {
-    return dbFirestore.collection('academic-periods') as firestore.CollectionReference<AcademicPeriod>;
+function PeriodsCollection(): firestore.CollectionReference<SGMAcademicPeriod.readDTO> {
+    return dbFirestore.collection('academic-periods') as firestore.CollectionReference<SGMAcademicPeriod.readDTO>;
 }
 
 /**
@@ -29,7 +22,7 @@ function PeriodsCollection(): firestore.CollectionReference<AcademicPeriod> {
  * 
  * @param id identifier of the required period
  */
-export function PeriodDocument(id: string): firestore.DocumentReference<AcademicPeriod> {
+export function PeriodDocument(id: string): firestore.DocumentReference<SGMAcademicPeriod.readDTO> {
     const doc = PeriodsCollection().doc(id)
     return doc;
 }
@@ -43,11 +36,11 @@ export function PeriodDocument(id: string): firestore.DocumentReference<Academic
  * 
  * @param id identifier of the required period
  */
-export async function GetAcademicPeriod(id: string): Promise<AcademicPeriod | null> {
+export async function GetAcademicPeriod(id: string): Promise<SGMAcademicPeriod.readDTO | null> {
     const doc = await PeriodDocument(id).get();
 
     if (doc.exists)
-        return doc.data() as AcademicPeriod;
+        return doc.data() as SGMAcademicPeriod.readDTO;
 
     return null;
 }
@@ -64,7 +57,7 @@ export async function GetAcademicPeriod(id: string): Promise<AcademicPeriod | nu
  * this mean that there are more than one current period at the time.
  * If there is more than one, an error of inconsistency is raised
  */
-async function CurrentPeriodQuerySnapshot(): Promise<firestore.QueryDocumentSnapshot<AcademicPeriod>> {
+async function CurrentPeriodQuerySnapshot(): Promise<firestore.QueryDocumentSnapshot<SGMAcademicPeriod.readDTO>> {
     const collRef = PeriodsCollection().where('current', '==', true);
     const snaps = await collRef.get();
 
@@ -83,7 +76,7 @@ async function CurrentPeriodQuerySnapshot(): Promise<firestore.QueryDocumentSnap
  *
  * Get the period reference to the current academic period enabled.
  */
-export async function CurrentPeriodReference(): Promise<firestore.DocumentReference<AcademicPeriod>> {
+export async function CurrentPeriodReference(): Promise<firestore.DocumentReference<SGMAcademicPeriod.readDTO>> {
     const periodSnap = await CurrentPeriodQuerySnapshot();
     const periodId = periodSnap.data().id;
     const ref = PeriodDocument(periodId)
@@ -100,7 +93,7 @@ export async function CurrentPeriodReference(): Promise<firestore.DocumentRefere
  * Get the data of the current academic period, with this method we can 
  * asume that we will always recibe a valid period, otherwise an error is thrown
  */
-export async function CurrentPeriod(): Promise<AcademicPeriod> {
+export async function CurrentPeriod(): Promise<SGMAcademicPeriod.readDTO> {
     const periodSnap = await CurrentPeriodQuerySnapshot();
 
     return periodSnap.data();
