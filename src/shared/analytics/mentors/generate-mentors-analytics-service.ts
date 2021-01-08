@@ -7,14 +7,14 @@ import { UndefinedCleaner } from "../../utils/undefined-cleaner";
  * mentors collection, but with the last period id, also limit the response to one mentor
 
  * @param mentor to find if first time
- * @param currentPeriod data of the academic periuod
+ * @param currentPeriod data of the academic period
  */
 async function FindIfMentorFirstTime(mentor: SGMMentor.readDTO, currentPeriod: SGMAcademicPeriod.readDTO): Promise<boolean> {
 
     if (!currentPeriod.prevPeriodId)
         return false;
 
-    const lastPeriodMentor = await FindOneMentorFromPeriod(mentor.id, currentPeriod.prevPeriodId);
+    const lastPeriodMentor = await FindOneMentorFromPeriod(mentor.email, currentPeriod.prevPeriodId);
 
     return !!lastPeriodMentor;
 }

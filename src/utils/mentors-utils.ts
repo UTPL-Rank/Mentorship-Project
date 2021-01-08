@@ -169,11 +169,11 @@ export async function OneMentor(mentorId: string): Promise<SGMMentor.readDTO | n
 
     return mentor;
 }
-export async function FindOneMentorFromPeriod(mentorId: string, periodId: string): Promise<SGMMentor.readDTO | null> {
-    console.log('cant return a boolean');
+export async function FindOneMentorFromPeriod(mentorEmail: string, periodId: string): Promise<SGMMentor.readDTO | null> {
+    console.log('can return a boolean');
 
     const periodRef = PeriodDocument(periodId)
-    const mentorsQuery = MentorCollection().where('id', '==', mentorId).where('period.reference', '==', periodRef) as firestore.CollectionReference<SGMMentor.readDTO>;
+    const mentorsQuery = MentorCollection().where('email', '==', mentorEmail).where('period.reference', '==', periodRef) as firestore.CollectionReference<SGMMentor.readDTO>;
     const snaps = await mentorsQuery.get();
 
     if (snaps.size !== 1)
