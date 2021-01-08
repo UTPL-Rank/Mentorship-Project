@@ -15,26 +15,6 @@ export namespace SGMAnalytics {
     }
 
     /**
-     * Mentors Analytics
-     */
-    export interface MentorEntry {
-        id: string;
-        displayName: string;
-        area: { name: string; id: string; },
-        degree: { name: string; id: string; },
-        period: { name: string; id: string; },
-        mentorFirstTime: boolean;
-        accompanimentsCount: number;
-        assignedStudentCount: number;
-        withAccompaniments: number;
-        withoutAccompaniments: number;
-    }
-
-    export interface MentorsAnalytics extends _Base {
-        mentors: Array<MentorEntry>;
-    }
-
-    /**
      * Accompaniments Analytics
      */
     interface _BaseAccompanimentEntry {
@@ -43,7 +23,7 @@ export namespace SGMAnalytics {
         degree: { name: string; id: string; },
         mentor: { displayName: string; id: string; },
         student: { displayName: string; id: string; },
-        kind?: SGMAccompaniment.AccompanimentKind;
+        kind: SGMAccompaniment.AccompanimentKind | null;
         followingKind: SGMAccompaniment.FollowingType;
         important: boolean;
         id: string;
@@ -60,6 +40,7 @@ export namespace SGMAnalytics {
     }
 
     export interface LegacyAccompanimentEntry extends _BaseAccompanimentEntry {
+        kind: null,
         problems: {
             problemCount: number;
             academic: boolean;
@@ -96,7 +77,7 @@ export namespace SGMAnalytics {
     }
 
     export interface AccompanimentsAnalytics extends _Base {
-        accompaniments: Array<LegacyAccompanimentEntry | ProblemAccompanimentEntry | NoProblemAccompanimentEntry>;
+        accompaniments?: Array<LegacyAccompanimentEntry | ProblemAccompanimentEntry | NoProblemAccompanimentEntry>;
     }
 
     /**
@@ -114,6 +95,26 @@ export namespace SGMAnalytics {
     }
 
     export interface StudentsAnalytics extends _Base {
-        students: Array<StudentEntry>;
+        students?: Array<StudentEntry>;
+    }
+
+    /**
+     * Mentors Analytics
+     */
+    export interface MentorEntry {
+        id: string;
+        displayName: string;
+        area: { name: string; id: string; },
+        degree: { name: string; id: string; },
+        period: { name: string; id: string; },
+        mentorFirstTime: boolean;
+        accompanimentsCount: number;
+        assignedStudentCount: number;
+        withAccompaniments: number;
+        withoutAccompaniments: number;
+    }
+
+    export interface MentorsAnalytics extends _Base {
+        mentors?: Array<MentorEntry>;
     }
 }
