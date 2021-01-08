@@ -19,7 +19,7 @@ export class MentorsAnalyticsService extends IAnalyticsService<SGMAnalytics.Ment
   ) { super(); }
 
   get$(periodId: string): Observable<IStatusData<SGMAnalytics.MentorsAnalytics>> {
-    const id = `analytics/${periodId}-mentor`;
+    const id = `analytics/${periodId}-mentors`;
 
     return this.database.object<SGMAnalytics.MentorsAnalytics>(id).valueChanges().pipe(
       trace('analytics-get-mentors'),

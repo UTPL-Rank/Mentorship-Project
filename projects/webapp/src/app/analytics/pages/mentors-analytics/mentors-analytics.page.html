@@ -66,6 +66,12 @@
 <!-- Loaded data, swap to content -->
 <ng-container *ngIf="analytics$|async as analytics">
   <section class="container-fluid my-4">
-    <sgm-mentors-with-accompaniments [data]="analytics.mentors"></sgm-mentors-with-accompaniments>
+    <h5>Mentores del periodo anterior</h5>
+    <sgm-mentors-with-accompaniments [data]="mentorsFirstTime$|async"></sgm-mentors-with-accompaniments>
+    </section>
+
+    <section class="container-fluid my-4">
+      <h5>Mentores que realizan la mentoria por primera vez</h5>
+      <sgm-mentors-with-accompaniments [data]="mentorsSecondTime$|async"></sgm-mentors-with-accompaniments>
   </section>
 </ng-container>

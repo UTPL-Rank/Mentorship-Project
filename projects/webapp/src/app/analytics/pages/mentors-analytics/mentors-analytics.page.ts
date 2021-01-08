@@ -32,6 +32,14 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
     map(response => response.status === 'READY' ? response.data : null)
   );
 
+  public mentorsFirstTime$: Observable<Array<SGMAnalytics.MentorEntry>> = this.analytics$.pipe(
+    map(analytics => analytics?.mentors.filter(m => m.mentorFirstTime) || []),
+  );
+
+  public mentorsSecondTime$: Observable<Array<SGMAnalytics.MentorEntry>> = this.analytics$.pipe(
+    map(analytics => analytics?.mentors.filter(m => !m.mentorFirstTime) || []),
+  );
+
   public ready$: Observable<boolean> = this.response$.pipe(
     map(response => response.status === 'READY'),
   );
