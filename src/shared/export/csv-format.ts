@@ -15,12 +15,11 @@ export class CSVFormat<T> implements IExport<T> {
 
     private readonly newLine = '\r\n';
 
-    public export(callbackfn: IExportCallback<T>): string {
+    public async export(callbackfn: IExportCallback<T>): Promise<string> {
 
-        const rows = this.exportable.map(callbackfn);
+        const rows = await Promise.all(this.exportable.map(callbackfn));
 
         const csvData = [this.columnNames, ...rows];
-
 
         if (!this.validateItemsHaveSameLength(csvData))
             throw new Error('Not all rows contains the same length');
