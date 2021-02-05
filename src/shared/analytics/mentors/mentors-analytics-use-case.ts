@@ -18,6 +18,7 @@ import { GenerateMentorsAnalyticsService } from "./generate-mentors-analytics-se
 export async function AnalyticsMentorsUseCase(periodIdentifier?: string): Promise<void> {
 
     const period = await (!!periodIdentifier ? GetAcademicPeriod(periodIdentifier) : CurrentPeriod());
+    console.log({ loadingPeriod: period });
 
     const validPeriod = ValidPeriod(period);
 

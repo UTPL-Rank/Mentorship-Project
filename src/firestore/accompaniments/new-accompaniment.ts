@@ -1,4 +1,5 @@
 import { SGMAccompaniment, SGMNotification } from '@utpl-rank/sgm-helpers';
+import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { GeneralEmail } from '../../shared/mail/general-email';
 import { SaveEmail } from '../../shared/mail/save-email';
@@ -34,6 +35,32 @@ async function notifyUserOfAccompaniment({ id, student, mentor, period, reviewKe
   await Promise.all(tasks);
 }
 
+async function notifyAdminImportantAccompaniment(accompaniment: SGMAccompaniment.readDTO) {
+
+
+  // get administrators
+
+  const snaps = await firestore().collection('claims').where('isAdmin', '==', true).get();
+  const emails = snaps.docs.map(s => s.id);
+
+  const tasks = emails.map(async email => {
+    const username = UsernameFromEmail(email)
+    const id = firestore().collection('users').doc(username).collection('notifications').doc().id;
+
+    // send notification
+    const notification: Partial<SGMNotification.createDTO> = {
+      name: 'Acompañamiento Importante',
+      message: `${accompaniment.mentor.displayName.toUpperCase()} ha marcado un acompañamiento como importante.`,
+      redirect: `/panel-control/abr20-ago20/acompañamientos/ver/${accompaniment.mentor.reference.id}/${accompaniment.id}`,
+      id
+    }
+
+    await SendNotification(username, notification);
+  })
+
+  await Promise.all(tasks);
+}
+
 export const mailAccompanimentReview = functions.firestore
   .document('accompaniments/{accompanimentId}')
   .onCreate(async (document, _) => {
@@ -48,8 +75,8 @@ export const mailAccompanimentReview = functions.firestore
 
     // TODO: accompaniment tagged as important 
     // send notification to administrators
-    // if (accompaniment.important)
-    //   tasks.push(notifyAdminImportantAccompaniment(accompaniment));
+    if (accompaniment.important)
+      tasks.push(notifyAdminImportantAccompaniment(accompaniment));
 
     await Promise.all(tasks);
   });
