@@ -38,6 +38,7 @@
             </th>
             <td class="font-weight-bold text-muted small">
               {{ accompaniment.timeCreated.toMillis() | date }}
+
             </td>
             <ng-container *ngIf="showMentorName">
               <td class="font-weight-bold text-muted small">
@@ -55,7 +56,6 @@
                   <i class="fas fa-exclamation-circle"></i>
                 </span>
               </ng-container>
-
               {{ accompaniment.problems.problemCount }}
               <span *ngIf="accompaniment.problems.problemCount === 1">
                 problemática
@@ -73,7 +73,7 @@
               </span>
             </td>
             <td>
-              <a class="btn btn-primary btn-sm small lift" [routerLink]="[
+              <a class="btn btn-sm small lift" [ngClass]="accompaniment.read ? 'btn-outline-primary': 'btn-primary'" [routerLink]="[
                 '/panel-control',
                 accompaniment.period.reference.id,
                 'ver-acompañamiento',
@@ -101,7 +101,7 @@
             </td>
           </tr>
         </ng-container>
-        
+
         <!-- no students message -->
         <ng-template #emptyMessage>
           <tr>

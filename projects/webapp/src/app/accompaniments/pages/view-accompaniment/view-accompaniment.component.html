@@ -47,8 +47,11 @@
             <span class="badge badge-warning mr-1" *ngIf="!!accompaniment.reviewKey">
               Sin Validar
             </span>
-            <span class="badge badge-primary ">
+            <span class="badge badge-primary mr-1 ">
               Formato {{accompaniment.kind|transformAccompanimentKind}}
+            </span>
+            <span class="badge badge-secondary  ">
+              {{accompaniment.read ? 'leido': 'sin leer'}}
             </span>
           </p>
         </div>
@@ -69,13 +72,34 @@
           <div class="mb-6">
             <sgm-info-mentor [mentor]="accompaniment.mentor"></sgm-info-mentor>
           </div>
-          <sgm-info-student [student]="accompaniment.student"> </sgm-info-student>
+          <div class="mb-6">
+            <sgm-info-student [student]="accompaniment.student"> </sgm-info-student>
+          </div>
+
           <!-- button to change if accompaniment is important -->
-          <ng-container *ngIf="showImportantSwitch$|async">
-            <button class="mt-6 btn btn-sm btn-info lift" (click)="changeImportant()" [disabled]="disableButton">
-              <i class="fas fa-exclamation-circle"></i>
-              {{importantSwitchText$|async}}
-            </button>
+          <ng-container *ngIf="showOptions$|async">
+            <div class="mb-6">
+              <button class=" btn btn-sm btn-info lift btn-block" (click)="changeImportant()" [disabled]="disableButton">
+                <i class="fas fa-exclamation-circle"></i>
+                {{importantSwitchText$|async}}
+              </button>
+            </div>
+          </ng-container>
+          <!-- send mail -->
+          <ng-container *ngIf="showOptions$|async">
+            <div class="mb-6">
+              <button class="btn btn-sm btn-primary lift btn-block" (click)="changeRead()" [disabled]="disableButton">
+                <i class="fas fa-eye"></i>
+                {{readSwitchText$|async}}
+              </button>
+            </div>
+          </ng-container>
+
+          <!-- button to change if accompaniment is important -->
+          <ng-container *ngIf="showOptions$|async">
+            <a class="btn btn-sm btn-primary lift btn-block" [href]="mailto$|async" target="_blank" rel="noopener noreferrer">
+              Contactar por correo
+            </a>
           </ng-container>
         </div>
       </div>

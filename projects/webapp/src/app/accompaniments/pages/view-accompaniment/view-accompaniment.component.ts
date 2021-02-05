@@ -16,23 +16,32 @@ export class ViewAccompanimentComponent {
     private readonly user: UserService,
     private readonly route: ActivatedRoute,
     private readonly accompanimentsService: AccompanimentsService,
-    ) { }
+  ) { }
 
   public accompanimentObs: Observable<SGMAccompaniment.readDTO | null> = this.route.params.pipe(
     switchMap(params => this.accompanimentsService.accompanimentStream(params.accompanimentId)),
     shareReplay(1),
   );
 
-  public readonly showImportantSwitch$: Observable<boolean> = this.user.isAdmin;
+  public readonly showOptions$: Observable<boolean> = this.user.isAdmin;
 
   public readonly importantSwitchText$: Observable<string> = this.accompanimentObs.pipe(
     map(acc => !!acc?.important ? 'Marcar como NO Importante' : 'Marcar como Importante'),
   );
+  public readonly readSwitchText$: Observable<string> = this.accompanimentObs.pipe(
+    map(acc => !!acc?.read ? 'Marcar como No leido' : 'Marcar como leido'),
+  );
 
-  private changeImportantSub: Subscription | null = null;
+  //%20
+  mailto$ = this.accompanimentObs.pipe(
+    map(a => `mailto:${a?.mentor.email}?Subject=Acompañamiento%20Importante&body=Hola,%20${a?.mentor.displayName.toUpperCase()}%20queremos preguntar como esta el esto del problema: "${a?.problemDescription}"
+    `)
+  );
+
+  private updatingSubscription: Subscription | null = null;
 
   public changeImportant(): void {
-    if (!!this.changeImportantSub)
+    if (!!this.updatingSubscription)
       return;
 
     const updateTask = this.accompanimentObs.pipe(
@@ -40,15 +49,33 @@ export class ViewAccompanimentComponent {
       switchMap(acc => !!acc ? this.accompanimentsService.changeImportant$(acc.id, !acc.important) : of(false)),
     );
 
-    this.changeImportantSub = updateTask.subscribe(updated => {
+    this.updatingSubscription = updateTask.subscribe(updated => {
       const message = updated ? 'Se actualizo correctamente' : 'Ocurrió un error, vuelve a intentarlo';
       alert(message);
-      this.changeImportantSub?.unsubscribe();
-      this.changeImportantSub = null;
+      this.updatingSubscription?.unsubscribe();
+      this.updatingSubscription = null;
+    });
+  }
+
+  public changeRead(): void {
+    if (!!this.updatingSubscription)
+      return;
+
+    const updateTask = this.accompanimentObs.pipe(
+      take(1),
+      switchMap(acc => !!acc ? this.accompanimentsService.changeRead$(acc.id, !acc.read) : of(false)),
+    );
+
+    this.updatingSubscription = updateTask.subscribe(updated => {
+      const message = updated ? 'Se actualizo correctamente' : 'Ocurrió un error, vuelve a intentarlo';
+      alert(message);
+      this.updatingSubscription?.unsubscribe();
+      this.updatingSubscription = null;
     });
   }
 
   get disableButton(): boolean {
-    return !!this.changeImportantSub?.closed;
+    return !!this.updatingSubscription?.closed;
   }
+
 }

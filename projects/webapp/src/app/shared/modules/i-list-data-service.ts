@@ -8,9 +8,10 @@ import { IStatusData } from './i-status-data';
  *
  * footprint for all services that retrieve data in list form
  */
-export abstract class IListDataService<T> {
+export abstract class IListDataService<T, K> {
   /**
    * Get an observable with a list of documents of type `T`
+   * @param options custom properties to fetch the data.
    */
-  abstract list$(): Observable<IStatusData<Array<T>>>;
+  abstract list$(options?: K): Observable<IStatusData<Array<T>>>;
 }

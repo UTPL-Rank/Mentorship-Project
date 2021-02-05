@@ -215,5 +215,18 @@ export class AccompanimentsService {
     return updateTask;
   }
 
+  public changeRead$(accompanimentId: string, read: boolean): Observable<boolean> {
+    const accompanimentDocument = this.accompanimentDocument(accompanimentId);
+    const updateTask = from(accompanimentDocument.update({ read })).pipe(
+      map(() => true),
+      catchError(err => {
+        this.logger.error('Change accompaniment read', err);
+        return of(false);
+      })
+    );
+
+    return updateTask;
+  }
+
 
 }
