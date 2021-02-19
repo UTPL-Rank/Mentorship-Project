@@ -25,7 +25,7 @@ const _CSVMentors = async (data: SGMFunctionsCsvMentors.requestDTO, _: CallableC
     const currentPeriod = await GetAcademicPeriod(periodId);
 
     const mentors = await ListMentorsPeriod(periodId);
-    const headers = ['Index', 'Nombre del Mentor', 'Correo Electrónico', 'Primer año Mentor', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Estudiantes Asignados'];
+    const headers = ['Index', 'Nombre del Mentor', 'Correo Electrónico', 'Primer año Mentor', 'Ultimo Acompañamiento', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Estudiantes Asignados'];
 
     const callback: IExportCallback<SGMMentor.readDTO> = async (mentor, i, arr) => {
         const lastPeriodMentor = currentPeriod?.prevPeriodId ? await FindOneMentorFromPeriod(mentor.email, currentPeriod.prevPeriodId) : false;
@@ -35,6 +35,7 @@ const _CSVMentors = async (data: SGMFunctionsCsvMentors.requestDTO, _: CallableC
             mentor.displayName,
             mentor.email,
             lastPeriodMentor ? 'Si' : 'No',
+            mentor.stats.lastAccompaniment?.toDate().toISOString().substring(0, 10) ?? 'Sin acompañamientos',
             mentor.area.name,
             mentor.degree.name,
             mentor.stats.accompanimentsCount,
