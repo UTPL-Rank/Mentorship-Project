@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CardModule } from './card/card.module';
+import { ChatsModule } from './chats/chats.module';
 import { AccompanimentsTableComponent } from './components/accompaniments-table/accompaniments-table.component';
 import { InfoMentorComponent } from './components/info-mentor/info-mentor.component';
 import { MentorFilterSelectorComponent } from './components/mentor-filter-selector/mentor-filter-selector.component';
@@ -25,6 +26,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     RouterModule,
     ReactiveFormsModule,
     CardModule,
+    ChatsModule,
   ],
   declarations: [
     AcademicCycleNamePipe,
@@ -58,6 +60,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     PageHeaderTitleComponent,
     MentorFilterSelectorComponent,
     CardModule,
+    ChatsModule,
   ]
 })
 export class SharedModule { }
