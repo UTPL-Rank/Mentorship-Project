@@ -1,0 +1,65 @@
+<div class="layout">
+  <sgm-pie
+    [data]="[
+      totalWithAccompaniments$ | async,
+      totalWithoutAccompaniments$ | async
+    ]"
+    [labels]="['Recibieron mentoria', 'No recibieron mentoria']"
+  >
+  </sgm-pie>
+
+  <div class="list-statistics">
+    <sgm-statistic>
+      <!-- label -->
+      <sgm-statistic-label>Todos los estudiantes</sgm-statistic-label>
+      <!-- value TODO: primary -->
+      <sgm-statistic-value>
+        {{ total$ | async }}
+      </sgm-statistic-value>
+    </sgm-statistic>
+
+    <!-- mentors with accompaniments -->
+    <sgm-statistic>
+      <!-- label -->
+      <sgm-statistic-label>Recibieron mentoria</sgm-statistic-label>
+      <!-- value -->
+      <sgm-statistic-value>
+        {{ totalWithAccompaniments$ | async }}
+      </sgm-statistic-value>
+      <!-- percentage -->
+      <sgm-statistic-percentage>
+        {{ percentageWithAccompaniments$ | async }}
+      </sgm-statistic-percentage>
+    </sgm-statistic>
+
+    <!-- mentors without accompaniments -->
+    <sgm-statistic>
+      <!-- label -->
+      <sgm-statistic-label>No recibieron mentoria</sgm-statistic-label>
+      <!-- value -->
+      <sgm-statistic-value>
+        {{ totalWithoutAccompaniments$ | async }}
+      </sgm-statistic-value>
+      <!-- percentage -->
+      <sgm-statistic-percentage>
+        {{ percentageWithoutAccompaniments$ | async }}
+      </sgm-statistic-percentage>
+    </sgm-statistic>
+  </div>
+</div>
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+  }
+
+  .list-statistics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    flex: 1 1 300px;
+  }
+</style>

@@ -11,6 +11,7 @@ import { ProblemsChartComponent } from './components/charts/problems-chart.compo
 import { ProblemsDegreeChartComponent } from './components/charts/problems-degree-chart.component';
 import { MentorsPerDegreeComponent } from './components/mentors-per-degree/mentor-per-degree.component';
 import { MentorsWithAccompanimentsComponent } from './components/mentors-with-accompaniments/mentors-with-accompaniments.component';
+import { StudentsWithAccompanimentsComponent } from './components/students-with-accompaniments/students-with-accompaniments.component';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { MentorsWithAccompanimentsComponent } from './components/mentors-with-ac
     DegreesChartComponent,
     ProblemsDegreeChartComponent,
     MentorsPerDegreeComponent,
-    MentorsWithAccompanimentsComponent
+    MentorsWithAccompanimentsComponent,
+    StudentsWithAccompanimentsComponent,
   ],
   providers: [
     AnalyticsRoutingModule.resolvers,

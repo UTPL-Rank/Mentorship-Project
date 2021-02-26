@@ -67,8 +67,23 @@
 
 <!-- Loaded data, swap to content -->
 <ng-container *ngIf="analytics$|async as analytics">
+  <!-- card of first analytics -->
   <section class="container-fluid my-4">
-    <h5>Estudiantes de Primer ciclo</h5>
+    <!-- card container --->
+    <sgm-outline-card>
+      <!-- title --->
+      <sgm-outline-card-title>
+        Todos los estudiantes
+      </sgm-outline-card-title>
+      <!-- subtitle --->
+      <sgm-outline-card-subtitle>
+        Estudiantes nuevos que han recibido la mentoria con sus mentores.
+      </sgm-outline-card-subtitle>
 
+      <!-- content --->
+      <sgm-students-with-accompaniments
+        [students]="analytics.students"
+      ></sgm-students-with-accompaniments>
+    </sgm-outline-card>
   </section>
 </ng-container>
