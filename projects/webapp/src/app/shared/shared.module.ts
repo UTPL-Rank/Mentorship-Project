@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { CardModule } from './card/card.module';
 import { AccompanimentsTableComponent } from './components/accompaniments-table/accompaniments-table.component';
 import { InfoMentorComponent } from './components/info-mentor/info-mentor.component';
 import { MentorFilterSelectorComponent } from './components/mentor-filter-selector/mentor-filter-selector.component';
@@ -19,7 +20,12 @@ import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    ReactiveFormsModule,
+    CardModule,
+  ],
   declarations: [
     AcademicCycleNamePipe,
     InfoMentorComponent,
@@ -51,6 +57,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     PageHeaderSubtitleComponent,
     PageHeaderTitleComponent,
     MentorFilterSelectorComponent,
+    CardModule,
   ]
 })
 export class SharedModule { }
