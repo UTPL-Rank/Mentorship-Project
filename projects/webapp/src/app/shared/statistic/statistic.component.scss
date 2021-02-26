@@ -1,0 +1,26 @@
+.statistic-card {
+  border: 1px solid #dadce0;
+  border-radius: 4px;
+  box-shadow: none;
+  position: relative;
+  padding: .7em;
+
+  display: grid;
+  grid-template-areas: 'label percentage' 'value percentage';
+  grid-auto-rows: auto;
+  grid-template-columns: auto min-content;
+  gap: .5em;
+
+  &-label {
+    grid-area: label;
+  }
+
+  &-value {
+    grid-area: value;
+  }
+
+  &-percentage {
+  align-self: center;
+    grid-area: percentage;
+  }
+}

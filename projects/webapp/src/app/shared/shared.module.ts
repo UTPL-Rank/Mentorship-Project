@@ -19,6 +19,7 @@ import { AcademicCycleNamePipe } from './pipes/academic-cycle-name.pipe';
 import { FollowingNamePipe } from './pipes/following-name.pipe';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
+import { StatisticModule } from './statistic/statistic.module';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     ReactiveFormsModule,
     CardModule,
     ChatsModule,
+    StatisticModule,
   ],
   declarations: [
     AcademicCycleNamePipe,
@@ -61,6 +63,7 @@ import { SemesterNamePipe } from './pipes/semester-name.pipe';
     MentorFilterSelectorComponent,
     CardModule,
     ChatsModule,
+    StatisticModule,
   ]
 })
 export class SharedModule { }
