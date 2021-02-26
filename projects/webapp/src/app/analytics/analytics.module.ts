@@ -16,7 +16,7 @@ import { MentorsWithAccompanimentsComponent } from './components/mentors-with-ac
   imports: [
     CommonModule,
     AnalyticsRoutingModule,
-    ChartsModule,
+    ChartsModule, // TODO: remove
     SharedModule,
   ],
   declarations: [

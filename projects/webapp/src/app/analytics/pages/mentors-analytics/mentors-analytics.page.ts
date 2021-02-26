@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
-import { DashboardService } from '../../../core/services/dashboard.service';
 import { IStatusData } from '../../../shared/modules/i-status-data';
 import { IAnalyticsService } from '../../models/i-analytics-service';
 import { MentorsAnalyticsService } from './mentors-analytics.service';
@@ -11,14 +10,15 @@ import { MentorsAnalyticsService } from './mentors-analytics.service';
 @Component({
   selector: 'sgm-mentors-analytics',
   templateUrl: './mentors-analytics.page.html',
-  providers: [{ provide: IAnalyticsService, useClass: MentorsAnalyticsService }]
+  providers: [
+    { provide: IAnalyticsService, useClass: MentorsAnalyticsService },
+  ]
 })
-export class MentorsAnalyticsPage implements OnInit, OnDestroy {
+export class MentorsAnalyticsPage implements OnDestroy {
 
   constructor(
     private readonly mentorAnalytics: IAnalyticsService<SGMAnalytics.MentorsAnalytics>,
     private readonly route: ActivatedRoute,
-    private readonly dashboard: DashboardService,
   ) { }
 
   private updatingDataSub: Subscription | null = null;
@@ -32,6 +32,10 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
     map(response => response.status === 'READY' ? response.data : null)
   );
 
+  public readonly ready$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'READY'));
+  public readonly loading$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'LOADING'));
+  public readonly error$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'ERROR'));
+
   public mentorsFirstTime$: Observable<Array<SGMAnalytics.MentorEntry>> = this.analytics$.pipe(
     map(analytics => analytics?.mentors.filter(m => m.mentorFirstTime) || []),
   );
@@ -39,22 +43,6 @@ export class MentorsAnalyticsPage implements OnInit, OnDestroy {
   public mentorsSecondTime$: Observable<Array<SGMAnalytics.MentorEntry>> = this.analytics$.pipe(
     map(analytics => analytics?.mentors.filter(m => !m.mentorFirstTime) || []),
   );
-
-  public ready$: Observable<boolean> = this.response$.pipe(
-    map(response => response.status === 'READY'),
-  );
-
-  public loading$: Observable<boolean> = this.response$.pipe(
-    map(response => response.status === 'LOADING'),
-  );
-
-  public error$: Observable<boolean> = this.response$.pipe(
-    map(response => response.status === 'ERROR'),
-  );
-
-  ngOnInit(): void {
-    this.dashboard.setTitle('SGM Analíticas');
-  }
 
   ngOnDestroy(): void {
     this.updatingDataSub?.unsubscribe();

@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
-import { DashboardService } from '../../../core/services/dashboard.service';
 import { IStatusData } from '../../../shared/modules/i-status-data';
 import { IAnalyticsService } from '../../models/i-analytics-service';
 import { StudentsAnalyticsService } from './students-analytics.service';
@@ -15,12 +14,11 @@ import { StudentsAnalyticsService } from './students-analytics.service';
     { provide: IAnalyticsService, useClass: StudentsAnalyticsService }
   ]
 })
-export class StudentsAnalyticsComponent implements OnInit, OnDestroy {
+export class StudentsAnalyticsComponent implements OnDestroy {
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly studentAnalytics: IAnalyticsService<SGMAnalytics.StudentsAnalytics>,
-    private readonly dashboard: DashboardService,
   ) { }
 
   private updatingDataSub: Subscription | null = null;
@@ -34,24 +32,12 @@ export class StudentsAnalyticsComponent implements OnInit, OnDestroy {
     map(response => response.status === 'READY' ? response.data : null)
   );
 
-  public ready$: Observable<boolean> = this.response$.pipe(
-    map(response => response.status === 'READY'),
-  );
-
-  public loading$: Observable<boolean> = this.response$.pipe(
-    map(response => response.status === 'LOADING'),
-  );
-
-  public error$: Observable<boolean> = this.response$.pipe(
-    map(response => response.status === 'ERROR'),
-  );
+  public readonly ready$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'READY'));
+  public readonly loading$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'LOADING'));
+  public readonly error$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'ERROR'));
 
   public selectedArea: string | null = null;
   public selectedDegree: string | null = null;
-
-  ngOnInit() {
-    this.dashboard.setTitle('SGM Analíticas');
-  }
 
   ngOnDestroy(): void {
     this.updatingDataSub?.unsubscribe();

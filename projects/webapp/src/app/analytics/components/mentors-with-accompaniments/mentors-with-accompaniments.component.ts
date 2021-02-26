@@ -1,8 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { SGMAnalytics } from '@utpl-rank/sgm-helpers';
-import { ChartOptions } from 'chart.js';
 import * as pluginDataLabels from 'chartjs-plugin-datalabels';
-import { Color } from 'ng2-charts';
 
 @Component({
   selector: 'sgm-mentors-with-accompaniments',
@@ -46,39 +44,10 @@ export class MentorsWithAccompanimentsComponent {
   private filter: string | null = null;
 
   /**
-   * chat options
-   */
-  public chartOptions: ChartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      datalabels: {
-        color: ['white', 'black'],
-        formatter: (value, ctx) => {
-          const newLocal = ctx.chart.data.labels;
-          if (newLocal) {
-            const label = newLocal[ctx.dataIndex];
-            return label;
-          }
-          return value;
-        },
-      },
-    }
-  };
-
-  /**
    * chart plugin
    */
   public readonly chartPlugins = [pluginDataLabels];
 
-  /**
-   * colors used for the chart
-   */
-  public readonly chartColors: Array<Color> = [{
-    borderWidth: [4, 4],
-    borderColor: ['#1B6AE1', '#1B6AE1'],
-    backgroundColor: ['#1B6AE1', 'transparent'],
-  }];
 
   /**
    * input mentors data to the component and transform
