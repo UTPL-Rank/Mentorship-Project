@@ -8,7 +8,7 @@
       {{isUpdating ? 'Actualizando...':'Generar ahora'}}
     </button>
   </sgm-page-header-controls>
-  
+
   <ng-container *ngIf="ready$|async ">
     <ng-container *ngIf="analytics$ |async as  data; else showFirstTimeGenerating">
       <p>
@@ -27,23 +27,7 @@
 </ng-template>
 
 <div class="container-fluid my-4 my-md-6">
-  <ul class="nav justify-content-center">
-    <li class="nav-item">
-      <a routerLink="../mentores" class="nav-link text-center">
-        Mentores
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="../estudiantes" class="nav-link text-center">
-        Estudiantes
-      </a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="../acompañamientos" class="nav-link text-center">
-        Plataforma
-      </a>
-    </li>
-  </ul>
+  <sgm-analytics-navbar></sgm-analytics-navbar>
 </div>
 
 

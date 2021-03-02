@@ -12,6 +12,7 @@ import { ProblemsDegreeChartComponent } from './components/charts/problems-degre
 import { MentorsPerDegreeComponent } from './components/mentors-per-degree/mentor-per-degree.component';
 import { MentorsWithAccompanimentsComponent } from './components/mentors-with-accompaniments/mentors-with-accompaniments.component';
 import { StudentsWithAccompanimentsComponent } from './components/students-with-accompaniments/students-with-accompaniments.component';
+import { AnalyticsNavbarComponent } from './analytics-navbar/analytics-navbar.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { StudentsWithAccompanimentsComponent } from './components/students-with-
     MentorsPerDegreeComponent,
     MentorsWithAccompanimentsComponent,
     StudentsWithAccompanimentsComponent,
+    AnalyticsNavbarComponent,
   ],
   providers: [
     AnalyticsRoutingModule.resolvers,
