@@ -67,8 +67,7 @@
               "projects/webapp/src/assets"
             ],
             "styles": [
-              "projects/webapp/src/styles.css",
-              "projects/webapp/src/assets/bootstrap/scss/bootstrap.scss"
+              "projects/webapp/src/styles.scss"
             ],
             "scripts": []
           },
