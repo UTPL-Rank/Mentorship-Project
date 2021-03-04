@@ -37,11 +37,11 @@ export class MentorsAnalyticsPage implements OnDestroy {
   public readonly error$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'ERROR'));
 
   public mentorsFirstTime$: Observable<Array<SGMAnalytics.MentorEntry>> = this.analytics$.pipe(
-    map(analytics => analytics?.mentors.filter(m => m.mentorFirstTime) || []),
+    map(analytics => analytics?.mentors?.filter(m => m.mentorFirstTime) || []),
   );
 
   public mentorsSecondTime$: Observable<Array<SGMAnalytics.MentorEntry>> = this.analytics$.pipe(
-    map(analytics => analytics?.mentors.filter(m => !m.mentorFirstTime) || []),
+    map(analytics => analytics?.mentors?.filter(m => !m.mentorFirstTime) || []),
   );
 
   ngOnDestroy(): void {

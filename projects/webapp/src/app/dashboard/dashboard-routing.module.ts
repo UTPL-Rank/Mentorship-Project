@@ -21,6 +21,8 @@ const routes: Routes = [
   // ==================
   { path: 'ingresar', loadChildren: () => import('../sign-in/sign-in.module').then(m => m.SignInModule) },
 
+  { path: 'chat', loadChildren: () => import('../chat/chat.module').then(m => m.ChatModule) },
+
   // ==================
   // Dashboard shell
   // ==================
