@@ -3,7 +3,10 @@
         "module": "commonjs",
         "target": "es5",
         "declaration": true,
-        "outDir": "./dist"
+        "outDir": "./dist",
+        "strictNullChecks": true,
+        "strict": true,
+        "strictPropertyInitialization": true,
     },
     "include": [
         "src/**/*"
