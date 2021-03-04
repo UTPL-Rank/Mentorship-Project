@@ -1,1 +1,8 @@
-<p>chat works!</p>
+
+<button class="btn btn-primary" (click)="sendMessage()">Enviar Mensaje</button>
+<ng-container *ngIf="chat$ | async as chat">
+  <pre>{{ chat | json }}</pre>
+</ng-container>
+<ng-container *ngIf="messages$ | async as messages">
+  <pre>{{ messages | json }}</pre>
+</ng-container>
