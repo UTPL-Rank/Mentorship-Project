@@ -30,6 +30,7 @@ export namespace SGMAccompaniment {
         kind?: AccompanimentKind;
 
         timeCreated: firestore.Timestamp;
+        read?: boolean;
 
         mentor: { displayName: string; reference: firestore.DocumentReference; email: string };
 
@@ -137,8 +138,9 @@ export namespace SGMAccompaniment {
     export type createDTO = _Base & {
         timeCreated: firestore.FieldValue,
         timeConfirmed: null;
-        reviewKey: string,
-        confirmation?: null
+        reviewKey: string;
+        confirmation?: null;
+        read: boolean;
     };
 
     export type readDTO = _Base & {
