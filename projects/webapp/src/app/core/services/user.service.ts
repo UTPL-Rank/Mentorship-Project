@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
+import { SGMUser } from '@utpl-rank/sgm-helpers';
 import { User } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, shareReplay, switchMap, take } from 'rxjs/operators';
@@ -25,6 +26,11 @@ export class UserService {
     filter(user => !!user),
     map(user => user?.email?.split('@')[0] || null),
     shareReplay(1),
+  );
+
+  public readonly user$: Observable<SGMUser.readDto | null> = this.username.pipe(
+    switchMap(username => username ? this.firestore.collection('users').doc<SGMUser.readDto>(username).valueChanges() : of(null)),
+    map(doc => doc ? doc as SGMUser.readDto : null)
   );
 
   public claims: Observable<UserClaims | null> = this.username.pipe(
