@@ -1,4 +1,5 @@
 import * as firebase from 'firebase/app';
+import { SGMAccompaniment } from '../accompaniments';
 import { SGMBaseAsset, SGMDocument, SGMImage, SGMVideo } from "../assets";
 
 export namespace SGMMessage {
@@ -7,14 +8,7 @@ export namespace SGMMessage {
 
     export type MessageKindType = typeof MessageKind[number];
 
-    export interface Accompaniment {
-        id: string;
-        student: {
-            displayName: string;
-            reference: firebase.firestore.DocumentReference;
-            email: string
-        };
-    }
+    export interface Accompaniment extends Pick<SGMAccompaniment.readDTO, 'id' | 'kind' | 'important' | 'student' | 'problems'> { }
 
     interface _Base {
         kind: MessageKindType;
