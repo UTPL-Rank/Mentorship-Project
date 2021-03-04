@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "^11.0.3",
     "@angular/router": "~11.0.3",
     "@angular/service-worker": "~11.0.3",
-    "@utpl-rank/sgm-helpers": "^1.0.5",
+    "@utpl-rank/sgm-helpers": "^1.0.7",
     "bootstrap": "^5.0.0-beta2",
     "chart.js": "^2.9.3",
     "chartjs-plugin-datalabels": "^0.7.0",
