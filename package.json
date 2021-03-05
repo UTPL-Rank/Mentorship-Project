@@ -28,11 +28,11 @@
     "chart.js": "^2.9.3",
     "chartjs-plugin-datalabels": "^0.7.0",
     "firebase": "^7.8.2",
-    "ng2-charts": "^2.3.0",
+    "long": "4.0.0",
+    "ng2-charts": "^2.4.2",
     "rxjs": "~6.6.3",
     "tslib": "^2.0.0",
-    "zone.js": "~0.10.3",
-    "long": "4.0.0"
+    "zone.js": "~0.10.3"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.1102.3",
