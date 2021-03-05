@@ -12,4 +12,4 @@ import { PieComponent } from './pie/pie.component';
   declarations: [PieComponent],
   exports: [PieComponent],
 })
-export class ChatsModule { }
+export class PlotsModule { }

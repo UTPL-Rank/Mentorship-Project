@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { CardModule } from './card/card.module';
-import { ChatsModule } from './chats/chats.module';
 import { AccompanimentsTableComponent } from './components/accompaniments-table/accompaniments-table.component';
 import { InfoMentorComponent } from './components/info-mentor/info-mentor.component';
 import { MentorFilterSelectorComponent } from './components/mentor-filter-selector/mentor-filter-selector.component';
@@ -19,6 +18,7 @@ import { AcademicCycleNamePipe } from './pipes/academic-cycle-name.pipe';
 import { FollowingNamePipe } from './pipes/following-name.pipe';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
+import { PlotsModule } from './plots/ plots.module';
 import { StatisticModule } from './statistic/statistic.module';
 
 @NgModule({
@@ -27,8 +27,8 @@ import { StatisticModule } from './statistic/statistic.module';
     RouterModule,
     ReactiveFormsModule,
     CardModule,
-    ChatsModule,
     StatisticModule,
+    PlotsModule,
   ],
   declarations: [
     AcademicCycleNamePipe,
@@ -50,6 +50,7 @@ import { StatisticModule } from './statistic/statistic.module';
     AcademicCycleNamePipe,
     InfoMentorComponent,
     [AccompanimentsTableComponent, StudentsTableComponent],
+    PlotsModule,
     FollowingNamePipe,
     SemesterNamePipe,
     SigCanvasComponent,
@@ -61,9 +62,8 @@ import { StatisticModule } from './statistic/statistic.module';
     PageHeaderSubtitleComponent,
     PageHeaderTitleComponent,
     MentorFilterSelectorComponent,
-    CardModule,
-    ChatsModule,
     StatisticModule,
+    CardModule,
   ]
 })
 export class SharedModule { }
