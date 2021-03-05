@@ -9,7 +9,7 @@ import { SGMMessage } from '@utpl-rank/sgm-helpers';
 })
 export class MessageTextComponent {
 
-  public message: SGMMessage._BaseText | null = null;
+  public message: SGMMessage.readText | null = null;
 
   @Input('message')
   set _setMessage(message: SGMMessage.readDto) {

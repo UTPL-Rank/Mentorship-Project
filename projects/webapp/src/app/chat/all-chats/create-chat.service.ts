@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { SGMChat, SGMUser } from '@utpl-rank/sgm-helpers';
+import { ChatParticipant } from '@utpl-rank/sgm-helpers/models/chat/chat-participant';
+import firebase from 'firebase';
 import { from, Observable } from 'rxjs';
 import { BrowserLoggerService } from '../../core/services/browser-logger.service';
 
@@ -40,8 +42,8 @@ export class CreateChatService {
     throw new Error('User not found ' + username);
   }
 
-  private async saveChat(chat: SGMChat.createDto): Promise<string | null> {
-    const chatsCollection = this.afFirestore.collection<SGMChat.createDto>('chats').ref;
+  private async saveChat(chat: SGMChat.functions.createDto): Promise<string | null> {
+    const chatsCollection = this.afFirestore.collection<SGMChat.functions.createDto>('chats').ref;
 
     // search chat doesn't exists
     const searchQuery = chatsCollection
@@ -49,39 +51,42 @@ export class CreateChatService {
 
     const coincidences = await searchQuery.get();
     const one = coincidences.docs
-      .filter(c => (c.exists ? c.data() as SGMChat.readDto : null)?.participantsUid.includes(chat.participants[1].uid));
+      .filter(c => (c.exists ? c.data() as unknown as SGMChat.readDto : null)?.participantsUid.includes(chat.participants[1].uid));
 
     if (one.length !== 0)
       return one[0].id;
 
     // save chat
     try {
-      const ref = await chatsCollection.add(chat);
-      return ref.id;
+      await chatsCollection.doc(chat.id).set(chat);
+      return chat.id;
     } catch (error) {
       this.logger.error(error);
       return null;
     }
   }
 
-  private createChatDto(sender: SGMUser.readDto, receiver: SGMUser.readDto): SGMChat.createDto {
-    const senderDto: SGMChat.ChatParticipant = {
+  private createChatDto(sender: SGMUser.readDto, receiver: SGMUser.readDto): SGMChat.functions.createDto {
+    const id = this.afFirestore.createId();
+    const senderDto: ChatParticipant = {
       displayName: sender.displayName,
       email: sender.email,
       uid: sender.uid,
     };
 
-    const receiverDto: SGMChat.ChatParticipant = {
+    const receiverDto: ChatParticipant = {
       displayName: receiver.displayName,
       email: receiver.email,
       uid: receiver.uid,
     };
 
-    const chat: SGMChat.createDto = {
+    const chat: SGMChat.functions.createDto = {
       disabled: false,
       lastMessage: null,
       participants: [senderDto, receiverDto],
-      participantsUid: [sender.uid, receiver.uid]
+      participantsUid: [sender.uid, receiver.uid],
+      id,
+      lastActivity: firebase.firestore.FieldValue.serverTimestamp()
     };
 
     return chat;

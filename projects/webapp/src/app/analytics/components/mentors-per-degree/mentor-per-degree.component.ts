@@ -72,7 +72,7 @@ export class MentorsPerDegreeComponent {
       if (!(degreeId in acc))
         acc[degreeId] = { notFirstTime: 0, firstTime: 0, name: mentor.degree.name, id: degreeId };
 
-      if (mentor.mentorFirstTime)
+      if (mentor.continues)
         acc[degreeId].firstTime++;
       else
         acc[degreeId].notFirstTime++;

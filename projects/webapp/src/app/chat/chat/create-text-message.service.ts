@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
-import { SGMMessage } from '@utpl-rank/sgm-helpers';
+import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
+import { SGMMessage, SGMUser } from '@utpl-rank/sgm-helpers';
 import firebase from 'firebase/app';
-import { from, Observable } from 'rxjs';
+import { from, Observable, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { BrowserLoggerService } from '../../core/services/browser-logger.service';
+import { UserService } from '../../core/services/user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,42 +15,55 @@ export class CreateTextMessageService {
   constructor(
     private readonly afFirestore: AngularFirestore,
     private readonly logger: BrowserLoggerService,
+    private readonly user: UserService,
   ) { }
 
   send$(chatId: string, text: string): Observable<string | null> {
-    return from(this.send(chatId, text));
+    return this.user.user$.pipe(
+      take(1),
+      switchMap(user => user ? from(this.send(user, chatId, text)) : of(null)),
+    );
   }
 
-  private async send(chatId: string, text: string): Promise<string | null> {
-    const collection = this.messagesCollection(chatId);
-    const message = this.createMessage(text);
+  private async send(user: SGMUser.readDto, chatId: string, text: string): Promise<string | null> {
+    const message = this.createMessage(user, text);
+    const collection = this.messageDocument(chatId, message.id);
 
     try {
-      const response = await collection.add(message);
-      return response.id;
+      await collection.set(message);
+      return message.id;
     } catch (error) {
       this.logger.error(error);
       return null;
     }
   }
 
-  private createMessage(text: string): SGMMessage.createDto {
-    const textMessage: SGMMessage.createDto = {
+  private createMessage(user: SGMUser.readDto, text: string): SGMMessage.createText {
+    const id = this.afFirestore.createId();
+    const textMessage: SGMMessage.createText = {
+      id,
       kind: 'SGM#TEXT',
       accompaniment: null,
       asset: null,
       banned: false,
       text,
       date: firebase.firestore.FieldValue.serverTimestamp(),
+      sender: {
+        displayName: user.displayName,
+        email: user.email,
+        uid: user.uid,
+        username: user.username,
+      }
     };
 
     return textMessage;
   }
 
-  private messagesCollection(chatId: string): AngularFirestoreCollection<SGMMessage.createDto> {
+  private messageDocument(chatId: string, messageId: string): AngularFirestoreDocument<SGMMessage.createText> {
     return this.afFirestore
       .collection('chats')
       .doc(chatId)
-      .collection<SGMMessage.createDto>('messages');
+      .collection('messages')
+      .doc<SGMMessage.createText>(messageId);
   }
 }
