@@ -3,8 +3,7 @@ import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
 import { CSVFormat } from '../shared/export/csv-format';
 import { IExportCallback } from '../shared/export/i-export-callback';
-import { FindOneMentorFromPeriod, ListMentorsPeriod } from '../utils/mentors-utils';
-import { GetAcademicPeriod } from '../utils/period-utils';
+import { ListMentorsPeriod } from '../utils/mentors-utils';
 
 /**
  * CSV Mentors
@@ -22,19 +21,17 @@ import { GetAcademicPeriod } from '../utils/period-utils';
 const _CSVMentors = async (data: SGMFunctionsCsvMentors.requestDTO, _: CallableContext): Promise<SGMFunctionsCsvMentors.responseDTO> => {
     const { periodId } = data;
 
-    const currentPeriod = await GetAcademicPeriod(periodId);
-
     const mentors = await ListMentorsPeriod(periodId);
-    const headers = ['Index', 'Nombre del Mentor', 'Correo Electrónico', 'Primer año Mentor', 'Ultimo Acompañamiento', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Estudiantes Asignados'];
+    const headers = ['Index', 'Nombre del Mentor', 'Correo Electrónico', 'Primer año Mentor', 'Continua semestre', 'Ultimo Acompañamiento', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Estudiantes Asignados'];
 
     const callback: IExportCallback<SGMMentor.readDTO> = async (mentor, i, arr) => {
-        const lastPeriodMentor = currentPeriod?.prevPeriodId ? await FindOneMentorFromPeriod(mentor.email, currentPeriod.prevPeriodId) : false;
 
         return [
             `Nro. ${i + 1} de ${arr.length}`,
             mentor.displayName,
             mentor.email,
-            lastPeriodMentor ? 'Si' : 'No',
+            mentor.firstYear ? 'Si' : 'No',
+            mentor.continues ? 'Si' : 'No',
             mentor.stats.lastAccompaniment?.toDate().toISOString().substring(0, 10) ?? 'Sin acompañamientos',
             mentor.area.name,
             mentor.degree.name,

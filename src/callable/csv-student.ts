@@ -24,7 +24,7 @@ const _CSVStudents = async (data: SGMFunctionsCsvStudents.requestDTO, _: Callabl
     const { periodId } = data;
 
     const students = await ListStudentsPeriod(periodId);
-    const headers = ['Index', 'Nombre Estudiante', 'Correo Electrónico', 'Nombre Mentor', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Cyclo'];
+    const headers = ['Index', 'Nombre Estudiante', 'Correo Electrónico', 'Nombre Mentor', 'Área Académica', 'Titulación', 'Cyclo', 'Acompañamientos Realizados', 'Ultimó acompañamiento'];
 
     const callback: IExportCallback<SGMStudent.readDTO> = (student, i, arr) => {
         return [
@@ -34,8 +34,9 @@ const _CSVStudents = async (data: SGMFunctionsCsvStudents.requestDTO, _: Callabl
             student.mentor.displayName,
             student.area.name,
             student.degree.name,
+            SGMStudent.translateCycle(student.cycle),
             student.stats.accompanimentsCount,
-            student.cycle,
+            student.stats.lastAccompaniment?.toDate().toDateString() ?? 'Sin acompañamiento'
         ];
     }
 
