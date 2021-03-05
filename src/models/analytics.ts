@@ -10,7 +10,7 @@ export namespace SGMAnalytics {
 
     interface _Base {
         id: string;
-        lastUpdated: string;
+        lastUpdated: number;
         period: AnalyticsPeriod
     }
 
@@ -77,7 +77,7 @@ export namespace SGMAnalytics {
     }
 
     export interface AccompanimentsAnalytics extends _Base {
-        accompaniments?: Array<LegacyAccompanimentEntry | ProblemAccompanimentEntry | NoProblemAccompanimentEntry>;
+        accompaniments: Array<LegacyAccompanimentEntry | ProblemAccompanimentEntry | NoProblemAccompanimentEntry>;
     }
 
     /**
@@ -93,11 +93,11 @@ export namespace SGMAnalytics {
         accompanimentsCount: number;
         cycle: SGMStudent.AcademicCycle;
         /** determinate if it is not the first semester as a mentored student */
-        continues?: boolean;
+        continues: boolean;
     }
 
     export interface StudentsAnalytics extends _Base {
-        students?: Array<StudentEntry>;
+        students: Array<StudentEntry>;
     }
 
     /**
@@ -110,9 +110,9 @@ export namespace SGMAnalytics {
         degree: { name: string; id: string; },
         period: { name: string; id: string; },
         /** first year as a mentor */
-        firstYear?: boolean;
+        firstYear: boolean;
         /** determine if the mentor in the current period, is still working with the same students as last semester */
-        continues?: boolean;
+        continues: boolean;
         accompanimentsCount: number;
         assignedStudentCount: number;
         withAccompaniments: number;
@@ -120,6 +120,6 @@ export namespace SGMAnalytics {
     }
 
     export interface MentorsAnalytics extends _Base {
-        mentors?: Array<MentorEntry>;
+        mentors: Array<MentorEntry>;
     }
 }
