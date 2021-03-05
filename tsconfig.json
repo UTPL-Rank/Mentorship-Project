@@ -24,7 +24,10 @@
     "strictFunctionTypes": true,
     "strictPropertyInitialization": true,
     "strictBindCallApply": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": [
+      "Long"
+    ]
   },
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,

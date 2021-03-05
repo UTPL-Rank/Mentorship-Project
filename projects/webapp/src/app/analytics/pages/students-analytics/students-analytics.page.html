@@ -57,16 +57,36 @@
     <sgm-outline-card>
       <!-- title --->
       <sgm-outline-card-title>
-        Todos los estudiantes
+        Estudiantes que continúan.
       </sgm-outline-card-title>
       <!-- subtitle --->
       <sgm-outline-card-subtitle>
-        Estudiantes nuevos que han recibido la mentoria con sus mentores.
+        Estudiantes de segundo ciclo que continúan recibiendo la mentoria.
       </sgm-outline-card-subtitle>
 
       <!-- content --->
       <sgm-students-with-accompaniments
-        [students]="analytics.students"
+        [students]="continuos$|async"
+      ></sgm-students-with-accompaniments>
+    </sgm-outline-card>
+  </section>
+
+  <!-- card of first analytics -->
+  <section class="container-fluid my-4">
+    <!-- card container --->
+    <sgm-outline-card>
+      <!-- title --->
+      <sgm-outline-card-title>
+        Nuevos
+      </sgm-outline-card-title>
+      <!-- subtitle --->
+      <sgm-outline-card-subtitle>
+        Estudiantes de nuevo ingreso que reciben mentoria por primera vez en su primer semestre.
+      </sgm-outline-card-subtitle>
+
+      <!-- content --->
+      <sgm-students-with-accompaniments
+        [students]="firstTime$ | async"
       ></sgm-students-with-accompaniments>
     </sgm-outline-card>
   </section>

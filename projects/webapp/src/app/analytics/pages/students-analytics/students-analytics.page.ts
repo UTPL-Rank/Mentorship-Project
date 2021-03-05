@@ -36,6 +36,14 @@ export class StudentsAnalyticsComponent implements OnDestroy {
   public readonly loading$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'LOADING'));
   public readonly error$: Observable<boolean> = this.response$.pipe(map(response => response.status === 'ERROR'));
 
+  public readonly continuos$: Observable<Array<SGMAnalytics.StudentEntry>> = this.analytics$.pipe(
+    map(analytics => analytics?.students.filter(s => s.cycle === 'sgm#second') || []),
+  );
+
+  public readonly firstTime$: Observable<Array<SGMAnalytics.StudentEntry>> = this.analytics$.pipe(
+    map(analytics => analytics?.students.filter(s => s.cycle === 'sgm#first') || []),
+  );
+
   public selectedArea: string | null = null;
   public selectedDegree: string | null = null;
 
