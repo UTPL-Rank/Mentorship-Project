@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { NavigationEnd, Router } from '@angular/router';
-import { environment } from 'projects/webapp/src/environments/environment';
 import { filter } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 /**
  * Update the title of the page with the base title defined in de `index.html`.

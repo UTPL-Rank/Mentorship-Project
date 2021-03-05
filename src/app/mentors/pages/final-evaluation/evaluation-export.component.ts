@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { environment } from 'projects/webapp/src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-canvas.component';

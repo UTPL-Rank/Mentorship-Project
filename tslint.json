@@ -10,6 +10,18 @@
         "statements"
       ]
     },
+    "directive-selector": [
+      true,
+      "attribute",
+      "sgm",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "sgm",
+      "kebab-case"
+    ],
     "array-type": false,
     "arrow-parens": false,
     "arrow-return-shorthand": true,

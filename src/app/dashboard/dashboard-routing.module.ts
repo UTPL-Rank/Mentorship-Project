@@ -56,20 +56,20 @@ const routes: Routes = [
       // ==================
       // Mentors feature
       // ==================
-      { path: 'mentores', loadChildren: () => import('./../mentors/mentors.module').then(m => m.MentorsModule) },
+      { path: 'mentores', loadChildren: () => import('../mentors/mentors.module').then(m => m.MentorsModule) },
       { path: 'ver-mentores', redirectTo: 'mentores' },
       { path: 'ver-estudiantes/:mentorId', redirectTo: 'mentores/:mentorId' },
 
       // =====================
       // Student Feature
       // =====================
-      { path: 'estudiantes', loadChildren: () => import('./../students/students.module').then(m => m.StudentsModule) },
+      { path: 'estudiantes', loadChildren: () => import('../students/students.module').then(m => m.StudentsModule) },
       { path: 'historial-acompañamientos/:mentorId/:studentId', redirectTo: 'estudiantes/:studentId' },
 
       // ==================
       // Accompaniments feature
       // ==================
-      { path: 'acompañamientos', loadChildren: () => import('./../accompaniments/accompaniments.module').then(m => m.AccompanimentsModule) },
+      { path: 'acompañamientos', loadChildren: () => import('../accompaniments/accompaniments.module').then(m => m.AccompanimentsModule) },
       { path: 'registrar-acompañamiento/:mentorId', redirectTo: 'acompañamientos/nuevo/:mentorId' },
       { path: 'ver-acompañamiento/:mentorId/:accompanimentId', redirectTo: 'acompañamientos/ver/:mentorId/:accompanimentId' },
       { path: 'calificar-acompañamiento/:studentId/:accompanimentId/:reviewKey', redirectTo: 'acompañamientos/calificar/:studentId/:accompanimentId/:reviewKey' },
@@ -79,7 +79,7 @@ const routes: Routes = [
   // =====================
   // Reports feature
   // =====================
-  { path: 'reportes', loadChildren: () => import('./../reports/reports.module').then(m => m.ReportsModule) },
+  { path: 'reportes', loadChildren: () => import('../reports/reports.module').then(m => m.ReportsModule) },
   {
     path: 'ficha-acompañamiento/:mentorId/:studentId/:semesterKind',
     redirectTo: 'reportes/acompañamientos/:mentorId/:studentId/:semesterKind'

@@ -34,8 +34,8 @@
           "skipTests": true
         }
       },
-      "root": "projects/webapp",
-      "sourceRoot": "projects/webapp/src",
+      "root": "",
+      "sourceRoot": "src",
       "prefix": "sgm",
       "architect": {
         "build": {
@@ -52,22 +52,22 @@
               "@firebase/performance"
             ],
             "outputPath": "./dist/webapp",
-            "index": "projects/webapp/src/index.html",
-            "main": "projects/webapp/src/main.ts",
-            "polyfills": "projects/webapp/src/polyfills.ts",
-            "tsConfig": "projects/webapp/tsconfig.app.json",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.json",
             "aot": true,
             "assets": [
-              "projects/webapp/src/favicon.ico",
+              "src/favicon.ico",
               {
                 "glob": "*",
-                "input": "projects/webapp/src/assets/site",
+                "input": "src/assets/site",
                 "output": "/"
               },
-              "projects/webapp/src/assets"
+              "src/assets"
             ],
             "styles": [
-              "projects/webapp/src/styles.scss"
+              "src/styles.scss"
             ],
             "scripts": []
           },
@@ -75,8 +75,8 @@
             "production": {
               "fileReplacements": [
                 {
-                  "replace": "projects/webapp/src/environments/environment.ts",
-                  "with": "projects/webapp/src/environments/environment.prod.ts"
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
                 }
               ],
               "optimization": true,
@@ -99,7 +99,7 @@
                 }
               ],
               "serviceWorker": true,
-              "ngswConfigPath": "projects/webapp/ngsw-config.json"
+              "ngswConfigPath": "ngsw-config.json"
             }
           }
         },
@@ -124,9 +124,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "projects/webapp/tsconfig.app.json",
-              "projects/webapp/tsconfig.spec.json",
-              "projects/webapp/e2e/tsconfig.json"
+              "tsconfig.json"
             ],
             "exclude": [
               "**/node_modules/**"

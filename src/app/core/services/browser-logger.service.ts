@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAnalytics } from '@angular/fire/analytics';
-import { environment } from 'projects/webapp/src/environments/environment';
 import { Observable, of } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 /**
  * Footprint function to implement log events
