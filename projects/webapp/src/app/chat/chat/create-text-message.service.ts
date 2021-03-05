@@ -27,10 +27,10 @@ export class CreateTextMessageService {
 
   private async send(user: SGMUser.readDto, chatId: string, text: string): Promise<string | null> {
     const message = this.createMessage(user, text);
-    const collection = this.messageDocument(chatId, message.id);
+    const doc = this.messageDocument(chatId, message.id);
 
     try {
-      await collection.set(message);
+      await doc.set(message);
       return message.id;
     } catch (error) {
       this.logger.error(error);
@@ -52,7 +52,7 @@ export class CreateTextMessageService {
         displayName: user.displayName,
         email: user.email,
         uid: user.uid,
-        username: user.username,
+        username: user.username ?? user.email.split('@')[0],
       }
     };
 
