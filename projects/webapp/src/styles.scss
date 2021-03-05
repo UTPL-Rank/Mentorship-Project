@@ -1,5 +1,8 @@
 @import "./assets/bootstrap/scss/bootstrap.scss";
 
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 :root {
   --color-primary: #1B6AE1;
