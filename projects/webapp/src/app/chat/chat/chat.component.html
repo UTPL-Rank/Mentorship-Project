@@ -1,8 +1,4 @@
 
-<button class="btn btn-primary" (click)="sendMessage()">Enviar Mensaje</button>
-<ng-container *ngIf="chat$ | async as chat">
-  <pre>{{ chat | json }}</pre>
-</ng-container>
-<ng-container *ngIf="messages$ | async as messages">
-  <pre>{{ messages | json }}</pre>
-</ng-container>
+<sgm-sended-messages [messages]="messages$ | async"></sgm-sended-messages>
+
+<sgm-send-box (send)="sendMessage($event)"></sgm-send-box>

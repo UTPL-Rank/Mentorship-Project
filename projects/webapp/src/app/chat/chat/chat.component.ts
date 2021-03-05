@@ -39,9 +39,9 @@ export class ChatComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  sendMessage() {
+  sendMessage(text: string) {
     this.chatId$.pipe(
-      switchMap(chatId => this.messageCreator.send$(chatId, 'asd'))
+      switchMap(chatId => this.messageCreator.send$(chatId, text))
     ).subscribe(console.log)
 
   }

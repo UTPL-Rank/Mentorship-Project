@@ -1,0 +1,5 @@
+<ng-container *ngIf="messages">
+  <ng-container *ngFor="let msg of messages">
+    <sgm-message-text *ngIf="msg.kind === 'SGM#TEXT'" [message]="msg"></sgm-message-text>
+  </ng-container>
+</ng-container>
