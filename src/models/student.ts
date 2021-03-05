@@ -23,6 +23,9 @@ export namespace SGMStudent {
 
         mentor: { reference: firestore.DocumentReference; displayName: string; email: string; };
 
+        /** determinate if it is not the first semester as a mentored student */
+        continues?: boolean;
+
         stats: {
             accompanimentsCount: number;
             lastAccompaniment?: firestore.Timestamp | null;

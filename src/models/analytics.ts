@@ -92,6 +92,8 @@ export namespace SGMAnalytics {
         mentor: { displayName: string; id: string; },
         accompanimentsCount: number;
         cycle: SGMStudent.AcademicCycle;
+        /** determinate if it is not the first semester as a mentored student */
+        continues?: boolean;
     }
 
     export interface StudentsAnalytics extends _Base {
@@ -107,7 +109,10 @@ export namespace SGMAnalytics {
         area: { name: string; id: string; },
         degree: { name: string; id: string; },
         period: { name: string; id: string; },
-        mentorFirstTime: boolean;
+        /** first year as a mentor */
+        firstYear?: boolean;
+        /** determine if the mentor in the current period, is still working with the same students as last semester */
+        continues?: boolean;
         accompanimentsCount: number;
         assignedStudentCount: number;
         withAccompaniments: number;
