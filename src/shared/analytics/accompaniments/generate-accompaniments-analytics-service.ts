@@ -1,11 +1,13 @@
 import { SGMAcademicPeriod, SGMAccompaniment, SGMAnalytics } from "@utpl-rank/sgm-helpers";
 
+
+type AccompanimentEntryAnalytic = SGMAnalytics.LegacyAccompanimentEntry | SGMAnalytics.ProblemAccompanimentEntry | SGMAnalytics.NoProblemAccompanimentEntry;
 /**
  * Turn a complete accompaniment into an analytics entry and remove un-used values in the process
  * @param accompaniment data to be transformed
  */
-function TransformAccompanimentToAnEntry(accompaniment: SGMAccompaniment.readDTO): SGMAnalytics.AccompanimentEntry {
-    const newAcc: SGMAnalytics.AccompanimentEntry = {
+function TransformAccompanimentToAnEntry(accompaniment: SGMAccompaniment.readDTO): AccompanimentEntryAnalytic {
+    const newAcc: AccompanimentEntryAnalytic = {
         kind: accompaniment.kind || null,
         area: { name: accompaniment.area.name, id: accompaniment.area.reference.id },
         period: { name: accompaniment.period.name, id: accompaniment.period.reference.id },
@@ -18,7 +20,7 @@ function TransformAccompanimentToAnEntry(accompaniment: SGMAccompaniment.readDTO
         problems: accompaniment.problems,
         reviewed: !accompaniment.reviewKey,
         semesterKind: accompaniment.semesterKind,
-    };
+    } as any; // TODO: remove any
 
     return newAcc;
 }
@@ -44,7 +46,7 @@ export function GenerateAccompanimentsAnalyticsService(period: SGMAcademicPeriod
 
     const id = GenerateAnalyticsIdentifier(period);
 
-    const analyticsAccompaniments: Array<SGMAnalytics.AccompanimentEntry> = accompaniments.map(TransformAccompanimentToAnEntry);
+    const analyticsAccompaniments: Array<AccompanimentEntryAnalytic> = accompaniments.map(TransformAccompanimentToAnEntry);
 
     const response: SGMAnalytics.AccompanimentsAnalytics = {
         id,

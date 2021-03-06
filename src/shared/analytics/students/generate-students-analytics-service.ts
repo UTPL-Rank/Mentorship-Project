@@ -27,6 +27,7 @@ function TransformStudentToAnEntry(student: SGMStudent.readDTO): SGMAnalytics.St
         accompanimentsCount: student.stats.accompanimentsCount,
         cycle: student.cycle,
         displayName: student.displayName,
+        continues: !!student.continues,
     };
 
     return UndefinedCleaner(newStudent);

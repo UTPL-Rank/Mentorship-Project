@@ -1,23 +1,5 @@
 import { SGMAcademicPeriod, SGMAnalytics, SGMMentor } from "@utpl-rank/sgm-helpers";
-import { FindOneMentorFromPeriod } from "../../../utils/mentors-utils";
 import { UndefinedCleaner } from "../../utils/undefined-cleaner";
-
-/**
- * To find whether the mentor has being in other periods, first search for one entry of the mentor email in the
- * mentors collection, but with the last period id, also limit the response to one mentor
-
- * @param mentor to find if first time
- * @param currentPeriod data of the academic period
- */
-async function FindIfMentorFirstTime(mentor: SGMMentor.readDTO, currentPeriod: SGMAcademicPeriod.readDTO): Promise<boolean> {
-
-    if (!currentPeriod.prevPeriodId)
-        return false;
-
-    const lastPeriodMentor = await FindOneMentorFromPeriod(mentor.email, currentPeriod.prevPeriodId);
-
-    return !!lastPeriodMentor;
-}
 
 /**
  * Turn a complete mentor into an analytics entry and remove un-used values in the process
@@ -25,9 +7,8 @@ async function FindIfMentorFirstTime(mentor: SGMMentor.readDTO, currentPeriod: S
  * @param mentor data to be transformed
  * @param currentPeriod data of the current period
  */
-async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO, currentPeriod: SGMAcademicPeriod.readDTO): Promise<SGMAnalytics.MentorEntry> {
+async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO): Promise<SGMAnalytics.MentorEntry> {
 
-    const mentorFirstTime = await FindIfMentorFirstTime(mentor, currentPeriod)
 
     const newMentor: SGMAnalytics.MentorEntry = {
         area: {
@@ -45,10 +26,11 @@ async function TransformMentorToAnEntry(mentor: SGMMentor.readDTO, currentPeriod
         id: mentor.id,
         accompanimentsCount: mentor.stats.accompanimentsCount,
         assignedStudentCount: mentor.stats.assignedStudentCount,
-        mentorFirstTime,
         withAccompaniments: mentor.students.withAccompaniments.length,
         withoutAccompaniments: mentor.students.withoutAccompaniments.length,
         displayName: mentor.displayName,
+        continues: !!mentor.continues,
+        firstYear: !!mentor.firstYear,
     };
 
     return UndefinedCleaner(newMentor);
@@ -75,7 +57,7 @@ export async function GenerateMentorsAnalyticsService(period: SGMAcademicPeriod.
 
     const id = GenerateAnalyticsIdentifier(period);
 
-    const analyticsMentorsPromise: Array<Promise<SGMAnalytics.MentorEntry>> = mentors.map(async m => await TransformMentorToAnEntry(m, period));
+    const analyticsMentorsPromise: Array<Promise<SGMAnalytics.MentorEntry>> = mentors.map(async m => await TransformMentorToAnEntry(m));
     const analyticsMentors: Array<SGMAnalytics.MentorEntry> = await Promise.all(analyticsMentorsPromise);
 
     const response: SGMAnalytics.MentorsAnalytics = {
