@@ -6,4 +6,9 @@ import { SGMUser } from "../user/user";
 export interface ChatParticipant extends Pick<
     SGMUser.readDto,
     'uid' | 'displayName' | 'email' | 'username'
-    > { }
+    > {
+    uid: string;
+    displayName: string;
+    email: string;
+    username: string;
+}
