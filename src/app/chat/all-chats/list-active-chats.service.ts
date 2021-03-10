@@ -19,5 +19,5 @@ export class ListActiveChatsService {
     switchMap(user => !!user
       ? this.afFirestore.collection<SGMChat.readDto>('chats', q => q.where('participantsUid', 'array-contains', user?.uid)).valueChanges()
       : of(null))
-  )
+  );
 }

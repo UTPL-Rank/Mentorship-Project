@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { SGMChat, SGMUser } from '@utpl-rank/sgm-helpers';
 import { ChatParticipant } from '@utpl-rank/sgm-helpers/models/chat/chat-participant';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
 import { from, Observable } from 'rxjs';
 import { BrowserLoggerService } from '../../core/services/browser-logger.service';
 

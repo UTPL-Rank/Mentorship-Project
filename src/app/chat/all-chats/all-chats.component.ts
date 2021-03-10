@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { shareReplay } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
+import { UserService } from 'src/app/core/services/user.service';
 import { CreateChatService } from './create-chat.service';
 import { ListActiveChatsService } from './list-active-chats.service';
 
@@ -16,9 +17,15 @@ export class AllChatsComponent implements OnInit {
   constructor(
     private readonly creator: CreateChatService,
     private readonly lister: ListActiveChatsService,
+    private readonly userService: UserService
   ) { }
 
   public readonly chats$ = this.lister.chats$.pipe(
+    shareReplay(1),
+  );
+
+  public readonly uid$ = this.userService.user$.pipe(
+    map(user => user?.uid ?? null),
     shareReplay(1),
   );
 
