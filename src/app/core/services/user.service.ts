@@ -30,7 +30,12 @@ export class UserService {
 
   public readonly user$: Observable<SGMUser.readDto | null> = this.username.pipe(
     switchMap(username => username ? this.firestore.collection('users').doc<SGMUser.readDto>(username).valueChanges() : of(null)),
-    map(doc => doc ? doc as SGMUser.readDto : null)
+    map(doc => doc ? doc as SGMUser.readDto : null),
+    shareReplay(1),
+  );
+
+  public readonly uid$ = this.user$.pipe(
+    map(user => user?.uid ?? null)
   );
 
   public claims: Observable<UserClaims | null> = this.username.pipe(

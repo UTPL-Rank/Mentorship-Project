@@ -1,4 +1,26 @@
+<!-- layout -->
+<main class="h-screen w-full flex flex-col bg-blue-50">
+  <!-- top bar -->
+  <div class="w-full bg-white px-4 py-5 shadow-sm">
+    <!-- align topbar items -->
+    <div class="flex items-baseline justify-between">
+      <!-- chat title -->
+      <span class="text-gray-800 font-semibold text-base">
+        {{ chatParticipantTitle$ | async | titlecase }}
+      </span>
+    </div>
+  </div>
 
-<sgm-sended-messages [messages]="messages$ | async"></sgm-sended-messages>
+  <!-- main content -->
+  <div class="flex-grow relative">
+    <!-- scroll section  -->
+    <div class="absolute inset-0 w-full h-full overflow-y-auto over">
+      <sgm-sended-messages [messages]="messages$ | async"></sgm-sended-messages>
+    </div>
+  </div>
 
-<sgm-send-box (send)="sendMessage($event)"></sgm-send-box>
+  <!-- bottom section to send chats -->
+  <div class="w-full px-2 pb-2 pt-">
+    <sgm-send-box (send)="sendMessage($event)"></sgm-send-box>
+  </div>
+</main>

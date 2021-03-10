@@ -1,4 +1,21 @@
+<!-- logical form container -->
 <form (ngSubmit)="sender()" [formGroup]="sendForm">
-<input type="text" formControlName="message">
-<button class="btn btn-primary" type="submit"> enviar</button>
+  <!-- label to simulate ui -->
+  <label class="bg-white px-3 py-2 rounded-lg flex flex-row mb-0">
+    <!-- input text -->
+    <input
+      class="w-full outline-none mr-4 text-sm"
+      type="text"
+      formControlName="message"
+      placeholder="Escribe tu mensaje ..."
+    />
+
+    <!-- send button -->
+    <button
+      class="bg-blue-600 px-3 py-2 rounded text-sm text-white"
+      type="submit"
+    >
+      Enviar
+    </button>
+  </label>
 </form>
