@@ -3,7 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument 
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { SGMStudent } from '@utpl-rank/sgm-helpers';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, shareReplay } from 'rxjs/operators';
 import { AcademicPeriodsService } from './academic-periods.service';

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { SGMAcademicArea, SGMAcademicDegree } from '@utpl-rank/sgm-helpers';
-import { firestore } from 'firebase';
+import { firestore } from 'firebase/app';
 import { UploadData } from '../../../models/upload-data.interface';
 
 @Component({
