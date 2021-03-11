@@ -37,7 +37,7 @@ export class PieComponent {
     maintainAspectRatio: false,
     plugins: {
       datalabels: {
-        color: ['white', 'black'],
+        color: ['white', 'black', 'white', 'black', 'white', 'black'],
         formatter: (value, ctx) => {
           const newLocal = ctx.chart.data.labels;
           if (newLocal) {
@@ -60,8 +60,8 @@ export class PieComponent {
    */
   public readonly chartColors: Array<Color> = [{
     borderWidth: [4, 4],
-    borderColor: ['#1B6AE1', '#1B6AE1'],
-    backgroundColor: ['#1B6AE1', 'transparent'],
+    borderColor: ['#1B6AE1', '#1B6AE1', '#1B6AE1', '#1B6AE1', '#1B6AE1', '#1B6AE1'],
+    backgroundColor: ['#1B6AE1', 'transparent', '#1B6AE1', 'transparent', '#1B6AE1', 'transparent'],
   }];
 
   /**

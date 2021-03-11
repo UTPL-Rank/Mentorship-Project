@@ -1,0 +1,49 @@
+<div class="layout">
+  <sgm-pie [data]="pieData$ | async" [labels]="pieLabels$ | async"> </sgm-pie>
+
+  <div class="list-statistics">
+    <sgm-statistic>
+      <!-- label -->
+      <sgm-statistic-label> Problemas Encontrados </sgm-statistic-label>
+      <!-- value TODO: primary -->
+      <sgm-statistic-value>
+        {{ allProblemsCount$ | async }}
+      </sgm-statistic-value>
+    </sgm-statistic>
+
+    <!-- mentors with accompaniments -->
+    <ng-container *ngFor="let item of tags$ | async">
+      <sgm-statistic>
+        <!-- label -->
+        <sgm-statistic-label>{{ item.problem }}</sgm-statistic-label>
+        <!-- value -->
+        <sgm-statistic-value> {{ item.count }} </sgm-statistic-value>
+        <!-- percentage -->
+        <sgm-statistic-percentage>
+          {{ item.percentage }}
+        </sgm-statistic-percentage>
+      </sgm-statistic>
+    </ng-container>
+  </div>
+</div>
+
+<style>
+  .layout {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+  }
+
+  sgm-pie{
+    flex: 1 1 300px;
+
+  }
+
+  .list-statistics {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75em;
+    flex: 1 1 300px;
+  }
+</style>

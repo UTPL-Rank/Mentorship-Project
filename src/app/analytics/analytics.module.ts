@@ -2,7 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ChartsModule } from 'ng2-charts';
 import { SharedModule } from '../shared/shared.module';
+import { AnalyticsNavbarComponent } from './analytics-navbar/analytics-navbar.component';
 import { AnalyticsRoutingModule } from './analytics-routing.module';
+import { AccompanimentsProblemsComponent } from './components/accompaniments-problems/accompaniments-problems.component';
 import { AreasChartComponent } from './components/charts/areas-chart.component';
 import { DegreesChartComponent } from './components/charts/degrees-chart.component';
 import { FollowingChartComponent } from './components/charts/following-chart.component';
@@ -12,7 +14,6 @@ import { ProblemsDegreeChartComponent } from './components/charts/problems-degre
 import { MentorsPerDegreeComponent } from './components/mentors-per-degree/mentor-per-degree.component';
 import { MentorsWithAccompanimentsComponent } from './components/mentors-with-accompaniments/mentors-with-accompaniments.component';
 import { StudentsWithAccompanimentsComponent } from './components/students-with-accompaniments/students-with-accompaniments.component';
-import { AnalyticsNavbarComponent } from './analytics-navbar/analytics-navbar.component';
 
 @NgModule({
   imports: [
@@ -33,6 +34,7 @@ import { AnalyticsNavbarComponent } from './analytics-navbar/analytics-navbar.co
     MentorsWithAccompanimentsComponent,
     StudentsWithAccompanimentsComponent,
     AnalyticsNavbarComponent,
+    AccompanimentsProblemsComponent,
   ],
   providers: [
     AnalyticsRoutingModule.resolvers,

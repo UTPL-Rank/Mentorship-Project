@@ -1,28 +1,33 @@
 <sgm-page-header>
-  <sgm-page-header-title>
-    Analíticas Acompañamientos
-  </sgm-page-header-title>
+  <sgm-page-header-title> Analíticas Acompañamientos </sgm-page-header-title>
 
   <sgm-page-header-controls>
-    <button class="btn btn-primary" (click)="updateAnalytics()" [disabled]="isUpdating">
+    <button
+      class="btn btn-primary"
+      (click)="updateAnalytics()"
+      [disabled]="isUpdating"
+    >
       {{isUpdating ? 'Actualizando...':'Generar ahora'}}
     </button>
   </sgm-page-header-controls>
 
   <ng-container *ngIf="ready$|async ">
-    <ng-container *ngIf="analytics$ |async as  data; else showFirstTimeGenerating">
+    <ng-container
+      *ngIf="analytics$ |async as  data; else showFirstTimeGenerating"
+    >
       <p>
-        Datos de los acompañamientos registrados durante el periodo académico <b>{{data.period.name |titlecase}}</b>.
-        Última actualización <b>{{ data.lastUpdated | date:'long' }}</b>
+        Datos de los acompañamientos registrados durante el periodo académico
+        <b>{{data.period.name |titlecase}}</b>. Última actualización
+        <b>{{ data.lastUpdated | date:'long' }}</b>
       </p>
     </ng-container>
   </ng-container>
-  </sgm-page-header>
+</sgm-page-header>
 
 <!-- Generate data message -->
 <ng-template #showFirstTimeGenerating>
-  No hay datos generados anteriormente, dale click en <code style="cursor: pointer;"
-    (click)="updateAnalytics()">Generar ahora</code>
+  No hay datos generados anteriormente, dale click en
+  <code style="cursor: pointer" (click)="updateAnalytics()">Generar ahora</code>
   para generar los datos de los acompañamientos.
 </ng-template>
 
@@ -30,13 +35,10 @@
   <sgm-analytics-navbar></sgm-analytics-navbar>
 </div>
 
-
 <!-- Loading alert -->
 <ng-container *ngIf="loading$|async">
   <section class="container my-4">
-    <div class="alert alert-primary" role="alert">
-      Cargando...
-    </div>
+    <div class="alert alert-primary" role="alert">Cargando...</div>
   </section>
 </ng-container>
 
@@ -51,53 +53,42 @@
 
 <!-- Loaded data, swap to content -->
 <ng-container *ngIf="analytics$|async as analytics">
+  <section class="container-fluid my-4"></section>
+</ng-container>
+
+<!-- Loaded data, swap to content -->
+<ng-container *ngIf="analytics$|async as analytics">
+  <!-- card of first analytics -->
   <section class="container-fluid my-4">
+    <!-- card container --->
+    <sgm-outline-card>
+      <!-- title --->
+      <sgm-outline-card-title>
+        Estudiantes que continúan
+      </sgm-outline-card-title>
+      <!-- subtitle --->
+      <sgm-outline-card-subtitle>
+        Analíticas de estudiantes que continúan en su acompañamiento
+      </sgm-outline-card-subtitle>
+      <!-- content --->
+      <sgm-accompaniments-problems [accompaniments]="accompaniments$|async">
+      </sgm-accompaniments-problems>
+    </sgm-outline-card>
+  </section>
+
+  <!-- second analytics card -->
+  <section class="container-fluid my-4">
+    <!-- card container --->
+    <sgm-outline-card>
+      <!-- title --->
+      <sgm-outline-card-title> Estudiantes nuevos </sgm-outline-card-title>
+      <!-- subtitle --->
+      <sgm-outline-card-subtitle>
+        Analíticas de estudiantes que reciben por primera vez el acompañamiento
+        mentorial.
+      </sgm-outline-card-subtitle>
+
+      <!-- content --->
+    </sgm-outline-card>
   </section>
 </ng-container>
-<!--
-<section class="container-fluid">
-  <p *ngIf="!loaded">Loading</p>
-
-  <ng-container *ngIf="loaded">
-    <div class="form-group row">
-      <div class="col-xl-3 col-lg-4 col-md-6">
-        <label class="col-form-label">Filtrar por Área</label>
-        <select class="form-control" (change)="filterArea($event.target.value)" [disabled]="!!selectedDegree">
-          <option value="">Seleccionar una Área</option>
-          <option [value]="area" *ngFor="let area of areas">
-            {{area | titlecase}}
-          </option>
-        </select>
-      </div>
-      <div class="col-xl-3 col-lg-4 col-md-6">
-        <label class="col-form-label">Filtrar por Carrera</label>
-        <select class="form-control" (change)="filterDegree($event.target.value)">
-          <option value="">Seleccionar una Carrera</option>
-          <option [value]="degree" *ngFor="let degree of degrees">
-            {{degree | titlecase}}
-          </option>
-        </select>
-      </div>
-    </div>
-
-    <sgm-problems-degree-chart [data]="accompaniments" *ngIf="!!selectedArea && !selectedDegree">
-    </sgm-problems-degree-chart>
-    <div class="row">
-      <div class="col-lg-6" *ngIf="!selectedArea && !selectedDegree">
-        <sgm-problems-area-chart [data]="accompaniments"></sgm-problems-area-chart>
-      </div>
-      <div class="col-lg-6" *ngIf="!!selectedArea && !selectedDegree">
-        <sgm-degrees-chart [data]="accompaniments"></sgm-degrees-chart>
-      </div>
-      <div class="col-lg-6">
-        <sgm-problems-chart [data]="accompaniments"></sgm-problems-chart>
-      </div>
-      <div class="col-lg-6" *ngIf="!selectedArea && !selectedDegree">
-        <sgm-areas-chart [data]="accompaniments"></sgm-areas-chart>
-      </div>
-      <div class="col-lg-6">
-        <sgm-following-chart [data]="accompaniments"></sgm-following-chart>
-      </div>
-    </div>
-  </ng-container>
-</section> -->
