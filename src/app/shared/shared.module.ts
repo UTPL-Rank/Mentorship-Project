@@ -14,6 +14,7 @@ import { PageHeaderTitleComponent } from './components/page-header/page-header-t
 import { PageHeaderComponent } from './components/page-header/page-header.component';
 import { SigCanvasComponent } from './components/sig-canvas/sig-canvas.component';
 import { StudentsTableComponent } from './components/students-table/students-table.component';
+import { IconsModule } from './icons/icons.module';
 import { AcademicCycleNamePipe } from './pipes/academic-cycle-name.pipe';
 import { FollowingNamePipe } from './pipes/following-name.pipe';
 import { QualificationValuePipe } from './pipes/qualification-value.pipe';
@@ -29,6 +30,7 @@ import { StatisticModule } from './statistic/statistic.module';
     CardModule,
     StatisticModule,
     PlotsModule,
+    IconsModule,
   ],
   declarations: [
     AcademicCycleNamePipe,
@@ -64,6 +66,7 @@ import { StatisticModule } from './statistic/statistic.module';
     MentorFilterSelectorComponent,
     StatisticModule,
     CardModule,
+    IconsModule,
   ]
 })
 export class SharedModule { }

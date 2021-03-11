@@ -4,6 +4,10 @@
   <div class="w-full bg-white px-4 py-5 shadow-sm relative z-20">
     <!-- align topbar items -->
     <div class="flex items-baseline justify-between">
+      <!-- back button -->
+      <a routerLink="..">
+        <i-feather name="chevron-left"></i-feather>
+      </a>
       <!-- chat title -->
       <span class="text-gray-800 font-semibold text-base">
         {{ chatParticipantTitle$ | async | titlecase }}

@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
@@ -23,6 +24,7 @@ export class ChatComponent implements OnInit {
     private readonly messageCreator: CreateTextMessageService,
     private readonly route: ActivatedRoute,
     private readonly userService: UserService,
+    private readonly location: Location
   ) { }
 
   @ViewChild('scroll', { static: true })
@@ -55,7 +57,6 @@ export class ChatComponent implements OnInit {
       switchMap(chatId => this.messageCreator.send$(chatId, text))
     ).subscribe(console.log)
   }
-
 
   private scrollBottom(): void {
     const el = this.scrollRef?.nativeElement;
