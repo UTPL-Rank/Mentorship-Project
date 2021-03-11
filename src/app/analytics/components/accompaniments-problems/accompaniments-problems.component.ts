@@ -18,6 +18,7 @@ type AccompanimentEntry =
 export class AccompanimentsProblemsComponent {
 
   private readonly accompanimentsSource: Subject<Array<AccompanimentEntry>> = new BehaviorSubject([] as Array<AccompanimentEntry>);
+  private readonly filterSource = new BehaviorSubject(null) as Subject<string | null>;
 
   @Input('accompaniments')
   set setAccompaniments(accompaniments: Array<AccompanimentEntry> | null) {
@@ -26,7 +27,16 @@ export class AccompanimentsProblemsComponent {
       this.accompanimentsSource.next(accompaniments);
   }
 
-  private readonly problems$ = this.accompanimentsSource.asObservable().pipe(
+
+  public readonly filterOptions$ = this.accompanimentsSource.asObservable().pipe(
+    map(acc => acc.map(a => a.degree)),
+  )
+
+  private readonly accompaniments$ = combineLatest([this.accompanimentsSource.asObservable(), this.filterSource]).pipe(
+    map(([accompaniments, filter]) => filter ? accompaniments.filter(a => a.degree.id === filter) : accompaniments),
+  );
+
+  private readonly problems$ = this.accompaniments$.pipe(
     map(acc => GroupAccompanimentsProblems(acc)),
     shareReplay(1),
     map(a => [...a])
@@ -52,5 +62,14 @@ export class AccompanimentsProblemsComponent {
       return newRes;
     })),
   );
+
+  /**
+   * Filter mentors by degree
+   * @param selection name of the degree selected
+   */
+  public applyFilter(selection: string | null) {
+    this.filterSource.next(selection);
+  }
+
 
 }

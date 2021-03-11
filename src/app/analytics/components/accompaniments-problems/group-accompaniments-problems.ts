@@ -13,18 +13,21 @@ type Labels =
   | 'Otros'
   | 'Phisosociales';
 
-const startVal: Record<Labels, number> = {
-  'Ninguno': 0,
-  'Académicos': 0,
-  'Administrativos': 0,
-  'Económicos': 0,
-  'Otros': 0,
-  'Phisosociales': 0,
-}
 
 export function GroupAccompanimentsProblems(accompaniments: Array<AccompanimentEntry>): Array<[string, number]> {
+  const startVal: Record<Labels, number> = {
+    'Ninguno': 0,
+    'Académicos': 0,
+    'Administrativos': 0,
+    'Económicos': 0,
+    'Otros': 0,
+    'Phisosociales': 0,
+  }
+
   const dataMap = accompaniments.reduce<Record<Labels, number>>(problemsReducer, startVal);
+
   const sorted = Object.entries(dataMap).sort((a, b) => b[1] - a[1]);
+
   return sorted;
 }
 
