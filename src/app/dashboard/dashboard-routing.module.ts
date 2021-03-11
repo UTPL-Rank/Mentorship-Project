@@ -21,7 +21,6 @@ const routes: Routes = [
   // ==================
   { path: 'ingresar', loadChildren: () => import('../sign-in/sign-in.module').then(m => m.SignInModule) },
 
-  { path: 'chat', loadChildren: () => import('../chat/chat.module').then(m => m.ChatModule) },
 
   // ==================
   // Dashboard shell
@@ -44,6 +43,11 @@ const routes: Routes = [
         loadChildren: () => import('../analytics/analytics.module').then(m => m.AnalyticsModule),
         canActivate: [IsAdminGuard],
       },
+
+      // ==================
+      // chat feature
+      // ==================
+      { path: 'chat', loadChildren: () => import('../chat/chat.module').then(m => m.ChatModule) },
 
       // ==================
       // Upload information feature

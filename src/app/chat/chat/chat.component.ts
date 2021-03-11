@@ -62,7 +62,11 @@ export class ChatComponent implements OnInit {
     const el = this.scrollRef?.nativeElement;
     if (el) {
       const top = el.scrollHeight;
-      el.scroll({ top, behavior: 'smooth' });
+
+      const timer = setTimeout(() => {
+        el.scroll({ top, behavior: 'smooth' });
+        clearTimeout(timer);
+      }, 1000);
     }
   }
 }
