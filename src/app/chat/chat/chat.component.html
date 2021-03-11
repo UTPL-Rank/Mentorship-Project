@@ -1,7 +1,7 @@
 <!-- layout -->
 <main class="h-screen w-full flex flex-col bg-blue-50">
   <!-- top bar -->
-  <div class="w-full bg-white px-4 py-5 shadow-sm">
+  <div class="w-full bg-white px-4 py-5 shadow-sm relative z-20">
     <!-- align topbar items -->
     <div class="flex items-baseline justify-between">
       <!-- chat title -->
@@ -12,10 +12,19 @@
   </div>
 
   <!-- main content -->
-  <div class="flex-grow relative">
+  <div class="flex-grow relative z-10">
     <!-- scroll section  -->
-    <div class="absolute inset-0 w-full h-full overflow-y-auto over">
-      <sgm-sended-messages [messages]="messages$ | async"></sgm-sended-messages>
+    <div #scroll class="absolute inset-0 w-full h-full overflow-y-auto">
+      <!-- chat list style -->
+      <div class="p-4 grid grid-cols-1 auto-rows-auto gap-4">
+        <!-- iterate messages -->
+        <ng-container *ngFor="let msg of messages$ | async">
+          <!-- message container -->
+          <div class="max-w-xl w-3/4">
+            <sgm-message [message]="msg"></sgm-message>
+          </div>
+        </ng-container>
+      </div>
     </div>
   </div>
 

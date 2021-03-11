@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { combineLatest } from 'rxjs';
-import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
 import { ChatInformationService } from './chat-information.service';
 import { CreateTextMessageService } from './create-text-message.service';
@@ -25,6 +25,9 @@ export class ChatComponent implements OnInit {
     private readonly userService: UserService,
   ) { }
 
+  @ViewChild('scroll', { static: true })
+  private readonly scrollRef: ElementRef<HTMLDivElement> | null = null;
+
   private readonly chatId$ = this.route.params.pipe(
     map(params => params.chatId as string),
   );
@@ -42,6 +45,7 @@ export class ChatComponent implements OnInit {
   public readonly messages$ = this.chatId$.pipe(
     switchMap(chatId => this.messagesLister.messages$(chatId)),
     shareReplay(1),
+    tap(() => this.scrollBottom()),
   );
 
   ngOnInit(): void { }
@@ -52,4 +56,12 @@ export class ChatComponent implements OnInit {
     ).subscribe(console.log)
   }
 
+
+  private scrollBottom(): void {
+    const el = this.scrollRef?.nativeElement;
+    if (el) {
+      const top = el.scrollHeight;
+      el.scroll({ top, behavior: 'smooth' });
+    }
+  }
 }
