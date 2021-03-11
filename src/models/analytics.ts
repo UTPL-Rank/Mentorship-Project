@@ -22,7 +22,7 @@ export namespace SGMAnalytics {
         period: { name: string; id: string; },
         degree: { name: string; id: string; },
         mentor: { displayName: string; id: string; },
-        student: { displayName: string; id: string; },
+        student: { displayName: string; id: string; cycle: SGMStudent.AcademicCycle; },
         kind: SGMAccompaniment.AccompanimentKind | null;
         followingKind: SGMAccompaniment.FollowingType;
         important: boolean;
@@ -76,8 +76,10 @@ export namespace SGMAnalytics {
         }
     }
 
+    export type AccompanimentEntry = LegacyAccompanimentEntry | ProblemAccompanimentEntry | NoProblemAccompanimentEntry;
+
     export interface AccompanimentsAnalytics extends _Base {
-        accompaniments: Array<LegacyAccompanimentEntry | ProblemAccompanimentEntry | NoProblemAccompanimentEntry>;
+        accompaniments: Array<AccompanimentEntry>;
     }
 
     /**
