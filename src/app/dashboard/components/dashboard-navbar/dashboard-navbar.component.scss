@@ -86,7 +86,7 @@
 
       .item--icon {
         width: var(--space-8);
-        .fas {
+        >* {
           width: 100%;
           text-align: center;
           font-size: 24px;
