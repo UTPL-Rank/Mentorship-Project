@@ -34,4 +34,8 @@ async function _AnalyticsCalculatorCron() {
     }
 };
 
-export const AnalyticsCalculatorCron = functions.pubsub.schedule(cronSchedule).onRun(_AnalyticsCalculatorCron);
+export const AnalyticsCalculatorCron = functions
+    .runWith({ maxInstances: 1, memory: '1GB', timeoutSeconds: 540 })
+    .pubsub
+    .schedule(cronSchedule)
+    .onRun(_AnalyticsCalculatorCron);

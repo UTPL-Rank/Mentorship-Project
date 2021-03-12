@@ -23,7 +23,7 @@ export async function AnalyticsAccompanimentsUseCase(periodIdentifier?: string):
 
     const accompaniments = await ListAccompanimentsPeriod(validPeriod.id);
 
-    const accompanimentAnalytics = GenerateAccompanimentsAnalyticsService(validPeriod, accompaniments);
+    const accompanimentAnalytics = await GenerateAccompanimentsAnalyticsService(validPeriod, accompaniments);
 
     await SaveAnalyticsService(accompanimentAnalytics);
-} 
+}

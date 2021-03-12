@@ -70,5 +70,8 @@ async function _AnalyticsAccompanimentsUseCaseCaller(data: RequestDTO): Promise<
 }
 
 export const AnalyticsMentorsUseCaseCaller = functions.https.onCall(_AnalyticsMentorsUseCaseCaller);
-export const AnalyticsAccompanimentsUseCaseCaller = functions.https.onCall(_AnalyticsAccompanimentsUseCaseCaller);
+export const AnalyticsAccompanimentsUseCaseCaller = functions
+    .runWith({ maxInstances: 1, memory: '1GB', timeoutSeconds: 540 })
+    .https
+    .onCall(_AnalyticsAccompanimentsUseCaseCaller);
 export const AnalyticsStudentsUseCaseCaller = functions.https.onCall(_AnalyticsStudentsUseCaseCaller);
