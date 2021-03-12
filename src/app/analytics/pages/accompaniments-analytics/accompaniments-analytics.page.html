@@ -71,7 +71,7 @@
         Analíticas de estudiantes que continúan en su acompañamiento
       </sgm-outline-card-subtitle>
       <!-- content --->
-      <sgm-accompaniments-problems [accompaniments]="accompaniments$|async">
+      <sgm-accompaniments-problems [accompaniments]="accompanimentsContinuing$|async">
       </sgm-accompaniments-problems>
     </sgm-outline-card>
   </section>
@@ -89,6 +89,8 @@
       </sgm-outline-card-subtitle>
 
       <!-- content --->
+      <sgm-accompaniments-problems [accompaniments]="accompanimentsFirsTime$|async">
+      </sgm-accompaniments-problems>
     </sgm-outline-card>
   </section>
 </ng-container>

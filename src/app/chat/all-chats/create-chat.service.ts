@@ -72,12 +72,14 @@ export class CreateChatService {
       displayName: sender.displayName,
       email: sender.email,
       uid: sender.uid,
+      username: sender.username ?? sender.email.split('@')[0]
     };
 
     const receiverDto: ChatParticipant = {
       displayName: receiver.displayName,
       email: receiver.email,
       uid: receiver.uid,
+      username: receiver.username ?? receiver.email.split('@')[0]
     };
 
     const chat: SGMChat.functions.createDto = {

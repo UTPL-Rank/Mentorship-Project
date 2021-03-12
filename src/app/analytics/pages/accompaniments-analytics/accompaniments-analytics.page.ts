@@ -46,8 +46,12 @@ export class AccompanimentsAnalyticsComponent implements OnInit, OnDestroy {
     map(response => response.status === 'ERROR'),
   );
 
-  public readonly accompaniments$ = this.analytics$.pipe(
-    map(analytics => analytics?.accompaniments),
+  public readonly accompanimentsContinuing$ = this.analytics$.pipe(
+    map(analytics => analytics?.accompaniments.filter(a => a.student.cycle !== 'sgm#first')),
+  );
+
+  public readonly accompanimentsFirsTime$ = this.analytics$.pipe(
+    map(analytics => analytics?.accompaniments.filter(a => a.student.cycle === 'sgm#first')),
   );
 
 
