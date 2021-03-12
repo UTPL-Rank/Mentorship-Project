@@ -26,7 +26,9 @@ export function GroupAccompanimentsProblems(accompaniments: Array<AccompanimentE
 
   const dataMap = accompaniments.reduce<Record<Labels, number>>(problemsReducer, startVal);
 
-  const sorted = Object.entries(dataMap).sort((a, b) => b[1] - a[1]);
+  const sorted = Object.entries(dataMap)
+    .sort((a, b) => b[1] - a[1])
+    .filter(entry => entry[1] > 0);
 
   return sorted;
 }

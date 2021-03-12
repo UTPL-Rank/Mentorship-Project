@@ -14,6 +14,24 @@
 
     <sgm-statistic>
       <!-- label -->
+      <sgm-statistic-label> Acompañamientos Realizados </sgm-statistic-label>
+      <!-- value TODO: primary -->
+      <sgm-statistic-value>
+        {{ allAccompanimentsCount$ | async }}
+      </sgm-statistic-value>
+    </sgm-statistic>
+
+    <sgm-statistic>
+      <!-- label -->
+      <sgm-statistic-label> Acompañamientos Importantes Registrados </sgm-statistic-label>
+      <!-- value TODO: primary -->
+      <sgm-statistic-value>
+        {{ allAccompanimentsImportCount$ | async }}
+      </sgm-statistic-value>
+    </sgm-statistic>
+
+    <sgm-statistic>
+      <!-- label -->
       <sgm-statistic-label> Problemas Encontrados </sgm-statistic-label>
       <!-- value TODO: primary -->
       <sgm-statistic-value>

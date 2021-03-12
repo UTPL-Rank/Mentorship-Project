@@ -29,11 +29,28 @@ export class AccompanimentsProblemsComponent {
 
 
   public readonly filterOptions$ = this.accompanimentsSource.asObservable().pipe(
-    map(acc => acc.map(a => a.degree)),
+    map(acc => acc
+      .map(a => a.degree)
+      .reduce((acc, a) => {
+        if (!(a.id in acc))
+          acc[a.id] = a
+
+        return acc;
+      }, {} as Record<string, { id: string, name: string }>)),
+    map(res => Object.values(res))
   )
 
   private readonly accompaniments$ = combineLatest([this.accompanimentsSource.asObservable(), this.filterSource]).pipe(
     map(([accompaniments, filter]) => filter ? accompaniments.filter(a => a.degree.id === filter) : accompaniments),
+    shareReplay(1),
+  );
+
+  readonly allAccompanimentsCount$ = this.accompaniments$.pipe(
+    map(acc => acc.length),
+  );
+
+  readonly allAccompanimentsImportCount$ = this.accompaniments$.pipe(
+    map(acc => acc.filter(a => a.important).length),
   );
 
   private readonly problems$ = this.accompaniments$.pipe(
@@ -63,10 +80,6 @@ export class AccompanimentsProblemsComponent {
     })),
   );
 
-  /**
-   * Filter mentors by degree
-   * @param selection name of the degree selected
-   */
   public applyFilter(selection: string | null) {
     this.filterSource.next(selection);
   }

@@ -9,6 +9,16 @@
   </sgm-pie>
 
   <div class="list-statistics">
+    <select
+      class="custom-select custom-select-sm"
+      (change)="applyFilter($event.target.value)"
+    >
+      <option selected value="">Selecciona una titulación</option>
+      <ng-container *ngFor="let degree of filterOptions$ | async">
+        <option [value]="degree.id">{{ degree.name | titlecase }}</option>
+      </ng-container>
+    </select>
+
     <sgm-statistic>
       <!-- label -->
       <sgm-statistic-label>Todos los estudiantes</sgm-statistic-label>

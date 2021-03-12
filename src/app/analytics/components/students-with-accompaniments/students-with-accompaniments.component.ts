@@ -18,7 +18,22 @@ export class StudentsWithAccompanimentsComponent {
       this.studentsSource.next(students);
   }
 
-  public readonly students$ = this.studentsSource.asObservable().pipe(
+  private readonly filterSource = new BehaviorSubject(null) as Subject<string | null>;
+
+  public readonly filterOptions$ = this.studentsSource.asObservable().pipe(
+    map(students => students
+      .map(a => a.degree)
+      .reduce((acc, a) => {
+        if (!(a.id in acc))
+          acc[a.id] = a
+
+        return acc;
+      }, {} as Record<string, { id: string, name: string }>)),
+    map(res => Object.values(res))
+  )
+
+  public readonly students$ = combineLatest([this.studentsSource.asObservable(), this.filterSource]).pipe(
+    map(([students, filter]) => filter ? students.filter(a => a.degree.id === filter) : students),
     shareReplay(1),
     map(s => [...s])
   );
@@ -58,4 +73,7 @@ export class StudentsWithAccompanimentsComponent {
     shareReplay(1),
   );
 
+  public applyFilter(selection: string | null) {
+    this.filterSource.next(selection);
+  }
 }
