@@ -20,7 +20,7 @@ export namespace SGMChat {
 
         lastMessage: SGMMessage.readDto | null;
 
-        lastActivity: firebase.firestore.Timestamp | firebaseAdmin.firestore.FieldValue;
+        lastActivity: firebase.firestore.Timestamp | firebaseAdmin.firestore.Timestamp | firebaseAdmin.firestore.FieldValue;
 
         /**
          * whether if chat has been disabled
@@ -34,9 +34,14 @@ export namespace SGMChat {
     export interface readDto extends _Base {
         lastActivity: firebase.firestore.Timestamp;
     }
-
+    
     
     export module functions {
+
+        export interface readDto extends _Base {
+            lastActivity: firebaseAdmin.firestore.Timestamp;
+        }
+
         /**
          * Fields requires when creating a new chat.
          * 

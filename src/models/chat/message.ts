@@ -19,15 +19,15 @@ export namespace SGMMessage {
         text: string | null;
         accompaniment: Accompaniment | null;
         banned: boolean;
-        date: firebase.firestore.Timestamp | firebase.firestore.FieldValue;
+        date: firebase.firestore.Timestamp | firebase.firestore.FieldValue | firebaseAdmin.firestore.Timestamp;
         sender: ChatParticipant,
     }
 
-    interface _BaseRead {
+    interface _BaseRead extends _Base {
         date: firebase.firestore.Timestamp;
     }
 
-    interface _BaseCreate {
+    interface _BaseCreate extends _Base {
         date: firebase.firestore.FieldValue;
     }
 
@@ -108,6 +108,12 @@ export namespace SGMMessage {
 
     export module functions {
 
+
+        interface _BaseReadFunctions {
+            date: firebaseAdmin.firestore.Timestamp;
+        }
+
+        export type readDto = multipleFormat & _BaseReadFunctions
 
         interface _BaseCreateFunctions {
             date: firebaseAdmin.firestore.FieldValue;
