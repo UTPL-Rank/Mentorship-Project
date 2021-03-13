@@ -59,17 +59,18 @@ export namespace SGMChat {
 
             lastActivity: firebaseAdmin.firestore.FieldValue;
         }
-
+        
         export interface disableChatDto extends Pick<_Base, 'disabled'> {
             disabled: true;
         }
-
+        
         export interface enableChatDto extends Pick<_Base, 'disabled'> {
             disabled: false;
         }
-
+        
         export interface updateLastMessageDto extends Pick<_Base, 'lastMessage'> {
             lastMessage: SGMMessage.readDto;
+            lastActivity: firebaseAdmin.firestore.FieldValue;
         }
     }
 }
