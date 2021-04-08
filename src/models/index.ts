@@ -5,7 +5,7 @@ export * from './accompaniments';
 export * from './analytics';
 export * from './assets';
 export * from './chat';
-export * from './coordinator';
+export * from './integrator';
 export * from './mentor';
 export * from './notification';
 export * from './student';

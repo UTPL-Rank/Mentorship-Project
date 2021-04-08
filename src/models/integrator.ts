@@ -1,6 +1,6 @@
 import { firestore } from "firebase/app";
 
-export namespace SGMCoordinator {
+export namespace SGMIntegrator {
 
     interface _Base {
         id: string;
@@ -8,6 +8,7 @@ export namespace SGMCoordinator {
         email: string;
 
         period: { reference: firestore.DocumentReference; name: string; };
+
 
         assignedMentorsCount: number | firestore.FieldValue;
     }
