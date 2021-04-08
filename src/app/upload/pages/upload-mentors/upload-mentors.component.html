@@ -22,7 +22,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let mentor of data; let idx = index">
+        <tr *ngFor="let mentor of (mentors$ | async); let idx = index">
           <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.displayName | titlecase }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.email }}</td>

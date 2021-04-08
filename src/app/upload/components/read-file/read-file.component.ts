@@ -1,10 +1,17 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-
+import { ReadFileService } from './read-file.service';
 @Component({
   selector: 'sgm-read-file',
-  templateUrl: './read-file.component.html'
+  templateUrl: './read-file.component.html',
+  providers: [
+    ReadFileService
+  ]
 })
 export class ReadFileComponent {
+
+  constructor(
+    private readonly fileReader: ReadFileService,
+  ) { }
 
   @Output()
   public upload: EventEmitter<string> = new EventEmitter();
@@ -20,33 +27,16 @@ export class ReadFileComponent {
     this.file = event?.target?.files[0];
 
     // read if file
-    if (this.file) {
-      const csv = await this.readFile();
-      this.upload.emit(csv);
-    }
+    const sub = this.fileReader.read$(this.file).subscribe(payload => {
+      if (payload)
+        this.upload.emit(payload);
+
+      sub.unsubscribe();
+    });
   }
 
   public get fileName() {
     return !!this.file ? this.file.name : 'Selecciona un archivo';
   }
 
-  private readFile(): Promise<string> {
-    if (!FileReader) {
-      alert('Navegador no compatible. Cambie de navegador web.');
-      throw new Error('file-reader/not-compatible');
-    }
-
-    return new Promise((resolve, reject) => {
-
-      if (!this.file)
-        return reject('Error');
-
-      const reader = new FileReader();
-
-      reader.readAsText(this.file);
-
-      reader.onload = (event: any) => resolve(event.target.result as string);
-      reader.onerror = (event: any) => reject(event.target.error);
-    });
-  }
 }

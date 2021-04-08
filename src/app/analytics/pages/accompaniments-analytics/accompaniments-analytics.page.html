@@ -14,7 +14,7 @@
   <ng-container *ngIf="ready$|async ">
     <ng-container
       *ngIf="analytics$ |async as  data; else showFirstTimeGenerating"
-    >
+      >
       <p>
         Datos de los acompañamientos registrados durante el periodo académico
         <b>{{data.period.name |titlecase}}</b>. Última actualización
@@ -49,11 +49,6 @@
       No se pudo cargar la información, intenta recargar la página
     </div>
   </section>
-</ng-container>
-
-<!-- Loaded data, swap to content -->
-<ng-container *ngIf="analytics$|async as analytics">
-  <section class="container-fluid my-4"></section>
 </ng-container>
 
 <!-- Loaded data, swap to content -->
