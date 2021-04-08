@@ -3,7 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMMentor } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
-import { BehaviorSubject, Subject, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { UserService } from '../../../core/services/user.service';
 import { UploadData } from '../../../models/upload-data.interface';
@@ -19,7 +19,7 @@ import { TransformCsvToMentorsService } from './transform-csv-to-mentors.service
     { provide: IBaseCsvTransformerService, useClass: TransformCsvToMentorsService }
   ]
 })
-export class UploadMentorsComponent implements OnInit, OnDestroy {
+export class UploadMentorsComponent implements OnDestroy {
   constructor(
     private db: AngularFirestore,
     private route: ActivatedRoute,
@@ -31,29 +31,27 @@ export class UploadMentorsComponent implements OnInit, OnDestroy {
   isSaving = false;
 
   private sub: Subscription | null = null;
-  public period!: SGMAcademicPeriod.readDTO;
+
+  private readonly period$: Observable<SGMAcademicPeriod.readDTO> = this.route.data.pipe(
+    map(data => data.activePeriod),
+    shareReplay(1),
+  );
 
   private readonly mentorsSource$: Subject<string> = new Subject();
 
   public readonly mentors$ = this.mentorsSource$.asObservable().pipe(
-    switchMap(rawString => this.stringToCsvParserService.parse$(rawString)),
-    map(csv => csv.splice(1).map(row => [...row, this.period.id])),
+    switchMap(rawString => combineLatest([this.stringToCsvParserService.parse$(rawString),this.period$])),
+    map(([csv, period]) => csv.splice(1).map(row => [...row, period.id])),
     switchMap(csv => this.transformerService.transform$(csv)),
     shareReplay(1),
   );
-
-  ngOnInit(): void {
-    this.sub = this.route.data.subscribe(data => {
-      this.period = data.activePeriod;
-    });
-  }
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();
   }
 
   async save(): Promise<void> {
-    const data = await  this.mentors$.pipe(take(1)).toPromise();
+    const data = await this.mentors$.pipe(take(1)).toPromise();
     if (!data) {
       alert('Primero lee el archivo de los mentores');
       return;
@@ -92,7 +90,7 @@ export class UploadMentorsComponent implements OnInit, OnDestroy {
     }
   }
 
-   readFile(csv: string): void{
+  readFile(csv: string): void {
     this.mentorsSource$.next(csv);
   }
 }
