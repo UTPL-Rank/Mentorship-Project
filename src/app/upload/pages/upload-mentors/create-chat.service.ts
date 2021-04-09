@@ -16,13 +16,12 @@ export class CreateChatService {
     private readonly logger: BrowserLoggerService,
   ) { }
 
-  create(): Observable<string | null> {
+  create(username1: string, username2: string): Observable<string | null> {
 
-    return from(this.createChat());
+    return from(this.createChat(username1, username2));
   }
 
-  private async createChat(): Promise<string | null> {
-    const [username1, username2] = this.requestUsername();
+  private async createChat(username1: string, username2: string): Promise<string | null> {
 
     const user1 = await this.getUser(username1);
     const user2 = await this.getUser(username2);
@@ -94,13 +93,4 @@ export class CreateChatService {
     return chat;
   }
 
-  private requestUsername(): [string, string] {
-    const username1 = prompt('Ingresa el username del usuario 1');
-    const username2 = prompt('Ingresa el username del usuario 2');
-
-    if (username1 && username2)
-      return [username1, username2];
-
-    throw new Error('Insert valid credentials');
-  }
 }

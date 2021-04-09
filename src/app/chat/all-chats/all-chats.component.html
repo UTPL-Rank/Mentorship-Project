@@ -2,9 +2,6 @@
 <div class="h-full w-full bg-blue-50 p-4 md:p-8">
   <!-- list items in a grid -->
   <div class="grid grid-cols-1 auto-rows-auto gap-4">
-    <button class="btn btn-primary btn-sm" (click)="create()">
-      Crear nuevo chat
-    </button>
     <!-- list item -->
     <ng-container *ngFor="let chat of chats$ | async">
       <a class="no-underline" [routerLink]="['..', chat.id]" >

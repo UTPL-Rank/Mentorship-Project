@@ -6,7 +6,8 @@
 
 <p>Los estudiantes mentores deben tener el siguiente formato. <code>Nombres y Apellidos</code>,
   <code>Correo Electrónico</code>, <code>Cédula de Identidad</code>, <code>Id del Área</code>,
-  <code>Id de la Titulación</code>.</p>
+  <code>Id de la Titulación</code>, <code>Correo del mentor</code>.
+  </p>
 
 <div class="card mb-5">
   <div class="table-responsive">
@@ -19,6 +20,7 @@
           <th class="font-weight-bold text-muted small">Cédula de Identidad</th>
           <th class="font-weight-bold text-muted small">Área</th>
           <th class="font-weight-bold text-muted small">Titulación</th>
+          <th class="font-weight-bold text-muted small">Integrador</th>
         </tr>
       </thead>
       <tbody>
@@ -29,6 +31,7 @@
           <td class="font-weight-bold text-muted small">{{ mentor.ci }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.area.name | titlecase }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.degree.name | titlecase }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.integrator.displayName | titlecase }}</td>
         </tr>
       </tbody>
     </table>

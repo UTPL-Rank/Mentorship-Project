@@ -59,6 +59,7 @@ export class UploadMentorsComponent implements OnDestroy {
 
     try {
       this.isSaving = true;
+
       const batch = this.db.firestore.batch();
 
       // TODO: validate a mentor is not repeated

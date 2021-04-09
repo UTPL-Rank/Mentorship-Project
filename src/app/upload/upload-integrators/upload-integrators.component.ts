@@ -5,16 +5,16 @@ import { SGMAcademicPeriod, SGMIntegrator } from '@utpl-rank/sgm-helpers';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { UserService } from 'src/app/core/services/user.service';
-import { MentorClaims } from 'src/app/models/user-claims';
+import { IntegratorClaims } from 'src/app/models/user-claims';
 import { IBaseCsvTransformerService } from '../services/i-base-csv-transformer.service';
 import { StringToCsvParserService } from '../services/string-to-csv-parser.service';
-import { TransformCsvToIntegratorsService } from "./transform-csv-to-integrators.service";
+import { TransformCsvToIntegratorsService } from './transform-csv-to-integrators.service';
 
 @Component({
   selector: 'sgm-upload-integrators',
   templateUrl: './upload-integrators.component.html',
   providers: [
-    { provide: IBaseCsvTransformerService, useClass: TransformCsvToIntegratorsService }
+    { provide: IBaseCsvTransformerService, useClass: TransformCsvToIntegratorsService },
   ]
 })
 export class UploadIntegratorsComponent implements OnDestroy {
@@ -50,8 +50,8 @@ export class UploadIntegratorsComponent implements OnDestroy {
   }
 
   async save(): Promise<void> {
-    const data = await this.integrators$.pipe(take(1)).toPromise();
-    if (!data) {
+    const integrators = await this.integrators$.pipe(take(1)).toPromise();
+    if (!integrators) {
       alert('Primero lee el archivo de los mentores');
       return;
     }
@@ -62,30 +62,30 @@ export class UploadIntegratorsComponent implements OnDestroy {
       this.isSaving = true;
       const batch = this.afFirestore.firestore.batch();
 
-      // TODO: validate a mentor is not repeated
-      data.forEach(mentor => {
-        // references to all the documents that will be updated when a new mentor is created
-        const username = mentor.email.split('@')[0];
-        const mentorRef = this.afFirestore.collection('mentors').doc(mentor.id).ref;
+      // TODO: validate a integrators is not repeated
+      integrators.forEach(integrator => {
+        // references to all the documents that will be updated when a new integrator is created
+        const username = integrator.email.split('@')[0];
+        const integratorRef = this.afFirestore.collection('integrators').doc(integrator.id).ref;
         const claimsRef = this.usersService.claimsDocument(username).ref;
 
         // data to be uploaded
-        const claims: MentorClaims = { isMentor: true, mentorId: mentor.id };
+        const claims: IntegratorClaims = { isIntegrator: true, integratorId: integrator.id };
 
         // batch writes
         // TODO: add type validation
-        batch.set(mentorRef, mentor);
+        batch.set(integratorRef, integrator);
         batch.set(claimsRef, claims, { merge: true });
       });
 
 
       await batch.commit();
-      alert('Todos los mentores han sido guardados.');
+      alert('Todos los docentes integradores han sido guardados.');
       // this.router.navigateByUrl('/panel-control');
     } catch (error) {
       this.isSaving = false;
       console.log(error);
-      alert('Ocurrió un error al guardar los mentores, vuelve a intentarlo.');
+      alert('Ocurrió un error al guardar los docentes integradores, vuelve a intentarlo.');
     }
   }
 

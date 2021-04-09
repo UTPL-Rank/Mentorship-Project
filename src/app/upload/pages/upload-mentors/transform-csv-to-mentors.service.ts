@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMMentor } from '@utpl-rank/sgm-helpers';
+import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMIntegrator, SGMMentor } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
 import { IBaseCsvTransformerService } from './../../services/i-base-csv-transformer.service';
 
@@ -16,7 +16,7 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
     const data = row.map(s => s.trim().toLocaleLowerCase());
 
     // store in variables
-    const [displayName, email, ci, areaId, degreeId, periodId] = data;
+    const [displayName, email, ci, areaId, degreeId, integratorEmail, periodId] = data;
 
     // get the data for the academic area if exists, otherwise throw an error
     const areaReference = this.db.collection('academic-areas').doc(areaId).ref as firestore.DocumentReference<SGMAcademicArea.readDTO>;
@@ -38,8 +38,18 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
     if (!periodSnap.exists) throw new Error(`El periodo académico ${periodReference.id} no fue encontrado.`);
     const periodData = periodSnap.data();
 
+    // get the data for the integrator
+    // query an integrator with email and period
+    const integratorQuery = this.db.collection('integrators').ref
+      .where('email', '==', integratorEmail)
+      .where('period.reference', '==', periodReference) as firestore.CollectionReference<SGMIntegrator.readDTO>;
 
-    if (!areaData || !periodData || !degreeData)
+    const integratorReference = await integratorQuery.get();
+    const integratorDoc: firestore.QueryDocumentSnapshot<SGMIntegrator.readDTO> | null = integratorReference.docs[0] ?? null;
+    if (!integratorDoc) throw new Error(`El docente integrador con correo ${integratorEmail} no fue encontrado.`);
+    const integratorData = integratorDoc.data();
+
+    if (!areaData || !periodData || !degreeData || !integratorData)
       throw new Error('Missing data');
 
     // construct a mentor with the obtained data
@@ -49,7 +59,8 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
       period: { reference: periodReference, name: periodData.name },
       degree: { reference: degreeReference, name: degreeData.name },
       stats: { accompanimentsCount: 0, assignedStudentCount: 0, lastAccompaniment: null },
-      students: { cycles: [], degrees: [], withAccompaniments: [], withoutAccompaniments: [] }
+      students: { cycles: [], degrees: [], withAccompaniments: [], withoutAccompaniments: [] },
+      integrator: { displayName: integratorData.displayName, email: integratorData.email, id: integratorData.email }
     };
   }
 }
