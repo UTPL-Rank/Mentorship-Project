@@ -1,22 +1,14 @@
 import { Injectable } from '@angular/core';
-import { IBaseCsvTransformerService } from './../../services/i-base-csv-transformer.service'
 import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMMentor } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
-import { from, Observable } from 'rxjs';
+import { IBaseCsvTransformerService } from './../../services/i-base-csv-transformer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGMMentor.createDTO> {
 
-  public transform$(csv: string[][]): Observable<Array<SGMMentor.createDTO>> {
-
-    const csvToObjects = csv.map(async row => await this.transformRowToObject(row))
-
-    return from(Promise.all(csvToObjects));
-  }
-
-  private async transformRowToObject(row: Array<string>): Promise<SGMMentor.createDTO> {
+  protected async transformRowToObject(row: Array<string>): Promise<SGMMentor.createDTO> {
     // create an id for this mentor
     const id = this.db.createId();
 

@@ -1,12 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
-import { SGMAcademicArea, SGMAcademicDegree, SGMAcademicPeriod, SGMMentor } from '@utpl-rank/sgm-helpers';
-import { firestore } from 'firebase/app';
-import { BehaviorSubject, combineLatest, Observable, Subject, Subscription } from 'rxjs';
+import { SGMAcademicPeriod, SGMMentor } from '@utpl-rank/sgm-helpers';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
 import { UserService } from '../../../core/services/user.service';
-import { UploadData } from '../../../models/upload-data.interface';
 import { MentorClaims } from '../../../models/user-claims';
 import { IBaseCsvTransformerService } from '../../services/i-base-csv-transformer.service';
 import { StringToCsvParserService } from '../../services/string-to-csv-parser.service';
@@ -40,7 +38,7 @@ export class UploadMentorsComponent implements OnDestroy {
   private readonly mentorsSource$: Subject<string> = new Subject();
 
   public readonly mentors$ = this.mentorsSource$.asObservable().pipe(
-    switchMap(rawString => combineLatest([this.stringToCsvParserService.parse$(rawString),this.period$])),
+    switchMap(rawString => combineLatest([this.stringToCsvParserService.parse$(rawString), this.period$])),
     map(([csv, period]) => csv.splice(1).map(row => [...row, period.id])),
     switchMap(csv => this.transformerService.transform$(csv)),
     shareReplay(1),

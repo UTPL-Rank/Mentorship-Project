@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,5 +11,13 @@ export abstract class IBaseCsvTransformerService<T> {
     protected readonly db: AngularFirestore,
   ) { }
 
-  public abstract transform$(csv: Array<Array<string>>): Observable<Array<T>>;
+  public transform$(csv: Array<Array<string>>): Observable<Array<T>> {
+
+    const csvToObjects = csv.map(async row => await this.transformRowToObject(row))
+
+    return from(Promise.all(csvToObjects));
+  }
+
+  protected abstract transformRowToObject(row: Array<string>): Promise<T>;
+
 }

@@ -1,1 +1,36 @@
-<p>upload-integrators works!</p>
+<h2 class="mt-5">Subir Docentes Inegradores</h2>
+
+<div class="my-3">
+    <sgm-read-file (upload)="readFile($event)"></sgm-read-file>
+</div>
+
+<p>Los docnetes integradores deben tener el siguiente formato. <code>Nombres y Apellidos</code>,
+    <code>Correo Electrónico</code>.
+</p>
+
+<div class="card mb-5">
+    <div class="table-responsive">
+        <table class="table text-nowrap mb-0">
+            <thead>
+                <tr>
+                    <th class="font-weight-bold text-muted small">#</th>
+                    <th class="font-weight-bold text-muted small">Nombres y Apellidos</th>
+                    <th class="font-weight-bold text-muted small">Correo Electrónico</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let integrator of (integrators$ | async); let idx = index">
+                    <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
+                    <td class="font-weight-bold text-muted small">{{ integrator.displayName | titlecase }}</td>
+                    <td class="font-weight-bold text-muted small">{{ integrator.email }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="d-flex justify-content-md-end">
+    <button class="btn btn-primary ml-2" (click)="save()">
+        Guardar Docentes Integradores
+    </button>
+</div>
