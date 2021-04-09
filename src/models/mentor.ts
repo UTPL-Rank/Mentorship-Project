@@ -37,6 +37,8 @@ export namespace SGMMentor {
             degrees: Array<string>;
             cycles: Array<SGMStudent.AcademicCycle>;
         };
+
+        integrator: { id: string; displayName: string; email: string; };
     }
 
     export type readDTO = _Base;
@@ -66,9 +68,9 @@ export namespace SGMMentor {
         'students/cycles'?: firestore.FieldValue;
     }
 
-/**
- * @deprecated
- */
+    /**
+     * @deprecated
+     */
     export function fromFirestore(snapshot: firestore.DocumentSnapshot<_Base>): readDTO | null {
         if (!snapshot.exists)
             return null;
