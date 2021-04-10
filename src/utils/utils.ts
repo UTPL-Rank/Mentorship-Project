@@ -1,5 +1,4 @@
-import * as admin from 'firebase-admin/lib';
-
+import * as admin from 'firebase-admin';
 
 export const app = admin.initializeApp();
 export const dbFirestore = app.firestore();

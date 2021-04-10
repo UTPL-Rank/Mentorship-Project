@@ -1,7 +1,7 @@
 import { SGMChat, SGMMessage, SGMNotification } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
-import { dbFirestore } from "../../utils/utils";
 import { SaveNotifications } from "../notifications/save-notification";
+import { ChatDocumentRef } from "./chat-document-ref";
 
 export function CreateChatUpdateLastMessageDto(lastMessage: SGMMessage.functions.readDto): SGMChat.functions.updateLastMessageDto {
     const payload: SGMChat.functions.updateLastMessageDto = {
@@ -13,12 +13,12 @@ export function CreateChatUpdateLastMessageDto(lastMessage: SGMMessage.functions
 }
 
 export function UpdateChatLastMessage(batch: firestore.WriteBatch, chatId: string, validUpdate: SGMChat.functions.updateLastMessageDto): void {
-    const chatRef = dbFirestore.collection('chats').doc(chatId);
+    const chatRef = ChatDocumentRef(chatId);
     batch.update(chatRef, validUpdate);
 }
 
 export async function GetChat(chatId: string): Promise<SGMChat.functions.readDto> {
-    const chatRef = dbFirestore.collection('chats').doc(chatId);
+    const chatRef = ChatDocumentRef(chatId);
     const chatSnap = await chatRef.get();
     const chat = chatSnap.exists ? chatSnap.data() as SGMChat.functions.readDto : null;
 
