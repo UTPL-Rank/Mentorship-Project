@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
-import { GetUserEmailFromUsername, UserClaims } from '../../utils/users-utils';
+import { SGMClaims } from '../../shared/claims';
+import { GetUserEmailFromUsername } from '../../utils/users-utils';
 import { authentication } from '../../utils/utils';
 
 /**
@@ -18,7 +19,7 @@ export const UpdateUserCustomClaims = functions.firestore
     .document('users/{username}/account-configuration/claims')
     .onUpdate(async (payload, { params }) => {
         const username = params.username;
-        const newClaims = payload.after.data() as UserClaims;
+        const newClaims = payload.after.data() as SGMClaims;
         const email = GetUserEmailFromUsername(username);
         const { uid } = await authentication.getUserByEmail(email);
 

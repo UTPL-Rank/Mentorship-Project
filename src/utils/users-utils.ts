@@ -1,55 +1,11 @@
-import { firestore } from "firebase-admin";
+import { SGMUser } from "@utpl-rank/sgm-helpers";
+import { ClaimsDocumentRef, SGMClaims } from "../shared/claims";
 import { GeneralEmail } from "../shared/mail/general-email";
 import { SaveEmail } from "../shared/mail/save-email";
 import { WelcomeEmail } from "../shared/mail/templates/welcome-email/welcome-email";
+import { UserDocumentRef } from "../shared/user";
 import { authentication, dbFirestore } from "./utils";
 import { BASE_URL } from "./variables";
-
-export type User = any;
-export type UserClaims = {};
-
-/**
- * Users Collection
- * =============================================================
- * 
- * @author Bruno Esparza
- * 
- * Get the firestore collection of users
- */
-function UsersCollection(): firestore.CollectionReference<User> {
-    return dbFirestore.collection('users');
-}
-
-/**
- * User Document
- * ==============================================================
- * 
- * @author Bruno Esparza
- * 
- * Get the firestore document of a user
- * 
- * @param username identifier of the user
- */
-export function UserDocument(username: string): firestore.DocumentReference<User> {
-    return UsersCollection().doc(username);
-}
-
-
-/**
- * User Claims document
- * ==============================================================
- * 
- * @author Bruno Esparza
- * 
- * Get the firestore document of custom claims of a user
- * 
- * @param username identifier of the user
- */
-function UserClaimsDocument(username: string): firestore.DocumentReference<UserClaims> {
-    const userDoc = UserDocument(username);
-    const claimsDocument = userDoc.collection('account-configuration').doc('claims') as firestore.DocumentReference<UserClaims>;
-    return claimsDocument
-}
 
 export async function DisableAccount(account: { uid?: string, username?: string, email?: string }): Promise<void> {
 
@@ -68,19 +24,19 @@ export async function DisableAccount(account: { uid?: string, username?: string,
     await authentication.revokeRefreshTokens(uid);
 }
 
-export async function SaveUserInformation(username: string, data: User): Promise<void> {
-    const userDoc = UserDocument(username);
-    await userDoc.set(data, { merge: true });
-}
+// export async function SaveUserInformation(username: string, data: SGMUser.functions.createDto): Promise<void> {
+//     const userDoc = UserDocumentRef<SGMUser.functions.createDto>(username);
+//     await userDoc.set(data, { merge: true });
+// }
 
-export async function AssignCustomClaimsToUser(username: string, claims: UserClaims): Promise<void> {
-    const claimsDocument = UserClaimsDocument(username);
+export async function AssignCustomClaimsToUser(username: string, claims: SGMClaims): Promise<void> {
+    const claimsDocument = ClaimsDocumentRef(username);
     await claimsDocument.set(claims, { merge: true });
 }
 
-export async function CreateNewUser(username: string, data: User): Promise<void> {
-    const userDoc = UserDocument(username);
-    const claimsDoc = UserClaimsDocument(username);
+export async function CreateNewUser(username: string, data: SGMUser.functions.createDto): Promise<void> {
+    const userDoc = UserDocumentRef(username);
+    const claimsDoc = ClaimsDocumentRef(username);
 
     const welcomeTemplate = new WelcomeEmail({
         displayName: data.displayName,

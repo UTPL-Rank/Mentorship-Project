@@ -1,5 +1,5 @@
 import { firestore } from "firebase-admin";
-import { UserDocument } from "../../utils/users-utils";
+import { UserDocumentRef } from "../user";
 import { EmailDTO } from "./email-dto";
 import { GeneralEmail } from "./general-email";
 import { MailConfig } from "./mail-config";
@@ -20,7 +20,7 @@ export class SaveEmail<T> {
         readonly username: string,
         readonly email: GeneralEmail<T>,
     ) {
-        this._emailCollection = UserDocument(username).collection('mails') as firestore.CollectionReference<EmailDTO>;;
+        this._emailCollection = UserDocumentRef(username).collection('mails') as firestore.CollectionReference<EmailDTO>;;
 
         const {
             id = this._emailCollection.doc().id,

@@ -1,5 +1,5 @@
 import { firestore } from "firebase-admin";
-import { UserDocument } from "../../utils/users-utils";
+import { UserDocumentRef } from "../user";
 import { UpdateEmailDTO } from "./update-email-dto";
 
 export class UpdateEmail {
@@ -16,7 +16,7 @@ export class UpdateEmail {
         readonly username: string,
         private readonly _email: UpdateEmailDTO,
     ) {
-        this._emailCollection = UserDocument(username).collection('mails') as firestore.CollectionReference<UpdateEmailDTO>;
+        this._emailCollection = UserDocumentRef(username).collection('mails') as firestore.CollectionReference<UpdateEmailDTO>;
     }
 
     public async save(): Promise<void> {

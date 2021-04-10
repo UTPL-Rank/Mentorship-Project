@@ -1,7 +1,7 @@
-import { SGMNotification } from "@utpl-rank/sgm-helpers";
+import { SGMNotification, SGMUser } from "@utpl-rank/sgm-helpers";
 import { firestore } from "firebase-admin";
 import { SaveNotifications } from "../shared/notifications/save-notification";
-import { UserDocument } from "./users-utils";
+import { UserDocumentRef } from "../shared/user";
 import { fcm } from "./utils";
 import admin = require("firebase-admin");
 
@@ -17,7 +17,7 @@ import admin = require("firebase-admin");
  * @param topic the topic the user subscribed to
  */
 async function AddUserMessagingTopic(username: string, topic: string): Promise<void> {
-    const userDoc = UserDocument(username);
+    const userDoc = UserDocumentRef<SGMUser.functions.addTopicDto>(username);
     const data = {
         notificationTopics: admin.firestore.FieldValue.arrayUnion(topic),
     };
@@ -37,7 +37,7 @@ async function AddUserMessagingTopic(username: string, topic: string): Promise<v
  * @param topic the topic the user unsubscribed to
  */
 async function RemoveUserMessagingTopic(username: string, topic: string): Promise<void> {
-    const userDoc = UserDocument(username);
+    const userDoc = UserDocumentRef<SGMUser.functions.addTopicDto>(username);
     const data = {
         notificationTopics: firestore.FieldValue.arrayRemove(topic),
     };
@@ -72,7 +72,7 @@ export async function UnsubscribeToUserNotifications(username: string, token: st
  * @param username 
  */
 export function UserNotificationsCollection(username: string): firestore.CollectionReference<SGMNotification.readDTO> {
-    const userDoc = UserDocument(username);
+    const userDoc = UserDocumentRef(username);
     const mailCollection = userDoc.collection('notifications') as firestore.CollectionReference<SGMNotification.readDTO>;
     return mailCollection
 }
