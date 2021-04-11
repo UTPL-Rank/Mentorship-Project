@@ -16,7 +16,7 @@
   "dependencies": {
     "@types/node": "^14.14.31",
     "@types/nodemailer": "^6.4.0",
-    "@utpl-rank/sgm-helpers": "^1.1.5",
+    "@utpl-rank/sgm-helpers": "^1.1.9",
     "firebase-admin": "^9.3.0",
     "firebase-functions": "^3.13.2",
     "nodemailer": "^6.5.0",
