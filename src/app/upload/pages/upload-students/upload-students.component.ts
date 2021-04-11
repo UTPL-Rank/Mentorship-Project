@@ -114,7 +114,10 @@ export class UploadStudentsComponent implements UploadData<SGMStudent.readDTO>, 
     const id = `${email.split('@')[0]}-${periodId}`;
 
     // format cycle
-    const cycle = rawCiclo.includes('primero') ? 'sgm#first' : rawCiclo.includes('segundo') ? 'sgm#second' : 'sgm#third';
+    const cycle = ['sgm#first', 'sgm#second'].includes(rawCiclo) ? rawCiclo as SGMStudent.AcademicCycle : null;
+
+    if (!cycle)
+      throw new Error(`invalid cicle ${rawCiclo}`);
 
     // references
     const areaReference = this.db.collection('academic-areas')

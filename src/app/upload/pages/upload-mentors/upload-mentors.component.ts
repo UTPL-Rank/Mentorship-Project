@@ -19,7 +19,7 @@ import { UploadMentorsService } from './upload-mentors.service';
 })
 export class UploadMentorsComponent implements OnDestroy {
   constructor(
-    private route: ActivatedRoute,
+    private readonly route: ActivatedRoute,
     private readonly stringToCsvParserService: StringToCsvParserService,
     private readonly transformerService: IBaseCsvTransformerService<SGMMentor.createDTO>,
     private readonly uploadService: IBaseUploadDataService<SGMMentor.createDTO>,
@@ -45,7 +45,7 @@ export class UploadMentorsComponent implements OnDestroy {
     this.uploadSub?.unsubscribe();
   }
 
-  async save(): Promise<void> {
+  save(): void {
     if (this.uploadSub) {
       alert('Espere un momento');
       return;

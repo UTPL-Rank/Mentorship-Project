@@ -1,35 +1,32 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
 import { SGMAcademicPeriod, SGMIntegrator } from '@utpl-rank/sgm-helpers';
 import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import { map, shareReplay, switchMap, take } from 'rxjs/operators';
-import { UserService } from 'src/app/core/services/user.service';
-import { IntegratorClaims } from 'src/app/models/user-claims';
 import { IBaseCsvTransformerService } from '../services/i-base-csv-transformer.service';
+import { IBaseUploadDataService } from '../services/i-base-upload-data.service';
 import { StringToCsvParserService } from '../services/string-to-csv-parser.service';
 import { TransformCsvToIntegratorsService } from './transform-csv-to-integrators.service';
+import { UploadIntegratorsService } from './upload-integrators.service';
 
 @Component({
   selector: 'sgm-upload-integrators',
   templateUrl: './upload-integrators.component.html',
   providers: [
     { provide: IBaseCsvTransformerService, useClass: TransformCsvToIntegratorsService },
+    { provide: IBaseUploadDataService, useClass: UploadIntegratorsService },
   ]
 })
 export class UploadIntegratorsComponent implements OnDestroy {
 
   constructor(
-    private readonly afFirestore: AngularFirestore,
     private readonly route: ActivatedRoute,
-    private readonly usersService: UserService,
     private readonly stringToCsvParserService: StringToCsvParserService,
     private readonly transformerService: IBaseCsvTransformerService<SGMIntegrator.createDTO>,
+    private readonly uploadService: IBaseUploadDataService<SGMIntegrator.createDTO>,
   ) { }
 
-  isSaving = false;
-
-  private sub: Subscription | null = null;
+  private uploadSub: Subscription | null = null;
 
   private readonly period$: Observable<SGMAcademicPeriod.readDTO> = this.route.data.pipe(
     map(data => data.activePeriod),
@@ -46,47 +43,28 @@ export class UploadIntegratorsComponent implements OnDestroy {
   );
 
   ngOnDestroy(): void {
-    this.sub?.unsubscribe();
+    this.uploadSub?.unsubscribe();
   }
 
-  async save(): Promise<void> {
-    const integrators = await this.integrators$.pipe(take(1)).toPromise();
-    if (!integrators) {
-      alert('Primero lee el archivo de los mentores');
+  save(): void {
+    if (this.uploadSub) {
+      alert('Espere un momento');
       return;
     }
+    const saveTask = this.integrators$.pipe(
+      take(1),
+      switchMap(integrators => this.uploadService.upload$(integrators))
+    );
 
-    if (this.isSaving) return;
+    this.uploadSub = saveTask.subscribe(saved => {
+      if (saved)
+        alert('Todos los docentes integradores han sido guardados.');
+      else
+        alert('Ocurrió un error al guardar los docentes integradores, vuelve a intentarlo.');
 
-    try {
-      this.isSaving = true;
-      const batch = this.afFirestore.firestore.batch();
-
-      // TODO: validate a integrators is not repeated
-      integrators.forEach(integrator => {
-        // references to all the documents that will be updated when a new integrator is created
-        const username = integrator.email.split('@')[0];
-        const integratorRef = this.afFirestore.collection('integrators').doc(integrator.id).ref;
-        const claimsRef = this.usersService.claimsDocument(username).ref;
-
-        // data to be uploaded
-        const claims: IntegratorClaims = { isIntegrator: true, integratorId: integrator.id };
-
-        // batch writes
-        // TODO: add type validation
-        batch.set(integratorRef, integrator);
-        batch.set(claimsRef, claims, { merge: true });
-      });
-
-
-      await batch.commit();
-      alert('Todos los docentes integradores han sido guardados.');
-      // this.router.navigateByUrl('/panel-control');
-    } catch (error) {
-      this.isSaving = false;
-      console.log(error);
-      alert('Ocurrió un error al guardar los docentes integradores, vuelve a intentarlo.');
-    }
+      this.uploadSub?.unsubscribe();
+      this.uploadSub = null;
+    });
   }
 
   readFile(csv: string): void {
