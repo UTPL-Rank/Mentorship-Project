@@ -29,11 +29,11 @@ const _OnCreateMentor = async (payload: QueryDocumentSnapshot, _: functions.Even
     const mentor = payload.data() as SGMMentor.readDTO;
     const batch = dbFirestore.batch();
 
-
     const mentorUsername = UsernameFromEmail(mentor.email);
-    const receiverUsername = UsernameFromEmail(mentor.integrator.email);
+    const mentorId = mentor.id
+    const integratorId = mentor.integrator.id;
 
-    await CreateChat(mentorUsername, receiverUsername, batch);
+    await CreateChatFromMentorAndIntegrator(mentorId, integratorId, batch);
 
     AssignClaims(mentor, mentorUsername, batch);
 
@@ -48,19 +48,19 @@ export const OnCreateMentor = functions
 /** 
  * assign claims
  */
-function AssignClaims(mentor: SGMMentor.readDTO, senderUsername: string, batch: FirebaseFirestore.WriteBatch) {
+function AssignClaims(mentor: SGMMentor.readDTO, mentorUsername: string, batch: FirebaseFirestore.WriteBatch) {
     const claims: MentorClaims = { isMentor: true, mentorId: mentor.id };
-    const claimsDoc = ClaimsDocumentRef<MentorClaims>(senderUsername);
+    const claimsDoc = ClaimsDocumentRef<MentorClaims>(mentorUsername);
 
-    batch.create(claimsDoc, claims);
+    batch.set(claimsDoc, claims, { merge: false });
 }
 
 /**
  * create chat
  */
-async function CreateChat(senderUsername: string, receiverUsername: string, batch: FirebaseFirestore.WriteBatch) {
-    const [sender, receiver] = await Promise.all([ValidMentor(senderUsername), ValidIntegrator(receiverUsername)]);
-    const chatDto = CreateNewChatDtoFromMentorIntegrator(sender, receiver);
+async function CreateChatFromMentorAndIntegrator(mentorId: string, integratorId: string, batch: FirebaseFirestore.WriteBatch) {
+    const [mentor, integrator] = await Promise.all([ValidMentor(mentorId), ValidIntegrator(integratorId)]);
+    const chatDto = CreateNewChatDtoFromMentorIntegrator(mentor, integrator);
     const chatDocRef = ChatDocumentRef<SGMChat.functions.createDto>(chatDto.id);
     batch.create(chatDocRef, chatDto);
 }
