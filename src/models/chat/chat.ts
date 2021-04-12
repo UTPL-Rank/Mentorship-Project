@@ -16,7 +16,7 @@ export namespace SGMChat {
         /**
          * identifier of users for easy query
          */
-        participantsUid: Array<string>;
+        participantsUsernames: Array<string>;
 
         lastMessage: SGMMessage.readDto | null;
 
@@ -51,7 +51,7 @@ export namespace SGMChat {
     
             participants: [ChatParticipant, ChatParticipant];
     
-            participantsUid: [string, string];
+            participantsUsernames: [string, string];
     
             disabled: false;
     
