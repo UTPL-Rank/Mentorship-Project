@@ -23,7 +23,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let student of data; let idx = index">
+        <tr *ngFor="let student of students$ |async; let idx = index">
           <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
           <td class="font-weight-bold text-muted small">{{ student.displayName | titlecase }}</td>
           <td class="font-weight-bold text-muted small">{{ student.email }}</td>
