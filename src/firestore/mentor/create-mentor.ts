@@ -2,9 +2,10 @@ import { SGMChat, SGMMentor } from '@utpl-rank/sgm-helpers';
 import * as functions from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { ChatDocumentRef } from '../../shared/chat/chat-document-ref';
-import { CreateNewChatDto } from '../../shared/chat/create-new-chat-dto';
+import { CreateNewChatDtoFromMentorIntegrator } from '../../shared/chat/create-new-chat-dto';
 import { ClaimsDocumentRef, SGMClaims } from '../../shared/claims';
-import { ValidUser } from '../../shared/user';
+import { ValidIntegrator } from '../../shared/integrator';
+import { ValidMentor } from '../../shared/mentor';
 import { UsernameFromEmail } from '../../utils/users-utils';
 import { dbFirestore } from '../../utils/utils';
 
@@ -58,8 +59,8 @@ function AssignClaims(mentor: SGMMentor.readDTO, senderUsername: string, batch: 
  * create chat
  */
 async function CreateChat(senderUsername: string, receiverUsername: string, batch: FirebaseFirestore.WriteBatch) {
-    const [sender, receiver] = await Promise.all([ValidUser(senderUsername), ValidUser(receiverUsername)]);
-    const chatDto = CreateNewChatDto(sender, receiver);
+    const [sender, receiver] = await Promise.all([ValidMentor(senderUsername), ValidIntegrator(receiverUsername)]);
+    const chatDto = CreateNewChatDtoFromMentorIntegrator(sender, receiver);
     const chatDocRef = ChatDocumentRef<SGMChat.functions.createDto>(chatDto.id);
     batch.create(chatDocRef, chatDto);
 }
