@@ -9,14 +9,14 @@ import { IBaseCsvTransformerService } from './../../services/i-base-csv-transfor
 export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGMMentor.createDTO> {
 
   protected async transformRowToObject(row: Array<string>): Promise<SGMMentor.createDTO> {
-    // create an id for this mentor
-    const id = this.db.createId();
-
     // transform all the incoming data into lowercase, and trim the text
     const data = row.map(s => s.trim().toLocaleLowerCase());
 
     // store in variables
     const [displayName, email, ci, areaId, degreeId, integratorEmail, periodId] = data;
+
+    // create an id for this mentor
+    const id = `${periodId}-${email.split('@')[0]}`;
 
     // get the data for the academic area if exists, otherwise throw an error
     const areaReference = this.db.collection('academic-areas').doc(areaId).ref as firestore.DocumentReference<SGMAcademicArea.readDTO>;

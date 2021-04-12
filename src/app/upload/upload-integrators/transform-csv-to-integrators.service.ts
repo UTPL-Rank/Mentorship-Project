@@ -9,16 +9,14 @@ import { IBaseCsvTransformerService } from './../services/i-base-csv-transformer
 export class TransformCsvToIntegratorsService extends IBaseCsvTransformerService<SGMIntegrator.createDTO> {
 
   protected async transformRowToObject(row: string[]): Promise<SGMIntegrator.createDTO> {
-    console.log(row);
-
-    // create an id
-    const id = this.db.createId();
-
     // transform all the incoming data into lowercase, and trim the text
     const data = row.map(s => s.trim().toLocaleLowerCase());
 
     // store in variables
     const [displayName, email, periodId] = data;
+
+    // create an id
+    const id = `${periodId}-${email.split('@')[0]}`;
 
     // get the data for the academic period if exists, otherwise throw an error
     const periodReference = this.db.collection('academic-periods')

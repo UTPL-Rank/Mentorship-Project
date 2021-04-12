@@ -46,6 +46,7 @@ export class UploadStudentsService extends IBaseUploadDataService<SGMStudent.cre
       await batch.commit();
     });
 
+    await Promise.all(saveTasks);
   }
 
 }

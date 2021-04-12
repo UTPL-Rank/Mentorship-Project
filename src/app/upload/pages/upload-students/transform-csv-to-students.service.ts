@@ -12,7 +12,7 @@ export class TransformCsvToStudentsService extends IBaseCsvTransformerService<SG
     const [displayName, email, rawCiclo, mentorEmail, areaId, degreeId, periodId] = row;
 
     // create an id
-    const id = `${email.split('@')[0]}-${periodId}`;
+    const id = `${periodId}-${email.split('@')[0]}`;
 
     // format cycle
     const cycle = ['sgm#first', 'sgm#second'].includes(rawCiclo) ? rawCiclo as SGMStudent.AcademicCycle : null;
