@@ -20,7 +20,7 @@ export abstract class IBaseUploadDataService<T> {
     return from(this.uploadBatch(data)).pipe(
       mapTo(true),
       catchError(err => {
-        this.logger.error(err);
+        this.logger.error('error uploading ', err);
         return of(false);
       })
     );

@@ -9,7 +9,7 @@ import { IBaseCsvTransformerService } from '../../services/i-base-csv-transforme
 export class TransformCsvToStudentsService extends IBaseCsvTransformerService<SGMStudent.createDTO> {
 
   protected async transformRowToObject(row: Array<string>): Promise<SGMStudent.createDTO> {
-    const [displayName, email, rawCiclo, mentorEmail, areaId, degreeId, periodId] = row;
+    const [displayName, email, rawCiclo, mentorEmail, areaId, degreeId, periodId] = row.map(s => s.toLowerCase());
 
     // create an id
     const id = `${periodId}-${email.split('@')[0]}`;

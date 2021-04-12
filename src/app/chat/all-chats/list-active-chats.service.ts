@@ -17,7 +17,10 @@ export class ListActiveChatsService {
 
   public readonly chats$ = this.userService.user$.pipe(
     switchMap(user => !!user
-      ? this.afFirestore.collection<SGMChat.readDto>('chats', q => q.where('participantsUid', 'array-contains', user?.uid)).valueChanges()
+      ? this.afFirestore
+        .collection<SGMChat.readDto>(
+          'chats', q => q.where('participantsUsernames', 'array-contains', user?.username ?? user.email.split('@')[0])
+        ).valueChanges()
       : of(null))
   );
 }

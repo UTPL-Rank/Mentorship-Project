@@ -39,8 +39,8 @@ export class ChatComponent implements OnInit {
     shareReplay(1),
   );
 
-  public readonly chatParticipantTitle$ = combineLatest([this.userService.uid$, this.chat$]).pipe(
-    map(([uid, chat]) => chat?.participants?.filter(part => part.uid !== uid)), // filter myself from participants
+  public readonly chatParticipantTitle$ = combineLatest([this.userService.username$, this.chat$]).pipe(
+    map(([username, chat]) => chat?.participants?.filter(part => part.username !== username)), // filter myself from participants
     map(participants => participants?.map(p => p.displayName).join(', '))
   )
 

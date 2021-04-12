@@ -57,9 +57,10 @@ export class UploadStudentsComponent implements OnDestroy {
     );
 
     this.uploadSub = saveTask.subscribe(saved => {
-      if (saved)
+      if (saved) {
         alert('Todos los estudiantes han sido guardados.');
-      else
+        this.studentsSource$.next('');
+      } else
         alert('Ocurrió un error al guardar los estudiantes, vuelve a intentarlo.');
 
       this.uploadSub?.unsubscribe();

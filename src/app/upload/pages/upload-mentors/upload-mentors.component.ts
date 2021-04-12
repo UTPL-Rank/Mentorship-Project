@@ -57,8 +57,10 @@ export class UploadMentorsComponent implements OnDestroy {
     );
 
     this.uploadSub = saveTask.subscribe(saved => {
-      if (saved)
+      if (saved) {
         alert('Todos los mentores han sido guardados.');
+        this.mentorsSource$.next('');
+      }
       else
         alert('Ocurrió un error al guardar los mentores, vuelve a intentarlo.');
 

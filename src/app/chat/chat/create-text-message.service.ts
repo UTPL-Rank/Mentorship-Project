@@ -51,7 +51,6 @@ export class CreateTextMessageService {
       sender: {
         displayName: user.displayName,
         email: user.email,
-        uid: user.uid,
         username: user.username ?? user.email.split('@')[0],
       }
     };

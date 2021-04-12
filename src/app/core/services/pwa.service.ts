@@ -49,7 +49,7 @@ export class PwaService {
   /**
    * Wether push notifications are enabled or not
    */
-  public isPushEnabled: Observable<boolean> = combineLatest([this.user.username, this.user.currentUserData]).pipe(
+  public isPushEnabled: Observable<boolean> = combineLatest([this.user.username$, this.user.currentUserData]).pipe(
     map(([username, data]) => data && data.notificationTopics && data.notificationTopics.includes(`user-${username}`)),
   );
 
@@ -113,7 +113,7 @@ export class PwaService {
   private saveToken(token: string): Observable<boolean> {
     const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('SaveMessagingToken');
 
-    const tokenSaved = this.user.username.pipe(
+    const tokenSaved = this.user.username$.pipe(
       switchMap(username => username ? action({ username, token }) : of(false)),
       tap(console.log),
       take(1),
@@ -145,7 +145,7 @@ export class PwaService {
    * @param token to be removed
    */
   private removeToken(token: string): Observable<boolean> {
-    const user = this.user.username;
+    const user = this.user.username$;
     const action = this.functions.httpsCallable<SaveMessagingToken, boolean>('RemoveMessagingToken');
 
     const tokenRemoved = this.messaging.deleteToken(token).pipe(

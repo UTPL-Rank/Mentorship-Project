@@ -60,7 +60,7 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
       degree: { reference: degreeReference, name: degreeData.name },
       stats: { accompanimentsCount: 0, assignedStudentCount: 0, lastAccompaniment: null },
       students: { cycles: [], degrees: [], withAccompaniments: [], withoutAccompaniments: [] },
-      integrator: { displayName: integratorData.displayName, email: integratorData.email, id: integratorData.email }
+      integrator: { displayName: integratorData.displayName, email: integratorData.email, id: integratorData.id }
     };
   }
 }

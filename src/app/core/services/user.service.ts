@@ -22,13 +22,13 @@ export class UserService {
 
   public readonly currentUser = this.afAuth.user;
 
-  public readonly username: Observable<string | null> = this.currentUser.pipe(
+  public readonly username$: Observable<string | null> = this.currentUser.pipe(
     filter(user => !!user),
     map(user => user?.email?.split('@')[0] || null),
     shareReplay(1),
   );
 
-  public readonly user$: Observable<SGMUser.readDto | null> = this.username.pipe(
+  public readonly user$: Observable<SGMUser.readDto | null> = this.username$.pipe(
     switchMap(username => username ? this.firestore.collection('users').doc<SGMUser.readDto>(username).valueChanges() : of(null)),
     map(doc => doc ? doc as SGMUser.readDto : null),
     shareReplay(1),
@@ -38,7 +38,7 @@ export class UserService {
     map(user => user?.uid ?? null)
   );
 
-  public claims: Observable<UserClaims | null> = this.username.pipe(
+  public claims: Observable<UserClaims | null> = this.username$.pipe(
     switchMap(username => !!username ? this.claimsDocument(username).snapshotChanges() : of(null)),
     map(snapshot => snapshot?.payload.exists ? snapshot.payload.data() : null),
     shareReplay(1),
@@ -49,7 +49,7 @@ export class UserService {
   );
 
 
-  public notificationsStream: Observable<Array<Notification>> = this.username.pipe(
+  public notificationsStream: Observable<Array<Notification>> = this.username$.pipe(
     map(username => username ? this.firestore.collection('users').doc(username) : null),
     map(userDoc => userDoc?.collection<Notification>('notifications', q => q.limit(9).orderBy('time', 'desc'))),
     switchMap(claimsRef => !!claimsRef ? claimsRef.valueChanges() : of([])),
@@ -57,13 +57,13 @@ export class UserService {
   );
 
 
-  public readonly signature$: Observable<UserSignature | null> = this.username.pipe(
+  public readonly signature$: Observable<UserSignature | null> = this.username$.pipe(
     switchMap(username => (username) ? this.signatureDocument(username).get() : of(null)),
     map(snap => snap?.exists ? snap.data() as UserSignature : null),
     shareReplay(1),
   );
 
-  public currentUserData: Observable<{ [key: string]: any } | null> = this.username.pipe(
+  public currentUserData: Observable<{ [key: string]: any } | null> = this.username$.pipe(
     switchMap(username => username ? this.userDocument(username).valueChanges() : of(null)),
     map(data => data ?? null),
     shareReplay(1),
@@ -107,7 +107,7 @@ export class UserService {
   }
 
   public saveSignature(data: string): Observable<boolean> {
-    const saveTask = this.username.pipe(
+    const saveTask = this.username$.pipe(
       take(1),
       mergeMap(async username => username ? await this.signatureDocument(username).set({ data }) : null),
       map(() => true),
@@ -131,7 +131,7 @@ export class UserService {
   public toggleNotificationRead(notificationId: string): Observable<boolean> {
     const updateVal = { read: true };
 
-    const update = this.username.pipe(
+    const update = this.username$.pipe(
       map(username => username ? this.firestore.collection('users').doc(username).collection('notifications').doc<Notification>(notificationId) : null),
       mergeMap(async ref => await ref?.update(updateVal)),
       map(() => true),

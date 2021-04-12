@@ -57,8 +57,12 @@ export class UploadIntegratorsComponent implements OnDestroy {
     );
 
     this.uploadSub = saveTask.subscribe(saved => {
-      if (saved)
+      if (saved) {
+
         alert('Todos los docentes integradores han sido guardados.');
+        this.integratorsSource$.next('');
+
+      }
       else
         alert('Ocurrió un error al guardar los docentes integradores, vuelve a intentarlo.');
 
