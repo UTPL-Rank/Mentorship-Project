@@ -1,19 +1,8 @@
 {
   "projects": {
     "default": "sgmentores",
-    "develop": "dev-sgmentores-9c117"
   },
   "targets": {
-    "dev-sgmentores-9c117": {
-      "hosting": {
-        "reports": [
-          "reports-dev-sgmentores"
-        ],
-        "dashboard": [
-          "dev-sgmentores-9c117"
-        ]
-      }
-    },
     "sgmentores": {
       "hosting": {
         "reports": [
