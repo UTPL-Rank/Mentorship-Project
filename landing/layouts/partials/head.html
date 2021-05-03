@@ -1,0 +1,27 @@
+<head>
+
+    <!-- depending on the page assign different titles to each page -->
+    {{ if .IsHome }}
+    <!-- Site name -->
+    <title>{{ .Site.Title }}</title>
+    {{ else }}
+    <!-- name of the page with the site name -->
+    <title>{{ .Name }} | {{ .Site.Title }}</title>
+    {{ end }}
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    {{ $style := resources.Get "styles.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+    <link rel="stylesheet" href="{{ $style.Permalink }}">
+    
+    {{ range .AlternativeOutputFormats -}}
+    {{ printf `<link rel="%s" type="%s+%s" href="%s" title="%s" />` .Rel .MediaType.Type .MediaType.Suffix .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+    
+    <link rel="stylesheet" href="{{ $style.Permalink }}">
+    
+    {{ $script := resources.Get "bootstrap/dist/js/bootstrap.min.js"  }}
+    <script defer src="{{ $script.Permalink }}" rel></script>
+</head>

@@ -1,0 +1,17 @@
+{{ with index site.Data.brands }}
+
+<section class="py-6 py-md-8 border-bottom">
+    <div class="container">
+        <div class="row align-items-center justify-content-center">
+            {{ range .brandList }}
+            <div class="col-4 col-sm-3 col-md-2 mb-4">
+                <div class="text-gray-600 svg-shim">
+                    <img src="{{ .logo | absURL }}" alt="{{ .alternativeText }}" title="{{ .alternativeText }}" class="img-fluid" / >
+                </div>
+            </div>
+            {{ end }}
+        </div>
+    </div>
+</section>
+
+{{ end }}

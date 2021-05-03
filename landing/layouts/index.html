@@ -1,0 +1,114 @@
+{{ define "main" }}
+
+{{ $data := index site.Data }}
+
+<!--  -->
+<!-- HERO SECTION -->
+<!--  -->
+
+<header class="pt-5 pt-md-8">
+    <div class="container">
+        <div class="row align-items-center">
+        <div class="col-12 col-md-5 col-lg-6 order-md-2">
+            <!-- Mentor Project illustration -->
+            <img class="img-fluid mb-6 mb-md-0" src="/assets/illustrations/mentors-group.png"
+            alt="Ilustración de Mentores" />
+        </div>
+        <div class="col-12 col-md-7 col-lg-6 order-md-1">
+            <!-- Title of Page -->
+            <h1 class="display-3 text-md-left">
+            Proyecto <strong>Mentores</strong>
+            </h1>
+
+            <!-- Leading paragraph -->
+            <p class="lead text-md-left text-muted mb-5 mb-lg-8">
+            Nada mejor que un estudiante que ya vivió esta etapa, para que con su
+            experiencia te enseñe, <span class="text-warning">¿verdad?</span>.
+            </p>
+
+            <!-- main actions -->
+            <div class=" text-md-left">
+            <a class="btn btn-lg btn-primary shadow lift me-5" rel="noopener"
+                href="https://innovaciondocente.utpl.edu.ec/articulo/proyecto-mentores" target="_blank">
+                Ver Proyecto
+            </a>
+            <a class="btn btn-lg btn-light shadow lift" routerLink="/panel-control">
+                Ir al panel
+            </a>
+            </div>
+        </div>
+        </div>
+    </div>
+</header>
+
+<!--  -->
+<!-- FEATURES SECTION -->
+<!--  -->
+
+<section class="py-6 py-md-11 border-bottom">
+    <div class="container">
+        <div class="row">
+        <div class="col-an12 col-md-4">
+            <div class="my-4 d-flex align-items-end" style="width: 3.5rem; height: 3.5rem;">
+            <img src="/assets/icons/user-graduate-solid.svg" alt="Estudiante Graduado" class="img-fluid" />
+            </div>
+            <h3 class="mb-3">
+            Mentor Compañero
+            </h3>
+            <p class="text-muted mb-5 mb-md-0 text-justify">
+            Se trata de un estudiante de ciclos superiores que por sus méritos
+            académicos y personales será seleccionado para cumplir acciones de
+            acompañamiento, direccionamiento y apoyo en las dudas cotidianas de
+            los estudiantes de nuevo ingreso.
+            </p>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="my-4 d-flex align-items-end" style="width: 3.5rem; height: 3.5rem;">
+            <img src="/assets/icons/chalkboard-teacher-solid.svg" alt="Estudiante y pizarrón" class="img-fluid" />
+            </div>
+            <h3 class="mb-3">
+            Estudiante de nuevo ingreso
+            </h3>
+            <p class="text-muted mb-5 mb-md-0 text-justify">
+            Se trata de un estudiante de nuevo ingreso que recibirá la ayuda del
+            estudiante mentor a través de mecanismos de orientación y motivación,
+            con el fin de facilitar su adaptación e integración académica y social
+            a la universidad.
+            </p>
+        </div>
+        <div class="col-12 col-md-4">
+            <div class="my-4 d-flex align-items-end" style="width: 3.5rem; height: 3.5rem;">
+            <img src="/assets/icons/user-friends-solid.svg" alt="Acompañamientos" class="img-fluid" />
+            </div>
+            <h3 class="mb-3">
+            Acompañamiento Mentorial
+            </h3>
+            <p class="text-muted mb-5 mb-md-0 text-justify">
+            El ingreso a la vida universitaria trae consigo nuevos retos, pues
+            supone la adaptación a nuevos entornos, conocer nuevas personas y
+            adecuarse a nuevos ritmos de trabajo.
+            </p>
+        </div>
+        </div>
+    </div>
+</section>
+
+<!-- brands -->
+{{ if $data.brands.enable }}
+{{ partial "brands.html" . }}
+{{ end }}
+<!-- /brands -->
+
+<!-- project objective -->
+{{ if $data.analytics.enable }}
+{{ partial "project-objective.html" . }}
+{{ end }}
+<!-- /project objective -->
+
+<!-- SGM Panel about -->
+{{ if $data.dashboard.enable }}
+{{ partial "sgm-panel-about.html" . }}
+{{ end }}
+<!-- /SGM Panel about -->
+
+{{ end }}

@@ -1,0 +1,8 @@
+enable: true
+
+brandList:
+  - logo: images/logos/UTPL_logo.svg
+    alternativeText: UTPL 
+  - logo: images/logos/Ascendere_logo.svg
+    alternativeText: Proyecto Ascendere 
+  

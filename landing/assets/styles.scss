@@ -1,0 +1,138 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&display=swap');
+
+$white: #fff !default;
+$gray-100: #f8f9fa !default;
+$gray-200: #e9ecef !default;
+$gray-300: #dee2e6 !default;
+$gray-400: #ced4da !default;
+$gray-500: #adb5bd !default;
+$gray-600: #6c757d !default;
+$gray-700: #495057 !default;
+$gray-800: #343a40 !default;
+$gray-900: #212529 !default;
+$black: #000 !default;
+
+$blue: #1b6ae1 !default;
+$blue-dark: #1b2a4e !default;
+$indigo: #6610f2 !default;
+$purple: #6f42c1 !default;
+$pink: #e83e8c !default;
+$red: #dc3545 !default;
+$orange: #fd7e14 !default;
+$yellow: #f6c343 !default;
+$green: #28a745 !default;
+$teal: #20c997 !default;
+$cyan: #17a2b8 !default;
+
+$colors: () !default;
+$colors: map-merge(
+  (
+    "blue": $blue,
+    "indigo": $indigo,
+    "purple": $purple,
+    "pink": $pink,
+    "red": $red,
+    "orange": $orange,
+    "yellow": $yellow,
+    "green": $green,
+    "teal": $teal,
+    "cyan": $cyan,
+    "white": $white,
+    "gray": $gray-600,
+    "gray-dark": $gray-800
+  ),
+  $colors
+);
+
+$primary: $blue !default;
+$secondary: $gray-700 !default;
+$success: #42ba96 !default;
+$info: #7c69ef !default;
+$warning: $yellow !default;
+$danger: #e63757 !default;
+$light: $gray-100 !default;
+$dark: $blue-dark !default;
+
+$theme-colors: () !default;
+$theme-colors: map-merge(
+  (
+    "primary": $primary,
+    "secondary": $secondary,
+    "success": $success,
+    "info": $info,
+    "warning": $warning,
+    "danger": $danger,
+    "light": $light,
+    "dark": $dark,
+  ),
+  $theme-colors
+);
+
+
+$font-family-sans-serif:'Nunito Sans', sans-serif !default;
+
+$h1-font-size: 2.3125rem !default;
+$h2-font-size: 1.9375rem !default;
+$h3-font-size: 1.3125rem !default;
+$h4-font-size: 1.1875rem !default;
+$h5-font-size: 1.0625rem !default;
+$h6-font-size: 0.75rem !default;
+
+$btn-padding-x-sm: 1rem !default;
+$btn-padding-x: 1.5rem !default;
+$btn-padding-x-lg: 2rem !default;
+
+
+$min-contrast-ratio: 2 !default;
+
+
+$spacer: 1rem !default;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.2,
+  2: $spacer * 0.5,
+  3: $spacer * 0.75,
+  4: $spacer,
+  5: $spacer * 1.5,
+  6: $spacer * 2,
+  7: $spacer * 2.5,
+  8: $spacer * 3,
+  9: $spacer * 4,
+  10: $spacer * 5,
+  11: $spacer * 6,
+  12: $spacer * 8,
+  13: $spacer * 10,
+  14: $spacer * 12,
+  15: $spacer * 16 ,
+  16: $spacer * 25
+) !default;
+
+@import 'bootstrap/scss/bootstrap';
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  strong,
+  b {
+    color: $primary !important;
+  }
+}
+
+.lift {
+    transition: box-shadow 0.25s ease, transform 0.25s ease, -webkit-transform 0.25s ease, 0.25s !important;
+  }
+  
+  .lift:focus, .lift:hover {
+    box-shadow: 0 1rem 2.5rem rgba(22, 28, 45, 0.1), 0 0.5rem 1rem -0.75rem rgba(22, 28, 45, 0.1) !important;
+    -webkit-transform: translate3d(0, -3px, 0);
+    transform: translate3d(0, -3px, 0);
+  }
