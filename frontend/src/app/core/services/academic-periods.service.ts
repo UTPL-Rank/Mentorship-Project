@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { SGMAcademicPeriod } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, take } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { BrowserLoggerService } from './browser-logger.service';
 
 /**
@@ -31,17 +32,24 @@ export class AcademicPeriodsService {
    */
   public readonly periods$: Observable<Array<SGMAcademicPeriod.readDTO>> = this.periodsCollection().valueChanges().pipe(
     shareReplay(1),
-    map(acc => [...acc]),
+    map(periods => [...periods]),
+    map(periods => periods.map(period => {
+      if (period.id === 'testing' && !environment.production)
+        period.current = true;
+
+      console.log(period);
+
+      return period;
+    }))
   );
 
   /**
    * start loading academic periods, and update internal service code
    */
   async loadAcademicPeriods(): Promise<void> {
-    const periodsCollection = this.periodsCollection().ref.orderBy('date', 'desc');
     try {
-      const { docs } = await periodsCollection.get();
-      this.academicPeriods = docs.map(p => p.data() as SGMAcademicPeriod.readDTO);
+      const periodsCollection = await this.periods$.pipe(take(1)).toPromise()
+      this.academicPeriods = periodsCollection;
 
       this.loaded = true;
       this.logger.log('Academic Periods Loaded', this.academicPeriods);
