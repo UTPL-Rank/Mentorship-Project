@@ -1,0 +1,87 @@
+<div class="row">
+  <!-- students por user -->
+  <div class="col-12 col-md-6 col-xl mb-3 mb-md-6">
+    <div class="card lift bg-light shadow">
+      <div class="card-body" [ngClass]="{
+            'badge-secondary': mentor?.area.reference.id === 'administrativa',
+            'badge-success': mentor?.area.reference.id === 'biologica',
+            'badge-info': mentor?.area.reference.id === 'sociohumanistica',
+            'badge-warning': mentor?.area.reference.id === 'tecnica'}">
+        <div class="row align-items-center">
+          <div class="col">
+            <!-- card-title -->
+            <h6 class="text-uppercase  mb-2">
+              Ultimo <br />
+              Acompañamiento
+            </h6>
+
+            <!-- date -->
+            <h3 class=" font-weight-bold">
+              <ng-container *ngIf="mentor?.stats.lastAccompaniment; else defaultDate">
+                {{mentor.stats.lastAccompaniment?.toDate() |date:'shortDate'}}
+              </ng-container>
+              <ng-template #defaultDate>
+                --/--/--
+              </ng-template>
+            </h3>
+          </div>
+          <div class="col-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- accompaniment count -->
+  <div class="col-12 col-md-6 col-xl mb-3 mb-md-6">
+    <div class="card lift bg-light shadow">
+      <div class="card-body" [ngClass]="{
+            'badge-secondary': mentor?.area.reference.id === 'administrativa',
+            'badge-success': mentor?.area.reference.id === 'biologica',
+            'badge-info': mentor?.area.reference.id === 'sociohumanistica',
+            'badge-warning': mentor?.area.reference.id === 'tecnica'}">
+        <div class="row align-items-center">
+          <div class="col">
+            <!-- card-title -->
+            <h6 class="text-uppercase  mb-2">
+              Acompañamientos <br />
+              Realizados
+            </h6>
+
+            <!-- count -->
+            <h3 class=" font-weight-bold">
+              {{mentor?.stats.accompanimentsCount || 0}}
+            </h3>
+          </div>
+          <div class="col-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- assigned students -->
+  <div class="col-12 col-md-6 col-xl mb-3 mb-md-6">
+    <div class="card lift bg-light shadow">
+      <div class="card-body" [ngClass]="{
+            'badge-secondary': mentor?.area.reference.id === 'administrativa',
+            'badge-success': mentor?.area.reference.id === 'biologica',
+            'badge-info': mentor?.area.reference.id === 'sociohumanistica',
+            'badge-warning': mentor?.area.reference.id === 'tecnica'}">
+        <div class="row align-items-center">
+          <div class="col">
+            <!-- card-title -->
+            <h6 class="text-uppercase  mb-2">
+              Estudiantes <br />
+              asignados
+            </h6>
+
+            <!-- count -->
+            <h3 class=" font-weight-bold">
+              {{mentor?.stats.assignedStudentCount || 0}}
+            </h3>
+          </div>
+          <div class="col-auto"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

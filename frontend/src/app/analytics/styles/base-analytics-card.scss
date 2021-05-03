@@ -1,0 +1,28 @@
+.analytic-card {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+
+
+    &-bars-chart  {
+        position: relative;
+        width: 100%;
+        height: calc(500px - 3.71875rem);
+        overflow: hidden;
+    }
+
+    &-pie-chart  {
+        flex: 1 1 250px;
+        justify-self: center;
+        align-self: stretch;
+
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    &-legend {
+        flex: 1 1 300px;
+    }
+}

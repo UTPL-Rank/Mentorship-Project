@@ -1,0 +1,18 @@
+<ng-container *ngIf="isValid; else invalidTemplate">
+  <canvas
+    baseChart
+    [data]="data"
+    [labels]="labels"
+    chartType="pie"
+    [options]="chartOptions"
+    [plugins]="chartPlugins"
+    [colors]="chartColors"
+    [legend]="false"
+  >
+  </canvas>
+</ng-container>
+
+
+<ng-template #invalidTemplate>
+  Gráfico Invalido
+</ng-template>

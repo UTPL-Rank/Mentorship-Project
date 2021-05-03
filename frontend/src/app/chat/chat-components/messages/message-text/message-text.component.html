@@ -1,0 +1,14 @@
+<sgm-message-base *ngIf="message">
+  <!-- sender -->
+  <sgm-message-text-sender>
+    {{ message.sender.displayName | titlecase }}
+  </sgm-message-text-sender>
+  <!-- content -->
+  <span class="font-normal text-gray-600">
+    {{ message.text }}
+  </span>
+  <!-- date -->
+  <sgm-message-text-date>
+    {{ message.date?.toDate() | date: "medium" }}
+  </sgm-message-text-date>
+</sgm-message-base>

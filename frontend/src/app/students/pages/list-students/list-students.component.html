@@ -1,0 +1,65 @@
+<ng-container *ngIf="mentor$ | async as mentor; else defaultTempate">
+    <sgm-page-header>
+        <sgm-page-header-title>
+            {{mentor.displayName|titlecase}}
+        </sgm-page-header-title>
+
+        <sgm-page-header-subtitle>
+            Estudiante Mentor
+        </sgm-page-header-subtitle>
+
+        <sgm-page-header-controls>
+            <ng-container *ngIf="isPeriodActiveObs | async">
+                <a class="mt-4 shadow btn btn-primary lift mt-md-0"
+                    [routerLink]="['/panel-control',mentor.period.reference.id,'registrar-acompañamiento', mentor.id]">
+                    Nuevo acompañamiento
+                </a>
+            </ng-container>
+        </sgm-page-header-controls>
+
+        <b>Periodo Académico:</b> {{mentor.period.name | titlecase}}
+    </sgm-page-header>
+</ng-container>
+
+<ng-template #defaultTempate>
+    <sgm-page-header>
+        <sgm-page-header-title>
+            Estudiantes de nuevo ingreso
+        </sgm-page-header-title>
+
+        <sgm-page-header-controls>
+            <ng-container *ngIf="auth.isAdmin|async">
+                <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
+                    Exportar Estudiantes
+                </button>
+            </ng-container>
+        </sgm-page-header-controls>
+
+        Esta es una lista de todos los estudiantes de nuevo ingreso que se encuentran
+        registrados en la plataforma.
+    </sgm-page-header>
+</ng-template>
+
+<ng-container *ngIf="mentor$ | async as mentor">
+    <sgm-mentor-navbar [mentor]="mentor$ | async"></sgm-mentor-navbar>
+</ng-container>
+
+<ng-container *ngIf="auth.isAdmin|async">
+    <section class="pt-6 pt-md-9">
+        <div class="container">
+            <sgm-mentor-filter-selector> </sgm-mentor-filter-selector>
+        </div>
+    </section>
+</ng-container>
+
+<ng-container *ngIf="mentor$ | async as mentor">
+    <section class="pt-6 pt-md-9">
+        <div class="container">
+            <sgm-mentor-stats [mentor]="mentor$ | async"></sgm-mentor-stats>
+        </div>
+    </section>
+</ng-container>
+
+<section class="container py-6">
+    <sgm-students-table [students]="students$|async" [showMentorName]="showMentorName$|async"></sgm-students-table>
+</section>

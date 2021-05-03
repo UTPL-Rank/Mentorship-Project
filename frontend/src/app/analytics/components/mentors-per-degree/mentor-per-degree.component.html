@@ -1,0 +1,14 @@
+<!-- 📝 Title -->
+<h5 class="outer-title text-muted">
+    Número de mentores por carrera.
+</h5>
+
+<div class="analytic-card">
+    <ng-container *ngIf="!!chartLabels && !!chartData">
+        <div class="analytic-card-bars-chart">
+            <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions"
+                [plugins]="chartPlugins" [legend]="true" chartType="bar">
+            </canvas>
+        </div>
+    </ng-container>
+</div>

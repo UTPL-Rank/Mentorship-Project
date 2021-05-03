@@ -1,0 +1,104 @@
+<sgm-page-header>
+  <sgm-page-header-title>
+    Estudiantes mentores
+  </sgm-page-header-title>
+  <sgm-page-header-controls>
+    <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
+      Exportar Mentores
+    </button>
+  </sgm-page-header-controls>
+  <p class="mb-0 ">
+    Esta es una lista de todos los estudiantes mentores que se encuentran
+    registrados en la plataforma.
+  </p>
+</sgm-page-header>
+
+<ng-container *ngIf="areaStats | async">
+  <section class="py-6 py-md-9">
+    <div class="container">
+      <!-- areas stats -->
+      <ng-container *ngTemplateOutlet="areasCards"></ng-container>
+    </div>
+
+    <div class="container">
+      <!-- table of students -->
+      <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
+    </div>
+  </section>
+</ng-container>
+
+<ng-template #areasCards>
+  <div class="mb-6 row">
+    <ng-container *ngFor="let area of areaStats | async ">
+      <div class="mb-3 col-12 col-sm-6 col-xl mb-md-6">
+        <div class="shadow card bg-light lift">
+          <div class="card-body" [ngClass]="{
+            'badge-secondary': area.id === 'administrativa',
+            'badge-success': area.id === 'biologica',
+            'badge-info': area.id === 'sociohumanistica',
+            'badge-warning': area.id === 'tecnica'}">
+            <!-- card-title -->
+            <h6 class="mb-2 text-nowrap overflow-elipsis">
+              {{area.name |titlecase}}
+            </h6>
+
+            <!-- mentors count -->
+            <p class="mb-0 small">
+              <b>{{area.mentors.length}}</b> Mentores
+              <br />
+              <b>{{area.studentsCount}}</b> Estudiantes nuevos
+              <br />
+              <b>{{area.accompanimentsCount}}</b> Acompañamientos
+            </p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>
+
+
+
+<ng-template #navTemplate>
+  <ul class="mb-0 nav nav-tabs flex-nowrap" id="myTab" role="tablist" style="overflow: auto hidden;">
+    <li class="nav-item">
+      <a id="all-tab" aria-controls="all" role="tab" class="nav-link active text-nowrap" data-toggle="tab" href="#all"
+        aria-selected="true">
+        Todos
+        <span class="badge badge-primary">
+          {{(allMentors | async)?.length}}
+        </span>
+      </a>
+    </li>
+
+    <!-- show all tabs of each area -->
+    <ng-container *ngFor="let area of areaStats | async ">
+      <li class="nav-item">
+        <a [id]="area.id+'-tab'" [attr.aria-controls]="area.id" class="nav-link text-nowrap" data-toggle="tab"
+          [href]="'#'+area.id" role="tab" aria-selected="false">
+          {{area.name | titlecase}}
+          <span class="badge" [ngClass]="{
+        'badge-secondary': area.id === 'administrativa',
+        'badge-success': area.id === 'biologica',
+        'badge-info': area.id === 'sociohumanistica',
+        'badge-warning': area.id === 'tecnica'}">
+            {{area.mentors.length}}
+          </span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+
+  <!-- main table history -->
+  <div class="tab-content" id="myTabContent">
+    <div aria-labelledby="all-tab" class="tab-pane fade show active" id="all" role="tabpanel">
+      <sgm-mentors-table [mentors]="allMentors | async"></sgm-mentors-table>
+    </div>
+
+    <ng-container *ngFor="let area of areaStats | async ">
+      <div [id]="area.id" [attr.aria-labelledby]="area.id+'-tab'" class="tab-pane fade show" role="tabpanel">
+        <sgm-mentors-table [mentors]="area.mentors" [showArea]="false"></sgm-mentors-table>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

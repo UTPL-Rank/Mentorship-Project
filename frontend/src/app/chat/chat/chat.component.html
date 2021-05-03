@@ -1,0 +1,39 @@
+<!-- layout -->
+<main class="h-full w-full flex flex-col bg-blue-50">
+  <!-- top bar -->
+  <div class="w-full bg-white px-4 py-5 shadow-sm relative z-20">
+    <!-- align topbar items -->
+    <div class="flex items-baseline justify-between">
+      <!-- back button -->
+      <a routerLink="..">
+        <i-feather name="chevron-left"></i-feather>
+      </a>
+      <!-- chat title -->
+      <span class="text-gray-800 font-semibold text-base">
+        {{ chatParticipantTitle$ | async | titlecase }}
+      </span>
+    </div>
+  </div>
+
+  <!-- main content -->
+  <div class="flex-grow relative z-10">
+    <!-- scroll section  -->
+    <div #scroll class="absolute inset-0 w-full h-full overflow-y-auto">
+      <!-- chat list style -->
+      <div class="p-4 grid grid-cols-1 auto-rows-auto gap-4">
+        <!-- iterate messages -->
+        <ng-container *ngFor="let msg of messages$ | async">
+          <!-- message container -->
+          <div class="max-w-xl w-3/4">
+            <sgm-message [message]="msg"></sgm-message>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+
+  <!-- bottom section to send chats -->
+  <div class="w-full px-2 pb-2 pt-">
+    <sgm-send-box (send)="sendMessage($event)"></sgm-send-box>
+  </div>
+</main>

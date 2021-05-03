@@ -1,0 +1,45 @@
+<!-- wrapper for all screen size -->
+<div class="h-full w-full bg-blue-50 p-4 md:p-8">
+  <!-- list items in a grid -->
+  <div class="grid grid-cols-1 auto-rows-auto gap-4">
+    <!-- list item -->
+    <ng-container *ngFor="let chat of chats$ | async">
+      <a class="no-underline" [routerLink]="['..', chat.id]" >
+        <div
+          class="no-underline w-full h-auto bg-gray-50 rounded-md p-4 shadow hover:shadow-2xl transition-shadow duration-300"
+        >
+          <!-- header of card -->
+          <div class="flex flex-row items-baseline mb-2">
+            <!-- contact name -->
+            <span
+              class="flex-grow text-gray-700 font-semibold text-sm truncate mr-2"
+            >
+              <ng-container *ngFor="let participant of chat.participants">
+                <ng-container *ngIf="participant.uid !== (uid$ | async)">
+                  {{ participant.displayName | titlecase }}
+                </ng-container>
+              </ng-container>
+            </span>
+
+            <!-- last activity date -->
+            <span class="text-gray-500 text-xs font-medium whitespace-nowrap">
+              {{ chat.lastActivity.toDate() | date: "medium" }}
+            </span>
+          </div>
+
+          <!-- last activity or message -->
+          <div class="w-full">
+            <span class="text-gray-600 text-sm">
+              <ng-container
+                *ngIf="chat.lastMessage as message; else emptyMessage"
+              >
+                {{ message.sender.displayName | titlecase }}: {{ message.text }}
+              </ng-container>
+              <ng-template #emptyMessage> Sin mensajes </ng-template>
+            </span>
+          </div>
+        </div>
+      </a>
+    </ng-container>
+  </div>
+</div>

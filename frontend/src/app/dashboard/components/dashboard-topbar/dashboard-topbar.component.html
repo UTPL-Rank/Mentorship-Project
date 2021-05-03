@@ -1,0 +1,35 @@
+<nav class="navbar">
+  <h5 class="header-pretitle text-body2">
+    {{dashboard.titleFirst$|async}} <span class="text-primary">{{dashboard.titleSecond$|async}}</span>
+  </h5>
+
+  <div class="ml-3">
+    <sgm-selected-period-badge></sgm-selected-period-badge>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Academic period selector -->
+  <ng-container *ngIf="periods$|async as periods">
+    <div class="dropdown">
+      <a class="btn  btn-sm dropdown-toggle" href="#" id="selectPeriodDropdown" role="button" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+        {{selectedPeriodName$ | async | titlecase}}
+      </a>
+      <div class="dropdown-menu" aria-labelledby="selectPeriodDropdown">
+        <ng-container *ngFor="let period of periods">
+          <a class="dropdown-item" [routerLink]="['/panel-control', period.id]">
+            {{ period.name | titlecase }}
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <sgm-notifications></sgm-notifications>
+
+  <button class="button logout" (click)="logout()">
+    Cerrar Sesión
+    <i class="fas fa-sign-out-alt"></i>
+  </button>
+</nav>

@@ -1,0 +1,35 @@
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a
+      [routerLink]="['../acompañamientos']"
+      class="nav-link text-center"
+      routerLinkActive
+      #accompaniments="routerLinkActive"
+      [ngClass]="{ 'font-weight-bold': accompaniments.isActive }"
+    >
+      Acompañamientos
+    </a>
+  </li>
+  <li class="nav-item">
+    <a
+      [routerLink]="['../mentores']"
+      class="nav-link text-center"
+      routerLinkActive
+      #mentors="routerLinkActive"
+      [ngClass]="{ 'font-weight-bold': mentors.isActive }"
+    >
+      Mentores
+    </a>
+  </li>
+  <li class="nav-item">
+    <a
+      [routerLink]="['../estudiantes']"
+      class="nav-link text-center"
+      routerLinkActive
+      #students="routerLinkActive"
+      [ngClass]="{ 'font-weight-bold': students.isActive }"
+    >
+      Estudiantes
+    </a>
+  </li>
+</ul>

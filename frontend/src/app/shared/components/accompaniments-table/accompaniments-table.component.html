@@ -1,0 +1,116 @@
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0 text-nowrap card-table">
+      <!-- head of table -->
+      <thead>
+        <tr>
+          <th class="font-weight-bold text-muted small">
+            #
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Fecha
+          </th>
+          <ng-container *ngIf="showMentorName">
+            <th class="font-weight-bold text-muted small">
+              Mentor
+            </th>
+          </ng-container>
+          <ng-container *ngIf="showStudentName">
+            <th class="font-weight-bold text-muted small">
+              Estudiante
+            </th>
+          </ng-container>
+          <th class="font-weight-bold text-muted small">
+            Problemática
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Validación
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngIf="!!accompaniments?.length; else emptyMessage">
+          <tr *ngFor="let accompaniment of accompaniments; let i = index">
+            <th class="font-weight-bold text-muted small" scope="row">
+              {{ i + 1 }}
+            </th>
+            <td class="font-weight-bold text-muted small">
+              {{ accompaniment.timeCreated.toMillis() | date }}
+
+            </td>
+            <ng-container *ngIf="showMentorName">
+              <td class="font-weight-bold text-muted small">
+                {{accompaniment.mentor.displayName | titlecase}}
+              </td>
+            </ng-container>
+            <ng-container *ngIf="showStudentName">
+              <td class="font-weight-bold text-muted small">
+                {{accompaniment.student.displayName | titlecase}}
+              </td>
+            </ng-container>
+            <td class="font-weight-bold text-muted small">
+              <ng-container *ngIf="accompaniment.important">
+                <span class="tooltip tooltip-top" data-tooltip="Marcado como importante">
+                  <i class="fas fa-exclamation-circle"></i>
+                </span>
+              </ng-container>
+              {{ accompaniment.problems.problemCount }}
+              <span *ngIf="accompaniment.problems.problemCount === 1">
+                problemática
+              </span>
+              <span *ngIf="accompaniment.problems.problemCount !== 1">
+                problemáticas
+              </span>
+            </td>
+            <td>
+              <span *ngIf="!accompaniment.reviewKey" class="badge badge-success">
+                Validado
+              </span>
+              <span *ngIf="!!accompaniment.reviewKey" class="badge badge-warning">
+                Sin Validar
+              </span>
+            </td>
+            <td>
+              <a class="btn btn-sm small lift" [ngClass]="accompaniment.read ? 'btn-outline-primary': 'btn-primary'" [routerLink]="[
+                '/panel-control',
+                accompaniment.period.reference.id,
+                'ver-acompañamiento',
+                accompaniment.mentor.reference.id,
+                accompaniment.id
+              ]">
+                Visualizar
+              </a>
+
+              <!-- show options in each row -->
+              <ng-container *ngIf="showValidate">
+                <a class="ml-3 btn btn-success btn-sm small lift" [ngClass]="{disabled:!accompaniment.reviewKey}"
+                  [routerLink]="[
+              '/panel-control',
+              accompaniment.period.reference.id,
+              'acompañamientos',
+              'calificar',
+              accompaniment.student.reference.id,
+              accompaniment.id,
+              accompaniment.reviewKey
+              ]">
+                  Validar
+                </a>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- no students message -->
+        <ng-template #emptyMessage>
+          <tr>
+            <td colspan="100%" class="text-center font-weight-bold text-muted small">
+              No hay acompañamientos para visualizar.
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>

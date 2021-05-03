@@ -1,0 +1,13 @@
+<ng-container *ngIf="isCurrentPeriodActive$|async; else oldPeriodTemplate">
+  <span class="badge badge-primary">
+    <i class="fas fa-calendar-check"></i>
+    Periodo Actual
+  </span>
+</ng-container>
+
+<ng-template #oldPeriodTemplate>
+  <span class="badge badge-secondary">
+    <i class="fas fa-calendar"></i>
+    Periodo Antiguo
+  </span>
+</ng-template>

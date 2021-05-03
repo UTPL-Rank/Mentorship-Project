@@ -1,0 +1,37 @@
+<nav class="navbar navbar-expand-md navbar-light bg-light border-bottom">
+  <div class="container">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#studentNav"
+      aria-controls="studentNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="studentNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            [routerLink]="['/panel-control', mentor.period.reference.id, 'mentores', mentor.id]">
+            Información
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            [routerLink]="['/panel-control', mentor.period.reference.id, 'mentores', mentor.id, 'historial']">
+            Historial
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            [routerLink]="['/panel-control', mentor.period.reference.id, 'mentores', mentor.id, 'evaluacion-final']">
+            Evaluación Final
+          </a>
+        </li>
+        <!-- <li class="nav-item">
+          <a class="nav-link disabled" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"
+            [routerLink]="['/panel-control', mentor.period.reference.id, 'mentores', mentor.id, 'actualizar']">
+            Editar
+          </a>
+        </li> -->
+      </ul>
+    </div>
+  </div>
+</nav>

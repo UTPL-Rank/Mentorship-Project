@@ -1,0 +1,96 @@
+<div class="evaluation">
+  <header class="evaluation--header">
+    <span class="text-caption text-reduce-contrast">
+      Parte 2 de 4
+    </span>
+
+    <h1 class="text-headline">
+      Evaluación Final de Mentoria
+    </h1>
+
+    <h2 class="text-title text-reduce-contrast">
+      Actividades o medios a través de las cuales realizó el acompañamiento
+    </h2>
+  </header>
+
+  <ng-container *ngIf="activitiesForm">
+    <form class="evaluation--form" [formGroup]="activitiesForm" (ngSubmit)="save()">
+      <!-- meeting field -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="meetings">Reuniones</label>
+          <textarea id="meetings" placeholder="Detalle de la actividad" formControlName="meetings" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- sports -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="sports">Actividades recreativas y deportivas</label>
+          <textarea id="sports" placeholder="Detalle de la actividad" formControlName="sports" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- academicEvent -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="academicEvent">Evento Académico</label>
+          <textarea id="academicEvent" placeholder="Detalle de la actividad" formControlName="academicEvent"
+            rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- socialEvent -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="socialEvent">Evento Sociales</label>
+          <textarea id="socialEvent" placeholder="Detalle de la actividad" formControlName="socialEvent"
+            rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- virtualAccompaniment -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="virtualAccompaniment">Acompañamiento virtual</label>
+          <textarea id="virtualAccompaniment" placeholder="Detalle de la actividad"
+            formControlName="virtualAccompaniment" rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- other -->
+      <div class="text-field">
+        <div class="text-field-outline">
+          <label for="other">Otros</label>
+          <textarea id="other" placeholder="Detalle de la actividad" formControlName="other" rows="3"></textarea>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <section class="evaluation--actions">
+    <!-- return message -->
+    <a class="button-outline button-primary" [routerLink]="['../detalles']">
+      Anterior
+    </a>
+
+    <!-- save message -->
+    <ng-container *ngIf="saved">
+      <span class="text-caption text-reduce-contrast">
+        Guardado...
+      </span>
+    </ng-container>
+
+    <!-- steps -->
+    <ng-container *ngIf="!saved">
+      <span class="text-caption text-reduce-contrast">
+        Parte 2 de 4
+      </span>
+    </ng-container>
+
+    <!-- next button -->
+    <a class="button-contained button-primary" [routerLink]="['../dependencias']">
+      siguiente
+    </a>
+  </section>
+</div>

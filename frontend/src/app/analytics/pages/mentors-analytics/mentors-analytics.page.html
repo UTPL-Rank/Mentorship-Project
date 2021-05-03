@@ -1,0 +1,96 @@
+<sgm-page-header>
+  <sgm-page-header-title> Analíticas Mentores </sgm-page-header-title>
+
+  <sgm-page-header-controls>
+    <button
+      class="btn btn-primary"
+      (click)="updateMentorsAnalytics()"
+      [disabled]="isUpdating"
+    >
+      {{isUpdating ? 'Actualizando...':'Generar ahora'}}
+    </button>
+  </sgm-page-header-controls>
+  <ng-container *ngIf="ready$|async ">
+    <ng-container
+      *ngIf="analytics$ |async as  data; else showFirstTimeGenerating"
+    >
+      <p>
+        Datos de los mentores registrados durante el periodo académico
+        <b>{{data.period.name |titlecase}}</b>. Última actualización
+        <b>{{ data.lastUpdated | date:'long' }}</b>
+      </p>
+    </ng-container>
+  </ng-container>
+</sgm-page-header>
+
+<!-- Generate data message -->
+<ng-template #showFirstTimeGenerating>
+  No hay datos generados anteriormente, dale click en
+  <code style="cursor: pointer" (click)="updateMentorsAnalytics()"
+    >Generar ahora</code
+  >
+  para generar los datos de los mentores.
+</ng-template>
+
+<div class="container-fluid my-4 my-md-6">
+  <sgm-analytics-navbar></sgm-analytics-navbar>
+</div>
+
+<!-- Loading alert -->
+<ng-container *ngIf="loading$|async">
+  <section class="container my-4">
+    <div class="alert alert-primary" role="alert">Cargando...</div>
+  </section>
+</ng-container>
+
+<!-- Error loading data alert -->
+<ng-container *ngIf="error$|async ">
+  <section class="container my-4">
+    <div class="alert alert-danger" role="alert">
+      No se pudo cargar la información, intenta recargar la página
+    </div>
+  </section>
+</ng-container>
+
+<!-- Loaded data, swap to content -->
+<ng-container *ngIf="analytics$|async as analytics">
+  <!-- card of first analytics -->
+  <section class="container-fluid my-4">
+    <!-- card container --->
+    <sgm-outline-card>
+      <!-- title --->
+      <sgm-outline-card-title>
+        Mentores del periodo anterior
+      </sgm-outline-card-title>
+      <!-- subtitle --->
+      <sgm-outline-card-subtitle>
+        Estudiantes mentores que han ejecutado la mentoria con sus estudiantes.
+      </sgm-outline-card-subtitle>
+
+      <!-- content --->
+      <sgm-mentors-with-accompaniments
+        [data]="mentorsFirstTime$|async"
+      ></sgm-mentors-with-accompaniments>
+    </sgm-outline-card>
+  </section>
+
+  <!-- second analytics card -->
+  <section class="container-fluid my-4">
+    <!-- card container --->
+    <sgm-outline-card>
+      <!-- title --->
+      <sgm-outline-card-title>
+        Mentores que realizan la mentoria por primera vez
+      </sgm-outline-card-title>
+      <!-- subtitle --->
+      <sgm-outline-card-subtitle>
+        Estudiantes mentores que han ejecutado la mentoria con sus estudiantes.
+      </sgm-outline-card-subtitle>
+
+      <!-- content --->
+      <sgm-mentors-with-accompaniments
+        [data]="mentorsSecondTime$|async"
+      ></sgm-mentors-with-accompaniments>
+    </sgm-outline-card>
+  </section>
+</ng-container>

@@ -1,0 +1,3 @@
+User-agent: *
+Disallow: /panel-control
+Sitemap: https://sgmentores.web.app/sitemap.xml
