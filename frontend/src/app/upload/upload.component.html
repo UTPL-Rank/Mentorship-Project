@@ -1,0 +1,53 @@
+<sgm-page-header>
+    <sgm-page-header-title>
+      Subir Información a la Plataforma
+    </sgm-page-header-title>
+  
+    <ng-container>
+      <!-- page lead -->
+      <p class="text-muted">
+        La plataforma permite subir usuarios y mentores unicamente desde
+        archivos con formato <code>.cvs</code>.
+      </p>
+      <p class="text-muted mb-2">
+        <b>Nota:</b> La primera fila de cualquier archivo sera omitida al
+        momento de leer la información.
+      </p>
+    </ng-container>
+    </sgm-page-header>
+  
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <!-- upload integratores route -->
+        <a [routerLink]="['integradores']" class="nav-link text-center"
+          routerLinkActive #integratores="routerLinkActive" [ngClass]="{ 'font-weight-bold': integratores.isActive }">
+          Docentes
+        </a>
+  
+        <!-- upload mentors route -->
+        <a [routerLink]="['mentores']" class="nav-link text-center"
+          routerLinkActive #mentors="routerLinkActive" [ngClass]="{ 'font-weight-bold': mentors.isActive }">
+          Mentores
+        </a>
+  
+        <!-- upload students route -->
+        <a [routerLink]="['estudiantes']" class="nav-link text-center"
+          routerLinkActive #students="routerLinkActive" [ngClass]="{ 'font-weight-bold': students.isActive }">
+          Estudiantes
+        </a>
+  
+        <!-- upload degrees route -->
+        <a [routerLink]="['carreras']" class="nav-link text-center"
+          routerLinkActive #degrees="routerLinkActive" [ngClass]="{ 'font-weight-bold': degrees.isActive }">
+          Carreras
+        </a>
+      </li>
+    </ul>
+  
+    <section class="py-6 py-md-9">
+      <div class="container">
+        <div class="mt-3">
+          <router-outlet></router-outlet>
+        </div>
+      </div>
+    </section>

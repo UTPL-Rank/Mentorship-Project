@@ -1,3 +1,10 @@
+import { SGMFunctionsCsvStudents, SGMStudent } from '@utpl-rank/sgm-helpers';
+import * as functions from 'firebase-functions';
+import { CallableContext } from 'firebase-functions/lib/providers/https';
+import { CSVFormat } from '../shared/export/csv-format';
+import { IExportCallback } from '../shared/export/i-export-callback';
+import { ListStudentsPeriod } from '../utils/student-utils';
+
 /**
  * CSV Mentors
  * ==========================================================
@@ -12,19 +19,31 @@
  * @param mentorId identifier of the mentor.
  * @return generated csv string
  */
+const _CSVStudents = async (data: SGMFunctionsCsvStudents.requestDTO, _: CallableContext): Promise<SGMFunctionsCsvStudents.responseDTO> => {
 
-import * as functions from 'firebase-functions';
-import { ListStudentsOfMentor } from '../utils/student-utils';
-import { GenerateCSVFromObjects } from '../utils/utils';
+    const { periodId } = data;
 
-export const CSVStudents = functions.https.onCall(async (data) => {
-    const { mentorId } = data;
+    const students = await ListStudentsPeriod(periodId);
+    const headers = ['Index', 'Nombre Estudiante', 'Correo Electrónico', 'Nombre Mentor', 'Área Académica', 'Titulación', 'Cyclo', 'Acompañamientos Realizados', 'Ultimó acompañamiento'];
 
-    const students = await ListStudentsOfMentor(mentorId);
-    const columnsNames = ['Nombre Estudiante', 'Correo Electrónico', 'Nombre Mentor', 'Área Académica', 'Titulación', 'Acompañamientos Realizados', 'Cyclo'];
-    const columnKeys = ['displayName', 'email', 'mentor.displayName', 'area.name', 'degree.name', 'stats.accompanimentsCount', 'cycle'];
+    const callback: IExportCallback<SGMStudent.readDTO> = (student, i, arr) => {
+        return [
+            `Nro. ${i + 1} de ${arr.length}`,
+            student.displayName,
+            student.email,
+            student.mentor.displayName,
+            student.area.name,
+            student.degree.name,
+            SGMStudent.translateCycle(student.cycle),
+            student.stats.accompanimentsCount,
+            student.stats.lastAccompaniment?.toDate().toDateString() ?? 'Sin acompañamiento'
+        ];
+    }
 
-    const csv = GenerateCSVFromObjects(students, columnKeys, columnsNames, ',');
+    const exporter = new CSVFormat<SGMStudent.readDTO>(headers, students);
 
-    return csv;
-});
+    return exporter.export(callback);
+};
+
+
+export const CSVStudents = functions.https.onCall(_CSVStudents);

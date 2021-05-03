@@ -1,14 +1,19 @@
 import { firestore } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 
-const client = new firestore.v1.FirestoreAdminClient();
+const client = firestore.v1.FirestoreAdminClient;
 
 
 const bucket = 'gs://sgmentores-backups';
 
 export const scheduledFirestoreExport = functions.pubsub.schedule('30 2 * * 7').onRun(async _ => {
 
-    const projectId = process.env.GCP_PROJECT || process.env.GCLOUD_PROJECT;
+    const projectId: string | null = process.env.GCP_PROJECT ?? process.env.GCLOUD_PROJECT ?? null;
+
+    if (!projectId)
+        throw new Error('Property project id not found');
+
+
     const databaseName =
         client.databasePath(projectId, '(default)');
 

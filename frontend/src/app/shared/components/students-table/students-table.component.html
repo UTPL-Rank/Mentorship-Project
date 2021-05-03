@@ -1,0 +1,95 @@
+<div class="card">
+  <div class="table-responsive">
+    <table class="table mb-0 text-nowrap">
+      <!-- head of table -->
+      <thead>
+        <tr>
+          <th class="font-weight-bold text-muted small">
+            #
+          </th>
+          <th class="font-weight-bold text-muted small">
+            Estudiante
+          </th>
+
+          <ng-container *ngIf="showMentorName">
+            <th class="font-weight-bold text-muted small">
+              Mentor
+            </th>
+          </ng-container>
+
+          <th class="text-center font-weight-bold text-muted small">
+            Acompañamientos
+          </th>
+
+          <th class="text-center font-weight-bold text-muted small">
+            Último
+          </th>
+
+          <th></th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <ng-container *ngIf="!!students?.length; else emptyMessage">
+          <tr *ngFor="let student of students; let i = index">
+            <th class="font-weight-bold text-muted small" scope="row">
+              {{ i + 1 }}
+            </th>
+            <td class="font-weight-bold text-muted small">
+              {{ student.displayName|titlecase }}
+            </td>
+
+            <ng-container *ngIf="showMentorName">
+              <td class="font-weight-bold text-muted small">
+                {{ student.mentor.displayName|titlecase }}
+              </td>
+            </ng-container>
+
+            <td class="text-center font-weight-bold text-muted small">
+              <span class="badge" [ngClass]="{
+              'badge-danger': student.stats.accompanimentsCount === 0,
+              'badge-warning': student.stats.accompanimentsCount < 4,
+              'badge-success': student.stats.accompanimentsCount >= 4
+            }">
+                {{student.stats.accompanimentsCount}}
+                <span [ngPlural]="student.stats.accompanimentsCount">
+                  <ng-template ngPluralCase="=1">
+                    acompañamiento
+                  </ng-template>
+                  <ng-template ngPluralCase="other">
+                    acompañamientos
+                  </ng-template>
+                </span>
+              </span>
+            </td>
+
+            <td class="text-center font-weight-bold text-muted small">
+              <ng-container *ngIf="student.stats.lastAccompaniment; else defaultDate">
+                {{student.stats.lastAccompaniment.toDate() | date:'shortDate'}}
+              </ng-container>
+              <ng-template #defaultDate>
+                --/--/--
+              </ng-template>
+            </td>
+
+            <td>
+              <a class="btn btn-primary btn-sm small lift"
+                [routerLink]="['/panel-control',student.period.reference.id,'historial-acompañamientos',student.mentor.reference.id,student.id]">
+                Ver Estudiante
+              </a>
+            </td>
+          </tr>
+        </ng-container>
+
+        <!-- no students message -->
+        <ng-template #emptyMessage>
+          <tr>
+            <td colspan="100%" class="text-center font-weight-bold text-muted small">
+              No hay estudiantes para visualizar.
+            </td>
+          </tr>
+        </ng-template>
+      </tbody>
+    </table>
+  </div>
+</div>

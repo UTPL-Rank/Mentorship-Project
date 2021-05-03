@@ -1,0 +1,141 @@
+<ng-container *ngIf="!!mentors">
+  <!-- analytics chart -->
+  <div class="analytic-card">
+    <sgm-pie
+      [data]="[
+      mentorsWithAccompaniments.length,
+        mentorsWithoutAccompaniments.length
+      ]"
+      [labels]="['Culminan mentoria', 'No ejecuta la mentoria']"
+    >
+    </sgm-pie>
+
+    <!-- 📰 card labels -->
+    <div class="analytic-card-legend analytic-legend-list">
+      <!-- select degree -->
+      <select
+        class="custom-select custom-select-sm"
+        (change)="applyFilter($event.target.value)"
+      >
+        <option selected value="">Selecciona una titulación</option>
+        <ng-container *ngFor="let degree of filterOptions">
+          <option [value]="degree.id">{{ degree.name | titlecase }}</option>
+        </ng-container>
+      </select>
+
+      <!-- total number of mentors -->
+      <sgm-statistic>
+        <!-- label -->
+        <sgm-statistic-label>Mentores registrados</sgm-statistic-label>
+        <!-- value TODO: primary -->
+        <sgm-statistic-value>
+          {{ mentors.length }}
+        </sgm-statistic-value>
+      </sgm-statistic>
+
+      <!-- mentors with accompaniments -->
+      <sgm-statistic>
+        <!-- label -->
+        <sgm-statistic-label>Culminan mentoria</sgm-statistic-label>
+        <!-- value -->
+        <sgm-statistic-value>
+          {{ mentorsWithAccompaniments.length }}
+        </sgm-statistic-value>
+        <!-- percentage -->
+        <sgm-statistic-percentage>
+          {{ percentageMentorsWithAccompaniments }}
+        </sgm-statistic-percentage>
+      </sgm-statistic>
+
+      <!-- mentors without accompaniments -->
+      <sgm-statistic>
+        <!-- label -->
+        <sgm-statistic-label>No ejecuta la mentoria</sgm-statistic-label>
+        <!-- value -->
+        <sgm-statistic-value>
+          {{ mentorsWithoutAccompaniments.length }}
+        </sgm-statistic-value>
+        <!-- percentage -->
+        <sgm-statistic-percentage>
+          {{ percentageMentorsWithoutAccompaniments }}
+        </sgm-statistic-percentage>
+      </sgm-statistic>
+    </div>
+
+    <!-- list of mentors -->
+    <div class="analytic-card-legend list-mentors">
+      <!-- 📃 list of sub-items -->
+      <ng-container
+        *ngIf="
+          mentorsWithoutAccompaniments &&
+          mentorsWithoutAccompaniments.length > 0
+        "
+      >
+        <div class="mentors-sub-list">
+          <!-- sub-list title -->
+          <h6 class="sub-list-title">No ejecuta la mentoria</h6>
+
+          <!-- list of items -->
+          <ng-container
+            *ngFor="let mentor of mentorsWithoutAccompaniments; let i = index"
+          >
+            <div class="sub-list-item">
+              <span class="item-index">
+                {{ i + 1 }}
+              </span>
+              <span class="item-label">
+                {{ mentor.displayName | titlecase }}
+              </span>
+              <a
+                [routerLink]="[
+                  '/panel-control',
+                  mentor.period.id,
+                  'mentores',
+                  mentor.id
+                ]"
+              >
+                <i class="item-icon fas fa-link"></i>
+              </a>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <!-- 📃 list of sub-items -->
+      <ng-container
+        *ngIf="
+          mentorsWithAccompaniments && mentorsWithAccompaniments.length > 0
+        "
+      >
+        <div class="mentors-sub-list">
+          <!-- sub-list title -->
+          <h6 class="sub-list-title">Culminan mentoria</h6>
+
+          <!-- list of items -->
+          <ng-container
+            *ngFor="let mentor of mentorsWithAccompaniments; let i = index"
+          >
+            <div class="sub-list-item">
+              <span class="item-index">
+                {{ i + 1 }}
+              </span>
+              <span class="item-label">
+                {{ mentor.displayName | titlecase }}
+              </span>
+              <a
+                [routerLink]="[
+                  '/panel-control',
+                  mentor.period.id,
+                  'mentores',
+                  mentor.id
+                ]"
+              >
+                <i class="item-icon fas fa-link"></i>
+              </a>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</ng-container>

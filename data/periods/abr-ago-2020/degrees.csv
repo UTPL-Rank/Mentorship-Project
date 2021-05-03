@@ -1,33 +1,37 @@
-﻿ÁREA;TITULACIÓN;NOMBRE
-sociohumanistica;psicologia;Psicología
-sociohumanistica;psicologia-clinica;PSICOLOGÍA CLÍNICA
-sociohumanistica;ingles;Inglés
-tecnica;computacion;Computación
-tecnica;sistemas-informaticos-computacion;SISTEMAS INFORMÁTICOS y COMPUTACIÓN
-sociohumanistica;derecho;DERECHO
-biologica;gestion-ambiental;Gestión Ambiental
-biologica;ingenieria-ambiental;Ingeniería Ambiental
-biologica;medicina;MEDICINA
-biologica;biologia;BIOLOGÍA
-tecnica;arquitectura;ARQUITECTURA
-administrativa;finanzas;FINANZAS
-administrativa;banca-finanzas;Banca y Finanzas
-administrativa;economia;Economía
-biologica;enfermeria;Enfermería
-biologica;bioquimica-farmacia;Bioquímica y Farmacia
-biologica;ingenieria-quimica;Ingeniería Química
-biologica;ingenieria-industrial;Ingeniería Industrial
-biologica;agropecuaria;Agropecuaria
-biologica;alimentos;ALIMENTOS
-tecnica;telecomunicaciones;Telecomunicaciones
-tecnica;geologia;Geología
-tecnica;artes-visuales;Artes Visuales
-tecnica;ingenieria-civil;Ingeniería Civil
-administrativa;contabilidad-auditoria;Contabilidad y Auditoría
-administrativa;gastronomia;Gastronomía
-administrativa;turismo;Turismo
-administrativa;hoteleria-turismo;Hotelería y Turismo
-administrativa;administracion-empresas;ADMINISTRACIÓN DE EMPRESAS
-sociohumanistica;comunicacion-social;Comunicación Social
-sociohumanistica;psicopedagogia;PSICOPEDAGOGIA
-sociohumanistica;comunicacion;COMUNICACIÓN
+﻿ÁREA                 TITULACIÓN                                 NOMBRE
+administrativa       finanzas                                   FINANZAS
+administrativa       banca-finanzas                             Banca y Finanzas
+administrativa       economia                                   Economía
+administrativa       contabilidad-auditoria                     Contabilidad y Auditoría
+administrativa       gastronomia                                Gastronomía
+administrativa       turismo                                    Turismo
+administrativa       hoteleria-turismo                          Hotelería y Turismo
+administrativa       administracion-empresas                    ADMINISTRACIÓN DE EMPRESAS
+sociohumanistica     comunicacion-social                        Comunicación Social
+sociohumanistica     comunicacion                               COMUNICACIÓN
+sociohumanistica     psicologia                                 Psicología
+sociohumanistica     psicologia-clinica                         PSICOLOGÍA CLÍNICA
+sociohumanistica     psicopedagogia                             PSICOPEDAGOGIA
+sociohumanistica     ingles                                     Inglés
+sociohumanistica     derecho                                    DERECHO
+sociohumanistica     pedagogia-idiomas-nacionales-extranjeros   Pedagogía de los Idiomas Nacionales y Extranjeros
+tecnica              computacion                                Computación
+tecnica              sistemas-informaticos-computacion          SISTEMAS INFORMÁTICOS y COMPUTACIÓN
+tecnica              arquitectura                               ARQUITECTURA
+tecnica              telecomunicaciones                         Telecomunicaciones
+tecnica              geologia                                   Geología
+tecnica              artes-visuales                             Artes Visuales
+tecnica              ingenieria-civil                           Ingeniería Civil
+biologica            gestion-ambiental                          Gestión Ambiental
+biologica            ingenieria-ambiental                       Ingeniería Ambiental
+biologica            medicina                                   MEDICINA
+biologica            biologia                                   BIOLOGÍA
+biologica            enfermeria                                 Enfermería
+biologica            bioquimica-farmacia                        Bioquímica y Farmacia
+biologica            ingenieria-quimica                         Ingeniería Química
+biologica            ingenieria-industrial                      Ingeniería Industrial
+biologica            agropecuaria                               Agropecuaria
+biologica            alimentos                                  ALIMENTOS
+biologica            nutricion                                  NUTRICIÓN Y DIETÉTICA                                           
+biologica            fisioterapia                               FISIOTERAPIA                                           
+biologica            logistica-transporte                       Logística y Transporte                                           

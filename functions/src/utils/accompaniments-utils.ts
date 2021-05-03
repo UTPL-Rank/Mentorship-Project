@@ -1,7 +1,7 @@
-import { CurrentPeriodReference } from "./period-utils";
+import { SGMAccompaniment } from "@utpl-rank/sgm-helpers";
+import { firestore } from "firebase-admin";
+import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
-
-type Accompaniment = any;
 
 /**
  * Accompaniments Firestore Collection
@@ -9,38 +9,43 @@ type Accompaniment = any;
  * 
  * @author Bruno Esparza
  * 
- * Get the firestore collection of accompaniments
+ * Get the accompaniments firestore collection
  */
-function AccompanimentsCollection() {
-    return dbFirestore.collection('accompaniments');
+function AccompanimentsCollection(): firestore.CollectionReference<SGMAccompaniment.readDTO> {
+    return dbFirestore.collection('accompaniments') as firestore.CollectionReference<SGMAccompaniment.readDTO>;
 }
 
+// /**
+//  * Accompaniment Firestore Document
+//  * ===============================================
+//  * 
+//  * @author Bruno Esparza
+//  * 
+//  * Get the firestore document of an accompaniments
+//  * 
+//  * @param id Identifier of the accompaniment document 
+//  */
+// function AccompanimentDocument(id: string): firestore.DocumentReference<Accompaniment> {
+//     return AccompanimentsCollection().doc(id);
+// }
+
 /**
- * Firestore Accompaniments Document
- * ===============================================
+ * List Accompaniments of Specific Period
+ * ==================================================
  * 
  * @author Bruno Esparza
  * 
- * Get the firestore document of a accompaniments
+ * list all the accompaniments of the required academic period
  * 
- * @param id Identifier of the accompaniment document 
+ * @param periodId identifier of the required academic period
  */
-function AccompanimentDocument(id: string) {
-    return AccompanimentsCollection().doc(id);
-}
+export async function ListAccompanimentsPeriod(periodId: string): Promise<Array<SGMAccompaniment.readDTO>> {
+    const periodRef = PeriodDocument(periodId);
+    const query = AccompanimentsCollection().where('period.reference', '==', periodRef)
+    const { docs } = await query.get();
+    const accompaniments = docs.map(doc => doc.data());
 
-/**
- * Accompaniment Reference
- * ===============================================
- * 
- * @author Bruno Esparza
- * 
- * Get the reference to a accompaniment
- * 
- * @param id identifier of the accompaniment
- */
-export function AccompanimentReference(id: string) {
-    return AccompanimentDocument(id);
+    return accompaniments;
 }
 
 /**
@@ -49,16 +54,11 @@ export function AccompanimentReference(id: string) {
  * 
  * @author Bruno Esparza
  * 
- * @returns list of accompaniments of the current academic period
+ * list all the accompaniments of the current academic period
  */
-export async function ListAccompanimentsCurrentPeriod(): Promise<Array<Accompaniment>> {
+export async function ListAccompanimentsCurrentPeriod(): Promise<Array<SGMAccompaniment.readDTO>> {
     const periodRef = await CurrentPeriodReference();
-    const collection = AccompanimentsCollection()
-        .where('period.reference', '==', periodRef)
-
-    const snap = await collection.get();
-
-    const accompaniments = snap.docs.map(doc => doc.data());
+    const accompaniments = ListAccompanimentsPeriod(periodRef.id);
 
     return accompaniments;
 }

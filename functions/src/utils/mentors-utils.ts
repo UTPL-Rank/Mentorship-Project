@@ -1,8 +1,7 @@
-import { CurrentPeriodReference } from "./period-utils";
+import { SGMMentor } from "@utpl-rank/sgm-helpers";
+import { firestore } from "firebase-admin";
+import { CurrentPeriodReference, PeriodDocument } from "./period-utils";
 import { dbFirestore } from "./utils";
-
-type Mentor = any;
-
 
 /**
  * Mentor Firestore Collection
@@ -26,8 +25,8 @@ function MentorCollection() {
  * 
  * @param id Identifier of the mentor document 
  */
-function MentorDocument(id: string) {
-    return MentorCollection().doc(id);
+export function _MentorDocument(id: string): firestore.DocumentReference<SGMMentor.readDTO> {
+    return MentorCollection().doc(id) as firestore.DocumentReference<SGMMentor.readDTO>;
 }
 
 /**
@@ -38,11 +37,11 @@ function MentorDocument(id: string) {
  * 
  * Get the reference to a mentor
  * 
+ * @deprecated use `_MentorDocument` instead
+ * 
  * @param id identifier of the mentor
  */
-export function MentorReference(id: string) {
-    return MentorDocument(id);
-}
+export const MentorReference = _MentorDocument;
 
 /**
  * List Mentors Current Period
@@ -52,14 +51,35 @@ export function MentorReference(id: string) {
  * 
  * @returns list of mentors of the current academic period
  */
-export async function ListMentorsCurrentPeriod(): Promise<Array<Mentor>> {
+export async function ListMentorsCurrentPeriod(): Promise<Array<SGMMentor.readDTO>> {
     const periodRef = await CurrentPeriodReference();
     const collection = MentorCollection()
         .where('period.reference', '==', periodRef)
 
     const snap = await collection.get();
 
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as SGMMentor.readDTO);
+
+    return mentors;
+}
+
+/**
+ * List Mentors Period
+ * ==================================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * Get all the students registered in an academic period
+ * 
+ * @param periodId identifier of the academic period
+ * 
+ * @returns list of mentors of the academic period
+ */
+export async function ListMentorsPeriod(periodId: string): Promise<Array<SGMMentor.readDTO>> {
+    const periodRef = PeriodDocument(periodId);
+    const collection = MentorCollection().where('period.reference', '==', periodRef)
+    const snap = await collection.get();
+    const mentors = snap.docs.map(doc => doc.data() as SGMMentor.readDTO);
 
     return mentors;
 }
@@ -74,6 +94,8 @@ export async function ListMentorsCurrentPeriod(): Promise<Array<Mentor>> {
  */
 function TimeTravelDate(days: number): Date {
     const today = new Date();
+    console.log('TODO: move function to correct file');
+
     today.setDate(today.getDate() + days);
     return today;
 }
@@ -86,16 +108,16 @@ function TimeTravelDate(days: number): Date {
  * 
  * Get a list of mentors that hasn't registered an accompaniment in the last two weeks
  */
-export async function ListMentorsWithNoRecentAccompaniment(): Promise<Array<Mentor>> {
+export async function ListMentorsWithNoRecentAccompaniments(): Promise<Array<SGMMentor.readDTO>> {
     const periodRef = await CurrentPeriodReference();
-    const twoWeeksAgo = TimeTravelDate(-14);
+    const twoWeeksAgo = TimeTravelDate(-21);
 
     const collection = dbFirestore.collection('mentors')
         .where('period.reference', '==', periodRef)
         .where('stats.lastAccompaniment', '<=', twoWeeksAgo);
 
     const snap = await collection.get();
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as SGMMentor.readDTO);
 
     return mentors;
 }
@@ -108,15 +130,54 @@ export async function ListMentorsWithNoRecentAccompaniment(): Promise<Array<Ment
  * 
  * Get a list of mentors that doesn't have registered an accompaniment yet
  */
-export async function ListMentorsWithNoAccompaniments(): Promise<Array<Mentor>> {
+export async function ListMentorsWithNoRegisteredAccompaniments(): Promise<Array<SGMMentor.readDTO>> {
     const periodRef = await CurrentPeriodReference();
 
     const collection = dbFirestore.collection('mentors')
         .where('period.reference', '==', periodRef)
-        .where('stats.lastAccompaniment', '==', null);
+        .where('stats.accompanimentsCount', '==', 0);
 
     const snap = await collection.get();
-    const mentors = snap.docs.map(doc => doc.data());
+    const mentors = snap.docs.map(doc => doc.data() as SGMMentor.readDTO);
 
     return mentors;
+}
+
+/**
+ * Mentor Detail Evaluation
+ * ==================================
+ * 
+ * @author Bruno Esparza
+ * 
+ * Get the details evaluation of a mentor
+ * 
+ * @param mentorId identifier of the mentor
+ */
+export async function GetMentorDetailsEvaluation(mentorId: string): Promise<{ mentorFirstTime: boolean } | null> {
+    const mentorRef = _MentorDocument(mentorId);
+    const evalRef = mentorRef.collection('evaluation').doc('details');
+    const snap = await evalRef.get();
+    const detailsEval = snap.exists ? snap.data() as { mentorFirstTime: boolean } : null;
+
+    return detailsEval;
+}
+
+export async function OneMentor(mentorId: string): Promise<SGMMentor.readDTO | null> {
+    const mentorDoc = MentorCollection().doc(mentorId) as firestore.DocumentReference<SGMMentor.readDTO>;
+    const snapshot = await mentorDoc.get();
+    const mentor = snapshot.exists ? snapshot.data() as SGMMentor.readDTO : null;
+
+    return mentor;
+}
+export async function FindOneMentorFromPeriod(mentorEmail: string, periodId: string): Promise<SGMMentor.readDTO | null> {
+    console.log('can return a boolean');
+
+    const periodRef = PeriodDocument(periodId)
+    const mentorsQuery = MentorCollection().where('email', '==', mentorEmail).where('period.reference', '==', periodRef) as firestore.CollectionReference<SGMMentor.readDTO>;
+    const snaps = await mentorsQuery.get();
+
+    if (snaps.size !== 1)
+        return null
+
+    return snaps.docs[0].data();
 }

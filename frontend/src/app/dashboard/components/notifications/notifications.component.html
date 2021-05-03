@@ -1,0 +1,82 @@
+<ng-container *ngIf="notifications">
+  <div class="notification">
+    <!-- visible -->
+    <button class="button" [ngClass]="{'button-primary': unread}" title="Notificaciones">
+      <ng-container *ngIf="unread">+</ng-container>
+      <i class="fas fa-bell"></i>
+    </button>
+
+    <!-- menu content -->
+    <div class="notification--content">
+      <!-- notification header -->
+      <div class="notification--header">
+        <span class="text-body2">
+          Notificaciones
+        </span>
+      </div>
+      <!-- end header -->
+
+      <!-- list of notification items -->
+      <div class="notification--items">
+        <!-- action to enable notifications -->
+        <ng-container [ngTemplateOutlet]="enableNotificationsTemplate" *ngIf="showEnableNotifications |async">
+        </ng-container>
+
+        <!-- notifications -->
+        <ng-container *ngFor="let notification of notifications">
+          <button (click)="handleRedirect(notification)" class="notification--item">
+            <b class="displayName text-body-2" [ngClass]="{'text-primary': !notification.read}">
+              {{notification.name}}
+            </b>
+            <span class="text-caption">
+              {{notification.message}}
+            </span>
+            <small class="text-caption text-reduce-contrast">
+              {{notification.time.toDate() | date:'long'}}
+            </small>
+          </button>
+        </ng-container>
+      </div>
+
+      <span class="notification--footer text-caption">
+        <span>
+          <ng-container *ngIf="notifications.length == 9">+</ng-container>{{notifications.length}} notificaciones
+        </span>
+        <ng-container *ngIf="!(showEnableNotifications |async)">
+          <button class="bordeleses-button" (click)="removeMessaging()">
+            Desactivar Notificaciones
+          </button>
+        </ng-container>
+        <ng-container *ngIf="showEnableNotifications |async">
+          <button class="bordeleses-button" (click)="requestSubscription()">
+            Activar Notificaciones
+          </button>
+        </ng-container>
+      </span>
+    </div>
+  </div>
+</ng-container>
+
+
+<!--
+  ========================================================
+  Enable notifications
+
+  Show users an action to enable notifications on their device
+  ========================================================
+ -->
+<ng-template #enableNotificationsTemplate>
+  <div class="notification--enable">
+    <b class="displayName text-body-2">
+      Activa las notificaciones
+    </b>
+    <span class="content text-caption">
+      Si activas las notificaciones te llegaran alertas importantes a tu dispositivo.
+      <br>
+      Puedes desactivarlas en cualquier momento
+    </span>
+    <button class="button button-primary text-caption" (click)="requestSubscription()">
+      Activar
+    </button>
+  </div>
+</ng-template>

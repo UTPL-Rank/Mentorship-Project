@@ -1,0 +1,16 @@
+<div class="px-4 pt-3 pb-1 bg-white rounded-sm flex flex-col items-stretch">
+  <!-- message owner -->
+  <div class="mb-2">
+    <ng-content select="sgm-message-text-sender"></ng-content>
+  </div>
+
+  <!-- content -->
+  <div class="mb-1">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- date -->
+  <div class="self-end">
+    <ng-content select="sgm-message-text-date"></ng-content>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<!-- sign-in header -->
+<h1 class="display-4 mb-4">
+  Iniciar sesión.
+</h1>
+
+<!-- sign-in paragraph -->
+<p class="text-muted mb-4 small">
+  Inicia sesión para continuar a la pagina solicitada.
+</p>
+
+<form [formGroup]="signInForm" (ngSubmit)="login()" class="d-flex flex-column">
+  <!-- Input group -->
+  <div class="input-group mb-3">
+    <!-- UTPL username -->
+    <input formControlName="username"
+      [ngClass]="{'is-valid': usernameControl.valid, 'is-invalid': usernameControl.invalid && usernameControl.touched}"
+      type="text" class="form-control" placeholder="Usuario UTPL" aria-label="Usuario UTPL" aria-describedby=""
+      name="username">
+
+    <!-- leading -->
+    <div class="input-group-append">
+      <span class="input-group-text">
+        @utpl.edu.ec
+      </span>
+    </div>
+  </div>
+
+  <!-- only email error -->
+  <ng-container *ngIf="usernameControl.invalid && usernameControl.touched">
+    <small class="text-danger">
+      <!-- required message -->
+      <ng-container *ngIf="usernameControl.errors?.required">
+        Debes ingresar tu usuario para continuar.
+      </ng-container>
+    </small>
+  </ng-container>
+
+  <!-- sign-in button -->
+  <button class="btn btn-primary lift btn-sm my-4" type="submit">
+    Iniciar Sesión
+  </button>
+
+  <!-- disclaimer -->
+  <p class="text-muted small mb-4">
+    Si no puedes ingresar, llena la siguiente <a target="_blank" href="https://forms.gle/CpNp5XHPeJBBaGaK6">
+      ficha </a>
+  </p>
+</form>

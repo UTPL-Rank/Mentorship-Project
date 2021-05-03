@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "sgmentores"
+  },
+  "targets": {
+    "sgmentores": {
+      "hosting": {
+        "webapp": [
+          "sgmentores"
+        ]
+      }
+    }
+  }
+}
