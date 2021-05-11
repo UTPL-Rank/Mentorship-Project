@@ -25,6 +25,14 @@ firebase use default
 firebase use develop    
 ```
 
+**Firebase deploy functions**
+
+```sh
+firebase deploy --only functions    
+```
+
 ## License
 
 MIT License - see LICENSE
+
+
