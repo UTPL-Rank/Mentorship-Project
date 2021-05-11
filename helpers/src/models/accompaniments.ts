@@ -180,6 +180,8 @@ export namespace SGMAccompaniment {
 
     export function translateQualification(condition: QualificationType): string {
 
+        //Modificar aquí valores
+
         if (condition === 'sgm#1')
             return 'Pésimo'
         if (condition === 'sgm#2')
