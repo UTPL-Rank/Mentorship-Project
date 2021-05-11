@@ -2,5 +2,6 @@ import nodemailer = require("nodemailer/lib/mailer");
 
 export interface EmailDTO extends nodemailer.Options {
     id: string,
-    sended: false,
+    sended: boolean,
+    sendedDate: Date | null
 }

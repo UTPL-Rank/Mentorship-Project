@@ -19,10 +19,14 @@ const _SendUserMails = async (payload: QueryDocumentSnapshot, { params }: functi
     const { username, mailId } = params;
 
     const transport = Mailer.instance;
-    const updater = new UpdateEmail(username, { id: mailId, sended: true });
+    const updater = new UpdateEmail(username, { id: mailId, sended: true, sendedDate: new Date() });
 
     await transport.send(mail);
     await updater.save();
 };
 
-export const SendUserMails = functions.firestore.document('users/{username}/mails/{mailId}').onCreate(_SendUserMails);
+export const SendUserMails = functions
+    .runWith({ maxInstances: 2 })
+    .firestore
+    .document('users/{username}/mails/{mailId}')
+    .onCreate(_SendUserMails);
