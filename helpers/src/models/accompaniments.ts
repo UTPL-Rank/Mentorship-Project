@@ -183,15 +183,15 @@ export namespace SGMAccompaniment {
         //Modificar aquí valores
 
         if (condition === 'sgm#1')
-            return 'Pésimo'
+            return 'Insatisfactorio 😔'
         if (condition === 'sgm#2')
-            return 'Malo'
+            return 'Poco Satisfactorio 😕'
         if (condition === 'sgm#3')
-            return 'Regular'
+            return 'Regular 😐 '
         if (condition === 'sgm#4')
-            return 'Bueno'
+            return 'Satisfactorio 😄 '
         if (condition === 'sgm#5')
-            return 'Excelente'
+            return 'Muy Satisfactorio 😁'
 
         return `Error: ${condition}`;
     }
