@@ -8,8 +8,6 @@ export class NeverRegisterAccompanimentEmail implements IEmailTemplate<INeverReg
     ) { }
 
     public html(): string {
-        // Modifica HTML con el correo que se enviará a los mentores
-        // que nunca han registrado un acompañamiento
         return `
             <div class="Pagina"
                 style="max-width: 600px; padding: 90px; margin: auto; border-collapse: collapse; background-color:#f4ab14 ; box-shadow: 0px 35px #003f72 inset, 0px -35px #003f72 inset;">
@@ -30,8 +28,10 @@ export class NeverRegisterAccompanimentEmail implements IEmailTemplate<INeverReg
                     <div style="font-family: inherit; text-align: inherit"> <br> </div>
                     <div style="font-family: inherit; text-align: inherit"> <span
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                            Te notificamos que, al momento, cuentas con cero (0) acompañamientos registrados, recuerda que el apoyo brindado a tus estudiantes es suma importancia, por lo que te solicitamos de
-                            por favor, inicies el acompañamiento y registres oportunamente el mismo en la plataforma, para ello, usa el siguiente enlace. </span> <span 
+                            Te notificamos que, al momento, cuentas con cero (0) acompañamientos registrados, 
+                            recuerda que el apoyo brindado a tus estudiantes es de suma importancia, por lo que te solicitamos
+                            por favor, inicies el acompañamiento y registres oportunamente el mismo en la plataforma, 
+                            para ello, usa el siguiente enlace. </span> <span 
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                             Accede a través del siguiente enlace para registrar un acompañamiento.&nbsp; </span> </div>
                     <td align="center" bgcolor="#007bff" class="inner-td"
