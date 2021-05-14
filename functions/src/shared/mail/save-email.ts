@@ -29,12 +29,13 @@ export class SaveEmail<T> {
             to,
             subject,
             html,
+            sendedDate = null
         } = email.mail();
 
         if (!to || !subject || !html)
             throw new Error("Missing attributes in mail");
 
-        this._email = { id, sended, from, to, subject, html } as const;
+        this._email = { id, sended, sendedDate, from, to, subject, html } as const;
     }
 
     public async save(): Promise<void> {

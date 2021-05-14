@@ -1,15 +1,15 @@
 import { IEmailTemplate } from "../i-email-template";
-import { IRememberRegisterAccompanimentEmailData } from "./i-remember-register-accompaniment-email-data";
+import { INeverRegisterAccompanimentEmailData } from "./i-never-register-accompaniment-email-data";
 
-export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRememberRegisterAccompanimentEmailData> {
+export class NeverRegisterAccompanimentEmail implements IEmailTemplate<INeverRegisterAccompanimentEmailData> {
 
     public constructor(
-        public readonly data: IRememberRegisterAccompanimentEmailData,
+        public readonly data: INeverRegisterAccompanimentEmailData,
     ) { }
 
     public html(): string {
-        // Modifica HTML con el correo que se enviará a los mentores que no han
-        // registrado un acompañamiento en los últimos 15 días
+        // Modifica HTML con el correo que se enviará a los mentores
+        // que nunca han registrado un acompañamiento
         return `
             <td style="font-size:6px; line-height:10px; padding:0px 0px 0px 0px;" valign="top" align="center">
                 <img class="max-width" border="0"
@@ -93,4 +93,7 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
             </div>
             `
     }
+
+
+
 }
