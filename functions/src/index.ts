@@ -6,6 +6,7 @@ export * from './callable/csv-mentors';
 export * from './callable/csv-student';
 export * from './callable/export-accompaniment';
 export * from './callable/messaging-token';
+export * from './callable/transfer-student';
 // cron tasks
 export * from './cron/analytics-calculator';
 export * from './cron/backup-firestore';

@@ -51,9 +51,9 @@ export const TransferStudent = functions.https.onCall(async (data: TransferStude
 
     const batch = dbFirestore.batch();
 
-    batch.update(_StudentDocument(student.id), studentUpdateData);
-    batch.update(_MentorDocument(oldMentor.id), oldMentorUpdateData);
-    batch.update(_MentorDocument(newMentor.id), newMentorUpdateData);
+    batch.set(_StudentDocument(student.id), studentUpdateData, {merge: true});
+    batch.set(_MentorDocument(oldMentor.id), oldMentorUpdateData, {merge: true});
+    batch.set(_MentorDocument(newMentor.id), newMentorUpdateData, {merge: true});
 
     try {
         await batch.commit();
