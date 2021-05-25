@@ -1,16 +1,13 @@
 import { IEmailTemplate } from "../i-email-template";
 import { IRememberRegisterAccompanimentEmailData } from "./i-remember-register-accompaniment-email-data";
-import {Pipe, PipeTransform} from '@angular/core'
-export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRememberRegisterAccompanimentEmailData> {
 
+export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRememberRegisterAccompanimentEmailData> {
 
     public constructor(
         public readonly data: IRememberRegisterAccompanimentEmailData,
     ) { }
 
     public html(): string {
-        
-        
 
         return `
             <script>
@@ -39,13 +36,13 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
                     <div style="font-family: inherit; text-align: inherit"> <br> </div>
                     <div style="font-family: inherit; text-align: inherit"> <span
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                            Hola, ${this.data.mentorName} </span> </div> fecha
+                            Hola, ${this.data.mentorName} </span> </div>
                     <div style="font-family: inherit; text-align: inherit"> <br> </div>
                     <div style="font-family: inherit; text-align: inherit"> <span
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                            Te recordamos que el último acompañamiento registrado fue el <p id = "fecha" ></p> 
-                            el apoyo que brindas a tus estudiantes es muy importante, te invitamos a ejecutar y 
-                            cargar tus acompañamientos realizados, a través del siguiente enlace. </span>  <span 
+                            Te recordamos que el último acompañamiento registrado fue el <span id="fecha" >Hola</span> 
+                            , el apoyo que brindas a tus estudiantes es muy importante, te invitamos a ejecutar y 
+                            cargar tus acompañamientos realizados. </span>  <span 
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                             Accede a través del siguiente enlace para registrar un acompañamiento.&nbsp; </span> </div>
                     <td align="center" bgcolor="#007bff" class="inner-td"

@@ -29,8 +29,8 @@ export class WelcomeEmail implements IEmailTemplate<IWelcomeEmailData>{
             <div style="font-family: inherit; text-align: inherit"> <br> </div>
             <div style="font-family: inherit; text-align: inherit"> <span
                     style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                    Te saludamos desde el Equipo del Proyecto Mentores, y bienvenido a al nuevo Sistema para el Acompañamiento
-                    Memorial, el cual puedes acceder a través del siguiente enlace: ${this.data.url}. </span> <span 
+                    Te saludamos desde el Equipo del Proyecto Mentores, y bienvenido al nuevo Sistema para el Acompañamiento
+                    Memorial, al cual puedes acceder a través del siguiente enlace: ${this.data.url}. </span> <span 
                     style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                     Visita el Sistema de Gestión Mentorial.&nbsp; </span> </div>
             <td align="center" bgcolor="#007bff" class="inner-td"
@@ -45,6 +45,7 @@ export class WelcomeEmail implements IEmailTemplate<IWelcomeEmailData>{
                     style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                     El acceso es solo para usuarios UTPL, y tus roles, serán asignados automáticamente, pero si hay algún problema
                     no dudes en contactarnos a proyectomentores@utpl.edu.ec. </span> </div>
+                    
             <div style="font-family: inherit; text-align: inherit"> <br> </div>
             <div style="font-family: inherit; text-align: inherit"> <span
                     style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
