@@ -40,7 +40,7 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
                     <div style="font-family: inherit; text-align: inherit"> <br> </div>
                     <div style="font-family: inherit; text-align: inherit"> <span
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                            Te recordamos que el último acompañamiento registrado fue el <span id="fecha" >Hola</span> 
+                            Te recordamos que el último acompañamiento registrado fue el <span id="fecha"></span>
                             , el apoyo que brindas a tus estudiantes es muy importante, te invitamos a ejecutar y 
                             cargar tus acompañamientos realizados. </span>  <span 
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">

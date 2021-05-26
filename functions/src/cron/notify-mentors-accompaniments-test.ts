@@ -13,7 +13,7 @@ import {BASE_URL} from '../utils/variables';
  */
 const CRON_EVERY_MONTH = '0 0 5,20 11,12,1,2,5,6,7,8 *';
 
-const MENTOR_ID_TEST = 'dmmedina7'
+const MENTOR_ID_TEST = 'testing-odmendoza'
 
 export const testNotifyMentors =
     functions
@@ -30,22 +30,23 @@ export const testNotifyMentors =
 
             // Notify Mentors With No Recent Accompaniments
             oneMentor.forEach(mentor => {
+                if (mentor){
+                    const username = UsernameFromEmail(mentor.email);
 
-                const username = UsernameFromEmail(mentor.email);
+                    const emailTemplate = new RememberRegisterAccompanimentEmail({
+                        redirectUrl: `${BASE_URL}/panel-control/${periodId}/acompañamientos/nuevo/${mentor.id}`,
+                        mentorName: mentor.displayName.toUpperCase(),
+                        lastAccompanimentDate: mentor.stats.lastAccompaniment?.toDate()
+                    } as any );
 
-                const emailTemplate = new RememberRegisterAccompanimentEmail({
-                    redirectUrl: `${BASE_URL}/panel-control/${periodId}/acompañamientos/nuevo/${mentor.id}`,
-                    mentorName: mentor.displayName.toUpperCase(),
-                    lastAccompanimentDate: mentor.stats.lastAccompaniment?.toDate()
-                } as any );
-
-                const genericEmail = new GeneralEmail(
-                    mentor.email,
-                    'Recuerda registrar el acompañamiento mentorial',
-                    emailTemplate,
-                );
-                const saver = new SaveEmail(username, genericEmail);
-                saver.saveSynced(batch);
+                    const genericEmail = new GeneralEmail(
+                        mentor.email,
+                        'Recuerda registrar el acompañamiento mentorial',
+                        emailTemplate,
+                    );
+                    const saver = new SaveEmail(username, genericEmail);
+                    saver.saveSynced(batch);
+                }
             });
 
             return await batch.commit();
