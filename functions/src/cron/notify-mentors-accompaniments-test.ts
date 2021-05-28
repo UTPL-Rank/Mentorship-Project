@@ -13,7 +13,8 @@ import {BASE_URL} from '../utils/variables';
  */
 const CRON_EVERY_MONTH = '0 0 5,20 11,12,1,2,5,6,7,8 *';
 
-const MENTOR_ID_TEST = 'testing-odmendoza'
+const MENTOR_ID_TEST_1 = 'abr21-ago21-odmendoza'
+const MENTOR_ID_TEST_2 = 'testing-dmmedina7'
 
 export const testNotifyMentors =
     functions
@@ -22,7 +23,10 @@ export const testNotifyMentors =
         .onRun(async _ => {
             console.log('Testing sending mails');
 
-            const oneMentor = await Promise.all([OneMentor(MENTOR_ID_TEST)]);
+            const oneMentor = await Promise.all([
+                OneMentor(MENTOR_ID_TEST_1),
+                OneMentor(MENTOR_ID_TEST_2)
+            ]);
 
             const {id: periodId} = await CurrentPeriod();
 
