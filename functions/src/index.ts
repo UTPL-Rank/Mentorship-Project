@@ -11,7 +11,7 @@ export * from './callable/transfer-student';
 export * from './cron/analytics-calculator';
 export * from './cron/backup-firestore';
 export * from './cron/notify-mentors-accompaniments';
-export * from './cron/notify-mentors-accompaniments-test';
+// export * from './cron/notify-mentors-accompaniments-test';
 // firestore
 export * from './firestore/accompaniments/new-accompaniment';
 export * from './firestore/chats';
