@@ -177,6 +177,21 @@
       </a>
     </ng-container>
 
+    <!-- Generación de reportes-->
+    <ng-container *ngIf="claims && claims.isAdmin && activePeriod.current">
+      <a
+        class="navbar--item tooltip tooltip-right"
+        data-tooltip="Generación de reportes"
+        [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes']"
+        routerLinkActive="active"
+      >
+        <div class="item--icon">
+          <i-feather name="printer"></i-feather>
+        </div>
+        <span class="item--text"> Generación de reportes </span>
+      </a>
+    </ng-container>
+
     <a
       class="navbar--item tooltip tooltip-right"
       data-tooltip="Soporte / Informar de un Error"

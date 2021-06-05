@@ -1,0 +1,82 @@
+<ng-container *ngIf="activePeriod">
+  <nav class="generate-report-navbar">
+    <!-- home -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a
+        class="navbar--item tooltip tooltip-right"
+        data-tooltip="Generación de reportes"
+        [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <div class="item--icon">
+          <i-feather name="home"></i-feather>
+        </div>
+        <span class="item--text"> Generación de reportes </span>
+      </a>
+    </ng-container>
+
+    <!-- students -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a
+        class="navbar--item tooltip tooltip-right"
+        data-tooltip="Estudiantes"
+        [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'estudiantes']"
+        routerLinkActive="active"
+      >
+        <div class="item--icon">
+          <i-feather name="pie-chart"></i-feather>
+        </div>
+        <span class="item--text"> Estudiantes </span>
+      </a>
+    </ng-container>
+
+    <!-- mentors -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a
+        class="navbar--item tooltip tooltip-right"
+        data-tooltip="Mentores"
+        [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'mentores']"
+        routerLinkActive="active"
+      >
+        <div class="item--icon">
+          <i-feather name="message-circle"></i-feather>
+        </div>
+        <span class="item--text"> Mentores </span>
+      </a>
+    </ng-container>
+
+    <!-- areas -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a
+        class="navbar--item tooltip tooltip-right"
+        data-tooltip="Áreas académicas"
+        [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'areas_academicas']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <div class="item--icon">
+          <i-feather name="list"></i-feather>
+        </div>
+        <span class="item--text"> Áreas académicas </span>
+      </a>
+    </ng-container>
+
+    <!-- general -->
+    <ng-container *ngIf="claims && claims.isAdmin">
+      <a
+        class="navbar--item tooltip tooltip-right"
+        data-tooltip="General"
+        [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'general']"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <div class="item--icon">
+          <i-feather name="users"></i-feather>
+        </div>
+        <span class="item--text"> General </span>
+      </a>
+    </ng-container>
+  </nav>
+</ng-container>
+
