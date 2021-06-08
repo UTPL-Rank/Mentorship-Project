@@ -1,19 +1,47 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { IsAdminGuard } from '../core/guards/is-admin.guard';
-import { GenerateReportsHomeComponent } from './pages/generate-reports-home/generate-reports-home.component';
+import {NgModule} from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {IsAdminGuard} from '../core/guards/is-admin.guard';
+import {GenerateReportsHomeComponent} from './pages/generate-reports-home/generate-reports-home.component';
+import {GenerateReportsStudentComponent} from './pages/generate-reports-student/generate-reports-student.component';
+import {GenerateReportsMentorComponent} from './pages/generate-reports-mentor/generate-reports-mentor.component';
+import {GenerateReportsAreaComponent} from './pages/generate-reports-area/generate-reports-area.component';
+import {GenerateReportsGeneralComponent} from './pages/generate-reports-general/generate-reports-general.component';
 
 const ROUTES: Routes = [
   {
     path: '',
-    component: GenerateReportsHomeComponent
-  },
-  {
-    path: ':studentId',
+    component: GenerateReportsHomeComponent,
     children: [
-      { path: 'informacion' }
+      {
+        path: 'estudiantes',
+        children: [{
+          path: '',
+          component: GenerateReportsStudentComponent
+        }]
+      },
+      {
+        path: 'mentores',
+        children: [{
+          path: '',
+          component: GenerateReportsMentorComponent
+        }]
+      },
+      {
+        path: 'areas_academicas',
+        children: [{
+          path: '',
+          component: GenerateReportsAreaComponent
+        }]
+      },
+      {
+        path: 'general',
+        children: [{
+          path: '',
+          component: GenerateReportsGeneralComponent
+        }]
+      },
     ]
-  },
+  }
 ];
 
 @NgModule({
