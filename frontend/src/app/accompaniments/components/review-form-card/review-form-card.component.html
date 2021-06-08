@@ -5,50 +5,75 @@
         <div class="col-12">
           <div class="form-group mb-5">
             <!-- leading -->
-            <label for="qualificationSelect">
-              ¿Qué valoración le daría?
-            </label>
+            <span>
+              ¿Recibio realmente el acompañamiento?
+            </span><br>
 
-            <!-- select -->
-            <select id="qualificationSelect" class="custom-select" formControlName="qualification"
-              [ngClass]="{ 'is-invalid': isQualificationInvalid }">
-              <ng-container *ngFor="let option of qualificationOptions">
-                <option [value]="option">
-                  {{ option | qualificationValue }}
-                </option>
+            
+             <!-- radio -->
+             <label >
+              <input type="radio" class="form-radio" name="isGiven" value="true" formControlName="isGiven"/>Sí 
+             </label><br>
+             <label >
+              <input type="radio" class="form-radio" name="isGiven" value="false" formControlName="isGiven">No
+             </label>
+
+              <!-- disable/enable form -->
+             <ng-container *ngIf="viewform === 'true'">
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group mb-5">
+                    <!-- leading -->
+                    <label for="qualificationSelect">
+                      ¿Qué valoración le daría?
+                    </label>
+        
+                    <!-- select -->
+                    <select id="qualificationSelect" class="custom-select" formControlName="qualification"
+                      [ngClass]="{ 'is-invalid': isQualificationInvalid }">
+                      <ng-container *ngFor="let option of qualificationOptions">
+                        <option [value]="option">
+                          {{ option | qualificationValue }}
+                        </option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group mb-5">
+                    <!-- leading -->
+                    <label for="commentTextarea">
+                      ¿Sugerencias u opiniones?
+                    </label>
+        
+                    <!-- textarea -->
+                    <textarea id="commentTextarea" placeholder="Comentanos si tienes una sugerencia!" formControlName="comment"
+                      class="form-control" rows="3"></textarea>
+                  </div>
+                </div>
+              </div>
+        
               </ng-container>
-            </select>
-          </div>
-        </div>
-      </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group mb-5">
-            <!-- leading -->
-            <label for="commentTextarea">
-              ¿Sugerencias u opiniones?
-            </label>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group mb-5">
+                    <!-- leading -->
+                    <label for="signature">
+                      Firma Digital
+                    </label>
+        
+                    <!-- signature -->
+                    <div id="signature">
+                      <sgm-sig-canvas></sgm-sig-canvas>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-            <!-- textarea -->
-            <textarea id="commentTextarea" placeholder="Comentanos si tienes una sugerencia!" formControlName="comment"
-              class="form-control" rows="3"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-12">
-          <div class="form-group mb-5">
-            <!-- leading -->
-            <label for="signature">
-              Firma Digital
-            </label>
-
-            <!-- signature -->
-            <div id="signature">
-              <sgm-sig-canvas></sgm-sig-canvas>
-            </div>
           </div>
         </div>
       </div>
