@@ -1,12 +1,11 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { SGMAcademicArea, SGMMentor } from '@utpl-rank/sgm-helpers';
-import { Observable, Subscription } from 'rxjs';
-import { map, mergeMap, switchMap, take } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, mergeMap } from 'rxjs/operators';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { TitleService } from '../../../core/services/title.service';
 import { UserService } from '../../../core/services/user.service';
-
 
 
 interface AreaStat {
@@ -80,5 +79,5 @@ export class GenerateReportsMentorComponent implements OnInit {
   ngOnInit() {
     this.title.setTitle('Estudiantes Mentores');
   }
-  
+
 }

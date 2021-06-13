@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { StudentsService } from '../../../core/services/students.service';
 import { ActivatedRoute } from '@angular/router';
 import { SGMAcademicPeriod, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { map, shareReplay, switchMap, take } from 'rxjs/operators';
+import { combineLatest, Observable, of } from 'rxjs';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
+import { StudentsService } from '../../../core/services/students.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { UserService } from '../../../core/services/user.service';
 
@@ -21,13 +21,12 @@ export interface ListStudentsQuery {
 })
 export class GenerateReportsStudentComponent implements OnInit {
 
-  constructor( 
+  constructor(
     private readonly route: ActivatedRoute,
     private readonly mentorsService: MentorsService,
     private readonly studentsService: StudentsService,
     public readonly auth: UserService,
-    ) { 
-
+    ) {
   }
   private params: Observable<{ periodId: string }> = this.route.params as any;
 
