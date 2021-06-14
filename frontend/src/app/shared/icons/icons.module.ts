@@ -14,7 +14,10 @@ import {
   Upload,
   Download,
   Users,
-  Printer
+  Printer,
+  Grid,
+  Menu,
+  Database
 } from 'angular-feather/icons';
 
 // Check all icons available: https://github.com/michaelbazos/angular-feather
@@ -35,6 +38,9 @@ const icons = {
   Users,
   Archive,
   Printer,
+  Grid,
+  Menu,
+  Database
 };
 
 @NgModule({

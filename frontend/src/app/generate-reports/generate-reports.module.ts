@@ -12,6 +12,7 @@ import { GenerateReportsAreaComponent } from './pages/generate-reports-area/gene
 import { GenerateReportsGeneralComponent } from './pages/generate-reports-general/generate-reports-general.component';
 import { GenerateReportsMentorsTableComponent } from './components/generate-reports-mentors-table/generate-reports-mentors-table.component';
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
+import { GenerateReportsComponent } from './pages/generate-reports/generate-reports.component';
 
 // Components
 const COMPONENTS = [
@@ -26,11 +27,12 @@ const PAGES = [
   GenerateReportsStudentComponent,
   GenerateReportsMentorComponent,
   GenerateReportsAreaComponent,
-  GenerateReportsGeneralComponent
+  GenerateReportsGeneralComponent,
+  GenerateReportsComponent
 ];
 
 @NgModule({
-  declarations: [PAGES, COMPONENTS],
+  declarations: [PAGES, COMPONENTS, GenerateReportsComponent],
   imports: [
     CommonModule,
     GenerateReportsRoutingModule,
