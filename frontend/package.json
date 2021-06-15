@@ -30,7 +30,9 @@
     "firebase": "^7.24.0",
     "firebase-admin": "^9.8.0",
     "firebase-functions": "^3.14.1",
+    "html-to-pdfmake": "^2.2.4",
     "ng2-charts": "^2.4.2",
+    "pdfmake": "^0.1.71",
     "rxjs": "~6.6.6",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
