@@ -10,7 +10,6 @@ import { UserClaims } from '../../../models/user-claims';
 @Component({
   selector: 'sgm-generate-reports-navbar',
   templateUrl: './generate-reports-navbar.component.html',
-  // styleUrls: ['./generate-reports-navbar.component.scss']
 })
 export class GenerateReportsNavbarComponent implements OnInit, OnDestroy {
 

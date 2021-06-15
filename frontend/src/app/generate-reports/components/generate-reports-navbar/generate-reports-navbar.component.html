@@ -27,6 +27,12 @@
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLinkActive="active"
+             [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'titulaciones']">
+            Titulaciones
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'areas_academicas']">
             Áreas académicas
           </a>
@@ -35,6 +41,12 @@
           <a class="nav-link" routerLinkActive="active"
              [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'general']">
             General
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLinkActive="active"
+             [routerLink]="['/panel-control', activePeriod.id, 'generar-reportes', 'evaluacion_final']">
+            Evaluación final
           </a>
         </li>
       </ul>

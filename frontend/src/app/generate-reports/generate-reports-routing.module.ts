@@ -7,6 +7,8 @@ import {GenerateReportsStudentComponent} from './pages/generate-reports-student/
 import {GenerateReportsMentorComponent} from './pages/generate-reports-mentor/generate-reports-mentor.component';
 import {GenerateReportsAreaComponent} from './pages/generate-reports-area/generate-reports-area.component';
 import {GenerateReportsGeneralComponent} from './pages/generate-reports-general/generate-reports-general.component';
+import {GenerateReportsDegreeComponent} from "./pages/generate-reports-degree/generate-reports-degree.component";
+import {GenerateReportsFinalComponent} from "./pages/generate-reports-final/generate-reports-final.component";
 
 const ROUTES: Routes = [
   {
@@ -35,6 +37,13 @@ const ROUTES: Routes = [
         }]
       },
       {
+        path: 'titulaciones',
+        children: [{
+          path: '',
+          component: GenerateReportsDegreeComponent
+        }]
+      },
+      {
         path: 'areas_academicas',
         children: [{
           path: '',
@@ -48,6 +57,13 @@ const ROUTES: Routes = [
           component: GenerateReportsGeneralComponent
         }]
       },
+      {
+        path: 'evaluacion_final',
+        children: [{
+          path: '',
+          component: GenerateReportsFinalComponent
+        }]
+      }
     ]
   }
 ];
