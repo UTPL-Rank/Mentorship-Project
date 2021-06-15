@@ -16,6 +16,8 @@ import { GenerateReportsMentorComponent } from './pages/generate-reports-mentor/
 import { GenerateReportsAreaComponent } from './pages/generate-reports-area/generate-reports-area.component';
 import { GenerateReportsGeneralComponent } from './pages/generate-reports-general/generate-reports-general.component';
 import { GenerateReportsComponent } from './pages/generate-reports/generate-reports.component';
+import { GenerateReportsDegreeComponent } from './pages/generate-reports-degree/generate-reports-degree.component';
+import { GenerateReportsFinalComponent } from './pages/generate-reports-final/generate-reports-final.component';
 
 
 // Components
@@ -28,12 +30,14 @@ const COMPONENTS = [
 
 // Pages
 const PAGES = [
+  GenerateReportsComponent,
   GenerateReportsHomeComponent,
   GenerateReportsStudentComponent,
   GenerateReportsMentorComponent,
+  GenerateReportsDegreeComponent,
   GenerateReportsAreaComponent,
   GenerateReportsGeneralComponent,
-  GenerateReportsComponent
+  GenerateReportsFinalComponent
 ];
 
 @NgModule({
