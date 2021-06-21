@@ -20,7 +20,7 @@ export interface ListStudentsQuery {
   ]
 })
 export class GenerateReportsStudentComponent implements OnInit {
-
+  filterString = '';
   constructor(
     private readonly route: ActivatedRoute,
     private readonly mentorsService: MentorsService,
@@ -49,7 +49,9 @@ export class GenerateReportsStudentComponent implements OnInit {
   public readonly showMentorName$: Observable<boolean> = this.mentor$.pipe(
     map(m => !m)
   );
-
+  public filterByName(e:any){
+    this.filterString = e.target.value;
+  }
   ngOnInit(): void {
   }
 
