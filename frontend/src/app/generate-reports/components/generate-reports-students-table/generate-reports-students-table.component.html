@@ -133,6 +133,7 @@
                 <ng-template #defaultDate> --/--/-- </ng-template>
               </td>
 
+<<<<<<< HEAD
               <td>
                 <a
                   class="btn btn-primary btn-sm small lift"
@@ -150,6 +151,15 @@
             </tr>
           </ng-container>
         </ng-container>
+=======
+          <td>
+            <a class="btn btn-primary btn-sm small lift" (click)="generatePDF(student.period.reference.id, student.mentor.reference.id, student.id)">
+              Ver Reporte
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+>>>>>>> 64f872c034d34036f2232fc72dabbf484d07c667
 
         <!-- no students message -->
         <ng-template #emptyMessage>

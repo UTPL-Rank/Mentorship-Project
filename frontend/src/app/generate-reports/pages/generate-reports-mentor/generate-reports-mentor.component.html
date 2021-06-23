@@ -1,6 +1,19 @@
+<sgm-page-header>
+  <sgm-page-header-title>
+    Mentores
+  </sgm-page-header-title>
+  <!--sgm-page-header-controls>
+    <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
+      Exportar Mentores
+    </button>
+  </sgm-page-header-controls-->
+  <p class="mb-0 ">
+    A continuación se muestra las lista de los Mentores que se encuentran registrados
+   en la plataforma.
+  </p>
+</sgm-page-header>
 <section class="pt-6 pt-md-9">
   <div class="container">
-    <h1>Lista Mentores</h1><br>
     <input type="text" class="form-control" placeholder="Buscar por nombre" (input)='searchString($event)' />
   </div>
 </section>
