@@ -60,8 +60,29 @@ export class GenerateReportsStudentsTableComponent {
       semesterKind: this.semesterKind,
       signature: this.signature}).html();
 
+    pdfMake.fonts = {
+      Roboto: {
+        normal: 'Roboto-Regular.ttf',
+        bold: 'Roboto-Medium.ttf',
+        italics: 'Roboto-Italic.ttf',
+        bolditalics: 'Roboto-MediumItalic.ttf'
+      }
+    };
+
     const htmlFromPdfMake = htmlToPdfmake(html);
-    const documentDefinition = { content: htmlFromPdfMake };
+    const documentDefinition = {
+      info: {
+        title: 'Reporte estudiantil',
+        author: 'Bryan Gómez'
+      },
+      pageSize: 'A4',
+      pageOrientation: 'landscape',
+      pageMargins: [ 40, 60, 40, 60 ],
+      content: htmlFromPdfMake,
+      defaultStyle: {
+        font: 'Roboto'
+      }
+    };
     pdfMake.createPdf(documentDefinition).open();
   }
 
