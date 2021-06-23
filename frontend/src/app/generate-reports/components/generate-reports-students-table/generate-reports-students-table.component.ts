@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import { Component, Input, OnChanges } from "@angular/core";
-import { SGMStudent } from "@utpl-rank/sgm-helpers";
-=======
-import {Component, Input} from '@angular/core';
+import {Component, Input,OnChanges} from '@angular/core';
 import { SGMAccompaniment, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 
 import { ScriptService } from '../../services/script.service';
@@ -11,18 +7,15 @@ import { MentorsService } from '../../../core/services/mentors.service';
 
 declare let pdfMake: any;
 declare let htmlToPdfmake: any;
->>>>>>> 64f872c034d34036f2232fc72dabbf484d07c667
+
 
 @Component({
-  selector: "sgm-generate-reports-students-table",
-  templateUrl: "./generate-reports-students-table.component.html",
-  styles: [],
+  selector: 'sgm-generate-reports-students-table',
+  templateUrl: './generate-reports-students-table.component.html',
 })
-<<<<<<< HEAD
+
 export class GenerateReportsStudentsTableComponent implements OnChanges {
   @Input() filterString: string = "";
-=======
-export class GenerateReportsStudentsTableComponent {
 
   constructor(
     private scriptService: ScriptService,
@@ -37,22 +30,21 @@ export class GenerateReportsStudentsTableComponent {
   public semesterKind!: SGMAccompaniment.SemesterType | null;
 
   public signature: string | undefined | null;
-
->>>>>>> 64f872c034d34036f2232fc72dabbf484d07c667
   public students!: Array<SGMStudent.readDTO>;
   public showMentorName = false;
   public filteredStudents: any = [];
-  @Input("students")
+
+  @Input('students')
   public set setStudents(students: Array<SGMStudent.readDTO>) {
     this.students = students;
   }
 
-  @Input("showMentorName")
+  @Input('showMentorName')
   public set _showMentorName(show: boolean) {
     this.showMentorName = show;
   }
 
-<<<<<<< HEAD
+
   ngOnChanges() {
     if (this.filterString) {
       this.filteredStudents = this.students.filter((student) =>
@@ -61,8 +53,7 @@ export class GenerateReportsStudentsTableComponent {
       console.log(this.filteredStudents);
     }
   }
-}
-=======
+
   generatePDF(periodId: string, mentorId: string, studentId: string): void {
 
     this.accompaniments = null;
@@ -107,4 +98,3 @@ export class GenerateReportsStudentsTableComponent {
   }
 
 }
->>>>>>> 64f872c034d34036f2232fc72dabbf484d07c667

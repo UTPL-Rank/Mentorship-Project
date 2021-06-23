@@ -86,6 +86,7 @@
               </td>
             </tr>
           </ng-container>
+
           <ng-container *ngIf="filteredStudents.length>=1">
             <tr *ngFor="let student of filteredStudents; let i = index">
               <th class="font-weight-bold text-muted small" scope="row">
@@ -132,34 +133,15 @@
                 </ng-container>
                 <ng-template #defaultDate> --/--/-- </ng-template>
               </td>
-
-<<<<<<< HEAD
               <td>
-                <a
-                  class="btn btn-primary btn-sm small lift"
-                  [routerLink]="[
-                    '/panel-control',
-                    student.period.reference.id,
-                    'historial-acompañamientos',
-                    student.mentor.reference.id,
-                    student.id
-                  ]"
-                >
+
+                <a class="btn btn-primary btn-sm small lift" (click)="generatePDF(student.period.reference.id, student.mentor.reference.id, student.id)">
                   Ver Reporte
                 </a>
               </td>
             </tr>
           </ng-container>
         </ng-container>
-=======
-          <td>
-            <a class="btn btn-primary btn-sm small lift" (click)="generatePDF(student.period.reference.id, student.mentor.reference.id, student.id)">
-              Ver Reporte
-            </a>
-          </td>
-        </tr>
-      </ng-container>
->>>>>>> 64f872c034d34036f2232fc72dabbf484d07c667
 
         <!-- no students message -->
         <ng-template #emptyMessage>
@@ -172,6 +154,7 @@
             </td>
           </tr>
         </ng-template>
+
       </tbody>
     </table>
   </div>
