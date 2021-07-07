@@ -18,6 +18,7 @@ import { GenerateReportsGeneralComponent } from './pages/generate-reports-genera
 import { GenerateReportsComponent } from './pages/generate-reports/generate-reports.component';
 import { GenerateReportsDegreeComponent } from './pages/generate-reports-degree/generate-reports-degree.component';
 import { GenerateReportsFinalComponent } from './pages/generate-reports-final/generate-reports-final.component';
+import { GenerateReportsDegreesTableComponent } from './components/generate-reports-degrees-table/generate-reports-degrees-table.component';
 
 
 // Components
@@ -41,7 +42,7 @@ const PAGES = [
 ];
 
 @NgModule({
-  declarations: [PAGES, COMPONENTS],
+  declarations: [PAGES, COMPONENTS, GenerateReportsDegreesTableComponent],
   imports: [
     CommonModule,
     GenerateReportsRoutingModule,

@@ -2,11 +2,6 @@
     <sgm-page-header-title>
       Áreas Académicas
     </sgm-page-header-title>
-    <!--sgm-page-header-controls>
-      <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
-        Exportar Mentores
-      </button>
-    </sgm-page-header-controls-->
     <p class="mb-0 ">
       A continuación se muestra las lista de las Áreas Académicas que contienen los mentores, estudiantes y acompañamientos realizados
      en la plataforma.
@@ -57,48 +52,4 @@
     </div>
   </ng-template>
   
-  
-  
-  <ng-template #navTemplate>
-    <!--ul class="mb-0 nav nav-tabs flex-nowrap" id="myTab" role="tablist" style="overflow: auto hidden;">
-      <li class="nav-item">
-        <a id="all-tab" aria-controls="all" role="tab" class="nav-link active text-nowrap" data-toggle="tab" href="#all"
-          aria-selected="true">
-          Todos
-          <span class="badge badge-primary">
-            {{(allMentors | async)?.length}}
-          </span>
-        </a>
-      </li>
-  
-      <!-- show all tabs of each area >
-      <ng-container *ngFor="let area of areaStats | async ">
-        <li class="nav-item">
-          <a [id]="area.id+'-tab'" [attr.aria-controls]="area.id" class="nav-link text-nowrap" data-toggle="tab"
-            [href]="'#'+area.id" role="tab" aria-selected="false">
-            {{area.name | titlecase}}
-            <span class="badge" [ngClass]="{
-          'badge-secondary': area.id === 'administrativa',
-          'badge-success': area.id === 'biologica',
-          'badge-info': area.id === 'sociohumanistica',
-          'badge-warning': area.id === 'tecnica'}">
-              {{area.mentors.length}}
-            </span>
-          </a>
-        </li>
-      </ng-container>
-    </ul-->
-  
-    <!-- main table history -->
-    <!--div class="tab-content" id="myTabContent">
-      <div aria-labelledby="all-tab" class="tab-pane fade show active" id="all" role="tabpanel">
-        <sgm-mentors-table [mentors]="allMentors | async"></sgm-mentors-table>
-      </div>
-  
-      <ng-container *ngFor="let area of areaStats | async ">
-        <div [id]="area.id" [attr.aria-labelledby]="area.id+'-tab'" class="tab-pane fade show" role="tabpanel">
-          <sgm-mentors-table [mentors]="area.mentors" [showArea]="false"></sgm-mentors-table>
-        </div>
-      </ng-container>
-    </div-->
-  </ng-template>
+  <ng-template #navTemplate></ng-template>

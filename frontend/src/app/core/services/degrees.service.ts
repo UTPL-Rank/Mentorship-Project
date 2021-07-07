@@ -23,9 +23,7 @@ export class DegreesService {
 
   public getDegreesCollection(): AngularFirestoreCollection<SGMAcademicDegree.readDTO> {
 
-      return this.angularFirestore.collection<SGMAcademicDegree.readDTO>(DEGREES_COLLECTION_NAME, q => q
-        .orderBy('displayName')
-      );
+      return this.angularFirestore.collection<SGMAcademicDegree.readDTO>(DEGREES_COLLECTION_NAME);
   }
 
   /**
@@ -36,7 +34,7 @@ export class DegreesService {
       .valueChanges()
       .pipe(
         mergeMap(async doc => {
-          await this.perf.trace('list-degrees');
+          await this.perf.trace('list-all-degrees');
           return doc;
         }),
         shareReplay(1),
