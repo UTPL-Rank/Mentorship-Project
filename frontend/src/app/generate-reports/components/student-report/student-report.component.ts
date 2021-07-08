@@ -176,15 +176,15 @@ export class StudentReportComponent implements OnInit, OnDestroy {
   toPdf(): void {
     const filename = `${this.student.id}.pdf`;
     const options = {
-      margin: [10, 5, 10, 5] ,
+      margin: 1 ,
       filename,
-      image: { type: 'jpeg' },
-      html2canvas: { scale: 0.8 },
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { scale: 2 },
       jsPDF: {
         orientation: 'l',
         unit: 'mm',
         format: 'a4',
-        fontSize: 10
+        fontSize: 5
       },
       pagebreak: { mode: 'avoid-all', before: '.report-student-content' }
     };
