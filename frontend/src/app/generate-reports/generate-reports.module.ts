@@ -7,6 +7,7 @@ import { GenerateReportsNavbarComponent } from './components/generate-reports-na
 import { GenerateReportsMentorsTableComponent } from './components/generate-reports-mentors-table/generate-reports-mentors-table.component';
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
 import { StudentReportComponent } from './components/student-report/student-report.component';
+import { CoverReportComponent } from './components/cover-report/cover-report.component';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -25,7 +26,8 @@ const COMPONENTS = [
   GenerateReportsNavbarComponent,
   GenerateReportsMentorsTableComponent,
   GenerateReportsStudentsTableComponent,
-  StudentReportComponent
+  StudentReportComponent,
+  CoverReportComponent
 ];
 
 // Pages

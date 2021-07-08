@@ -10,7 +10,7 @@ export class MicrosoftSignInService extends ISignIn<IMicrosoftSignInOptions> {
 
   constructor(
     private readonly afAuth: AngularFireAuth,
-    private readonly eventLog: AngularFireAnalytics,
+    // private readonly eventLog: AngularFireAnalytics,
   ) { super(); }
 
   async signIn(options?: IMicrosoftSignInOptions): Promise<void> {
@@ -31,7 +31,7 @@ export class MicrosoftSignInService extends ISignIn<IMicrosoftSignInOptions> {
       tenant: '6eeb49aa-436d-43e6-becd-bbdf79e5077d'
     });
 
-    await this.eventLog.logEvent('sign_an_action', { username });
+    // await this.eventLog.logEvent('sign_an_action', { username });
     return await this.afAuth.signInWithRedirect(microsoftProvider);
   }
 }

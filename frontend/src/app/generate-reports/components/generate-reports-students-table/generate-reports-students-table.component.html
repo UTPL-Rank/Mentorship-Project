@@ -76,7 +76,8 @@
                   [routerLink]="[
                     '/panel-control',
                     student.period.reference.id,
-                    'historial-acompañamientos',
+                    'generar-reportes',
+                    'estudiantes',
                     student.mentor.reference.id,
                     student.id
                   ]"
@@ -135,7 +136,16 @@
               </td>
 
               <td>
-            <a class="btn btn-primary btn-sm small lift" (click)="generatePDF(student.period.reference.id, student.mentor.reference.id, student.id)">
+<!--            <a class="btn btn-primary btn-sm small lift" (click)="generatePDF(student.period.reference.id, student.mentor.reference.id, student.id)">-->
+            <a class="btn btn-primary btn-sm small lift"
+               [routerLink]="[
+                    '/panel-control',
+                    student.period.reference.id,
+                    'generar-reportes',
+                    'estudiantes',
+                    student.mentor.reference.id,
+                    student.id
+                  ]">
               Ver Reporte
             </a>
           </td>

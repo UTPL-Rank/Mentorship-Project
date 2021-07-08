@@ -10,7 +10,7 @@ export class GenerateReportsMentorsTableComponent implements OnChanges {
   @Input() filterString = "";
   public mentors!: SGMMentor.readDTO;
 
-  @Input("mentors")
+  @Input('mentors')
   set setMentorsData(mentors: SGMMentor.readDTO) {
     this.mentors = mentors;
   }
