@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input,OnChanges} from '@angular/core';
 import { SGMAccompaniment, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 
 import { ScriptService } from '../../services/script.service';
@@ -9,11 +9,14 @@ import { PDFService } from '../../services/PDF.service';
 // declare let pdfMake: any;
 // declare let htmlToPdfmake: any;
 
+
 @Component({
   selector: 'sgm-generate-reports-students-table',
   templateUrl: './generate-reports-students-table.component.html',
 })
-export class GenerateReportsStudentsTableComponent {
+
+export class GenerateReportsStudentsTableComponent implements OnChanges {
+  @Input() filterString: string = "";
 
   constructor(
     private scriptService: ScriptService,
@@ -34,8 +37,6 @@ export class GenerateReportsStudentsTableComponent {
   public showMentorName = false;
   public filteredStudents: any = [];
 
-  @Input() filterString: string = '';
-
   @Input('students')
   public set setStudents(students: Array<SGMStudent.readDTO>) {
     this.students = students;
@@ -45,6 +46,7 @@ export class GenerateReportsStudentsTableComponent {
   public set _showMentorName(show: boolean) {
     this.showMentorName = show;
   }
+
 
   ngOnChanges() {
     if (this.filterString) {

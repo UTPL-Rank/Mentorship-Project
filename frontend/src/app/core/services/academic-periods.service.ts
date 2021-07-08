@@ -37,7 +37,7 @@ export class AcademicPeriodsService {
       if (period.id === 'testing' && !environment.production)
         period.current = true;
 
-      console.log(period);
+      /*/console.log(period);*/
 
       return period;
     }))

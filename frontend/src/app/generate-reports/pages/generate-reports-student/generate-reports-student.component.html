@@ -1,3 +1,12 @@
+<sgm-page-header>
+  <sgm-page-header-title>
+    Estudiantes
+  </sgm-page-header-title>
+  <p class="mb-0 ">
+    A continuación se muestra las lista de los Estudiantes que se encuentran registrados
+   en la plataforma.
+  </p>
+</sgm-page-header>
 <ng-container *ngIf="mentor$ | async as mentor">
     <sgm-page-header>
       <sgm-page-header-title>
@@ -13,7 +22,6 @@
   <ng-container *ngIf="auth.isAdmin | async">
     <section class="pt-6 pt-md-9">
       <div class="container">
-          <h1>Lista Estudiantes</h1><br>
         <input type="text" class="mb-3 form-control" (input)="filterByName($event)"  placeholder="Buscar por nombre"/>
         <sgm-mentor-filter-selector> </sgm-mentor-filter-selector>
       </div>
