@@ -2,11 +2,6 @@
   <sgm-page-header-title>
     Mentores
   </sgm-page-header-title>
-  <!--sgm-page-header-controls>
-    <button [disabled]="disabledButton" class="shadow btn btn-primary lift" (click)="exportCSV()">
-      Exportar Mentores
-    </button>
-  </sgm-page-header-controls-->
   <p class="mb-0 ">
     A continuación se muestra las lista de los Mentores que se encuentran registrados
    en la plataforma.
@@ -19,13 +14,9 @@
 </section>
 <ng-container *ngIf="areaStats | async">
   <section class="py-6 py-md-9">
-    <!--div class="container">
-        < areas stats>
-        <ng-container *ngTemplateOutlet="areasCards"></ng-container Aqui debe ir el buscador de mentores>
-      </div-->
-
+ 
+     <!-- table of students -->
     <div class="container">
-      <!-- table of students -->
       <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
     </div>
   </section>
