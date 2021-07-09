@@ -6,7 +6,10 @@ import { GenerateReportsRoutingModule } from './generate-reports-routing.module'
 import { GenerateReportsNavbarComponent } from './components/generate-reports-navbar/generate-reports-navbar.component';
 import { GenerateReportsMentorsTableComponent } from './components/generate-reports-mentors-table/generate-reports-mentors-table.component';
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
+import { GenerateReportsFinalTableComponent } from './components/generate-reports-final-table/generate-reports-final-table.component';
 import { GenerateReportsDegreesTableComponent } from './components/generate-reports-degrees-table/generate-reports-degrees-table.component';
+import { StudentReportComponent } from './components/student-report/student-report.component';
+
 import { CoverComponent } from './components/cover/cover.component';
 import { ReportComponent } from './components/report/report.component';
 
@@ -26,12 +29,17 @@ import { ReportsDegreeComponent } from './pages/reports-degree/reports-degree.co
 import { ReportsAreaComponent } from './pages/reports-area/reports-area.component';
 
 
+
+
 // Components
 const COMPONENTS = [
   GenerateReportsNavbarComponent,
   GenerateReportsDegreesTableComponent,
   GenerateReportsMentorsTableComponent,
   GenerateReportsStudentsTableComponent,
+  GenerateReportsFinalTableComponent,
+  GenerateReportsDegreesTableComponent,
+  StudentReportComponent,
   CoverComponent,
   ReportComponent
 ];
