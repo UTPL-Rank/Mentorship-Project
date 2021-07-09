@@ -1,1 +1,19 @@
-<p>reports-student works!</p>
+<div>
+  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">
+</div>
+
+<div class="container" id="content">
+
+  <br><sgm-cover [titleCover]="TITLE_COVER" [typeCover]="TYPE_COVER">
+
+</sgm-cover>
+
+  <sgm-report
+  [accompaniments]="accompaniments"
+  [student]="student"
+  [mentor]="mentor"
+  [academicPeriod]="mentor.period.reference.id"
+  [signature]="signature">
+  </sgm-report>
+
+</div>

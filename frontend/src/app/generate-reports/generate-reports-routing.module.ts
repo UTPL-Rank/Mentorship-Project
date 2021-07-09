@@ -13,6 +13,7 @@ import {StudentReportComponent} from './components/student-report/student-report
 import {ReportsMentorComponent} from './pages/reports-mentor/reports-mentor.component';
 import {ReportsDegreeComponent} from './pages/reports-degree/reports-degree.component';
 import {ReportsAreaComponent} from './pages/reports-area/reports-area.component';
+import {ReportsStudentComponent} from './pages/reports-student/reports-student.component';
 
 const ROUTES: Routes = [
   {
@@ -35,7 +36,7 @@ const ROUTES: Routes = [
           },
           {
             path: ':mentorId/:studentId',
-            component: StudentReportComponent
+            component: ReportsStudentComponent
           }
         ]
       },

@@ -21,6 +21,7 @@ import {mergeMap} from 'rxjs/operators';
 export class StudentReportComponent implements OnInit, OnDestroy {
 
   TITLE_COVER = 'FICHAS DE ACOMPAÑAMIENTO MENTORIAL';
+  TYPE_COVER = 'Estudiante de primer ciclo';
 
   // data
   public accompaniments!: SGMAccompaniment.readDTO[];
@@ -82,7 +83,6 @@ export class StudentReportComponent implements OnInit, OnDestroy {
       async result => this.signature = await result?.data
     );
 
-    console.log(this.signature);
 
   }
 

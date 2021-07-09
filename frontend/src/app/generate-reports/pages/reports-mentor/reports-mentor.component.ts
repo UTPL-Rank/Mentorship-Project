@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ExportToPdfService } from '../../../core/services/export-to-pdf.service';
+
 
 @Component({
   selector: 'sgm-reports-mentor',
@@ -8,11 +10,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ReportsMentorComponent implements OnInit {
 
-  TITLE_COVER = 'FICHAS DE ACOMPAÑAMIENTO MENTORIAL';
+  public TITLE_COVER = 'FICHAS DE ACOMPAÑAMIENTO MENTORIAL';
+  public TYPE_COVER = 'Estudiante mentor';
 
-  constructor() { }
+  constructor(
+    private exportToPdfService: ExportToPdfService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  toPdf(): void {
+    this.exportToPdfService.generate('odmendoza');
   }
 
 }

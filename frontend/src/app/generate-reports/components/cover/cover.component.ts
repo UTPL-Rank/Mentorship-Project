@@ -9,10 +9,16 @@ import {SGMMentor} from '@utpl-rank/sgm-helpers';
 export class CoverComponent {
 
   titleCover!: string;
+  typeCover!: string;
 
   @Input('titleCover')
   set setTitleCover(titleCover: string) {
     this.titleCover = titleCover;
+  }
+
+  @Input('typeCover')
+  set setTypeCover(typeCover: string) {
+    this.typeCover = typeCover;
   }
 
 

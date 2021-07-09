@@ -1,3 +1,15 @@
-<sgm-cover
-  [titleCover]="TITLE_COVER">
-</sgm-cover>
+<div>
+  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">
+</div>
+
+<div class="container" id="content">
+
+  <br><sgm-cover [titleCover]="TITLE_COVER" [typeCover]="TYPE_COVER">
+
+  </sgm-cover>
+
+  <sgm-report>
+
+  </sgm-report>
+
+</div>
