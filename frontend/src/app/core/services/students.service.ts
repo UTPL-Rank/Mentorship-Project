@@ -5,7 +5,7 @@ import { AngularFirePerformance } from '@angular/fire/performance';
 import { SGMStudent } from '@utpl-rank/sgm-helpers';
 import { firestore } from 'firebase/app';
 import { Observable, of } from 'rxjs';
-import { catchError, map, mergeMap, shareReplay } from 'rxjs/operators';
+import {catchError, map, mergeMap, shareReplay, tap} from 'rxjs/operators';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { BrowserLoggerService } from './browser-logger.service';
 import { MentorsService } from './mentors.service';
@@ -66,25 +66,23 @@ export class StudentsService {
       );
   }
 
-  public getStudentsOfMentorAndShare(mentorId: string, periodId: string): Observable<Array<SGMStudent.readDTO>> {
+  public getStudentsOfMentor(mentorId: string): Observable<Array<SGMStudent.readDTO>> {
+    const mentorRef = this.mentorsService.mentorRef(mentorId);
+
     return this.angularFirestore.collection<SGMStudent.readDTO>(
       STUDENTS_COLLECTION_NAME,
       query => {
-        const periodRef = this.periodsService.periodDocument(periodId).ref;
-        const mentorRef = this.mentorsService.mentorRef(mentorId);
-
         return query.orderBy('displayName')
-          .where('period.reference', '==', periodRef)
           .where('mentor.reference', '==', mentorRef);
       }
     )
       .valueChanges()
       .pipe(
-        mergeMap(async doc => {
-          await this.perf.trace('list-mentor-assigned-students');
-          return doc;
-        }),
-        shareReplay(1)
+            mergeMap(async doc => {
+              await this.perf.trace('list-assigned-students');
+              return doc;
+            }),
+          shareReplay(1)
       );
 
   }

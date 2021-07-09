@@ -1,16 +1,16 @@
-import { Component, Input, OnChanges } from "@angular/core";
-import { SGMMentor } from "@utpl-rank/sgm-helpers";
+import { Component, Input, OnChanges } from '@angular/core';
+import { SGMMentor } from '@utpl-rank/sgm-helpers';
 
 @Component({
-  selector: "sgm-generate-reports-mentors-table",
-  templateUrl: "./generate-reports-mentors-table.component.html",
+  selector: 'sgm-generate-reports-mentors-table',
+  templateUrl: './generate-reports-mentors-table.component.html',
 })
 export class GenerateReportsMentorsTableComponent implements OnChanges {
   filteredMentors: any[] = [];
-  @Input() filterString = "";
+  @Input() filterString = '';
   public mentors!: SGMMentor.readDTO;
 
-  @Input("mentors")
+  @Input('mentors')
   set setMentorsData(mentors: SGMMentor.readDTO) {
     this.mentors = mentors;
   }
