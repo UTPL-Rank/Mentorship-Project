@@ -1,19 +1,16 @@
 <div>
   <br>
-  <!--  <input type="button" value="Download PDF" class="btn btn-primary float-right" (click)="SavePDF()">-->
-  <!--  <input type="button" value="Download PDF" class="btn btn-primary float-right" (click)="generateReport()">-->
   <input type="button" value="Download PDF" class="btn btn-primary float-right" (click)="toPdf()">
 </div>
 <div class="container" id="content" #content>
   <!--cover report-->
-  <br>
-  <sgm-cover-report></sgm-cover-report>
-
+<!--  <br><sgm-cover-report></sgm-cover-report>-->
+  <sgm-cover
+    [titleCover]="TITLE_COVER">
+  </sgm-cover>
   <span class="report-student-content"></span>
   <div class="text-print">
     <div class="container mt-5">
-<!--      <img src="assets/logo_vicerrectorado_academico.jpg" style="width: 40vw;"/>-->
-
       <header class="mt-3 d-flex align-items-center flex-column">
         <h3 class="font-weight-bold">
           FICHA DE ACOMPAÑAMIENTO MENTORIAL
@@ -190,5 +187,4 @@
       </div>
     </div>
   </div>
-
 </div>

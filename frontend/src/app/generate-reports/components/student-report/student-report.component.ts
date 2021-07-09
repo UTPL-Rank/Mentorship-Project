@@ -10,8 +10,6 @@ import {UserService} from '../../../core/services/user.service';
 // @ts-ignore
 import * as html2pdf from 'html2pdf.js';
 
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
 import {Observable, Subscription} from 'rxjs';
 import {mergeMap} from 'rxjs/operators';
 
@@ -21,6 +19,8 @@ import {mergeMap} from 'rxjs/operators';
   styles: []
 })
 export class StudentReportComponent implements OnInit, OnDestroy {
+
+  TITLE_COVER = 'FICHAS DE ACOMPAÑAMIENTO MENTORIAL';
 
   // data
   public accompaniments!: SGMAccompaniment.readDTO[];
@@ -93,86 +93,6 @@ export class StudentReportComponent implements OnInit, OnDestroy {
     return '';
   }
 
-  public SavePDF(): void {
-    const filename = `${this.student.id}.pdf`;
-
-    const pdf = new jsPDF('l', 'mm', 'a4');
-
-    pdf.addPage('a4');
-    pdf.html(
-      this.content.nativeElement, {
-        html2canvas: {
-          scale: 0.2,
-        },
-        margin: [10, 20, 10, 20],
-        x: 20,
-        y: 20,
-        callback: pdf => {
-          pdf.setFontSize(10);
-          pdf.save(filename);
-        }
-      }
-    );
-  }
-
-  public generateReport(): void {
-    const input = document.getElementById('content');
-    // @ts-ignore
-    html2canvas(input, {useCORS: true, allowTaint: true, scrollY: 0}).then((canvas) => {
-      const image = {type: 'jpeg', quality: 0.98};
-      const margin = [0.5, 0.5];
-      const filename = 'myfile.pdf';
-
-      const imgWidth = 8.5;
-      let pageHeight = 11;
-
-      const innerPageWidth = imgWidth - margin[0] * 2;
-      const innerPageHeight = pageHeight - margin[1] * 2;
-
-      // Calculate the number of pages.
-      const pxFullHeight = canvas.height;
-      const pxPageHeight = Math.floor(canvas.width * (pageHeight / imgWidth));
-      const nPages = Math.ceil(pxFullHeight / pxPageHeight);
-
-      // Define pageHeight separately so it can be trimmed on the final page.
-      pageHeight = innerPageHeight;
-
-      // Create a one-page canvas to split up the full image.
-      const pageCanvas = document.createElement('canvas');
-      const pageCtx = pageCanvas.getContext('2d');
-      pageCanvas.width = canvas.width;
-      pageCanvas.height = pxPageHeight;
-
-      // Initialize the PDF.
-      const pdf = new jsPDF('p', 'in', [8.5, 11]);
-
-      for (let page = 0; page < nPages; page++) {
-        // Trim the final page to reduce file size.
-        if (page === nPages - 1 && pxFullHeight % pxPageHeight !== 0) {
-          pageCanvas.height = pxFullHeight % pxPageHeight;
-          pageHeight = (pageCanvas.height * innerPageWidth) / pageCanvas.width;
-        }
-
-        // Display the page.
-        const w = pageCanvas.width;
-        const h = pageCanvas.height;
-        // @ts-ignore
-        pageCtx.fillStyle = 'white';
-        // @ts-ignore
-        pageCtx.fillRect(0, 0, w, h);
-        // @ts-ignore
-        pageCtx.drawImage(canvas, 0, page * pxPageHeight, w, h, 0, 0, w, h);
-
-        // Add the page to the PDF.
-        if (page > 0) pdf.addPage();
-        const imgData = pageCanvas.toDataURL('image/' + image.type, image.quality);
-        pdf.addImage(imgData, image.type, margin[1], margin[0], innerPageWidth, pageHeight);
-      }
-
-      pdf.save();
-    });
-  }
-
   toPdf(): void {
     const filename = `${this.student.id}.pdf`;
     const options = {
@@ -199,7 +119,6 @@ export class StudentReportComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    // Unsubscribe
     this.accompanimentsSubscription.unsubscribe();
     this.studentSubscription.unsubscribe();
     this.mentorSubscription.unsubscribe();

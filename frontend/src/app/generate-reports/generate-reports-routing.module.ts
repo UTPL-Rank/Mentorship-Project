@@ -10,6 +10,9 @@ import {GenerateReportsGeneralComponent} from './pages/generate-reports-general/
 import {GenerateReportsDegreeComponent} from './pages/generate-reports-degree/generate-reports-degree.component';
 import {GenerateReportsFinalComponent} from './pages/generate-reports-final/generate-reports-final.component';
 import {StudentReportComponent} from './components/student-report/student-report.component';
+import {ReportsMentorComponent} from './pages/reports-mentor/reports-mentor.component';
+import {ReportsDegreeComponent} from './pages/reports-degree/reports-degree.component';
+import {ReportsAreaComponent} from './pages/reports-area/reports-area.component';
 
 const ROUTES: Routes = [
   {
@@ -41,13 +44,22 @@ const ROUTES: Routes = [
         children: [{
           path: '',
           component: GenerateReportsMentorComponent
-        }]
+        },
+          {
+            path: ':mentorId',
+            component: ReportsMentorComponent
+          }
+        ]
       },
       {
         path: 'titulaciones',
         children: [{
           path: '',
           component: GenerateReportsDegreeComponent
+        },
+          {
+          path: ':degreeId',
+          component: ReportsDegreeComponent
         }]
       },
       {
@@ -55,6 +67,10 @@ const ROUTES: Routes = [
         children: [{
           path: '',
           component: GenerateReportsAreaComponent
+        },
+          {
+          path: ':areaId',
+          component: ReportsAreaComponent
         }]
       },
       {
