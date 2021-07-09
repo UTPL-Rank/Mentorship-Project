@@ -48,7 +48,6 @@ export class UserService {
     map(claims => !!claims?.isAdmin)
   );
 
-
   public notificationsStream: Observable<Array<Notification>> = this.username$.pipe(
     map(username => username ? this.firestore.collection('users').doc(username) : null),
     map(userDoc => userDoc?.collection<Notification>('notifications', q => q.limit(9).orderBy('time', 'desc'))),
@@ -62,6 +61,13 @@ export class UserService {
     map(snap => snap?.exists ? snap.data() as UserSignature : null),
     shareReplay(1),
   );
+
+  public signatureOf(username2: string): Observable<UserSignature | null> {
+    return this.signatureDocument(username2).get().pipe(
+        map(snap => snap?.exists ? snap.data() as UserSignature : null),
+        shareReplay(1)
+      );
+  }
 
   public currentUserData: Observable<{ [key: string]: any } | null> = this.username$.pipe(
     switchMap(username => username ? this.userDocument(username).valueChanges() : of(null)),
