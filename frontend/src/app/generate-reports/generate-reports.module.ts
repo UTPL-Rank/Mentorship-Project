@@ -7,6 +7,7 @@ import { GenerateReportsNavbarComponent } from './components/generate-reports-na
 import { GenerateReportsMentorsTableComponent } from './components/generate-reports-mentors-table/generate-reports-mentors-table.component';
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
 import { StudentReportComponent } from './components/student-report/student-report.component';
+import { GenerateReportsFinalTableComponent } from './components/generate-reports-final-table/generate-reports-final-table.component';
 
 import { SharedModule } from '../shared/shared.module';
 
@@ -21,12 +22,16 @@ import { GenerateReportsFinalComponent } from './pages/generate-reports-final/ge
 import { GenerateReportsDegreesTableComponent } from './components/generate-reports-degrees-table/generate-reports-degrees-table.component';
 
 
+
+
 // Components
 const COMPONENTS = [
   GenerateReportsNavbarComponent,
   GenerateReportsMentorsTableComponent,
   GenerateReportsStudentsTableComponent,
-  StudentReportComponent
+  StudentReportComponent,
+  GenerateReportsFinalTableComponent,
+  GenerateReportsDegreesTableComponent
 ];
 
 // Pages
@@ -42,7 +47,7 @@ const PAGES = [
 ];
 
 @NgModule({
-  declarations: [PAGES, COMPONENTS, GenerateReportsDegreesTableComponent],
+  declarations: [PAGES, COMPONENTS],
   imports: [
     CommonModule,
     GenerateReportsRoutingModule,
