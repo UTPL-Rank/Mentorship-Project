@@ -7,7 +7,6 @@ import { GenerateReportsNavbarComponent } from './components/generate-reports-na
 import { GenerateReportsMentorsTableComponent } from './components/generate-reports-mentors-table/generate-reports-mentors-table.component';
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
 import { GenerateReportsDegreesTableComponent } from './components/generate-reports-degrees-table/generate-reports-degrees-table.component';
-import { StudentReportComponent } from './components/student-report/student-report.component';
 import { CoverComponent } from './components/cover/cover.component';
 import { ReportComponent } from './components/report/report.component';
 
@@ -33,7 +32,6 @@ const COMPONENTS = [
   GenerateReportsDegreesTableComponent,
   GenerateReportsMentorsTableComponent,
   GenerateReportsStudentsTableComponent,
-  StudentReportComponent,
   CoverComponent,
   ReportComponent
 ];

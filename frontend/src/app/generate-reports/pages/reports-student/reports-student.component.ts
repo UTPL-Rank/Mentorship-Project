@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import { ExportToPdfService } from '../../../core/services/export-to-pdf.service';
 import { SGMAccompaniment, SGMMentor, SGMStudent } from '@utpl-rank/sgm-helpers';
 import { Subscription } from 'rxjs';
@@ -15,7 +15,7 @@ import { ActivatedRoute, Params } from '@angular/router';
   styles: [
   ]
 })
-export class ReportsStudentComponent implements OnInit {
+export class ReportsStudentComponent implements OnInit, OnDestroy {
 
   public TITLE_COVER = 'FICHAS DE ACOMPAÑAMIENTO MENTORIAL';
   public TYPE_COVER = 'Estudiante de primer ciclo';
@@ -80,6 +80,13 @@ export class ReportsStudentComponent implements OnInit {
 
   toPdf(): void {
     this.exportToPdfService.generate(this.student.id);
+  }
+
+  ngOnDestroy(): void{
+  this.accompanimentsSubscription.unsubscribe();
+  this.mentorSubscription.unsubscribe();
+  this.studentSubscription.unsubscribe();
+  this.userSubscription.unsubscribe();
   }
 
 }

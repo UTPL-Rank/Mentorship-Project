@@ -4,12 +4,20 @@
 
 <div class="container" id="content">
 
-  <br><sgm-cover [titleCover]="TITLE_COVER" [typeCover]="TYPE_COVER">
-
+  <br>
+  <sgm-cover
+  [titleCover]="TITLE_COVER"
+  [typeCover]="TYPE_COVER">
   </sgm-cover>
 
-  <sgm-report>
-
-  </sgm-report>
+  <ng-container *ngFor="let student of students; index as i;">
+    <sgm-report class="report-student-content"
+      [accompaniments]="accompaniments[i]"
+      [student]="student"
+      [mentor]="mentor"
+      [signature]="signature"
+      [academicPeriod]="mentor.period.reference.id">
+    </sgm-report>
+  </ng-container>
 
 </div>
