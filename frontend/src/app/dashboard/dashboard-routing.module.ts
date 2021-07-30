@@ -56,6 +56,14 @@ const routes: Routes = [
         path: 'subir-informacion', loadChildren: () => import('../upload/upload.module').then(m => m.UploadModule),
         canActivate: [IsAdminGuard, CurrentPeriodActiveGuard]
       },
+      // ==================
+      // Reports generate feature
+      // ==================
+      {
+        path: 'generar-reportes', loadChildren: () => import('../generate-reports/generate-reports.module')
+          .then(m => m.GenerateReportsModule),
+        canActivate: [IsAdminGuard, CurrentPeriodActiveGuard]
+      },
 
       // ==================
       // Mentors feature

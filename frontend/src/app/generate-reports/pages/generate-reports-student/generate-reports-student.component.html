@@ -1,0 +1,45 @@
+<sgm-page-header>
+  <sgm-page-header-title>
+    Estudiantes
+  </sgm-page-header-title>
+  <p class="mb-0 ">
+    A continuación se muestra las lista de los Estudiantes que se encuentran registrados
+   en la plataforma.
+  </p>
+</sgm-page-header>
+<ng-container *ngIf="mentor$ | async as mentor">
+    <sgm-page-header>
+      <sgm-page-header-title>
+        {{ mentor.displayName | titlecase }}
+      </sgm-page-header-title>
+  
+      <sgm-page-header-subtitle> Estudiante Mentor </sgm-page-header-subtitle>
+  
+      <b>Periodo Académico:</b> {{ mentor.period.name | titlecase }}
+    </sgm-page-header>
+  </ng-container>
+  
+  <ng-container *ngIf="auth.isAdmin | async">
+    <section class="pt-6 pt-md-9">
+      <div class="container">
+        <input type="text" class="mb-3 form-control" (input)="filterByName($event)"  placeholder="Buscar por nombre"/>
+        <sgm-mentor-filter-selector> </sgm-mentor-filter-selector>
+      </div>
+    </section>
+  </ng-container>
+  
+  <ng-container *ngIf="mentor$ | async as mentor">
+    <section class="pt-6 pt-md-9">
+      <div class="container">
+        <sgm-mentor-stats [mentor]="mentor$ | async"></sgm-mentor-stats>
+      </div>
+    </section>
+  </ng-container>
+  
+  <section class="container py-6">
+    <sgm-generate-reports-students-table
+      [students]="students$ | async"
+      [showMentorName]="showMentorName$ | async"
+      [filterString]='filterString'
+    ></sgm-generate-reports-students-table>
+  </section>
