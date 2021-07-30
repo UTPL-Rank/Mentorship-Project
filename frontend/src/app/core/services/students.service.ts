@@ -84,7 +84,6 @@ export class StudentsService {
             }),
           shareReplay(1)
       );
-
   }
 
   public list$(options: { periodId?: string, mentorId?: string, limit: number }): Observable<Array<SGMStudent.readDTO>> {

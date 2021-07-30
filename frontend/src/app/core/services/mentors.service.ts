@@ -9,6 +9,7 @@ import { map, mergeMap, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluationDetails, MentorEvaluationObservations } from '../../models/mentor.model';
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
+import { DegreesService } from './degrees.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
 
@@ -20,6 +21,7 @@ export class MentorsService {
     private readonly perf: AngularFirePerformance,
     private readonly periodsService: AcademicPeriodsService,
     private readonly reportsService: ReportsService,
+    private readonly degreesService: DegreesService,
   ) { }
 
   public getMentorsCollection(periodId?: string): AngularFirestoreCollection<SGMMentor.readDTO> {
@@ -51,6 +53,28 @@ export class MentorsService {
         map(mentors => [...mentors]),
       );
   }
+
+  public getMentorsOfDegree(periodId: string, degreeId: string): Observable<Array<SGMMentor.readDTO>> {
+      const periodRef = this.periodsService.periodDocument(periodId).ref;
+      const degreeRef = this.degreesService.degreeRef(degreeId);
+
+      return this.angularFirestore.collection<SGMMentor.readDTO>(
+        MENTORS_COLLECTION_NAME,
+        query => {
+          return query.orderBy('displayName')
+            .where('degree.reference', '==', degreeRef)
+            .where('period.reference', '==', periodRef);
+        }
+      )
+        .valueChanges()
+        .pipe(
+              mergeMap(async doc => {
+                await this.perf.trace('list-mentors-of-degree');
+                return doc;
+              }),
+            shareReplay(1)
+        );
+    }
 
   private mentorDocument(mentorId: string): AngularFirestoreDocument<SGMMentor.readDTO> {
     return this.getMentorsCollection().doc(mentorId);

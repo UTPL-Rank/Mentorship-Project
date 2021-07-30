@@ -1,1 +1,37 @@
-<p>reports-degree works!</p>
+<!--<div>-->
+<!--  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">-->
+<!--</div>-->
+
+<div class="container" id="content">
+
+  <br>
+  <sgm-cover
+    [titleCover]="TITLE_COVER"
+    [typeCover]="TYPE_COVER">
+  </sgm-cover>
+
+  <p>Acompaniments - {{ accompaniments.length}}</p>
+  <p>studentsAndAccompaniments - {{ studentsAndAccompaniments.length}}</p>
+  <p>students - {{ students.length}}</p>
+  <p> Total mentores - {{ mentors.length}}</p>
+  <p> signatures - {{ signatures.length }}</p>
+
+  <ng-container *ngFor="let mentor of mentors; index as m;">
+    <ng-container *ngFor="let student of students[m]; index as s;">
+        <sgm-report *ngIf="m > 0" class="report-student-content"
+                    [accompaniments]="accompaniments[i]"
+                    [student]="student"
+                    [mentor]="mentor"
+                    [signature]="signatures[m]"
+                    [academicPeriod]="mentor.period.reference.id">
+        </sgm-report>
+      <sgm-report *ngIf="m === 0" class="report-student-content"
+                  [accompaniments]="accompaniments[m]"
+                  [student]="student"
+                  [mentor]="mentor"
+                  [signature]="signatures[m]"
+                  [academicPeriod]="mentor.period.reference.id">
+      </sgm-report>
+    </ng-container>
+  </ng-container>
+</div>

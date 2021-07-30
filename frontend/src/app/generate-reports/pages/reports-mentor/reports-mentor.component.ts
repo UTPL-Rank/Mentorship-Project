@@ -63,10 +63,7 @@ export class ReportsMentorComponent implements OnInit, OnDestroy {
                     }
                 }
               ).subscribe(
-                async values => {
-                  this.accompaniments.push(values as Array<SGMAccompaniment.readDTO>);
-                  console.log(values.length);
-                }
+                async values => this.accompaniments.push(values as Array<SGMAccompaniment.readDTO>)
               );
             }
           }

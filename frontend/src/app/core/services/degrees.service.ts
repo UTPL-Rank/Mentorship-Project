@@ -22,7 +22,6 @@ export class DegreesService {
   ) { }
 
   public getDegreesCollection(): AngularFirestoreCollection<SGMAcademicDegree.readDTO> {
-
       return this.angularFirestore.collection<SGMAcademicDegree.readDTO>(DEGREES_COLLECTION_NAME);
   }
 

@@ -8,7 +8,6 @@ import { GenerateReportsMentorsTableComponent } from './components/generate-repo
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
 import { GenerateReportsFinalTableComponent } from './components/generate-reports-final-table/generate-reports-final-table.component';
 import { GenerateReportsDegreesTableComponent } from './components/generate-reports-degrees-table/generate-reports-degrees-table.component';
-import { StudentReportComponent } from './components/student-report/student-report.component';
 
 import { CoverComponent } from './components/cover/cover.component';
 import { ReportComponent } from './components/report/report.component';
@@ -39,7 +38,6 @@ const COMPONENTS = [
   GenerateReportsStudentsTableComponent,
   GenerateReportsFinalTableComponent,
   GenerateReportsDegreesTableComponent,
-  StudentReportComponent,
   CoverComponent,
   ReportComponent
 ];
