@@ -51,11 +51,9 @@ export class ReportsStudentComponent implements OnInit, OnDestroy {
     this.accompanimentsSubscription = this.accompanimentsService.accompanimentsStream(
       {
         orderBy:
-          {timeCreated: 'asc'},
+          { timeCreated: 'asc' },
         where:
-          {
-            studentId: studentIdParam,
-          }
+          { studentId: studentIdParam }
       }
     ).subscribe(
       async values => this.accompaniments = values as Array<SGMAccompaniment.readDTO>

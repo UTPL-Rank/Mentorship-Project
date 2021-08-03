@@ -37,6 +37,19 @@ export class MentorsService {
     return this.angularFirestore.collection<SGMMentor.readDTO>(MENTORS_COLLECTION_NAME);
   }
 
+  public getMentorsOfDegreeCollection(periodId: string, degreeId: string): AngularFirestoreCollection<SGMMentor.readDTO> {
+    const periodRef = this.periodsService.periodDocument(periodId).ref;
+    const degreeRef = this.degreesService.degreeRef(degreeId);
+
+    return this.angularFirestore.collection<SGMMentor.readDTO>(
+      MENTORS_COLLECTION_NAME,
+      query => {
+        return query.orderBy('displayName')
+          .where('degree.reference', '==', degreeRef)
+          .where('period.reference', '==', periodRef);
+      });
+  }
+
   /**
    * Get mentors of an specific academic period
    * @param periodId period to get the mentors from

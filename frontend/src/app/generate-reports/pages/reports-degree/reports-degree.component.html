@@ -10,28 +10,15 @@
     [typeCover]="TYPE_COVER">
   </sgm-cover>
 
-  <p>Acompaniments - {{ accompaniments.length}}</p>
-  <p>studentsAndAccompaniments - {{ studentsAndAccompaniments.length}}</p>
-  <p>students - {{ students.length}}</p>
-  <p> Total mentores - {{ mentors.length}}</p>
-  <p> signatures - {{ signatures.length }}</p>
-
-  <ng-container *ngFor="let mentor of mentors; index as m;">
-    <ng-container *ngFor="let student of students[m]; index as s;">
-        <sgm-report *ngIf="m > 0" class="report-student-content"
-                    [accompaniments]="accompaniments[i]"
-                    [student]="student"
-                    [mentor]="mentor"
-                    [signature]="signatures[m]"
-                    [academicPeriod]="mentor.period.reference.id">
-        </sgm-report>
-      <sgm-report *ngIf="m === 0" class="report-student-content"
-                  [accompaniments]="accompaniments[m]"
-                  [student]="student"
-                  [mentor]="mentor"
-                  [signature]="signatures[m]"
-                  [academicPeriod]="mentor.period.reference.id">
-      </sgm-report>
-    </ng-container>
+  <ng-container *ngFor="let mentorWithInformation of mentorsWithInformation">
+        <ng-container *ngFor="let studentWithAccompaniments of mentorWithInformation.studentsWithAccompaniments">
+          <sgm-report *ngIf="studentWithAccompaniments.accompaniments.length > 0" class="report-student-content"
+                      [accompaniments]="studentWithAccompaniments.accompaniments"
+                      [student]="studentWithAccompaniments.student"
+                      [mentor]="mentorWithInformation.mentor"
+                      [signature]="mentorWithInformation.signature?.data"
+                      [academicPeriod]="mentorWithInformation.mentor.period.reference.id">
+          </sgm-report>
+        </ng-container>
   </ng-container>
 </div>
