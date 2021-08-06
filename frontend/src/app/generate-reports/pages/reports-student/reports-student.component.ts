@@ -74,7 +74,9 @@ export class ReportsStudentComponent implements OnInit, OnDestroy {
   }
 
   toPdf(): void {
-    this.exportToPdfService.generate(this.student.id);
+    // @ts-ignore
+    const content: Element = document.getElementById('content');
+    this.exportToPdfService.generate(this.student.id, content);
   }
 
   ngOnDestroy(): void{

@@ -86,7 +86,9 @@ export class ReportsMentorComponent implements OnInit, OnDestroy {
   }
 
   toPdf(): void {
-    this.exportToPdfService.generate(this.mentor.id);
+    // @ts-ignore
+    const content: Element = document.getElementById('content');
+    this.exportToPdfService.generate(this.mentor.id, content);
   }
 
 }
