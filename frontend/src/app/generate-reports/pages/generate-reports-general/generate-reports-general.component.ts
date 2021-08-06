@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import { SGMAcademicArea, SGMMentor } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
 import { map, mergeMap, switchMap, take } from 'rxjs/operators';
@@ -25,6 +25,9 @@ export class GenerateReportsGeneralComponent implements OnInit {
   cantidadMentores = 0;
   cantidadEstudiantes = 0;
   cantidadAcompanamientos = 0;
+
+  public periodId!: string;
+  private paramsSubscription!: Subscription;
 
   constructor(
     private readonly title: TitleService,
@@ -91,6 +94,13 @@ export class GenerateReportsGeneralComponent implements OnInit {
           }
         }
       );
+
+      this.paramsSubscription = this.route.params.subscribe(
+        async (params: Params) => {
+          this.periodId = params.periodId;
+        }
+      );
+
     }
 
 

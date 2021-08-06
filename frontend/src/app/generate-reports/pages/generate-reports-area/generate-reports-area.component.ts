@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Params} from '@angular/router';
 import { SGMAcademicArea, SGMMentor } from '@utpl-rank/sgm-helpers';
 import { Observable, Subscription } from 'rxjs';
 import { map, mergeMap, switchMap, take } from 'rxjs/operators';
@@ -22,6 +22,9 @@ interface AreaStat {
   ]
 })
 export class GenerateReportsAreaComponent implements OnInit {
+
+  public periodId!: string;
+  private paramsSubscription!: Subscription;
 
   constructor(
     private readonly title: TitleService,
@@ -78,7 +81,12 @@ export class GenerateReportsAreaComponent implements OnInit {
 
   ngOnInit() {
     this.title.setTitle('Estudiantes Mentores');
+    this.paramsSubscription = this.route.params.subscribe(
+      async (params: Params) => {
+        this.periodId = params.periodId;
+      }
+    );
   }
-  
+
 
 }

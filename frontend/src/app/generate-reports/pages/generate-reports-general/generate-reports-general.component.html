@@ -26,7 +26,13 @@
     <div class="mb-6  row ">
       <ng-container>
         <div class="mb-12 col-12 col-sm-12 col-xl mb-md-12">
-          <div class="shadow card bg-light lift ">
+          <div class="shadow card bg-light lift" [routerLink]="[
+                    '/panel-control',
+                    periodId,
+                    'generar-reportes',
+                    'general',
+                    'view-report'
+                  ]">
             <div class="card-body badge-warning "style="width: 100%; margin: auto auto;">
               <!-- card-title -->
               <h6 class="mb-2 text-nowrap overflow-elipsis">

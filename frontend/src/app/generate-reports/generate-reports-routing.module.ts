@@ -13,6 +13,8 @@ import { ReportsMentorComponent } from './pages/reports-mentor/reports-mentor.co
 import { ReportsDegreeComponent } from './pages/reports-degree/reports-degree.component';
 import { ReportsAreaComponent } from './pages/reports-area/reports-area.component';
 import { ReportsStudentComponent } from './pages/reports-student/reports-student.component';
+import {ReportsGeneralComponent} from "./pages/reports-general/reports-general.component";
+import {ReportsFinalEvaluationComponent} from "./pages/reports-final-evaluation/reports-final-evaluation.component";
 
 const ROUTES: Routes = [
   {
@@ -20,7 +22,7 @@ const ROUTES: Routes = [
     component: GenerateReportsComponent,
     children: [
       {
-        path: 'menú',
+        path: 'home',
         children: [{
           path: '',
           component: GenerateReportsHomeComponent
@@ -63,7 +65,7 @@ const ROUTES: Routes = [
         }]
       },
       {
-        path: 'areas_academicas',
+        path: 'areas-academicas',
         children: [{
           path: '',
           component: GenerateReportsAreaComponent
@@ -78,13 +80,22 @@ const ROUTES: Routes = [
         children: [{
           path: '',
           component: GenerateReportsGeneralComponent
-        }]
+        },
+          {
+            path: 'view-report',
+            component: ReportsGeneralComponent
+          }
+        ]
       },
       {
-        path: 'evaluacion_final',
+        path: 'evaluacion-final',
         children: [{
           path: '',
           component: GenerateReportsFinalComponent
+        },
+          {
+          path: ':mentorId',
+          component: ReportsFinalEvaluationComponent
         }]
       }
     ]
