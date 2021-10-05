@@ -12,6 +12,7 @@ import {
 } from '../../../models/mentor.model';
 import {take} from 'rxjs/operators';
 import {AcademicPeriodsService} from "../../../core/services/academic-periods.service";
+import {ExportToPdfService} from "../../../core/services/export-to-pdf.service";
 
 type FinalEvaluation = {
   mentor: SGMMentor.readDTO;
@@ -50,7 +51,8 @@ export class ReportsFinalEvaluationComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly userService: UserService,
     private readonly academicPeriodsService: AcademicPeriodsService,
-    private readonly mentorsService: MentorsService
+    private readonly mentorsService: MentorsService,
+    private readonly exportToPdfService: ExportToPdfService
   ) { }
 
   ngOnInit(): void {
@@ -76,6 +78,12 @@ export class ReportsFinalEvaluationComponent implements OnInit {
       }
     );
 
+  }
+
+  toPdf(): void {
+    // @ts-ignore
+    const content: Element = document.getElementById('content');
+    this.exportToPdfService.generate(`Evaluación final - ${this.mentor.id}`, content);
   }
 
 }

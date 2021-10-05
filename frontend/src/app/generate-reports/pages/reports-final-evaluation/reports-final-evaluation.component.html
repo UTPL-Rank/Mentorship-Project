@@ -1,6 +1,6 @@
-<!--<div>-->
-<!--  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">-->
-<!--</div>-->
+<div>
+  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">
+</div>
 
 <div class="container" id="content">
   <br>
@@ -8,237 +8,233 @@
     [titleCover]="TITLE_COVER"
     [typeCover]="TYPE_COVER">
   </sgm-cover>
+
+  <br><br>
+
+  <ng-container>
+    <div class="container">
+      <div class="mentor-data">
+        <br><br>
+        <table>
+          <tr>
+            <td width="250px">
+              <b>Nombres y apellidos del Mentor Compañero:</b>
+            </td>
+            <td colspan="4" width="300px" id="name"> {{ mentor.displayName | titlecase }} </td>
+            <td width="300px">
+              <b>Titulación de los estudiantes de nuevo ingreso asignados:</b>
+            </td>
+            <td id="studentsDegrees">
+              <span *ngFor="let degree of mentor.students.degrees"> {{ degree | titlecase }} </span>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Titulación del mentor compañero:</b></td>
+            <td colspan="4" id="mentorDegree">{{ mentor.degree.name | titlecase }}</td>
+            <td><b>Período Académico en el que ingresan los estudiantes nuevos:</b></td>
+            <td id="studentsCicles">
+              <span *ngIf="mentor.students.cycles[0] === 'sgm#second'"> {{ prevPeriod.name | titlecase }} </span>
+              <span *ngIf="mentor.students.cycles[0] === 'sgm#first'"> {{ mentor.period.name | titlecase }} </span>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Veces que ha participado como mentor compañero:</b></td>
+            <td width="50px">Primera vez</td>
+            <td width="40px" id="mentorFirstTimeTrue">
+              <span *ngIf="mentor.firstYear">&#10004;</span>
+            </td>
+            <td width="50px">Más de una vez</td>
+            <td width="40px" id="mentorFirstTimeFalse">
+              <span *ngIf="!mentor.firstYear">&#10004;</span>
+            </td>
+            <td><b>Periodo académico en el cual se ejecutó el acompañamiento:</b></td>
+            <td id="mentorAcademicPeriod">{{ mentor.period.name }}</td>
+          </tr>
+        </table>
+      </div>
+      <br>
+      <p>
+        Fecha:
+        <span id="reportDate"> {{ reportDate }} </span>
+      </p>
+      <br>
+
+      <!--    Detalle  -->
+      <!-- info -->
+      <div class="detail">
+        <table>
+          <thead>
+          <tr>
+            <td colspan="5">
+              <b>PARTE A: INFORME DEL MENTOR COMPAÑERO</b>
+              <br>
+              (Debe ser llenada por el Mentor Compañero)
+            </td>
+
+          </tr>
+          <tr>
+            <th colspan="5">Acompañamiento Mentorial</th>
+          </tr>
+          <tr>
+            <th colspan="5">Detalle del acompañamiento</th>
+          </tr>
+
+          <tr>
+            <th rowspan="2" width="200px">
+              <b>1.1 Nro. De estudiantes de nuevo ingreso asignados</b>
+            </th>
+            <td rowspan="2" width="50px" id="assignedStudents"> {{ mentor.stats.assignedStudentCount }} </td>
+            <th rowspan="3" width="300px">
+              Principales problemáticas presentadas por los estudiantes de nuevo ingreso y soluciones
+              dadas:
+            </th>
+            <td colspan="2" rowspan="3" width="300px" id="principalProblems"> {{ details.principalProblems }} </td>
+          </tr>
+          <tr>
+          </tr>
+          <tr>
+            <th>
+              <b>1.2 Nro. De Estudiantes de nuevo ingreso que recibieron acompañamiento.</b>
+            </th>
+            <td id="withAccompaniments"> {{ mentor.students.withAccompaniments.length }} </td>
+          </tr>
+          <tr>
+            <th>
+              <b>1.3 Nro. De Estudiantes de nuevo ingreso que no participan del proyecto.</b>
+            </th>
+            <td id="withoutAccompaniments"> {{ mentor.students.withoutAccompaniments.length }} </td>
+            <th>
+              Causas principales por las que los estudiantes no recibieron acompañamiento:
+            </th>
+            <td colspan="2" id="studentsWithoutAccompaniments"> {{ details.studentsWithoutAccompaniments }} </td>
+          </tr>
+          </thead>
+          <!-- Activities  -->
+          <tbody>
+          <tr>
+            <th colspan="6">
+              <b>
+                (2) Actividades o medios a través de las cuales realizó el acompañamiento
+              </b>
+            </th>
+          </tr>
+          <tr>
+            <th>Actividad</th>
+            <th colspan="2">Detalle de la actividad</th>
+            <th>Actividad</th>
+            <th colspan="2">Detalle de la actividad</th>
+          </tr>
+          <tr>
+            <td><b>Reuniones</b></td>
+            <td colspan="2" id="meetings"> {{ activities.meetings }} </td>
+            <td><b>Actividades recreativas y deportivas</b></td>
+            <td colspan="2" id="sports"> {{ activities.sports }} </td>
+          </tr>
+          <tr>
+            <td><b>Evento académico</b></td>
+            <td colspan="2" id="academicEvent"> {{ activities.academicEvent }} </td>
+            <td><b>Eventos sociales</b></td>
+            <td colspan="2" id="socialEvent"> {{ activities.socialEvent }} </td>
+          </tr>
+          <tr>
+            <td><b>Acompañamiento virtual</b></td>
+            <td colspan="2" id="virtualAccompaniment"> {{ activities.virtualAccompaniment }} </td>
+            <td><b>Otros:</b><br></td>
+            <td colspan="2" id="otherActivities"> {{ activities.other }} </td>
+          </tr>
+          <!--    depend -->
+          <tr>
+            <th colspan="6"> (3) Dependencias o personas a través de los cuales se resolvieron las
+              problemáticas de los estudiantes
+            </th>
+          </tr>
+          <tr>
+            <th>Figura</th>
+            <th colspan="2">Detalle del apoyo recibido</th>
+            <th>Figura</th>
+            <th colspan="2">Detalle del apoyo recibido</th>
+          </tr>
+          <tr>
+            <td><b>Coordinador de Titulación</b></td>
+            <td colspan="2" id="coordinator"> {{ dependencies.coordinator }} </td>
+            <td><b>Docentes</b></td>
+            <td colspan="2" id="teachers"> {{ dependencies.teachers }} </td>
+          </tr>
+          <tr>
+            <td><b>Misiones Universitarias</b></td>
+            <td colspan="2" id="missions"> {{ dependencies.missions }} </td>
+            <td><b>Vicerrectorado Académico</b></td>
+            <td colspan="2" id="chancellor"> {{ dependencies.chancellor }} </td>
+          </tr>
+          <tr>
+            <td><b>Biblioteca</b></td>
+            <td colspan="2" id="library"> {{ dependencies.library }} </td>
+            <td><b>Resuelto en primera instancia por el mentor</b></td>
+            <td colspan="2" id="firstSolvedByMentor"> {{ dependencies.firstSolvedByMentor }} </td>
+          </tr>
+          <tr>
+            <td><b>Servicios Estudiantiles</b></td>
+            <td colspan="2" id="otherServices"> {{ dependencies.otherServices }} </td>
+            <td><b>Otros:</b><br></td>
+            <td colspan="2" id="otherDependencies"> {{ dependencies.other }} </td>
+          </tr>
+          </tbody>
+          <!--  remark -->
+          <tfoot>
+          <tr>
+            <td colspan="5">
+              <b>PARTE B: OBSERVACIONES GENERALES DEL PROYECTO</b>
+              <br>
+              (Debe ser llenado por el Mentor Compañero)
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <b>Puntos positivos de las actividades desarrolladas durante el semestre:</b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" id="positives"> {{ observations.positives }} </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <b>Principales inconvenientes detectados:</b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" id="inconveniences"> {{ observations.inconveniences }} </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <b>Sugerencias que puedan ayudar a mejorar el proyecto:</b>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5" id="suggestions"> {{ observations.suggestions }} </td>
+          </tr>
+          <!-- firm -->
+          <tr>
+            <td colspan="3" class="space_firm">
+              <img id="reportSignature" alt="Firma del Mentor" [src]="signature">
+            </td>
+            <td colspan="3" class="space_firm"></td>
+          </tr>
+          <tr>
+            <th colspan="3" class="firm">
+              Firma del mentor compañero
+            </th>
+            <th colspan="3" class="firm">
+              Firma responsable del proyecto
+            </th>
+          </tr>
+          </tfoot>
+        </table>
+
+      </div>
+      <p>
+        <small id="generatedBy"></small>
+      </p>
+    </div>
+  </ng-container>
+
 </div>
-
-<br><br>
-
-<ng-container>
-  <div class="container">
-    <div class="mentor-data">
-      <table>
-        <tr>
-          <td width="250px">
-            <b>Nombres y apellidos del Mentor Compañero:</b>
-          </td>
-          <td colspan="4" width="300px" id="name"> {{ mentor.displayName | titlecase }} </td>
-          <td width="300px">
-            <b>Titulación de los estudiantes de nuevo ingreso asignados:</b>
-          </td>
-          <td id="studentsDegrees">
-            <span *ngFor="let degree of mentor.students.degrees" > {{ degree | titlecase }} </span>
-          </td>
-        </tr>
-        <tr>
-          <td><b>Titulación del mentor compañero:</b></td>
-          <td colspan="4" id="mentorDegree">{{ mentor.degree.name | titlecase }}</td>
-          <td><b>Período Académico en el que ingresan los estudiantes nuevos:</b></td>
-          <td id="studentsCicles">
-            <span *ngIf="mentor.students.cycles[0] === 'sgm#second'"> {{ prevPeriod.name | titlecase }} </span>
-            <span *ngIf="mentor.students.cycles[0] === 'sgm#first'"> {{ mentor.period.name | titlecase }} </span>
-          </td>
-        </tr>
-        <tr>
-          <td><b>Veces que ha participado como mentor compañero:</b></td>
-          <td width="50px">Primera vez</td>
-          <td width="40px" id="mentorFirstTimeTrue">
-            <span *ngIf="mentor.firstYear">&#10004;</span>
-          </td>
-          <td width="50px">Más de una vez</td>
-          <td width="40px" id="mentorFirstTimeFalse">
-            <span *ngIf="!mentor.firstYear">&#10004;</span>
-          </td>
-          <td><b>Periodo académico en el cual se ejecutó el acompañamiento:</b></td>
-          <td id="mentorAcademicPeriod">{{ mentor.period.name }}</td>
-
-        </tr>
-      </table>
-
-    </div>
-    <br>
-    <p>
-      Fecha:
-      <span id="reportDate"> {{ reportDate }} </span>
-    </p>
-    <br>
-
-    <!--    Detalle  -->
-    <!-- info -->
-
-    <div class="detail">
-      <table>
-        <thead>
-        <tr>
-          <td colspan="5">
-            <b>PARTE A: INFORME DEL MENTOR COMPAÑERO</b>
-            <br>
-            (Debe ser llenada por el Mentor Compañero)
-          </td>
-
-        </tr>
-        <tr>
-          <th colspan="5">Acompañamiento Mentorial</th>
-        </tr>
-        <tr>
-          <th colspan="5">Detalle del acompañamiento</th>
-        </tr>
-
-        <tr>
-          <th rowspan="2" width="200px">
-            <b>1.1 Nro. De estudiantes de nuevo ingreso asignados</b>
-          </th>
-          <td rowspan="2" width="50px" id="assignedStudents"> {{ mentor.stats.assignedStudentCount }} </td>
-          <th rowspan="3" width="300px">
-            Principales problemáticas presentadas por los estudiantes de nuevo ingreso y soluciones
-            dadas:
-          </th>
-          <td colspan="2" rowspan="3" width="300px" id="principalProblems"> {{ details.principalProblems }} </td>
-        </tr>
-        <tr>
-
-        </tr>
-        <tr>
-          <th>
-            <b>1.2 Nro. De Estudiantes de nuevo ingreso que recibieron acompañamiento.</b>
-          </th>
-          <td id="withAccompaniments"> {{ mentor.students.withAccompaniments.length }} </td>
-        </tr>
-        <tr>
-          <th>
-            <b>1.3 Nro. De Estudiantes de nuevo ingreso que no participan del proyecto.</b>
-          </th>
-          <td id="withoutAccompaniments"> {{ mentor.students.withoutAccompaniments.length }} </td>
-          <th>
-            Causas principales por las que los estudiantes no recibieron acompañamiento:
-          </th>
-          <td colspan="2" id="studentsWithoutAccompaniments"> {{ details.studentsWithoutAccompaniments }} </td>
-
-        </tr>
-        </thead>
-        <!-- Activities  -->
-        <tbody>
-        <tr>
-          <th colspan="6">
-            <b>
-              (2) Actividades o medios a través de las cuales realizó el acompañamiento
-            </b>
-          </th>
-        </tr>
-        <tr>
-          <th>Actividad</th>
-          <th colspan="2">Detalle de la actividad</th>
-          <th>Actividad</th>
-          <th colspan="2">Detalle de la actividad</th>
-        </tr>
-        <tr>
-          <td><b>Reuniones</b></td>
-          <td colspan="2" id="meetings"> {{ activities.meetings }} </td>
-          <td><b>Actividades recreativas y deportivas</b></td>
-          <td colspan="2" id="sports"> {{ activities.sports }} </td>
-        </tr>
-        <tr>
-          <td><b>Evento académico</b></td>
-          <td colspan="2" id="academicEvent"> {{ activities.academicEvent }} </td>
-          <td><b>Eventos sociales</b></td>
-          <td colspan="2" id="socialEvent"> {{ activities.socialEvent }} </td>
-        </tr>
-        <tr>
-          <td><b>Acompañamiento virtual</b></td>
-          <td colspan="2" id="virtualAccompaniment"> {{ activities.virtualAccompaniment }} </td>
-          <td><b>Otros:</b><br></td>
-          <td colspan="2" id="otherActivities"> {{ activities.other }} </td>
-        </tr>
-        <!--    depend -->
-        <tr>
-        <th colspan="6"> (3) Dependencias o personas a través de los cuales se resolvieron las
-          problemáticas de los estudiantes</th>
-        </tr>
-        <tr>
-          <th>Figura</th>
-          <th colspan="2">Detalle del apoyo recibido</th>
-          <th>Figura</th>
-          <th colspan="2">Detalle del apoyo recibido</th>
-        </tr>
-        <tr>
-          <td><b>Coordinador de Titulación</b></td>
-          <td colspan="2" id="coordinator"> {{ dependencies.coordinator }} </td>
-          <td><b>Docentes</b></td>
-          <td colspan="2" id="teachers"> {{ dependencies.teachers }} </td>
-        </tr>
-        <tr>
-          <td><b>Misiones Universitarias</b></td>
-          <td colspan="2" id="missions"> {{ dependencies.missions }} </td>
-          <td><b>Vicerrectorado Académico</b></td>
-          <td colspan="2" id="chancellor"> {{ dependencies.chancellor }} </td>
-        </tr>
-        <tr>
-          <td><b>Biblioteca</b></td>
-          <td colspan="2" id="library"> {{ dependencies.library }} </td>
-          <td><b>Resuelto en primera instancia por el mentor</b></td>
-          <td colspan="2" id="firstSolvedByMentor"> {{ dependencies.firstSolvedByMentor }} </td>
-        </tr>
-        <tr>
-          <td><b>Servicios Estudiantiles</b></td>
-          <td colspan="2" id="otherServices"> {{ dependencies.otherServices }} </td>
-          <td><b>Otros:</b><br></td>
-          <td colspan="2" id="otherDependencies"> {{ dependencies.other }} </td>
-        </tr>
-        </tbody>
-
-        <!--  remark -->
-        <tfoot>
-        <tr>
-          <td colspan="5">
-            <b>PARTE B: OBSERVACIONES GENERALES DEL PROYECTO</b>
-            <br>
-            (Debe ser llenado por el Mentor Compañero)
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <b>Puntos positivos de las actividades desarrolladas durante el semestre:</b>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5" id="positives"> {{ observations.positives }} </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <b>Principales inconvenientes detectados:</b>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5" id="inconveniences"> {{ observations.inconveniences }} </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <b>Sugerencias que puedan ayudar a mejorar el proyecto:</b>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5" id="suggestions"> {{ observations.suggestions }} </td>
-        </tr>
-
-        <!-- firm -->
-        <tr>
-        <td colspan="3" class="space_firm">
-          <img id="reportSignature" alt="Firma del Mentor" [src]="signature">
-        </td>
-        <td colspan="3" class="space_firm"></td>
-        </tr>
-        <tr>
-          <th colspan="3" class="firm">
-            Firma del mentor compañero
-          </th>
-          <th colspan="3" class="firm">
-            Firma responsable del proyecto
-          </th>
-        </tr>
-        </tfoot>
-      </table>
-
-    </div>
-    <p>
-      <small id="generatedBy"></small>
-    </p>
-  </div>
-</ng-container>
