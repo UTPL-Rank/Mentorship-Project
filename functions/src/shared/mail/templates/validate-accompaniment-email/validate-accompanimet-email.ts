@@ -19,9 +19,7 @@ export class ValidateAccompanimentEmail implements IEmailTemplate<IValidateAccom
             <style>
                 body{
                     background-color: #ffffff;
-                    text-align: justify;
-                    
-                    
+                    text-align: justify;  
                 }
                 #contenedor{
                     background-position: center;
@@ -29,11 +27,10 @@ export class ValidateAccompanimentEmail implements IEmailTemplate<IValidateAccom
                     background-repeat: no-repeat;
                     width: 800px;
                     height: 1020px;
-                    background-image: url(VALIDACION-05v2.png) ;
+                    /*background-image: url(VALIDACION-05v2.png) ;*/
                     background-image: url(https://github.com/dani117m/notificaciones/blob/main/notificaciones/VALIDACION.png?raw=true) ;
                     margin: 0  auto;
                     padding: 0;
-        
                 }
         
         
@@ -48,7 +45,7 @@ export class ValidateAccompanimentEmail implements IEmailTemplate<IValidateAccom
                 <P>
                     <blockquote>
                     Desde el <b>Equipo del Proyecto Mentores</b>, 
-                    te damos la bienvenida al nuevo <b>UTPL</b>,
+                    te damos de nuevo la bienvenida a la <b>UTPL</b>,
                     deseándote muchos exitos en tu carrera.
                     <br><br>
                     Para nosotros, es muy importante conocer tu opinión respecto al acompañamiento
@@ -69,7 +66,7 @@ export class ValidateAccompanimentEmail implements IEmailTemplate<IValidateAccom
                     <br><br>
                     De antemano, agradecemos tu colaboración, y esperamos que tengas un grandioso día.
                     <br><br><br><br>
-                    La información de este correo ha sido generada automáticamentepor el <b>Sistema
+                    La información de este correo ha sido generada automáticamente por el <b>Sistema
                         de Gestión del Proyecto Mentores.
                     </b>
                     </blockquote> 

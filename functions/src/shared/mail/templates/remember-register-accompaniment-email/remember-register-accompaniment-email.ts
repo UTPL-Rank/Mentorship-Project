@@ -27,7 +27,7 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
                     background-repeat: no-repeat;
                     width: 800px;
                     height: 1000px;
-                    background-image: url(NOTIFICACION\ A\ MENTORES-06v2.png);
+                    /*background-image: url(NOTIFICACION\ A\ MENTORES-06v2.png);*/
                     background-image: url(https://github.com/dani117m/notificaciones/blob/main/notificaciones/NOTIFICACION%20A%20MENTORES.png?raw=true);
                     margin: 0  auto;
                     padding: 0;
@@ -41,9 +41,10 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
                 <br><br><br><br>
                 <P>
                     <blockquote>
-                    <b>Hola,${this.data.mentorName}</b>
-                    <br><br>
-                    Te recordamos que, tu último acompañamiento registrado fue el ${this.data.lastAccompanimentDate}.
+                    <b>Hola, ${this.data.mentorName}</b>
+                    <br><br><br>
+                    Te recordamos que tu último acompañamiento registrado fue el 
+                    <span>${this.data.lastAccompanimentDate.getDate()}</span>/<span>${this.data.lastAccompanimentDate.getMonth()}</span>/<span>${this.data.lastAccompanimentDate.getFullYear()}</span>.
                     <br><br>
                     El apoyo que brindas es muy importante, te motivamos a seguir en contacto
                     permanente con tus mentorizados, brindandoles un ambiente de amistad y estimulo,
@@ -61,7 +62,7 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
                     <br><br>
                     De antemano, agradecemos tu colaboración, y esperamos que tengas un grandioso día.
                     <br><br><br><br>
-                    La infirmación de este correo ha dio generada automáticamente por el 
+                    La información de este correo ha sido generada automáticamente por el 
                     <b>Sistema de Gestión del Proyecto Mentores</b>.
                     <br><br>
                     

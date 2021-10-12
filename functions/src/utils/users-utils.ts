@@ -41,6 +41,7 @@ export async function CreateNewUser(username: string, data: SGMUser.functions.cr
     const welcomeTemplate = new WelcomeEmail({
         displayName: data.displayName,
         url: BASE_URL,
+        redirectUrl: BASE_URL
     });
 
     const email = new GeneralEmail(

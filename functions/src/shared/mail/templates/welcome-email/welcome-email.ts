@@ -29,7 +29,7 @@ export class WelcomeEmail implements IEmailTemplate<IWelcomeEmailData>{
                     background-repeat: no-repeat;
                     width: 800px;
                     height: 1000px;
-                    background-image: url(BIENVENIDA-04v2.png);
+                    /*background-image: url(BIENVENIDA-04v2.png);*/
                     background-image: url(https://github.com/dani117m/notificaciones/blob/main/notificaciones/BIENVENIDA.png?raw=true);
                     margin: 0  auto;
                     padding: 0;
@@ -46,10 +46,10 @@ export class WelcomeEmail implements IEmailTemplate<IWelcomeEmailData>{
                     <blockquote>
                     Desde el equipo de <b>Proyecto Mentores</b>, 
                     te damos la bienvenida al nuevo <b>Sistema de Acompañamiento
-                    Mentorial</b>, al acceso es solo para usuarios <b>UTPL</b>, y tus roles
+                    Mentorial</b>, el acceso es solo para usuarios <b>UTPL</b>, y tus roles
                     seran asignados automáticamente.
                     <br><br>
-                    Accede al sistema e inicia tu acompañamiento a través del siguien en enlace:
+                    Accede al sistema e inicia tu acompañamiento a través del siguiente enlace:
                     <br><br>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -62,7 +62,7 @@ export class WelcomeEmail implements IEmailTemplate<IWelcomeEmailData>{
                     </a>
                     
                     <br><br><br><br><br><br><br>
-                    La infirmación de este correo ha dio generada automáticamente por el 
+                    La información de este correo ha dio generada automáticamente por el 
                     <b>Sistema de Gestión del Proyecto Mentores</b>.
                     <br><br><br>
                     <br><br>

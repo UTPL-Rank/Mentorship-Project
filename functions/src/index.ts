@@ -19,4 +19,3 @@ export * from './firestore/mentor';
 export * from './firestore/users/notify-user';
 export * from './firestore/users/send-user-emails';
 export * from './firestore/users/update-custom-claims';
-

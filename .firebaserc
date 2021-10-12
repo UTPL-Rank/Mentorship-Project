@@ -1,17 +1,6 @@
 {
   "projects": {
-    "default": "sgmentores",
+    "sgmentores": "sgmentores"
   },
-  "targets": {
-    "sgmentores": {
-      "hosting": {
-        "reports": [
-          "reportes-sgmentores"
-        ],
-        "dashboard": [
-          "sgmentores"
-        ]
-      }
-    }
-  }
+  "targets": {}
 }

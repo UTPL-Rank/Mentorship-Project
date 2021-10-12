@@ -27,7 +27,7 @@ export class NeverRegisterAccompanimentEmail implements IEmailTemplate<INeverReg
                     background-repeat: no-repeat;
                     width: 800px;
                     height: 1030px;
-                    background-image: url(NOTIFICACION\ MENTORES\ QUE\ NO\ REGISTRA\ ACOMPAÑAMIENTO-07v2.png);
+                    /*background-image: url(NOTIFICACION\ MENTORES\ QUE\ NO\ REGISTRA\ ACOMPAÑAMIENTO-07v2.png);*/
                     background-image: url(https://github.com/dani117m/notificaciones/blob/main/notificaciones/NOTIFICACION%20MENTORES%20QUE%20NO%20REGISTRA%20ACOMPA%C3%91AMIEN.png?raw=true);
                     margin: 0  auto;
                     padding: 0;
@@ -42,12 +42,12 @@ export class NeverRegisterAccompanimentEmail implements IEmailTemplate<INeverReg
                 <br><br><br><br>
                 <P>
                     <blockquote>
-                    <b>Hola,${this.data.mentorName}</b>
+                    <b>Hola, ${this.data.mentorName}</b>
                     <br><br>
-                    Te notificamos que, al momento cuentas con <b>cero(0)</b> acompañamientos registrados.
+                    Te notificamos que, al momento, cuentas con <b>cero (0)</b> acompañamientos registrados.
                     <br><br>
                     Recuerda que el apoyo brindado a tus estudiantes es de suma importancia para facilitar
-                    su adaptación a la vida universitaria, por lo que te solicitamos de favor, iniciar
+                    su adaptación a la vida universitaria, por lo que te solicitamos de favor, realizar el
                     acompañamiento y registrarlo oportunamente a través de la plataforma, para ello,
                     usa el siguiente <b>enlace:</b>
                     <br><br>
@@ -63,7 +63,7 @@ export class NeverRegisterAccompanimentEmail implements IEmailTemplate<INeverReg
                     <br><br>
                     De antemano, agradecemos tu colaboración, y esperamos que tengas un grandioso día.
                     <br><br><br><br>
-                    La infirmación de este correo ha dio generada automáticamente por el 
+                    La información de este correo ha sido generada automáticamente por el 
                     <b>Sistema de Gestión del Proyecto Mentores</b>.
                     <br><br><br>
                     <div id="correo" style="color: #ffffff; text-align: right; font-size: 17px;">
