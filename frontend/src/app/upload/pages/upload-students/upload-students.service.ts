@@ -25,16 +25,25 @@ export class UploadStudentsService extends IBaseUploadDataService<SGMStudent.cre
       batch.set(studentRef, student, { merge: true });
       batch.set(claimsRef, claims, { merge: true });
 
-      batch.update(mentorRef, 'stats.assignedStudentCount', firestore.FieldValue.increment(1));
-      batch.update(mentorRef, 'students.withAccompaniments', []);
-      batch.update(mentorRef, 'students.withoutAccompaniments', firestore.FieldValue.arrayUnion(student.displayName));
-      batch.update(mentorRef, 'students.cycles', firestore.FieldValue.arrayUnion(student.cycle));
-      batch.update(mentorRef, 'students.degrees', firestore.FieldValue.arrayUnion(student.degree.name));
+      const updateMentor = {
+        'stats.assignedStudentCount': firestore.FieldValue.increment(1),
+        'students.withAccompaniments': [],
+        'students.withoutAccompaniments': firestore.FieldValue.arrayUnion(student.displayName),
+        'students.cycles': firestore.FieldValue.arrayUnion(student.cycle),
+        'students.degrees': firestore.FieldValue.arrayUnion(student.degree.name)
+      };
+
+      batch.update(mentorRef, updateMentor);
+
+      // batch.update(mentorRef, 'stats.assignedStudentCount', firestore.FieldValue.increment(1));
+      // batch.update(mentorRef, 'students.withAccompaniments', []);
+      // batch.update(mentorRef, 'students.withoutAccompaniments', firestore.FieldValue.arrayUnion(student.displayName));
+      // batch.update(mentorRef, 'students.cycles', firestore.FieldValue.arrayUnion(student.cycle));
+      // batch.update(mentorRef, 'students.degrees', firestore.FieldValue.arrayUnion(student.degree.name));
 
     });
 
     // batch writes
     await batch.commit();
   }
-
 }

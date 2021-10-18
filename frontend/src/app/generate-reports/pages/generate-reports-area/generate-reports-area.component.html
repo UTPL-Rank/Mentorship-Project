@@ -35,10 +35,11 @@
                     area.id
                   ]">
           <div class="card-body" [ngClass]="{
-              'badge-secondary': area.id === 'administrativa',
-              'badge-success': area.id === 'biologica',
-              'badge-info': area.id === 'sociohumanistica',
-              'badge-warning': area.id === 'tecnica'}">
+              'badge-primary': area.id === 'salud',
+            'badge-secondary': area.id === 'economicas-empresariales' || area.id === 'administrativa',
+            'badge-success': area.id === 'exactas-naturales' || area.id === 'biologica',
+            'badge-info': area.id === 'sociales-educacion-humanidades' || area.id === 'sociohumanistica',
+            'badge-warning': area.id === 'ingenierias-arquitectura' || area.id === 'tecnica'}">
 
             <!-- card-title -->
             <h6 class="mb-2 text-nowrap overflow-elipsis">

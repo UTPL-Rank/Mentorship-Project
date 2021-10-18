@@ -40,16 +40,17 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
 
     // get the data for the integrator
     // query an integrator with email and period
-    const integratorQuery = this.db.collection('integrators').ref
-      .where('email', '==', integratorEmail)
-      .where('period.reference', '==', periodReference) as firestore.CollectionReference<SGMIntegrator.readDTO>;
+    // const integratorQuery = this.db.collection('integrators').ref
+    //   .where('email', '==', integratorEmail)
+    //   .where('period.reference', '==', periodReference) as firestore.CollectionReference<SGMIntegrator.readDTO>;
 
-    const integratorReference = await integratorQuery.get();
-    const integratorDoc: firestore.QueryDocumentSnapshot<SGMIntegrator.readDTO> | null = integratorReference.docs[0] ?? null;
-    if (!integratorDoc) throw new Error(`El docente integrador con correo ${integratorEmail} no fue encontrado.`);
-    const integratorData = integratorDoc.data();
+    // const integratorReference = await integratorQuery.get();
+    // const integratorDoc: firestore.QueryDocumentSnapshot<SGMIntegrator.readDTO> | null = integratorReference.docs[0] ?? null;
+    // if (!integratorDoc) throw new Error(`El docente integrador con correo ${integratorEmail} no fue encontrado.`);
+    // const integratorData = integratorDoc.data();
 
-    if (!areaData || !periodData || !degreeData || !integratorData)
+    // if (!areaData || !periodData || !degreeData || !integratorData)
+    if (!areaData || !periodData || !degreeData)
       throw new Error('Missing data');
 
     // construct a mentor with the obtained data
@@ -60,7 +61,7 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
       degree: { reference: degreeReference, name: degreeData.name },
       stats: { accompanimentsCount: 0, assignedStudentCount: 0, lastAccompaniment: null },
       students: { cycles: [], degrees: [], withAccompaniments: [], withoutAccompaniments: [] },
-      integrator: { displayName: integratorData.displayName, email: integratorData.email, id: integratorData.id }
-    };
+      integrator: { displayName: null, email: null, id: null }
+    } as any;
   }
 }
