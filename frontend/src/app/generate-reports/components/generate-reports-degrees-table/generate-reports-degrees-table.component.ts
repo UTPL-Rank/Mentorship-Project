@@ -1,5 +1,5 @@
-import { Component, OnInit,Input } from '@angular/core';
-import { SGMAcademicDegree, SGMMentor } from "@utpl-rank/sgm-helpers";
+import { Component, OnChanges, Input } from '@angular/core';
+import { SGMAcademicDegree } from '@utpl-rank/sgm-helpers';
 
 @Component({
   selector: 'sgm-generate-reports-degrees-table',
@@ -7,16 +7,21 @@ import { SGMAcademicDegree, SGMMentor } from "@utpl-rank/sgm-helpers";
   styles: [
   ]
 })
-export class GenerateReportsDegreesTableComponent implements OnInit {
-  filteredDegrees: any[] = [];
-  @Input() filterString = "";
+export class GenerateReportsDegreesTableComponent implements OnChanges {
+  public filteredDegrees: any[] = [];
   public degrees!: SGMAcademicDegree.readDTO;
+  public periodId!: string;
 
-  @Input("degrees")
+  @Input() filterString = '';
+
+  @Input('degrees')
   set setDegreesData(degrees: SGMAcademicDegree.readDTO) {
     this.degrees = degrees;
-    console.log(degrees);
-    console.log(this.degrees);
+  }
+
+  @Input('periodId')
+  set setPeriodId(periodId: string) {
+    this.periodId = periodId;
   }
 
   @Input()
@@ -30,8 +35,6 @@ export class GenerateReportsDegreesTableComponent implements OnInit {
           .includes(this.filterString.toLowerCase());
       });
     }
-  }
-  ngOnInit(): void {
   }
 
 }

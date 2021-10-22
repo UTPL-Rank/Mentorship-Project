@@ -63,10 +63,7 @@ export class ReportsMentorComponent implements OnInit, OnDestroy {
                     }
                 }
               ).subscribe(
-                async values => {
-                  this.accompaniments.push(values as Array<SGMAccompaniment.readDTO>);
-                  console.log(values.length);
-                }
+                async values => this.accompaniments.push(values as Array<SGMAccompaniment.readDTO>)
               );
             }
           }
@@ -89,7 +86,9 @@ export class ReportsMentorComponent implements OnInit, OnDestroy {
   }
 
   toPdf(): void {
-    this.exportToPdfService.generate(this.mentor.id);
+    // @ts-ignore
+    const content: Element = document.getElementById('content');
+    this.exportToPdfService.generate(this.mentor.id, content);
   }
 
 }

@@ -62,8 +62,8 @@ export class UserService {
     shareReplay(1),
   );
 
-  public signatureOf(username2: string): Observable<UserSignature | null> {
-    return this.signatureDocument(username2).get().pipe(
+  public signatureOf(username: string): Observable<UserSignature | null> {
+    return this.signatureDocument(username).get().pipe(
         map(snap => snap?.exists ? snap.data() as UserSignature : null),
         shareReplay(1)
       );

@@ -31,6 +31,16 @@ export class StudentsService {
       .collection<SGMStudent.readDTO>(STUDENTS_COLLECTION_NAME);
   }
 
+  // public getStudentsOfMentorCollection(mentorId: string): AngularFirestoreCollection<SGMStudent.readDTO> {
+  //   const mentorRef = this.mentorsService.mentorRef(mentorId);
+  //   return this.angularFirestore
+  //     .collection<SGMStudent.readDTO>(STUDENTS_COLLECTION_NAME,
+  //       query => {
+  //         return query.orderBy('displayName')
+  //           .where('mentor.reference', '==', mentorRef);
+  //       });
+  // }
+
   /**
    * Get the firestore document of a student
    * @param studentId Identifier of the student
@@ -84,7 +94,6 @@ export class StudentsService {
             }),
           shareReplay(1)
       );
-
   }
 
   public list$(options: { periodId?: string, mentorId?: string, limit: number }): Observable<Array<SGMStudent.readDTO>> {

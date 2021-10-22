@@ -51,17 +51,12 @@ export class ReportsStudentComponent implements OnInit, OnDestroy {
     this.accompanimentsSubscription = this.accompanimentsService.accompanimentsStream(
       {
         orderBy:
-          {timeCreated: 'asc'},
+          { timeCreated: 'asc' },
         where:
-          {
-            studentId: studentIdParam,
-          }
+          { studentId: studentIdParam }
       }
     ).subscribe(
-      async values => {
-        this.accompaniments = values as Array<SGMAccompaniment.readDTO>;
-        console.log(values);
-      }
+      async values => this.accompaniments = values as Array<SGMAccompaniment.readDTO>
     );
 
     this.mentorSubscription = this.mentorsService.mentor(mentorIdParam).subscribe(
@@ -79,7 +74,9 @@ export class ReportsStudentComponent implements OnInit, OnDestroy {
   }
 
   toPdf(): void {
-    this.exportToPdfService.generate(this.student.id);
+    // @ts-ignore
+    const content: Element = document.getElementById('content');
+    this.exportToPdfService.generate(this.student.id, content);
   }
 
   ngOnDestroy(): void{

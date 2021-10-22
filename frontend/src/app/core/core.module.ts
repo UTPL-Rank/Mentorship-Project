@@ -18,6 +18,7 @@ import { ReportsService } from './services/reports.service';
 import { StudentsService } from './services/students.service';
 import { TitleService } from './services/title.service';
 import { UserService } from './services/user.service';
+import { ProblemService } from './services/problem.service';
 
 @NgModule({
   imports: [FirebaseModule, LocateModule, SaveFileModule],
@@ -38,6 +39,7 @@ import { UserService } from './services/user.service';
     ReportsService,
     DashboardService,
     UserService,
+    ProblemService
   ],
 })
 export class CoreModule {

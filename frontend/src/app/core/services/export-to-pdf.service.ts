@@ -10,7 +10,7 @@ export class ExportToPdfService {
 
   constructor() { }
 
-  generate(filename: string): void {
+  generate(filename: string, content: Element): void {
     const options = {
       margin: 1 ,
       filename,
@@ -22,11 +22,11 @@ export class ExportToPdfService {
         format: 'a4',
         fontSize: 5
       },
-      pagebreak: { mode: 'avoid-all', before: '.report-student-content' }
+      // pagebreak: { mode: 'avoid-all', before: '.report-student-content' }
     };
 
     // @ts-ignore
-    const content: Element = document.getElementById('content');
+    // const content: Element = document.getElementById('content');
 
     html2pdf()
       .from(content)

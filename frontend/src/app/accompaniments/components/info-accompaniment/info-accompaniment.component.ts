@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import { Subscription } from 'rxjs';
 import { UserService } from '../../../core/services/user.service';

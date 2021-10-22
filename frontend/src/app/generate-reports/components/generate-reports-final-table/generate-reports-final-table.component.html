@@ -6,25 +6,25 @@
           <tr>
             <!-- Index header -->
             <th class="font-weight-bold text-muted small">#</th>
-  
+
             <!-- name header -->
             <th class="font-weight-bold text-muted small">Nombre</th>
-  
 
-  
+
+
             <!-- degree header -->
             <th class="font-weight-bold text-muted small">Carrera</th>
-  
+
             <!-- area header -->
             <th class="font-weight-bold text-muted small" *ngIf="showArea">
               Área
             </th>
-  
+
             <!-- assigned student header -->
             <th class="font-weight-bold text-muted small">Reportes</th>
           </tr>
         </thead>
-  
+
         <tbody>
           <ng-container *ngIf='filteredMentors.length < 1'>
             <tr *ngFor="let mentor of mentors; let i = index">
@@ -32,23 +32,23 @@
               <th class="font-weight-bold text-muted small" scope="row">
                 {{ i + 1 }}
               </th>
-  
+
               <!-- name cell -->
               <td class="font-weight-bold text-muted small">
                 {{ mentor.displayName | titlecase }}
               </td>
 
-  
+
               <!-- degree cell -->
               <td class="font-weight-bold text-muted small">
                 {{ mentor.degree.name | titlecase }}
               </td>
-  
+
               <!-- area cell -->
               <td class="font-weight-bold text-muted small" *ngIf="showArea">
                 {{ mentor.area.name | titlecase }}
               </td>
-  
+
               <!-- accompaniment count cell -->
               <td class="font-weight-bold text-muted small">
                 <a
@@ -56,11 +56,12 @@
                   [routerLink]="[
                     '/panel-control',
                     mentor.period.reference.id,
-                    'mentores',
+                    'generar-reportes',
+                    'evaluacion-final',
                     mentor.id
                   ]"
                 >
-                  Ver Evaluación       
+                  Ver Evaluación Final
                 </a>
               </td>
             </tr>
@@ -71,23 +72,23 @@
               <th class="font-weight-bold text-muted small" scope="row">
                 {{ i + 1 }}
               </th>
-  
+
               <!-- name cell -->
               <td class="font-weight-bold text-muted small">
                 {{ mentor.displayName | titlecase }}
               </td>
-  
-  
+
+
               <!-- degree cell -->
               <td class="font-weight-bold text-muted small">
                 {{ mentor.degree.name | titlecase }}
               </td>
-  
+
               <!-- area cell -->
               <td class="font-weight-bold text-muted small" *ngIf="showArea">
                 {{ mentor.area.name | titlecase }}
               </td>
-  
+
               <!-- accompaniment count cell -->
               <td class="font-weight-bold text-muted small">
                 <a
@@ -95,11 +96,12 @@
                   [routerLink]="[
                     '/panel-control',
                     mentor.period.reference.id,
-                    'mentores',
+                    'generar-reportes',
+                    'evaluacion-final',
                     mentor.id
                   ]"
                 >
-                  Ver Evaluación
+                  Ver Evaluación Final
                 </a>
               </td>
             </tr>
@@ -108,4 +110,3 @@
       </table>
     </div>
   </div>
-  

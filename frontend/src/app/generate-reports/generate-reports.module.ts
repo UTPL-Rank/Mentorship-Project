@@ -8,7 +8,6 @@ import { GenerateReportsMentorsTableComponent } from './components/generate-repo
 import { GenerateReportsStudentsTableComponent } from './components/generate-reports-students-table/generate-reports-students-table.component';
 import { GenerateReportsFinalTableComponent } from './components/generate-reports-final-table/generate-reports-final-table.component';
 import { GenerateReportsDegreesTableComponent } from './components/generate-reports-degrees-table/generate-reports-degrees-table.component';
-import { StudentReportComponent } from './components/student-report/student-report.component';
 
 import { CoverComponent } from './components/cover/cover.component';
 import { ReportComponent } from './components/report/report.component';
@@ -27,6 +26,8 @@ import { ReportsStudentComponent } from './pages/reports-student/reports-student
 import { ReportsMentorComponent } from './pages/reports-mentor/reports-mentor.component';
 import { ReportsDegreeComponent } from './pages/reports-degree/reports-degree.component';
 import { ReportsAreaComponent } from './pages/reports-area/reports-area.component';
+import { ReportsGeneralComponent } from './pages/reports-general/reports-general.component';
+import { ReportsFinalEvaluationComponent } from './pages/reports-final-evaluation/reports-final-evaluation.component';
 
 
 
@@ -39,7 +40,6 @@ const COMPONENTS = [
   GenerateReportsStudentsTableComponent,
   GenerateReportsFinalTableComponent,
   GenerateReportsDegreesTableComponent,
-  StudentReportComponent,
   CoverComponent,
   ReportComponent
 ];
@@ -61,7 +61,7 @@ const PAGES = [
 ];
 
 @NgModule({
-  declarations: [PAGES, COMPONENTS],
+  declarations: [PAGES, COMPONENTS, ReportsGeneralComponent, ReportsFinalEvaluationComponent],
   imports: [
     CommonModule,
     GenerateReportsRoutingModule,

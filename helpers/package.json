@@ -1,7 +1,7 @@
 {
   "name": "@utpl-rank/sgm-helpers",
-  "version": "1.1.20",
-  "description": "A library with helpers included for the Mentorship project",
+  "version": "1.1.30",
+  "description": "A library with helpers included for the Mentorship Project",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {

@@ -1,93 +1,94 @@
 <div class="card">
-    <div class="table-responsive">
-      <table class="table mb-0 text-nowrap card-table">
-        <!-- head of table -->
-        <thead>
-          <tr>
-            <!-- Index header -->
-            <th class="font-weight-bold text-muted small">#</th>
-  
-            <!-- degree header -->
-            <th class="font-weight-bold text-muted small">Carrera</th>
-  
-            <!-- area header -->
-            <th class="font-weight-bold text-muted small" *ngIf="showArea">
-              Área
-            </th>
-  
-            <!-- assigned student header -->
-            <th class="font-weight-bold text-muted small">Reportes</th>
-          </tr>
-        </thead>
-  
-        <tbody>
-          <ng-container *ngIf='filteredDegrees.length < 1'>
-            <tr *ngFor="let degree of degrees ; let i = index">
-              <!-- index cell -->
-              <th class="font-weight-bold text-muted small" scope="row">
-                {{ i + 1 }}
-              </th>
-  
-              <!-- degree cell -->
-              <td class="font-weight-bold text-muted small">
-                {{ degree.name | titlecase }}
-              </td>
-  
-              <!-- area cell -->
-              <td class="font-weight-bold text-muted small" *ngIf="showArea">
-                {{ degree.area.name | titlecase }}
-              </td>
-  
-              <!-- accompaniment count cell -->
-              <td class="font-weight-bold text-muted small">
-                <a
-                  class="btn btn-primary btn-sm lift"
-                  [routerLink]="[
+  <div class="table-responsive">
+    <table class="table mb-0 text-nowrap card-table">
+      <!-- head of table -->
+      <thead>
+      <tr>
+        <!-- Index header -->
+        <th class="font-weight-bold text-muted small">#</th>
+
+        <!-- degree header -->
+        <th class="font-weight-bold text-muted small">Carrera</th>
+
+        <!-- area header -->
+        <th class="font-weight-bold text-muted small" *ngIf="showArea">
+          Área
+        </th>
+
+        <!-- assigned student header -->
+        <th class="font-weight-bold text-muted small">Reportes</th>
+      </tr>
+      </thead>
+
+      <tbody>
+      <ng-container *ngIf='filteredDegrees.length < 1'>
+        <tr *ngFor="let degree of degrees ; let i = index">
+          <!-- index cell -->
+          <th class="font-weight-bold text-muted small" scope="row">
+            {{ i + 1 }}
+          </th>
+
+          <!-- degree cell -->
+          <td class="font-weight-bold text-muted small">
+            {{ degree.name | titlecase }}
+          </td>
+
+          <!-- area cell -->
+          <td class="font-weight-bold text-muted small" *ngIf="showArea">
+            {{ degree.area.name | titlecase }}
+          </td>
+
+          <!-- accompaniment count cell -->
+          <td class="font-weight-bold text-muted small">
+            <a
+              class="btn btn-primary btn-sm lift"
+              [routerLink]="[
                     '/panel-control',
-                   
-                    'mentores',
-            
+                    periodId,
+                    'generar-reportes',
+                    'titulaciones',
+                    degree.id
                   ]"
-                >
-                  Ver Reporte
-                </a>
-              </td>
-            </tr>
-          </ng-container>
-          <ng-container *ngIf='filteredDegrees.length >= 1'>
-            <tr *ngFor="let degree of filteredDegrees; let i = index">
-               <!-- index cell -->
-               <th class="font-weight-bold text-muted small" scope="row">
-                {{ i + 1 }}
-              </th>
-              <!-- degree cell -->
-              <td class="font-weight-bold text-muted small">
-                {{ degree.name | titlecase }}
-              </td>
-  
-              <!-- area cell -->
-              <td class="font-weight-bold text-muted small" *ngIf="showArea">
-                {{ degree.area.name | titlecase }}
-              </td>
-  
-              <!-- accompaniment count cell -->
-              <td class="font-weight-bold text-muted small">
-                <a
-                  class="btn btn-primary btn-sm lift"
-                  [routerLink]="[
+            >
+              Ver Reporte
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+      <ng-container *ngIf='filteredDegrees.length >= 1'>
+        <tr *ngFor="let degree of filteredDegrees; let i = index">
+          <!-- index cell -->
+          <th class="font-weight-bold text-muted small" scope="row">
+            {{ i + 1 }}
+          </th>
+          <!-- degree cell -->
+          <td class="font-weight-bold text-muted small">
+            {{ degree.name | titlecase }}
+          </td>
+
+          <!-- area cell -->
+          <td class="font-weight-bold text-muted small" *ngIf="showArea">
+            {{ degree.area.name | titlecase }}
+          </td>
+
+          <!-- accompaniment count cell -->
+          <td class="font-weight-bold text-muted small">
+            <a
+              class="btn btn-primary btn-sm lift"
+              [routerLink]="[
                     '/panel-control',
-                   
+
                     'mentores',
-                  
+
                   ]"
-                >
-                  Ver Reporte
-                  
-                </a>
-              </td>
-            </tr>
-          </ng-container>
-        </tbody>
-      </table>
-    </div>
+            >
+              Ver Reporte
+
+            </a>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
   </div>
+</div>
