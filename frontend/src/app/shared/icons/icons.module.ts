@@ -12,7 +12,12 @@ import {
   MessageCircle,
   PieChart,
   Upload,
-  Users
+  Download,
+  Users,
+  Printer,
+  Grid,
+  Menu,
+  Database
 } from 'angular-feather/icons';
 
 // Check all icons available: https://github.com/michaelbazos/angular-feather
@@ -27,10 +32,15 @@ const icons = {
   MessageCircle,
   AlertCircle,
   Upload,
+  Download,
   FilePlus,
   FileText,
   Users,
   Archive,
+  Printer,
+  Grid,
+  Menu,
+  Database
 };
 
 @NgModule({

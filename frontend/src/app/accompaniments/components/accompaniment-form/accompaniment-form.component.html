@@ -11,7 +11,7 @@
 
             <!-- student select -->
             <select id="studentSelect" class="custom-select" formControlName="studentId"
-              [ngClass]="{ 'is-invalid': isStudentIdInvalid }">
+                    [ngClass]="{ 'is-invalid': isStudentIdInvalid }">
               <option *ngFor="let student of students" [value]="student.id">
                 {{ student.displayName | titlecase }}
               </option>
@@ -30,7 +30,7 @@
 
             <!-- bimester select -->
             <select id="bimesterSelect" class="custom-select" formControlName="semesterKind"
-              [ngClass]="{ 'is-invalid': isSemesterKindInvalid }">
+                    [ngClass]="{ 'is-invalid': isSemesterKindInvalid }">
               <ng-container *ngFor="let semester of semesterKindOptions">
                 <option [value]="semester">
                   {{ semester | semesterName }}
@@ -47,7 +47,8 @@
             </label>
 
             <!-- follow select -->
-            <select class="custom-select" formControlName="followingKind" [ngClass]="{ 'is-invalid': isTypeOfFollowInvalid }">
+            <select class="custom-select" formControlName="followingKind"
+                    [ngClass]="{ 'is-invalid': isTypeOfFollowInvalid }">
               <ng-container *ngFor="let option of followingKindOptions">
                 <option [value]="option">
                   {{ option | followingName }}
@@ -81,7 +82,7 @@
           <ng-container *ngIf="showProblemsOptions$ |async">
             <div class="col-12 col-lg-6">
               <div class="form-check">
-                <input formControlName="academic" class="form-check-input" type="checkbox" id="academic" />
+                <input formControlName="academic" class="form-check-input" type="checkbox" id="academic"/>
                 <label class="form-check-label" for="academic">
                   Problema Académico
                 </label>
@@ -93,7 +94,7 @@
           <ng-container *ngIf="showProblemsOptions$ |async">
             <div class="col-12 col-lg-6">
               <div class="form-check">
-                <input formControlName="administrative" class="form-check-input" type="checkbox" id="administrative" />
+                <input formControlName="administrative" class="form-check-input" type="checkbox" id="administrative"/>
                 <label class="form-check-label" for="administrative">
                   Problema Administrativo
                 </label>
@@ -105,7 +106,7 @@
           <ng-container *ngIf="showProblemsOptions$ |async">
             <div class="col-12 col-lg-6">
               <div class="form-check">
-                <input formControlName="economic" class="form-check-input" type="checkbox" id="economic" />
+                <input formControlName="economic" class="form-check-input" type="checkbox" id="economic"/>
                 <label class="form-check-label" for="economic">
                   Problema Económico
                 </label>
@@ -117,7 +118,7 @@
           <ng-container *ngIf="showProblemsOptions$ |async">
             <div class="col-12 col-lg-6">
               <div class="form-check">
-                <input formControlName="psychosocial" class="form-check-input" type="checkbox" id="psychosocial" />
+                <input formControlName="psychosocial" class="form-check-input" type="checkbox" id="psychosocial"/>
                 <label class="form-check-label" for="psychosocial">
                   Problema Psicosocial
                 </label>
@@ -125,16 +126,156 @@
             </div>
           </ng-container>
 
+          <!-- connectivity -->
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12 col-lg-6">
+              <div class="form-check">
+                <input formControlName="psychosocial" class="form-check-input" type="checkbox" id="psychosocial"/>
+                <label class="form-check-label" for="psychosocial">
+                  Problema de conectividad
+                </label>
+              </div>
+            </div>
+          </ng-container>
+
+          <!-- other -->
+          <ng-container *ngIf="showProblemsOptions$ |async">
+            <div class="col-12 col-lg-6">
+              <div class="form-check">
+                <input formControlName="psychosocial" class="form-check-input" type="checkbox" id="psychosocial"/>
+                <label class="form-check-label" for="psychosocial">
+                  Otro problema
+                </label>
+              </div>
+            </div>
+          </ng-container>
+
           <div class="col-12 col-lg-6">
             <div class="form-check">
-              <input formControlName="none" class="form-check-input" type="checkbox" id="none" />
+              <input formControlName="none" class="form-check-input" type="checkbox" id="none"/>
               <label class="form-check-label" for="none">
                 Ningún Problema
               </label>
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- academic -->
+      <ng-container>
+
+        <h3><b>Información de parámetros importantes de la carrera y evaluación</b></h3>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+          <label class="form-check-label" for="flexRadioDefault1">
+            Información para direccionar matrícula del siguiente ciclo
+          </label>
         </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">
+          <label class="form-check-label" for="flexRadioDefault2">
+            Información general de la carrera
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault3">
+          <label class="form-check-label" for="flexRadioDefault3">
+            Información sobre evaluación final (supletorio)
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault4">
+          <label class="form-check-label" for="flexRadioDefault4">
+            Información acerca de parámetros de evaluación y particularidades en asignaturas
+          </label>
+        </div>
+
+        <h3><b>Problemáticas relacionados  con rendimiento académico e inconformidad con  metodología de docentes</b></h3>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault5">
+          <label class="form-check-label" for="flexRadioDefault5">
+            Falta de bases en asignatura
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault6">
+          <label class="form-check-label" for="flexRadioDefault6">
+            Inconformidad con la metodología del docente
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault7">
+          <label class="form-check-label" for="flexRadioDefault7">
+            Inconformidad con la carrera
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault8">
+          <label class="form-check-label" for="flexRadioDefault8">
+            Bajo rendimiento académico en la carrera
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault9">
+          <label class="form-check-label" for="flexRadioDefault9">
+            Requerimiento de tutorías extra
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault10">
+          <label class="form-check-label" for="flexRadioDefault10">
+            Inconvenientes con docente de asignatura
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault11">
+          <label class="form-check-label" for="flexRadioDefault11">
+            Bajo rendimiento académico en asignatura
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault12">
+          <label class="form-check-label" for="flexRadioDefault12">
+            Inconformidad con registro de notas
+          </label>
+        </div>
+
+        <h3><b>Guía en buenas prácticas académicas</b></h3>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault13">
+          <label class="form-check-label" for="flexRadioDefault13">
+            Guía para examenes bimestrales o pruebas
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault14">
+          <label class="form-check-label" for="flexRadioDefault14">
+            Guía en metodologías de estudio
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault15">
+          <label class="form-check-label" for="flexRadioDefault15">
+            Guía para rendir examen final
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault16">
+          <label class="form-check-label" for="flexRadioDefault16">
+            Guía para realizar trabajos o proyectos
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault17">
+          <label class="form-check-label" for="flexRadioDefault17">
+            Guía para el uso de bases de datos, compartir material bibliográfico
+          </label>
+        </div>
+
+      </ng-container>
 
       <ng-container *ngIf="accompanimentForm.controls.topic">
         <div class="mb-5">
@@ -142,7 +283,7 @@
             Temática desarrollada
           </label>
           <input class="form-control" formControlName="topic" placeholder="Agrega tu temática"
-            [ngClass]="{ 'is-invalid': isTopicInvalid }" />
+                 [ngClass]="{ 'is-invalid': isTopicInvalid }"/>
           <small id="topic" class="form-text text-muted">
             En el espacio de mentoria puede que no exista ningún problema, pero puedes utilizar el espacio para
             explicar algún tema diferente a los que nosotros proponemos.
@@ -161,7 +302,7 @@
 
               <!-- textarea -->
               <textarea formControlName="topicDescription" class="form-control" id="topicDescription" rows="4"
-                [ngClass]="{ 'is-invalid': isTopicDescriptionInvalid }"></textarea>
+                        [ngClass]="{ 'is-invalid': isTopicDescriptionInvalid }"></textarea>
             </div>
           </div>
         </div>
@@ -178,7 +319,7 @@
 
               <!-- textarea -->
               <textarea class="form-control" id="problemDescription" formControlName="problemDescription" rows="4"
-                [ngClass]="{ 'is-invalid': isProblemDescriptionInvalid }"></textarea>
+                        [ngClass]="{ 'is-invalid': isProblemDescriptionInvalid }"></textarea>
             </div>
           </div>
         </div>
@@ -195,7 +336,7 @@
 
               <!-- textarea -->
               <textarea class="form-control" formControlName="solutionDescription" id="solutionDescription" rows="4"
-                [ngClass]="{ 'is-invalid': isSolutionDescriptionInvalid }"></textarea>
+                        [ngClass]="{ 'is-invalid': isSolutionDescriptionInvalid }"></textarea>
             </div>
           </div>
         </div>
@@ -213,7 +354,7 @@
             <!-- upload file -->
             <div class="custom-file">
               <input type="file" class="custom-file-input" id="anexos" lang="es" multiple
-                (change)="onFileChange($event)" />
+                     (change)="onFileChange($event)"/>
               <label class="custom-file-label" for="anexos">
                 <span>{{ filesNames }}</span>
               </label>

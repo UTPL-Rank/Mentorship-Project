@@ -1,0 +1,105 @@
+<sgm-page-header>
+  <sgm-page-header-title>
+    Evaluación Final Mentores
+  </sgm-page-header-title>
+  <p class="mb-0 ">
+    A continuación se muestra la lista de evaluación a los mentores.
+  </p>
+</sgm-page-header>
+<section class="pt-6 pt-md-9">
+  <div class="container">
+    <input type="text" class="form-control" placeholder="Buscar por nombre" (input)='searchString($event)' />
+  </div>
+</section>
+<ng-container *ngIf="areaStats | async">
+  <section class="py-6 py-md-9">
+ 
+     <!-- table of students -->
+    <div class="container">
+      <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
+    </div>
+  </section>
+</ng-container>
+<ng-template #navTemplate>
+  <ul
+    class="mb-0 nav nav-tabs flex-nowrap"
+    id="myTab"
+    role="tablist"
+    style="overflow: auto hidden"
+  >
+    <li class="nav-item">
+      <a
+        id="all-tab"
+        aria-controls="all"
+        role="tab"
+        class="nav-link active text-nowrap"
+        data-toggle="tab"
+        href="#all"
+        aria-selected="true"
+      >
+        Todos
+        <span class="badge badge-primary">
+          {{ (allMentors | async)?.length }}
+        </span>
+      </a>
+    </li>
+
+    <!-- show all tabs of each area -->
+    <ng-container *ngFor="let area of areaStats | async">
+      <li class="nav-item">
+        <a
+          [id]="area.id + '-tab'"
+          [attr.aria-controls]="area.id"
+          class="nav-link text-nowrap"
+          data-toggle="tab"
+          [href]="'#' + area.id"
+          role="tab"
+          aria-selected="false"
+        >
+          {{ area.name | titlecase }}
+          <span
+            class="badge"
+            [ngClass]="{
+              'badge-secondary': area.id === 'administrativa',
+              'badge-success': area.id === 'biologica',
+              'badge-info': area.id === 'sociohumanistica',
+              'badge-warning': area.id === 'tecnica'
+            }"
+          >
+            {{ area.mentors.length }}
+          </span>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+
+  <!-- main table history -->
+  <div class="tab-content" id="myTabContent">
+    <div
+      aria-labelledby="all-tab"
+      class="tab-pane fade show active"
+      id="all"
+      role="tabpanel"
+    >
+      <sgm-generate-reports-final-table
+        [mentors]="allMentors | async"
+        [filterString]="filterString"
+      ></sgm-generate-reports-final-table>
+    </div>
+
+    <ng-container *ngFor="let area of areaStats | async">
+      <div
+        [id]="area.id"
+        [attr.aria-labelledby]="area.id + '-tab'"
+        class="tab-pane fade show"
+        role="tabpanel"
+      >
+        <sgm-generate-reports-final-table
+          [mentors]="area.mentors"
+          [showArea]="false"
+          [filterString]="filterString"
+        ></sgm-generate-reports-final-table>
+      </div>
+    </ng-container>
+  </div>
+</ng-template>

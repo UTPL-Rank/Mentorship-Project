@@ -1,0 +1,27 @@
+<div>
+  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">
+</div>
+
+<div class="container" id="content">
+
+  <br><sgm-cover [titleCover]="TITLE_COVER" [typeCover]="TYPE_COVER">
+
+</sgm-cover>
+
+  <sgm-report *ngIf="accompaniments.length > 0; else notAccompaniments" class="report-student-content"
+  [accompaniments]="accompaniments"
+  [student]="student"
+  [mentor]="mentor"
+  [signature]="signature"
+  [academicPeriod]="mentor.period.reference.id">
+  </sgm-report>
+
+  <ng-template #notAccompaniments>
+    <br><br>
+    <div class="text-center alert alert-primary" role="alert">
+      El estudiante no ha recibido acompañamientos durante este periodo académico
+    </div>
+    <br><br>
+  </ng-template>
+
+</div>

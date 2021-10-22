@@ -1,0 +1,33 @@
+<sgm-page-header>
+    <sgm-page-header-title>
+      Titulaciones
+    </sgm-page-header-title>
+    <p class="mb-0 ">
+      A continuación se muestra las lista de Titulaciones que se encuentran
+     en la plataforma.
+    </p>
+  </sgm-page-header>
+
+  <section class="pt-6 pt-md-9">
+    <div class="container">
+      <input type="text" class="form-control" placeholder="Buscar por nombre" (input)='searchString($event)' />
+    </div>
+  </section>
+    <ng-container>
+    <section class="py-6 py-md-9">
+      <div class="container">
+        <!-- table of degrees -->
+        <ng-container *ngTemplateOutlet="navTemplate"></ng-container>
+      </div>
+    </section>
+  </ng-container>
+  <ng-template #navTemplate>
+    <!-- main table history -->
+    <div class="tab-content" id="myTabContent">
+        <sgm-generate-reports-degrees-table
+          [degrees]="allDegrees | async"
+          [periodId]="periodId"
+          [filterString]="filterString"
+        ></sgm-generate-reports-degrees-table>
+    </div>
+  </ng-template>

@@ -1,0 +1,33 @@
+<div>
+  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">
+</div>
+
+<div class="container" id="content">
+
+  <br>
+  <sgm-cover
+  [titleCover]="TITLE_COVER"
+  [typeCover]="TYPE_COVER">
+  </sgm-cover>
+
+  <ng-container *ngIf="mentor.students.withAccompaniments.length > 0; else notAccompaniments">
+    <ng-container *ngFor="let student of students; index as i;">
+      <sgm-report *ngIf="accompaniments[i].length > 0" class="report-student-content"
+                  [accompaniments]="accompaniments[i]"
+                  [student]="student"
+                  [mentor]="mentor"
+                  [signature]="signature"
+                  [academicPeriod]="mentor.period.reference.id">
+      </sgm-report>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #notAccompaniments>
+    <br><br>
+    <div class="text-center alert alert-primary" role="alert">
+      El mentor no ha realizado ningún acompañamiento durante este periodo académico
+    </div>
+    <br><br>
+  </ng-template>
+
+</div>

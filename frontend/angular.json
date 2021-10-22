@@ -50,7 +50,8 @@
               "zone.js/dist/zone-error",
               "@firebase/functions",
               "@firebase/performance",
-              "@firebase/auth"
+              "@firebase/auth",
+              "html2pdf.js"
             ],
             "outputPath": "./dist/webapp",
             "index": "src/index.html",

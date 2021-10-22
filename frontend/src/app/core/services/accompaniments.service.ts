@@ -63,6 +63,15 @@ export class AccompanimentsService {
     return this.accompaniments({ where: { mentorId }, orderBy: { timeCreated: 'desc' }, limit: 10 });
   }
 
+  public accompanimentsOfStudent(studentId: string): AngularFirestoreCollection<SGMAccompaniment.readDTO> {
+    return this.accompanimentsCollection(
+      {
+        orderBy: { timeCreated: 'asc' },
+        where: { studentId }
+      }
+    );
+  }
+
   /** @internal query accompaniments collection */
   private accompanimentsCollection(queryAccompaniment?: QueryAccompaniments): AngularFirestoreCollection<SGMAccompaniment.readDTO> {
     // query-less collection, only get a reference to the collection
