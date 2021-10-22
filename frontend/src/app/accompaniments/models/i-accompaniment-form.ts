@@ -19,5 +19,12 @@ export type IAccompanimentForm = {
     administrative: boolean,
     economic: boolean,
     psychosocial: boolean,
+    connectivity?: boolean
+    other?: boolean
   },
-}
+
+  subproblem?: string,
+
+  problematic?: string
+
+};
