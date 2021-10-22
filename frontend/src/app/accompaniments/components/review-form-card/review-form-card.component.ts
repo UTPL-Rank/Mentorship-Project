@@ -31,18 +31,18 @@ export class ReviewFormCardComponent implements OnInit {
   public readonly qualificationOptions = SGMAccompaniment.QualificationKindOptions;
 
   ngOnInit(): void {
-
     this.onChanges();
   }
+
   onChanges(): void {
     this.confirmationForm.valueChanges.subscribe(
       value => this.viewform = value.isGiven);
   }
+
   save() {
     // take snapshot of the current form
     const { invalid, value } = this.confirmationForm;
     const { isGiven, qualification, comment } = value;
-    console.log(isGiven);
 
     this.validated = true;
 
@@ -55,7 +55,8 @@ export class ReviewFormCardComponent implements OnInit {
       return;
     }
 
-    this.submitReview.emit({isGiven,
+    this.submitReview.emit({
+      isGiven,
       qualification,
       digitalSignature: this.sigCanvas.getDataURL(),
       comment: !!comment ? (comment as string).trim() : null

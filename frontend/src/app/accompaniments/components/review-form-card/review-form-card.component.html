@@ -9,10 +9,9 @@
               ¿Recibio realmente el acompañamiento?
             </span><br>
 
-            
              <!-- radio -->
              <label >
-              <input type="radio" class="form-radio" name="isGiven" value="true" formControlName="isGiven"/>Sí 
+              <input type="radio" class="form-radio" name="isGiven" value="true" formControlName="isGiven"/>Sí
              </label><br>
              <label >
               <input type="radio" class="form-radio" name="isGiven" value="false" formControlName="isGiven">No
@@ -27,7 +26,7 @@
                     <label for="qualificationSelect">
                       ¿Qué valoración le daría?
                     </label>
-        
+
                     <!-- select -->
                     <select id="qualificationSelect" class="custom-select" formControlName="qualification"
                       [ngClass]="{ 'is-invalid': isQualificationInvalid }">
@@ -40,7 +39,7 @@
                   </div>
                 </div>
               </div>
-              
+
               <div class="row">
                 <div class="col-12">
                   <div class="form-group mb-5">
@@ -48,14 +47,13 @@
                     <label for="commentTextarea">
                       ¿Sugerencias u opiniones?
                     </label>
-        
                     <!-- textarea -->
                     <textarea id="commentTextarea" placeholder="Comentanos si tienes una sugerencia!" formControlName="comment"
                       class="form-control" rows="3"></textarea>
                   </div>
                 </div>
               </div>
-        
+
               </ng-container>
 
               <div class="row">
@@ -65,7 +63,7 @@
                     <label for="signature">
                       Firma Digital
                     </label>
-        
+
                     <!-- signature -->
                     <div id="signature">
                       <sgm-sig-canvas></sgm-sig-canvas>

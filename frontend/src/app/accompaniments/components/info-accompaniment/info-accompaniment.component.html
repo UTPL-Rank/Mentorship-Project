@@ -30,8 +30,20 @@
     <p class="mb-0">Psicosociales</p>
   </div>
 
+  <!-- connectivity -->
+  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.connectivity">
+    <div class="badge badge-lg badge-success mr-4">+</div>
+    <p class="mb-0">Conectividad</p>
+  </div>
+
+  <!-- connectivity -->
+  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.other">
+    <div class="badge badge-lg badge-success mr-4">+</div>
+    <p class="mb-0">Otros problemas</p>
+  </div>
+
   <!-- none -->
-  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.none || accompaniment.problems.other">
+  <div class="d-flex align-items-center" *ngIf="accompaniment.problems.none">
     <div class="badge badge-lg badge-success mr-4">+</div>
     <p class="mb-0">Ningún problema</p>
   </div>
@@ -56,6 +68,28 @@
   <h3>Temas Desarrollados</h3>
   <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
     <span>{{ accompaniment.topicDescription }}</span>
+  </p>
+</ng-container>
+
+<!--  -->
+<!--  -->
+<!--  -->
+
+<ng-container *ngIf="accompaniment.subproblem">
+  <h3>Subgrupo del Problema</h3>
+  <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
+    <span>{{ accompaniment.subproblem }}</span>
+  </p>
+</ng-container>
+
+<!--  -->
+<!--  -->
+<!--  -->
+
+<ng-container *ngIf="accompaniment.problematic">
+  <h3>Problemática</h3>
+  <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
+    <span>{{ accompaniment.problematic }}</span>
   </p>
 </ng-container>
 
@@ -88,8 +122,8 @@
   <ng-container *ngIf="!!accompaniment.confirmation && isAdmin">
     <h3>Se recibio el acompañamiento</h3>
     <p class="mb-6 mb-md-8 text-muted">
-      <span *ngIf="accompaniment.confirmation.isGiven">Sí </span>
-      <span *ngIf="!accompaniment.confirmation.isGiven">No </span>
+      <span *ngIf="accompaniment.confirmation.isGiven">Sí</span>
+      <span *ngIf="!accompaniment.confirmation.isGiven">No</span>
     </p>
 
 
