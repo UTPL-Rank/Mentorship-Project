@@ -55,6 +55,7 @@ export namespace SGMAccompaniment {
             administrative: boolean;
             economic: boolean;
             psychosocial: boolean;
+            connectivity?: boolean;
             none: boolean;
 
             otherDescription: string | null;
@@ -66,6 +67,10 @@ export namespace SGMAccompaniment {
         solutionDescription?: string | null;
 
         topicDescription?: string | null;
+
+        subproblem?: string | null;
+
+        problematic?: string | null;
 
         assets: Array<Asset>;
 
@@ -80,6 +85,7 @@ export namespace SGMAccompaniment {
             qualification: QualificationType;
             comment: string | null;
             digitalSignature: string;
+            isGiven?: boolean;
         };
     }
 
@@ -111,6 +117,7 @@ export namespace SGMAccompaniment {
             administrative: boolean;
             economic: boolean;
             psychosocial: boolean;
+            connectivity?: boolean;
             none: false;
             otherDescription: null;
             other: false;
@@ -128,6 +135,7 @@ export namespace SGMAccompaniment {
             administrative: false;
             economic: false;
             psychosocial: false;
+            connectivity?: false;
             none: true;
             otherDescription: string;
             other: true;
@@ -156,6 +164,7 @@ export namespace SGMAccompaniment {
         'confirmation/qualification': QualificationType,
         'confirmation/comment'?: string | null,
         'confirmation/digitalSignature': string,
+        'confirmation/isGiven'?: boolean,
     }
 
     export function translateFollowing(condition: FollowingType): string {

@@ -8,7 +8,7 @@ import { UserService } from '../../../core/services/user.service';
   templateUrl: './info-accompaniment.component.html'
 })
 export class InfoAccompanimentComponent implements OnInit, OnDestroy {
-  
+
   constructor(
     private readonly auth: UserService,
   ) { }
@@ -26,9 +26,7 @@ export class InfoAccompanimentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.sub = this.auth.isAdmin.subscribe(isAdmin => this.isAdmin = isAdmin);
-    
   }
-  
 
   ngOnDestroy(): void {
     this.sub?.unsubscribe();

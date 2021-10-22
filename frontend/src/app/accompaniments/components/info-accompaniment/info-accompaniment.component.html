@@ -87,12 +87,12 @@
 
   <ng-container *ngIf="!!accompaniment.confirmation && isAdmin">
     <h3>Se recibio el acompañamiento</h3>
-    <p class="mb-6 mb-md-8 text-muted"> 
+    <p class="mb-6 mb-md-8 text-muted">
       <span *ngIf="accompaniment.confirmation.isGiven">Sí </span>
       <span *ngIf="!accompaniment.confirmation.isGiven">No </span>
     </p>
 
- 
+
     <!--  -->
     <!--  -->
     <!--  -->
@@ -101,31 +101,31 @@
     <p class="mb-6 mb-md-8 text-muted">
       {{ accompaniment.confirmation.qualification | qualificationValue }}
     </p>
-  
+
     <!--  -->
     <!--  -->
     <!--  -->
-  
+
     <ng-container *ngIf="!!accompaniment.confirmation.comment">
       <h3>Sugerencias y Comentarios</h3>
       <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
         <span>{{ accompaniment.confirmation.comment }}</span>
       </p>
     </ng-container>
-  
+
     <!--  -->
     <!--  -->
     <!--  -->
 
   </ng-container>
-    
+
     <h3>Firma del Estudiante</h3>
     <img class="img-fluid border-bottom" [src]="accompaniment.confirmation.digitalSignature" alt="Firma Digital" />
     <p class="mb-6 mb-md-8 text-muted">
       <small>
         <b>Firma</b>: {{ accompaniment.student.displayName | titlecase }}
       </small>
-    </p> 
+    </p>
 
 </ng-container>
 

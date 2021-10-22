@@ -9,7 +9,7 @@ import { SigCanvasComponent } from '../../../shared/components/sig-canvas/sig-ca
   templateUrl: './review-form-card.component.html'
 })
 export class ReviewFormCardComponent implements OnInit {
-  viewform: string = 'true';
+  viewform = 'true';
 
   constructor(
     private readonly fb: FormBuilder,
@@ -19,7 +19,7 @@ export class ReviewFormCardComponent implements OnInit {
   public sigCanvas!: SigCanvasComponent;
 
   public confirmationForm: FormGroup = this.fb.group({
-    isGiven:[null,Validators.required],
+    isGiven: [null, Validators.required],
     qualification: [null, Validators.required],
     comment: [null]
   });
@@ -31,24 +31,21 @@ export class ReviewFormCardComponent implements OnInit {
   public readonly qualificationOptions = SGMAccompaniment.QualificationKindOptions;
 
   ngOnInit(): void {
-    
+
     this.onChanges();
   }
   onChanges(): void {
-    //this.viewform = this.confirmationForm.value.isGiven;
     this.confirmationForm.valueChanges.subscribe(
-      value =>{console.log(value);
-        this.viewform = value.isGiven;
-      });
+      value => this.viewform = value.isGiven);
   }
   save() {
     // take snapshot of the current form
     const { invalid, value } = this.confirmationForm;
-    const { isGiven,qualification, comment } = value;
+    const { isGiven, qualification, comment } = value;
     console.log(isGiven);
 
     this.validated = true;
-  
+
     // invalid forms will be rejected
     if (invalid) return;
 
@@ -69,5 +66,5 @@ export class ReviewFormCardComponent implements OnInit {
     const { invalid, touched } = this.confirmationForm.controls.qualification;
     return invalid && (touched || this.validated);
   }
-  
+
 }
