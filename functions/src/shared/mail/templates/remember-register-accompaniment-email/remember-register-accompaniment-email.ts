@@ -8,7 +8,19 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
     ) { }
 
     public html(): string {
+
         return `
+            <script>
+            function imprimir_fecha(lastAccompanimentDate){
+                const fecha = new Date(lastAccompanimentDate);
+                const dia = fecha.getDate();
+                const mes = fecha.getMonth();
+                const anio = fecha.getFullYear();
+                const formato = dia + '/' + mes + '/' + anio;
+                return formato;
+            }
+            document.getElementById("fecha").innerHTML = imprimir_fecha($(this.data.lastAccompanimentDate));
+            </script>
             <div class="Pagina"
                 style="max-width: 600px; padding: 90px; margin: auto; border-collapse: collapse; background-color:#f4ab14 ; box-shadow: 0px 35px #003f72 inset, 0px -35px #003f72 inset;">
             
@@ -28,9 +40,9 @@ export class RememberRegisterAccompanimentEmail implements IEmailTemplate<IRemem
                     <div style="font-family: inherit; text-align: inherit"> <br> </div>
                     <div style="font-family: inherit; text-align: inherit"> <span
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
-                            Te recordamos que el último acompañamiento registrado fue el ${this.data.lastAccompanimentDate}, 
-                            el apoyo que brindas a tus estudiantes es muy importante, te invitamos a ejecutar y 
-                            cargar tus acompañamientos realizados, a través del siguiente enlace. </span> <span 
+                            Te recordamos que el último acompañamiento registrado fue el <span id="fecha" >Hola</span> 
+                            , el apoyo que brindas a tus estudiantes es muy importante, te invitamos a ejecutar y 
+                            cargar tus acompañamientos realizados. </span>  <span 
                             style="color: #222222; font-family: Arial, Helvetica, sans-serif; font-size: 18px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400">
                             Accede a través del siguiente enlace para registrar un acompañamiento.&nbsp; </span> </div>
                     <td align="center" bgcolor="#007bff" class="inner-td"
