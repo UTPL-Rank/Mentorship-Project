@@ -2,7 +2,7 @@ import { firestore } from 'firebase/app';
 
 export namespace SGMAccompaniment {
 
-    export const FollowingKindOptions = ['sgm#reunion1', 'sgm#reunion2', 'sgm#reunion3', 'sgm#reunion4', 'sgm#informales'] as const;
+    export const FollowingKindOptions = ['sgm#reunion1', 'sgm#reunion2', 'sgm#reunion3', 'sgm#reunion4', 'sgm#informales', 'sgm#adicionales'] as const;
     
     export const AllFollowingKindOptions = ['sgm#virtual', 'sgm#presencial', ...FollowingKindOptions] as const;
 
@@ -183,6 +183,8 @@ export namespace SGMAccompaniment {
             return 'Reunión 3'
         if (condition === 'sgm#reunion4')
             return 'Reunión 4'
+        if (condition === 'sgm#adicionales')
+            return 'Reuniones adicionales'
 
         return `Error: ${condition}`;
     }
