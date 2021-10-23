@@ -20,7 +20,7 @@ export class ReviewFormCardComponent implements OnInit {
 
   public confirmationForm: FormGroup = this.fb.group({
     isGiven: [null, Validators.required],
-    qualification: [null, Validators.required],
+    qualification: [null],
     comment: [null]
   });
   private validated = false;
