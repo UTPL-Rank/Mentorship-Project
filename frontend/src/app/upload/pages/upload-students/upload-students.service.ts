@@ -18,7 +18,7 @@ export class UploadStudentsService extends IBaseUploadDataService<SGMStudent.cre
       const mentorRef = student.mentor.reference;
       const claimsRef = this.usersService.claimsDocument(username).ref;
 
-      // data to be sabed
+      // data to be saved
       const claims: StudentClaims = { isStudent: true, mentorId: mentorRef.id, studentId: studentRef.id };
 
       // transactions
