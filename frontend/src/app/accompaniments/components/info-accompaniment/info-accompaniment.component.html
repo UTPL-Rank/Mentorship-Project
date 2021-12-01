@@ -5,6 +5,7 @@
 </ng-container>
 
 <h4>Problemas Encontrados:</h4>
+
 <div class="mb-6 mb-md-8 text-muted">
   <!-- academic -->
   <div class="d-flex align-items-center" *ngIf="accompaniment.problems.academic">
@@ -36,7 +37,7 @@
     <p class="mb-0">Conectividad</p>
   </div>
 
-  <!-- connectivity -->
+  <!-- other -->
   <div class="d-flex align-items-center" *ngIf="accompaniment.problems.other">
     <div class="badge badge-lg badge-success mr-4">+</div>
     <p class="mb-0">Otros problemas</p>
@@ -53,7 +54,7 @@
 <!--  -->
 <!--  -->
 
-<ng-container *ngIf="accompaniment.problems.other">
+<ng-container *ngIf="accompaniment.problems.otherDescription">
   <h3>Otro Tema</h3>
   <p class="mb-6 mb-md-8 text-muted" style="white-space:pre-wrap;">
     <span>{{ accompaniment.problems.otherDescription | titlecase }}</span>
