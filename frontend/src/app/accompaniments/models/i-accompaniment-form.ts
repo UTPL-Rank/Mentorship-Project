@@ -24,7 +24,7 @@ export type IAccompanimentForm = {
   },
 
   subproblem?: string,
-
-  problematic?: string
+  problematic?: string,
+  schemaVersion?: string
 
 };

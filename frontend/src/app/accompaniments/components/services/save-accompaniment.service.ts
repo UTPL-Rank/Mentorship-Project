@@ -73,12 +73,18 @@ export class SaveAccompanimentService {
       problemCount++;
     if (!!form.problems.psychosocial)
       problemCount++;
+    if (!!form.problems.connectivity)
+      problemCount++;
+    if (!!form.problems.other)
+      problemCount++;
     if (!!form.problems.none) {
       problemCount = 0;
       form.problems.academic = false;
       form.problems.administrative = false;
       form.problems.economic = false;
       form.problems.psychosocial = false;
+      form.problems.connectivity = false;
+      form.problems.other = false;
       form.important = false;
     }
 
@@ -139,6 +145,10 @@ export class SaveAccompanimentService {
       problemDescription: form.problemDescription ? form.problemDescription.trim() : null,
       solutionDescription: form.solutionDescription ? form.solutionDescription.trim() : null,
       topicDescription: form.topicDescription ? form.topicDescription.trim() : null,
+      subproblem: form.subproblem ? form.subproblem.trim() : null,
+      problematic: form.problematic ? form.problematic.trim() : null,
+
+      schemaVersion: '2.0'
     } as any;
 
     /**

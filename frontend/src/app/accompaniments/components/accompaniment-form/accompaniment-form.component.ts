@@ -55,21 +55,21 @@ export class AccompanimentFormComponent implements OnDestroy {
       this.selectedStudentId = selectedStudentId;
   }
 
-  public noneShow = true;
   public academicShow = true;
   public administrativeShow = true;
   public economicShow = true;
   public psychosocialShow = true;
   public connectivityShow = true;
   public otherShow = true;
+  public noneShow = true;
 
-  private noProblemsAccompaniment: FormControl = this.fb.control(false);
   private academicAccompaniment: FormControl = this.fb.control(false);
   private administrativeAccompaniment: FormControl = this.fb.control(false);
   private economicAccompaniment: FormControl = this.fb.control(false);
   private psychosocialAccompaniment: FormControl = this.fb.control(false);
   private connectivityAccompaniment: FormControl = this.fb.control(false);
   private otherAccompaniment: FormControl = this.fb.control(false);
+  private noProblemsAccompaniment: FormControl = this.fb.control(false);
 
   public accompanimentForm: FormGroup = this.fb.group({
     studentId: [this.selectedStudentId, Validators.required],
@@ -231,25 +231,6 @@ export class AccompanimentFormComponent implements OnDestroy {
     this.noneShow = true;
   }
 
-  // public readonly showProblemsOptions$ = this.noProblemsAccompaniment.valueChanges.pipe(
-  //   map(noProblemsFound => !noProblemsFound),
-  //   tap(hasProblems => {
-  //     if (hasProblems) {
-  //       this.accompanimentForm.addControl('problemDescription', this.fb.control(null, Validators.required));
-  //       this.accompanimentForm.addControl('solutionDescription', this.fb.control(null, Validators.required));
-  //       this.accompanimentForm.removeControl('topicDescription');
-  //       this.accompanimentForm.removeControl('topic');
-  //     } else {
-  //       this.accompanimentForm.removeControl('problemDescription');
-  //       this.accompanimentForm.removeControl('solutionDescription');
-  //       this.accompanimentForm.addControl('topicDescription', this.fb.control(null, Validators.required));
-  //       this.accompanimentForm.addControl('topic', this.fb.control(null, Validators.required));
-  //     }
-  //   }),
-  //   shareReplay(1),
-  //   startWith(true),
-  // );
-
   ngOnDestroy(): void {
     this.savingSubscription?.unsubscribe();
   }
@@ -271,7 +252,6 @@ export class AccompanimentFormComponent implements OnDestroy {
       async createdAccompaniment => {
         if (createdAccompaniment) {
           alert('Todos los cambios están guardados');
-
           await this.router.navigate([
             'panel-control',
             createdAccompaniment.period.reference.id,
