@@ -1,5 +1,5 @@
 import { SGMChat, SGMIntegrator, SGMMentor, SGMUser } from "@utpl-rank/sgm-helpers";
-import { ChatParticipant } from "@utpl-rank/sgm-helpers/models/chat/chat-participant";
+import { ChatParticipant } from "@utpl-rank/sgm-helpers/dist/models/chat/chat-participant";
 import { firestore } from "firebase-admin";
 import { GenerateId } from "../utils/generate-id";
 

@@ -1,5 +1,4 @@
-import { SGMFunctionsCsvAccompaniments } from '@utpl-rank/sgm-helpers';
-import { SGMAccompaniment } from '@utpl-rank/sgm-helpers/models/accompaniments';
+import { SGMFunctionsCsvAccompaniments, SGMAccompaniment } from '@utpl-rank/sgm-helpers';
 import * as functions from 'firebase-functions';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
 import { CSVFormat } from '../shared/export/csv-format';
@@ -36,6 +35,7 @@ const _CSVAccompaniments = async (data: SGMFunctionsCsvAccompaniments.requestDTO
         'Problemas Administrativos',
         'Problemas Económicos',
         'Problemas Psicosocial',
+        'Problemas Conectividad',
         'Otros Problemas',
         'Ningún Problema',
         'Subgrupo de Problema',
@@ -61,6 +61,7 @@ const _CSVAccompaniments = async (data: SGMFunctionsCsvAccompaniments.requestDTO
             accompaniment.problems.administrative ? 'Administrativos' : '',
             accompaniment.problems.economic ? 'Económicos' : '',
             accompaniment.problems.psychosocial ? 'Psicosocial' : '',
+            accompaniment.problems.connectivity ? 'Conectividad' : '',
             accompaniment.problems.other ? 'Otro Problema' : '',
             accompaniment.problems.none ? 'Ningún Problema' : '',
             RemoveJumpLines(accompaniment.subproblem ?? ''),
