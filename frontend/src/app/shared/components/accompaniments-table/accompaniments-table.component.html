@@ -4,28 +4,16 @@
       <!-- head of table -->
       <thead>
         <tr>
-          <th class="font-weight-bold text-muted small">
-            #
-          </th>
-          <th class="font-weight-bold text-muted small">
-            Fecha
-          </th>
+          <th class="font-weight-bold text-muted small">#</th>
+          <th class="font-weight-bold text-muted small">Fecha</th>
           <ng-container *ngIf="showMentorName">
-            <th class="font-weight-bold text-muted small">
-              Mentor
-            </th>
+            <th class="font-weight-bold text-muted small">Mentor</th>
           </ng-container>
           <ng-container *ngIf="showStudentName">
-            <th class="font-weight-bold text-muted small">
-              Estudiante
-            </th>
+            <th class="font-weight-bold text-muted small">Estudiante</th>
           </ng-container>
-          <th class="font-weight-bold text-muted small">
-            Problemática
-          </th>
-          <th class="font-weight-bold text-muted small">
-            Validación
-          </th>
+          <th class="font-weight-bold text-muted small">Problemática</th>
+          <th class="font-weight-bold text-muted small">Validación</th>
           <th></th>
         </tr>
       </thead>
@@ -38,21 +26,23 @@
             </th>
             <td class="font-weight-bold text-muted small">
               {{ accompaniment.timeCreated.toMillis() | date }}
-
             </td>
             <ng-container *ngIf="showMentorName">
               <td class="font-weight-bold text-muted small">
-                {{accompaniment.mentor.displayName | titlecase}}
+                {{ accompaniment.mentor.displayName | titlecase }}
               </td>
             </ng-container>
             <ng-container *ngIf="showStudentName">
               <td class="font-weight-bold text-muted small">
-                {{accompaniment.student.displayName | titlecase}}
+                {{ accompaniment.student.displayName | titlecase }}
               </td>
             </ng-container>
             <td class="font-weight-bold text-muted small">
               <ng-container *ngIf="accompaniment.important">
-                <span class="tooltip tooltip-top" data-tooltip="Marcado como importante">
+                <span
+                  class="tooltip tooltip-top"
+                  data-tooltip="Marcado como importante"
+                >
                   <i class="fas fa-exclamation-circle"></i>
                 </span>
               </ng-container>
@@ -65,36 +55,155 @@
               </span>
             </td>
             <td>
-              <span *ngIf="!accompaniment.reviewKey" class="badge badge-success">
+              <span
+                *ngIf="!accompaniment.reviewKey"
+                class="badge badge-success"
+              >
                 Validado
               </span>
-              <span *ngIf="!!accompaniment.reviewKey" class="badge badge-warning">
+              <span
+                *ngIf="!!accompaniment.reviewKey"
+                class="badge badge-warning"
+              >
                 Sin Validar
               </span>
             </td>
             <td>
-              <a class="btn btn-sm small lift" [ngClass]="accompaniment.read ? 'btn-outline-primary': 'btn-primary'" [routerLink]="[
-                '/panel-control',
-                accompaniment.period.reference.id,
-                'ver-acompañamiento',
-                accompaniment.mentor.reference.id,
-                accompaniment.id
-              ]">
-                Visualizar
-              </a>
+              <!-- show options in each row -->
+              <ng-container *ngIf="showView">
+                <a
+                  type="button"
+                  data-toggle="modal"
+                  [attr.data-target]="'#modal' + accompaniment.id"
+                  class="ml-3 mr-3 btn btn-primary btn-sm small lift"
+                >
+                  Ver Acompañamiento
+                </a>
+              </ng-container>
+
+              <ng-container>
+                <!-- Modal -->
+                <div
+                  class="modal fade"
+                  [id]="'modal' + accompaniment.id"
+                  tabindex="-1"
+                  role="dialog"
+                  [attr.aria-labelledby]="'modalLabel' + accompaniment.id"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5
+                          class="modal-title"
+                          [id]="'modalLabel' + accompaniment.id"
+                        >
+                        <strong>Mentor:</strong> {{ accompaniment.mentor.displayName | titlecase }} <br>
+                        <strong>Estudiante:</strong> {{ accompaniment.student.displayName | titlecase }} <br>
+                        <strong>Fecha:</strong> {{ accompaniment.timeCreated.toMillis() | date}}
+                        </h5>
+                        <button
+                          type="button"
+                          class="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <sgm-info-accompaniment
+                          [accompaniment]="accompaniment"
+                        ></sgm-info-accompaniment>
+
+                        <!-- button to change if accompaniment is important -->
+                        <ng-container >
+                          <div class="mb-6">
+                            <button
+                              class="btn btn-sm btn-info lift btn-block"
+                              (click)="changeImportant(accompaniment.id)"
+                              
+                            >
+                              <i class="fas fa-exclamation-circle"></i>
+                              {{ importantSwitchText }}
+                            </button>
+                          </div>
+                        </ng-container>
+                        <!-- send mail -->
+                        <ng-container>
+                          <div class="mb-6">
+                            <button
+                              class="btn btn-sm btn-primary lift btn-block"
+                              (click)="changeRead(accompaniment.id)"
+                          
+                            >
+                              <i class="fas fa-eye"></i>
+                              {{ readSwitchText}}
+                            </button>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-dismiss="modal"
+                        >
+                          Cerrar
+                        </button>
+                        <a
+                          [routerLink]="[
+                            '/panel-control',
+                            accompaniment.period.reference.id,
+                            'ver-acompañamiento',
+                            accompaniment.mentor.reference.id,
+                            accompaniment.id
+                          ]"
+                          type="button"
+                          class="btn btn-primary"
+                          data-dismiss="modal"
+                        >
+                          Ir al acompañamiento
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+              <ng-container>
+                <a
+                  class="btn btn-sm small lift"
+                  [ngClass]="
+                    accompaniment.read ? 'btn-outline-primary' : 'btn-primary'
+                  "
+                  [routerLink]="[
+                    '/panel-control',
+                    accompaniment.period.reference.id,
+                    'ver-acompañamiento',
+                    accompaniment.mentor.reference.id,
+                    accompaniment.id
+                  ]"
+                >
+                  Ver
+                </a>
+              </ng-container>
 
               <!-- show options in each row -->
               <ng-container *ngIf="showValidate">
-                <a class="ml-3 btn btn-success btn-sm small lift" [ngClass]="{disabled:!accompaniment.reviewKey}"
+                <a
+                  class="ml-3 btn btn-success btn-sm small lift"
+                  [ngClass]="{ disabled: !accompaniment.reviewKey }"
                   [routerLink]="[
-              '/panel-control',
-              accompaniment.period.reference.id,
-              'acompañamientos',
-              'calificar',
-              accompaniment.student.reference.id,
-              accompaniment.id,
-              accompaniment.reviewKey
-              ]">
+                    '/panel-control',
+                    accompaniment.period.reference.id,
+                    'acompañamientos',
+                    'calificar',
+                    accompaniment.student.reference.id,
+                    accompaniment.id,
+                    accompaniment.reviewKey
+                  ]"
+                >
                   Validar
                 </a>
               </ng-container>
@@ -105,7 +214,10 @@
         <!-- no students message -->
         <ng-template #emptyMessage>
           <tr>
-            <td colspan="100%" class="text-center font-weight-bold text-muted small">
+            <td
+              colspan="100%"
+              class="text-center font-weight-bold text-muted small"
+            >
               No hay acompañamientos para visualizar.
             </td>
           </tr>

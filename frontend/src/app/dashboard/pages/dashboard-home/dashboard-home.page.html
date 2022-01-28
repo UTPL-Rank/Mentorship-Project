@@ -1,68 +1,82 @@
-<section class="d-flex align-items-center border-top border-top-2 border-primary" style="min-height: 35vh;">
+<section
+  class="d-flex align-items-center border-top border-top-2 border-primary"
+  style="min-height: 35vh"
+>
   <div class="container d-flex flex-column">
     <div class="row align-items-center justify-content-center no-gutters">
       <!-- illustration -->
-      <div class="col-8 col-md-6 col-lg-7 offset-md-1 order-md-2 mt-auto mt-md-0 pt-8 pb-4 py-md-8">
+      <div
+        class="col-8 col-md-6 col-lg-7 offset-md-1 order-md-2 mt-auto mt-md-0 pt-8 pb-4 py-md-8"
+      >
         <!-- Image -->
-        <img src="/assets/illustrations/mentor-analytics.png" alt="Mentor analytics" class="img-fluid" />
+        <img
+          src="/assets/illustrations/mentor-analytics.png"
+          alt="Mentor analytics"
+          class="img-fluid"
+        />
       </div>
 
       <!-- page content -->
-      <div class="col-12 col-md-5 col-lg-4 order-md-1 mb-auto mb-md-0 pb-4 py-md-11">
+      <div
+        class="col-12 col-md-5 col-lg-4 order-md-1 mb-auto mb-md-0 pb-4 py-md-11"
+      >
         <!-- Title of Page -->
-        <h1 class=" h2 text-center text-md-left" *ngIf="user | async as usr">
+        <h1 class="h2 text-center text-md-left" *ngIf="user | async as usr">
           Hola, <span class="text-primary">{{usr.displayName|titlecase}}</span>
         </h1>
 
-
         <!-- Leading paragraph -->
         <p class="lead text-center text-md-left text-muted mb-5">
-          Bienvenido al sistema de gestión del Proyecto
-          Mentores.
+          Bienvenido al sistema de gestión del Proyecto Mentores.
         </p>
-
       </div>
     </div>
-
   </div>
 </section>
 
 <ng-container *ngIf="validateAccompaniments$|async as accompaniments">
   <section class="container mb-5">
-    <h2 class="h4 text-primary">
-      Validar acompañamientos
-    </h2>
+    <h2 class="h4 text-primary">Validar acompañamientos</h2>
 
-    <sgm-accompaniments-table [showValidate]="true" [accompaniments]=accompaniments></sgm-accompaniments-table>
+    <sgm-accompaniments-table
+      [showValidate]="true"
+      [accompaniments]="accompaniments"
+    ></sgm-accompaniments-table>
 
     <small class="small text-muted">
-      Mostrando los últimos acompañamientos que ha registrado tu mentor, asegurate de validarlos.
+      Mostrando los últimos acompañamientos que ha registrado tu mentor,
+      asegurate de validarlos.
     </small>
   </section>
 </ng-container>
 
 <ng-container *ngIf="recentAccompaniments$|async as accompaniments">
   <section class="container mb-5">
-    <h2 class="h4 text-primary">
-      Últimos Acompañamientos
-    </h2>
+    <h2 class="h4 text-primary">Últimos Acompañamientos</h2>
 
-    <sgm-accompaniments-table [showStudentName]="true" [accompaniments]=accompaniments></sgm-accompaniments-table>
+    <sgm-accompaniments-table
+      [showStudentName]="true"
+      [accompaniments]="accompaniments"
+    ></sgm-accompaniments-table>
+
+    
 
     <small class="small text-muted">
-      Mostrando los últimos acompañamientos que registraste, recuerda que tus estudiantes deben validar el
-      acompañamiento.
+      Mostrando los últimos acompañamientos que registraste, recuerda que tus
+      estudiantes deben validar el acompañamiento.
     </small>
   </section>
 </ng-container>
 
 <ng-container *ngIf="importantAccompaniments$|async as accompaniments">
   <section class="container mb-5">
-    <h2 class="h4 text-primary">
-      Acompañamientos Importantes
-    </h2>
+    <h2 class="h4 text-primary">Acompañamientos Importantes</h2>
 
-    <sgm-accompaniments-table [showMentorName]="true" [accompaniments]=accompaniments></sgm-accompaniments-table>
+    <sgm-accompaniments-table
+      [showMentorName]="true"
+      [showView]="true"
+      [accompaniments]="accompaniments"
+    ></sgm-accompaniments-table>
 
     <small class="small text-muted">
       Mostrando últimos acompañamientos registrados como importantes.

@@ -21,6 +21,7 @@ import { QualificationValuePipe } from './pipes/qualification-value.pipe';
 import { SemesterNamePipe } from './pipes/semester-name.pipe';
 import { PlotsModule } from './plots/ plots.module';
 import { StatisticModule } from './statistic/statistic.module';
+import { InfoAccompanimentComponent } from './components/info-accompaniment/info-accompaniment.component';
 
 @NgModule({
   imports: [
@@ -31,6 +32,7 @@ import { StatisticModule } from './statistic/statistic.module';
     StatisticModule,
     PlotsModule,
     IconsModule,
+     
   ],
   declarations: [
     AcademicCycleNamePipe,
@@ -47,6 +49,8 @@ import { StatisticModule } from './statistic/statistic.module';
     PageHeaderSubtitleComponent,
     PageHeaderTitleComponent,
     MentorFilterSelectorComponent,
+    InfoAccompanimentComponent
+    
   ],
   exports: [
     AcademicCycleNamePipe,
@@ -67,6 +71,7 @@ import { StatisticModule } from './statistic/statistic.module';
     StatisticModule,
     CardModule,
     IconsModule,
+    
   ]
 })
 export class SharedModule { }
