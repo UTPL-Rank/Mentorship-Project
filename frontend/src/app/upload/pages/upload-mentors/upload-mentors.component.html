@@ -17,10 +17,10 @@
           <th class="font-weight-bold text-muted small">#</th>
           <th class="font-weight-bold text-muted small">Nombres y Apellidos</th>
           <th class="font-weight-bold text-muted small">Correo Electrónico</th>
-          <th class="font-weight-bold text-muted small">Cédula de Identidad</th>
+<!--          <th class="font-weight-bold text-muted small">Cédula de Identidad</th>-->
           <th class="font-weight-bold text-muted small">Área</th>
           <th class="font-weight-bold text-muted small">Titulación</th>
-          <th class="font-weight-bold text-muted small">Integrador</th>
+          <th class="font-weight-bold text-muted small">Inicia/continua</th>
         </tr>
       </thead>
       <tbody>
@@ -28,10 +28,10 @@
           <td class="font-weight-bold text-muted small">{{ idx + 1 }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.displayName | titlecase }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.email }}</td>
-          <td class="font-weight-bold text-muted small">{{ mentor.ci }}</td>
+<!--          <td class="font-weight-bold text-muted small">{{ mentor.ci }}</td>-->
           <td class="font-weight-bold text-muted small">{{ mentor.area.name | titlecase }}</td>
           <td class="font-weight-bold text-muted small">{{ mentor.degree.name | titlecase }}</td>
-          <td class="font-weight-bold text-muted small">{{ mentor.integrator.displayName | titlecase }}</td>
+          <td class="font-weight-bold text-muted small">{{ mentor.firstYear ? 'Inicia' : 'Continúa' }}</td>
         </tr>
       </tbody>
     </table>
