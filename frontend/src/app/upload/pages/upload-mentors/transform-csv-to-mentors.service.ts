@@ -55,10 +55,8 @@ export class TransformCsvToMentorsService extends IBaseCsvTransformerService<SGM
 
     let firstYear = false;
 
-    // tslint:disable-next-line:curly
-    if (firstYearString === 'true') {
+    if (firstYearString === 'true')
       firstYear =  true;
-    }
 
     // construct a mentor with the obtained data
     return {
