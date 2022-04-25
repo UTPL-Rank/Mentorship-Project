@@ -34,11 +34,11 @@ export class TransformCsvToStudentsService extends IBaseCsvTransformerService<SG
     const [areaSnap, degreeSnap, periodSnap, mentorsSnap] =
       await Promise.all([areaReference.get(), degreeReference.get(), periodReference.get(), mentorsReference.get()]);
 
-    if (!areaSnap.exists) throw new Error(`El área ${areaReference.id} no existe.`);
+    if (!areaSnap.exists) throw new Error(`La Facultad ${areaReference.id} no existe.`);
     const areaData = areaSnap.data();
 
     // get degree data
-    if (!degreeSnap.exists) throw new Error(`La titulación ${degreeReference.id} no existe.`);
+    if (!degreeSnap.exists) throw new Error(`La Carrera ${degreeReference.id} no existe.`);
     const degreeData = degreeSnap.data();
 
     // get period data

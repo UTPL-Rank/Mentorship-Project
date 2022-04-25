@@ -2,7 +2,7 @@
     <sgm-page-header-title>
       Subir Información a la Plataforma
     </sgm-page-header-title>
-  
+
     <ng-container>
       <!-- page lead -->
       <p class="text-muted">
@@ -15,27 +15,27 @@
       </p>
     </ng-container>
     </sgm-page-header>
-  
+
     <ul class="nav justify-content-center">
       <li class="nav-item">
         <!-- upload integratores route -->
-        <a [routerLink]="['integradores']" class="nav-link text-center"
-          routerLinkActive #integratores="routerLinkActive" [ngClass]="{ 'font-weight-bold': integratores.isActive }">
-          Docentes
-        </a>
-  
+<!--        <a [routerLink]="['integradores']" class="nav-link text-center"-->
+<!--          routerLinkActive #integratores="routerLinkActive" [ngClass]="{ 'font-weight-bold': integratores.isActive }">-->
+<!--          Docentes-->
+<!--        </a>-->
+
         <!-- upload mentors route -->
         <a [routerLink]="['mentores']" class="nav-link text-center"
           routerLinkActive #mentors="routerLinkActive" [ngClass]="{ 'font-weight-bold': mentors.isActive }">
           Mentores
         </a>
-  
+
         <!-- upload students route -->
         <a [routerLink]="['estudiantes']" class="nav-link text-center"
           routerLinkActive #students="routerLinkActive" [ngClass]="{ 'font-weight-bold': students.isActive }">
           Estudiantes
         </a>
-  
+
         <!-- upload degrees route -->
         <a [routerLink]="['carreras']" class="nav-link text-center"
           routerLinkActive #degrees="routerLinkActive" [ngClass]="{ 'font-weight-bold': degrees.isActive }">
@@ -43,7 +43,7 @@
         </a>
       </li>
     </ul>
-  
+
     <section class="py-6 py-md-9">
       <div class="container">
         <div class="mt-3">

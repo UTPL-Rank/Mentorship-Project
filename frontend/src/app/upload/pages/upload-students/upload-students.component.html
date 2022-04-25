@@ -3,10 +3,14 @@
 <div class="my-3">
   <sgm-read-file (upload)="readFile($event)"></sgm-read-file>
 </div>
-<p>Los estudiantes de nuevo ingreso deben tener el siguiente formato: <code>Nombres y Apellidos</code>,
-  <code>Correo Electrónico</code>,
-  <code>Ciclo Académico</code>, <code>Correo del mentor</code>, <code>Área del estudiante</code>,
-  <code>Titulación del estudiante</code>.</p>
+<p>Los estudiantes de nuevo ingreso deben tener el siguiente formato:
+  <code>Nombres y Apellidos</code>;
+  <code>Correo Electrónico</code>;
+  <code>Ciclo Académico</code>;
+  <code>Correo electrónico del mentor</code>;
+  <code>Id de la Facultad del estudiante</code>;
+  <code>Id de la Carrera del estudiante</code>
+</p>
 
 <div class="card mb-5">
   <div class="table-responsive">
@@ -18,8 +22,8 @@
           <th class="font-weight-bold text-muted small">Correo Electrónico</th>
           <th class="font-weight-bold text-muted small">Ciclo</th>
           <th class="font-weight-bold text-muted small">Nombre del Mentor</th>
-          <th class="font-weight-bold text-muted small">Área</th>
-          <th class="font-weight-bold text-muted small">Titulación</th>
+          <th class="font-weight-bold text-muted small">Facultad</th>
+          <th class="font-weight-bold text-muted small">Carrera</th>
         </tr>
       </thead>
       <tbody>
