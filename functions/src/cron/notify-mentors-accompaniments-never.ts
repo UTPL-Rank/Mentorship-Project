@@ -15,7 +15,7 @@ import {BASE_URL} from '../utils/variables';
 //const CRON_EVERY_MONTH = '0 0 5,20 11,12,1,2,5,6,7,8 *';
 const CRON_EVERY_MONTH = '0 0 * 11,12,1,5,6,7,8 MON'
 
-export const notifyMentorsAccompaniments =
+export const notifyMentorsAccompanimentsNever =
     functions
         .pubsub
         .schedule(CRON_EVERY_MONTH)
