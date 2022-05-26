@@ -11,7 +11,8 @@ type Labels =
   | 'Administrativos'
   | 'Económicos'
   | 'Otros'
-  | 'Phisosociales';
+  | 'Phisosociales'
+  | 'Conectividad';
 
 
 export function GroupAccompanimentsProblems(accompaniments: Array<AccompanimentEntry>): Array<[string, number]> {
@@ -22,6 +23,7 @@ export function GroupAccompanimentsProblems(accompaniments: Array<AccompanimentE
     'Económicos': 0,
     'Otros': 0,
     'Phisosociales': 0,
+    'Conectividad': 0,
   }
 
   const dataMap = accompaniments.reduce<Record<Labels, number>>(problemsReducer, startVal);
@@ -56,6 +58,9 @@ function problemsReducer(res: Record<Labels, number>, accompaniment: Accompanime
 
     if (accompaniment.problems.psychosocial)
       res['Phisosociales'] = res['Phisosociales'] + 1;
+
+    if (accompaniment.problems.connectivity)
+      res['Conectividad'] = res['Conectividad'] + 1;
   }
   // legacy accompaniments without problems
   else {
@@ -75,6 +80,9 @@ function problemsReducer(res: Record<Labels, number>, accompaniment: Accompanime
 
       if (accompaniment.problems.psychosocial)
         res['Phisosociales'] = res['Phisosociales'] + 1;
+
+      if (accompaniment.problems.connectivity)
+        res['Conectividad'] = res['Conectividad'] + 1;
     }
 
   }

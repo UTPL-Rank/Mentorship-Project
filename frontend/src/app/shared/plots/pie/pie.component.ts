@@ -37,7 +37,15 @@ export class PieComponent {
     maintainAspectRatio: false,
     plugins: {
       datalabels: {
-        color: ['white', 'black', 'white', 'black', 'white', 'black'],
+        color: ['white', 'black', 'black', 'black', 'white', 'black'],
+        font(ctx) {
+          var w = ctx.dataIndex;
+          console.log(w);
+          return {
+            // tslint:disable-next-line: no-non-null-assertion
+            size : w! > 3 ? 0 : 15,
+          };
+        },
         formatter: (value, ctx) => {
           const newLocal = ctx.chart.data.labels;
           if (newLocal) {
@@ -61,7 +69,9 @@ export class PieComponent {
   public readonly chartColors: Array<Color> = [{
     borderWidth: [4, 4],
     borderColor: ['#1B6AE1', '#1B6AE1', '#1B6AE1', '#1B6AE1', '#1B6AE1', '#1B6AE1'],
-    backgroundColor: ['#1B6AE1', 'transparent', '#1B6AE1', 'transparent', '#1B6AE1', 'transparent'],
+    // backgroundColor: ['#1B6AE1', 'transparent', '#1B6AE1', 'transparent', '#1B6AE1', 'transparent'],
+    backgroundColor: ['#1B6AE1', 'transparent', '#1ae12f', '#e11acc', '#e12f1a', '#e1921a', '#69e11a', '#921ae1',
+          '#c31ae1', '#e11a69'],
   }];
 
   /**
