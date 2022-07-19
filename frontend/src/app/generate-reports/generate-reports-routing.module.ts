@@ -13,8 +13,8 @@ import { ReportsMentorComponent } from './pages/reports-mentor/reports-mentor.co
 import { ReportsDegreeComponent } from './pages/reports-degree/reports-degree.component';
 import { ReportsAreaComponent } from './pages/reports-area/reports-area.component';
 import { ReportsStudentComponent } from './pages/reports-student/reports-student.component';
-import {ReportsGeneralComponent} from "./pages/reports-general/reports-general.component";
-import {ReportsFinalEvaluationComponent} from "./pages/reports-final-evaluation/reports-final-evaluation.component";
+import {ReportsGeneralComponent} from './pages/reports-general/reports-general.component';
+import {ReportsFinalEvaluationComponent} from './pages/reports-final-evaluation/reports-final-evaluation.component';
 
 const ROUTES: Routes = [
   {
