@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { DegreesService } from '../../../core/services/degrees.service';
 import { ExportToPdfService } from '../../../core/services/export-to-pdf.service';
+import { ExportToPdfLargeService } from '../../../core/services/export-to-pdf-large.service';
 import { AccompanimentsService } from '../../../core/services/accompaniments.service';
 import { MentorsService } from '../../../core/services/mentors.service';
 import { StudentsService } from '../../../core/services/students.service';
@@ -34,6 +35,7 @@ export class ReportsDegreeComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly degreesService: DegreesService,
     private readonly exportToPdfService: ExportToPdfService,
+    private readonly exportToPdfServiceLarge: ExportToPdfLargeService,
     private readonly accompanimentsService: AccompanimentsService,
     private readonly mentorsService: MentorsService,
     private readonly studentsService: StudentsService,
@@ -116,7 +118,16 @@ export class ReportsDegreeComponent implements OnInit {
   toPdf(): void {
     // @ts-ignore
     const content: Element = document.getElementById('content');
-    this.exportToPdfService.generate('', content);
+    const carrera = this.degree?.name;
+    if (!carrera) this.exportToPdfService.generate('', content);
+    if (carrera) this.exportToPdfService.generate(carrera, content);
+  }
+  toPdfLarge(): void {
+    // @ts-ignore
+    const content: Element = document.getElementById('content');
+    const carrera = this.degree?.name;
+    if (!carrera) this.exportToPdfServiceLarge.createPdf('', content);
+    if (carrera) this.exportToPdfServiceLarge.createPdfs(carrera);
   }
 
 }

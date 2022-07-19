@@ -10,6 +10,7 @@ import { MentorEvaluationActivities, MentorEvaluationDependencies, MentorEvaluat
 import { AcademicPeriodsService } from './academic-periods.service';
 import { ReportsService } from './reports.service';
 import { DegreesService } from './degrees.service';
+import { AcademicAreasService } from './academic-areas.service';
 
 const MENTORS_COLLECTION_NAME = 'mentors';
 
@@ -22,6 +23,7 @@ export class MentorsService {
     private readonly periodsService: AcademicPeriodsService,
     private readonly reportsService: ReportsService,
     private readonly degreesService: DegreesService,
+    private readonly academicAreasService: AcademicAreasService
   ) { }
 
   public getMentorsCollection(periodId?: string): AngularFirestoreCollection<SGMMentor.readDTO> {
@@ -64,6 +66,26 @@ export class MentorsService {
         }),
         shareReplay(1),
         map(mentors => [...mentors]),
+      );
+  }
+
+  public getMentorsOfArea(periodId: string, areaId: string): Observable<Array<SGMMentor.readDTO>> {
+      const periodRef = this.periodsService.periodDocument(periodId).ref;
+      const areaRef = this.academicAreasService.areaRef(areaId);
+
+      return this.angularFirestore.collection<SGMMentor.readDTO>(
+        MENTORS_COLLECTION_NAME,
+        query => {
+          return query.orderBy('displayName')
+            .where('area.reference', '==', areaRef)
+            .where('period.reference', '==', periodRef);
+        }
+      ).valueChanges().pipe(
+        mergeMap(async doc => {
+          await this.perf.trace('list-mentors-of-area');
+          return doc;
+        }),
+        shareReplay(1)
       );
   }
 

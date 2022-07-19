@@ -1,25 +1,21 @@
-<!--<div>-->
-<!--  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdf()">-->
-<!--</div>-->
+<div>
+  <br><input type="button" value="Descargar PDF" class="btn btn-primary float-right" (click)="toPdfLarge()">
+</div>
 
 <div class="container" id="content">
 
   <br>
-  <sgm-cover
-    [titleCover]="TITLE_COVER"
-    [typeCover]="TYPE_COVER">
+  <sgm-cover [titleCover]="TITLE_COVER" [typeCover]="TYPE_COVER">
   </sgm-cover>
 
-<!--  <ng-container *ngFor="let mentorWithInformation of mentorsWithInformation">-->
-<!--    <ng-container *ngFor="let studentWithAccompaniments of mentorWithInformation.studentsWithAccompaniments">-->
-<!--      <sgm-report *ngIf="studentWithAccompaniments.accompaniments.length > 0" class="report-student-content"-->
-<!--                  [accompaniments]="studentWithAccompaniments.accompaniments"-->
-<!--                  [student]="studentWithAccompaniments.student"-->
-<!--                  [mentor]="mentorWithInformation.mentor"-->
-<!--                  [signature]="mentorWithInformation.signature?.data"-->
-<!--                  [academicPeriod]="mentorWithInformation.mentor.period.reference.id">-->
-<!--      </sgm-report>-->
-<!--    </ng-container>-->
-<!--  </ng-container>-->
+  <ng-container *ngFor="let mentorWithInformation of mentorsWithInformation">
+    <ng-container *ngFor="let studentWithAccompaniments of mentorWithInformation.studentsWithAccompaniments">
+      <sgm-report *ngIf="studentWithAccompaniments.accompaniments.length > 0" class="report-student-content"
+        [accompaniments]="studentWithAccompaniments.accompaniments" [student]="studentWithAccompaniments.student"
+        [mentor]="mentorWithInformation.mentor" [signature]="mentorWithInformation.signature?.data"
+        [academicPeriod]="mentorWithInformation.mentor.period.reference.id">
+      </sgm-report>
+    </ng-container>
+  </ng-container>
 
 </div>

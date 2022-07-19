@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
 import { AngularFirePerformance } from '@angular/fire/performance';
 import { SGMAcademicArea } from '@utpl-rank/sgm-helpers';
 import { Observable } from 'rxjs';
+import { firestore } from 'firebase';
 import {map, mergeMap, shareReplay} from 'rxjs/operators';
 
 const AREAS_COLLECTION_NAME = 'academic-areas';
@@ -29,6 +30,10 @@ export class AcademicAreasService {
 
   public getAreaDocumentReference(areaId: string): DocumentReference {
     return this.getAreaDocument(areaId).ref;
+  }
+
+  public areaRef(areaId: string): firestore.DocumentReference<SGMAcademicArea.readDTO> {
+    return this.getAreasCollection().doc(areaId).ref as firestore.DocumentReference<SGMAcademicArea.readDTO>;
   }
 
   /**
