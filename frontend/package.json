@@ -51,7 +51,7 @@
     "@types/node": "^12.20.4",
     "@types/puppeteer": "^5.4.3",
     "codelyzer": "^6.0.0",
-    "html2pdf.js": "^0.9.3",
+    "html2pdf.js": "^0.10.1",
     "tailwindcss": "^2.0.3",
     "ts-node": "~7.0.0",
     "tslint": "~6.1.0",
