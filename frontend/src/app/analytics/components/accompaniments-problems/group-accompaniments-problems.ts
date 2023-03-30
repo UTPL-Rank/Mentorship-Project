@@ -59,8 +59,8 @@ function problemsReducer(res: Record<Labels, number>, accompaniment: Accompanime
     if (accompaniment.problems.psychosocial)
       res['Phisosociales'] = res['Phisosociales'] + 1;
 
-    if (accompaniment.problems.connectivity)
-      res['Conectividad'] = res['Conectividad'] + 1;
+    //if (accompaniment.problems.connectivity)
+      //  res['Conectividad'] = res['Conectividad'] + 1;
   }
   // legacy accompaniments without problems
   else {
@@ -81,8 +81,8 @@ function problemsReducer(res: Record<Labels, number>, accompaniment: Accompanime
       if (accompaniment.problems.psychosocial)
         res['Phisosociales'] = res['Phisosociales'] + 1;
 
-      if (accompaniment.problems.connectivity)
-        res['Conectividad'] = res['Conectividad'] + 1;
+      //if (accompaniment.problems.connectivity)
+        //res['Conectividad'] = res['Conectividad'] + 1;
     }
 
   }

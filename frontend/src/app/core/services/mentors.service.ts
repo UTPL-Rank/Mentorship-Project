@@ -62,6 +62,7 @@ export class MentorsService {
       .pipe(
         mergeMap(async doc => {
           await this.perf.trace('list-mentors');
+          
           return doc;
         }),
         shareReplay(1),
@@ -79,6 +80,8 @@ export class MentorsService {
           return query.orderBy('displayName')
             .where('area.reference', '==', areaRef)
             .where('period.reference', '==', periodRef);
+            
+            
         }
       ).valueChanges().pipe(
         mergeMap(async doc => {

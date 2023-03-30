@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { SGMAcademicArea, SGMMentor } from '@utpl-rank/sgm-helpers';
-import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
-import { MentorsService } from '../../../core/services/mentors.service';
-import { TitleService } from '../../../core/services/title.service';
-import { UserService } from '../../../core/services/user.service';
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+import { SGMAcademicArea, SGMMentor } from "@utpl-rank/sgm-helpers";
+import { Observable } from "rxjs";
+import { map, mergeMap } from "rxjs/operators";
+import { MentorsService } from "../../../core/services/mentors.service";
+import { TitleService } from "../../../core/services/title.service";
+import { UserService } from "../../../core/services/user.service";
 
 interface AreaStat {
   id: SGMAcademicArea.AreaType;
@@ -15,12 +15,14 @@ interface AreaStat {
   mentors: Array<SGMMentor.readDTO>;
 }
 @Component({
-  selector: 'sgm-generate-reports-mentor',
-  templateUrl: './generate-reports-mentor.component.html',
+  selector: "sgm-generate-reports-mentor",
+  templateUrl: "./generate-reports-mentor.component.html",
   styles: [],
 })
 export class GenerateReportsMentorComponent implements OnInit {
-  filterString = '';
+  filterOp: string = "";
+  options: string[] = ["Continua", "Nuevos"];
+  filterString = "";
   constructor(
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
@@ -78,6 +80,6 @@ export class GenerateReportsMentorComponent implements OnInit {
     this.filterString = e.target.value;
   }
   ngOnInit() {
-    this.title.setTitle('Estudiantes Mentores');
+    this.title.setTitle("Estudiantes Mentores");
   }
 }

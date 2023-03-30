@@ -1,25 +1,24 @@
-import { Component, OnChanges, Input } from '@angular/core';
-import { SGMAcademicDegree } from '@utpl-rank/sgm-helpers';
+import { Component, OnChanges, Input } from "@angular/core";
+import { SGMAcademicDegree } from "@utpl-rank/sgm-helpers";
 
 @Component({
-  selector: 'sgm-generate-reports-degrees-table',
-  templateUrl: './generate-reports-degrees-table.component.html',
-  styles: [
-  ]
+  selector: "sgm-generate-reports-degrees-table",
+  templateUrl: "./generate-reports-degrees-table.component.html",
+  styles: [],
 })
 export class GenerateReportsDegreesTableComponent implements OnChanges {
   public filteredDegrees: any[] = [];
   public degrees!: SGMAcademicDegree.readDTO;
   public periodId!: string;
 
-  @Input() filterString = '';
+  @Input() filterString = "";
 
-  @Input('degrees')
+  @Input("degrees")
   set setDegreesData(degrees: SGMAcademicDegree.readDTO) {
     this.degrees = degrees;
   }
 
-  @Input('periodId')
+  @Input("periodId")
   set setPeriodId(periodId: string) {
     this.periodId = periodId;
   }
@@ -36,5 +35,4 @@ export class GenerateReportsDegreesTableComponent implements OnChanges {
       });
     }
   }
-
 }

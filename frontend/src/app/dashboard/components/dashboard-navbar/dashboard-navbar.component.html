@@ -178,7 +178,8 @@
     </ng-container>
 
     <!-- Generación de reportes-->
-    <ng-container *ngIf="claims && claims.isAdmin && activePeriod.current">
+    <ng-container *ngIf="claims && claims.isAdmin ">
+      
       <a
         class="navbar--item tooltip tooltip-right"
         data-tooltip="Generación de reportes"

@@ -12,7 +12,7 @@
 
         <!-- area header -->
         <th class="font-weight-bold text-muted small" *ngIf="showArea">
-          Área
+          Facultad
         </th>
         
         <!-- assigned student header -->
@@ -30,12 +30,12 @@
 
           <!-- degree cell -->
           <td class="font-weight-bold text-muted small">
-            {{ degree.name | titlecase }}
+            {{ degree.name.charAt(0).toUpperCase() + degree.name.slice(1)  }}
           </td>
 
           <!-- area cell -->
           <td class="font-weight-bold text-muted small" *ngIf="showArea">
-            {{ degree.area.name | titlecase }}
+            {{ degree.area.name.toLowerCase().charAt(0).toUpperCase() + degree.area.name.slice(1) }}
           </td>
 
           <!-- accompaniment count cell -->
@@ -57,6 +57,9 @@
       </ng-container>
       <ng-container *ngIf='filteredDegrees.length >= 1'>
         <tr *ngFor="let degree of filteredDegrees; let i = index">
+
+          
+
           <!-- index cell -->
           <th class="font-weight-bold text-muted small" scope="row">
             {{ i + 1 }}

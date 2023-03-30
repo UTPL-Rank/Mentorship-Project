@@ -26,29 +26,45 @@ export class GenerateReportsDegreeComponent implements OnInit {
   filterString = '';
   periodId = '';
   degreesSubscription !: Subscription;
+  activePeriod: any;
+  allDegrees: Observable<Array<SGMAcademicDegree.readDTO>> | any;
+  
 
   constructor(
     private readonly title: TitleService,
     private readonly route: ActivatedRoute,
     private readonly degreesService: DegreesService,
-    public readonly auth: UserService
+    public readonly auth: UserService,
+
   ) {
   }
 
-  public allDegrees: Observable<Array<SGMAcademicDegree.readDTO>> =
-    this.degreesService.getAllDegrees();
-
-  searchString(e: any) {
-    this.filterString = e.target.value;
-  }
-
   ngOnInit() {
+    
     this.title.setTitle('Estudiantes Mentores');
+    this.activePeriod = this.route.snapshot.data;
+  //   console.log(activePeriod);
 
-    this.route.params.subscribe((params: Params) => {
-        this.periodId = params.periodId;
-      }
-    );
+  // console.log(activePeriod.date)
+  // console.log(activePeriod.date.toDate())
+  // console.log("boolean? = ", activePeriod.date.toDate() < new Date(1995, 11, 17))
 
-  }
+  this.route.params.subscribe((params: Params) => {
+      this.periodId = params.periodId;
+    }
+  );
+
+this.allDegrees = this.degreesService.getAllDegrees(this.activePeriod);
+  
+}
+
+// public allDegrees: Observable<Array<SGMAcademicDegree.readDTO>> =
+//   this.degreesService.getAllDegrees();
+    
+    
+    
+    searchString(e: any) {
+      this.filterString = e.target.value;
+    }
+    
 }

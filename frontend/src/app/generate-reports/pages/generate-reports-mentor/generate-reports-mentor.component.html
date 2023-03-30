@@ -12,6 +12,26 @@
     <input type="text" class="form-control" placeholder="Buscar por nombre" (input)='searchString($event)' />
   </div>
 </section>
+
+
+<!--  filtro por tipo de mentores  -->
+
+<div class="pruebas" class="container mt-4 text-center">
+  <h3>Aplicar filtro por tipo de mentor:</h3><br>
+  <div *ngFor="let p of options">
+    
+    <label for={{p}}>{{p}}</label>
+    <input [(ngModel)] = "filterOp" id ={{p}} type="radio" name="option" value={{p}}>
+     
+  </div>
+  <label for="todos">Todos</label>
+    <input [(ngModel)] = "filterOp" id ="todos" type="radio" name="option" value="">
+     
+
+
+</div>
+
+
 <ng-container *ngIf="areaStats | async">
   <section class="py-6 py-md-9">
  
@@ -85,6 +105,7 @@
       <sgm-generate-reports-mentors-table
         [mentors]="allMentors | async"
         [filterString]="filterString"
+        [filterType]="filterOp"
       ></sgm-generate-reports-mentors-table>
     </div>
 
@@ -99,6 +120,7 @@
           [mentors]="area.mentors"
           [showArea]="false"
           [filterString]="filterString"
+          [filterType]="filterOp"
         ></sgm-generate-reports-mentors-table>
       </div>
     </ng-container>

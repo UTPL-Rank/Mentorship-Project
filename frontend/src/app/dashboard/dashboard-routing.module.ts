@@ -62,7 +62,7 @@ const routes: Routes = [
       {
         path: 'generar-reportes', loadChildren: () => import('../generate-reports/generate-reports.module')
           .then(m => m.GenerateReportsModule),
-        canActivate: [IsAdminGuard, CurrentPeriodActiveGuard]
+        canActivate: [IsAdminGuard]
       },
 
       // ==================

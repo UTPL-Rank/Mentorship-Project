@@ -28,7 +28,7 @@ import { ReportsDegreeComponent } from './pages/reports-degree/reports-degree.co
 import { ReportsAreaComponent } from './pages/reports-area/reports-area.component';
 import { ReportsGeneralComponent } from './pages/reports-general/reports-general.component';
 import { ReportsFinalEvaluationComponent } from './pages/reports-final-evaluation/reports-final-evaluation.component';
-
+import { FormsModule } from '@angular/forms';
 
 
 
@@ -65,7 +65,8 @@ const PAGES = [
   imports: [
     CommonModule,
     GenerateReportsRoutingModule,
-    SharedModule
+    SharedModule,
+    FormsModule
   ]
 })
 export class GenerateReportsModule { }
