@@ -32,6 +32,7 @@ export class MicrosoftSignInService extends ISignIn<IMicrosoftSignInOptions> {
     });
 
     // await this.eventLog.logEvent('sign_an_action', { username });
-    return await this.afAuth.signInWithRedirect(microsoftProvider);
+    // return await this.afAuth.signInWithRedirect(microsoftProvider);
+    await this.afAuth.signInWithPopup(microsoftProvider);
   }
 }
